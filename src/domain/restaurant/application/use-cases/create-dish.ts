@@ -1,5 +1,4 @@
-import { Dish } from '../entities/dish'
-import { Slug } from '../entities/value-objects/slug'
+import { Dish } from '../../enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
 
 interface CreateDishUseCaseRequest {
@@ -7,6 +6,10 @@ interface CreateDishUseCaseRequest {
   description: string
   category: string
   ingredients: string[]
+}
+
+interface CreateDishUseCaseResponse {
+  dish: Dish
 }
 
 export class CreateDishUseCase {
@@ -17,7 +20,7 @@ export class CreateDishUseCase {
     description,
     category,
     ingredients,
-  }: CreateDishUseCaseRequest) {
+  }: CreateDishUseCaseRequest): Promise<CreateDishUseCaseResponse> {
     const dish = Dish.create({
       name,
       description,
@@ -28,6 +31,6 @@ export class CreateDishUseCase {
 
     await this.dishRepository.create(dish)
 
-    return dish
+    return { dish }
   }
 }
