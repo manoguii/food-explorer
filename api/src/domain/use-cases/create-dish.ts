@@ -1,4 +1,5 @@
 import { Dish } from '../entities/dish'
+import { Slug } from '../entities/value-objects/slug'
 import { DishRepository } from '../repositories/dish-repository'
 
 interface CreateDishUseCaseRequest {
@@ -17,7 +18,13 @@ export class CreateDishUseCase {
     category,
     ingredients,
   }: CreateDishUseCaseRequest) {
-    const dish = new Dish({ name, description, category, ingredients })
+    const dish = Dish.create({
+      name,
+      description,
+      price: 1200,
+      category,
+      ingredients,
+    })
 
     await this.dishRepository.create(dish)
 

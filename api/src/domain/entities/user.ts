@@ -1,21 +1,28 @@
-import { Entity } from '../../core/entities/entity'
+import { Entity } from '@/core/entities/entity'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 interface UserProps {
   name: string
   password: string
-  role: 'user' | 'admin'
+  role: string
 }
 
-export class User extends Entity {
-  public name: string
-  public password: string
-  public role: 'user' | 'admin'
+export class User extends Entity<UserProps> {
+  get name() {
+    return this.props.name
+  }
 
-  constructor(props: UserProps, id?: string) {
-    super(id)
+  get password() {
+    return this.props.password
+  }
 
-    this.name = props.name
-    this.password = props.password
-    this.role = props.role
+  get role() {
+    return this.props.role
+  }
+
+  static create(props: UserProps, id?: UniqueEntityId) {
+    const user = new User(props, id)
+
+    return user
   }
 }
