@@ -6,6 +6,7 @@ interface CreateDishUseCaseRequest {
   description: string
   category: string
   ingredients: string[]
+  price: number
 }
 
 interface CreateDishUseCaseResponse {
@@ -20,11 +21,12 @@ export class CreateDishUseCase {
     description,
     category,
     ingredients,
+    price,
   }: CreateDishUseCaseRequest): Promise<CreateDishUseCaseResponse> {
     const dish = Dish.create({
       name,
       description,
-      price: 1200,
+      price,
       category,
       ingredients,
     })
