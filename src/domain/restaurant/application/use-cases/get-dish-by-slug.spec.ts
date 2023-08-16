@@ -1,4 +1,4 @@
-import { Dish } from '../../enterprise/entities/dish'
+import { makeDish } from '@/test/factories/make-question'
 import { Slug } from '../../enterprise/entities/value-objects/slug'
 import { GetDishBySlugUseCase } from './get-dish-by-slug'
 import { InMemoryDishRepository } from '@/test/repository/in-memory/in-memory-dish-repository'
@@ -15,12 +15,7 @@ describe('Get Dish by Slug', () => {
   it('should be able to get a dish by slug', async () => {
     const input = 'tropeiro-baiano'
 
-    const newDish = Dish.create({
-      name: 'Tropeiro Baiano',
-      description: 'Prato Baiano',
-      ingredients: ['Bacon', 'Feijão'],
-      category: 'Refeição',
-      price: 1200,
+    const newDish = makeDish({
       slug: Slug.create(input),
     })
 

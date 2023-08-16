@@ -1,4 +1,5 @@
 import { Dish } from '../../enterprise/entities/dish'
+import { Price } from '../../enterprise/entities/value-objects/price'
 import { DishRepository } from '../repositories/dish-repository'
 
 interface CreateDishUseCaseRequest {
@@ -26,7 +27,7 @@ export class CreateDishUseCase {
     const dish = Dish.create({
       name,
       description,
-      price,
+      price: Price.fromCents(price),
       category,
       ingredients,
     })

@@ -2,13 +2,14 @@ import { Slug } from './value-objects/slug'
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+import { Price } from './value-objects/price'
 
-interface DishProps {
+export interface DishProps {
   name: string
   description: string
-  price: number
   category: string
   ingredients: string[]
+  price: Price
   slug: Slug
   createdAt: Date
   updatedAt?: Date
@@ -38,7 +39,7 @@ export class Dish extends Entity<DishProps> {
     return this.props.price
   }
 
-  set price(price: number) {
+  set price(price: Price) {
     this.props.price = price
     this.touch()
   }

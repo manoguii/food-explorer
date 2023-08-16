@@ -16,7 +16,7 @@ describe('Create Dish', () => {
       description: 'Prato mineiro',
       ingredients: ['Bacon', 'Feijão'],
       category: 'Mineiro',
-      price: 1200,
+      price: 1299,
     })
 
     expect(dish.name).toEqual('Tropeiro')
