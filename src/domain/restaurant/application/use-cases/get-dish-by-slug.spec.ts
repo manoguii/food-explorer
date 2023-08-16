@@ -1,4 +1,4 @@
-import { makeDish } from '@/test/factories/make-question'
+import { makeDish } from '@/test/factories/make-dish'
 import { Slug } from '../../enterprise/entities/value-objects/slug'
 import { GetDishBySlugUseCase } from './get-dish-by-slug'
 import { InMemoryDishRepository } from '@/test/repository/in-memory/in-memory-dish-repository'

@@ -1,4 +1,4 @@
-import { makeDish } from '@/test/factories/make-question'
+import { makeDish } from '@/test/factories/make-dish'
 import { DeleteDishUseCase } from './delete-dish'
 import { InMemoryDishRepository } from '@/test/repository/in-memory/in-memory-dish-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'

@@ -1,22 +1,22 @@
 import { Dish } from '../../enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
 
-interface FetchDishByCategoryUseCaseRequest {
+interface FetchDishesByCategoryUseCaseRequest {
   category: string
   page: number
 }
 
-interface FetchDishByCategoryUseCaseResponse {
+interface FetchDishesByCategoryUseCaseResponse {
   dishes: Dish[]
 }
 
-export class FetchDishByCategoryUseCase {
+export class FetchDishesByCategoryUseCase {
   constructor(private dishRepository: DishRepository) {}
 
   async execute({
     category,
     page,
-  }: FetchDishByCategoryUseCaseRequest): Promise<FetchDishByCategoryUseCaseResponse> {
+  }: FetchDishesByCategoryUseCaseRequest): Promise<FetchDishesByCategoryUseCaseResponse> {
     const dishes = await this.dishRepository.findManyByCategory(category, {
       page,
     })

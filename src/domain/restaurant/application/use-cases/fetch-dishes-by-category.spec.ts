@@ -1,14 +1,14 @@
-import { makeDish } from '@/test/factories/make-question'
+import { makeDish } from '@/test/factories/make-dish'
 import { InMemoryDishRepository } from '@/test/repository/in-memory/in-memory-dish-repository'
-import { FetchDishByCategoryUseCase } from './fetch-dish-by-category'
+import { FetchDishesByCategoryUseCase } from './fetch-dishes-by-category'
 
 let inMemoryDishRepository: InMemoryDishRepository
-let sut: FetchDishByCategoryUseCase
+let sut: FetchDishesByCategoryUseCase
 
 describe('Get Dish by Slug', () => {
   beforeEach(() => {
     inMemoryDishRepository = new InMemoryDishRepository()
-    sut = new FetchDishByCategoryUseCase(inMemoryDishRepository)
+    sut = new FetchDishesByCategoryUseCase(inMemoryDishRepository)
   })
 
   it('should be able to fetch dishes by category', async () => {
