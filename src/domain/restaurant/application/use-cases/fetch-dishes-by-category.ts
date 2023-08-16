@@ -1,14 +1,19 @@
+import { Either, left, right } from '@/core/either'
 import { Dish } from '../../enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface FetchDishesByCategoryUseCaseRequest {
   category: string
   page: number
 }
 
-interface FetchDishesByCategoryUseCaseResponse {
-  dishes: Dish[]
-}
+type FetchDishesByCategoryUseCaseResponse = Either<
+  ResourceNotFoundError,
+  {
+    dishes: Dish[]
+  }
+>
 
 export class FetchDishesByCategoryUseCase {
   constructor(private dishRepository: DishRepository) {}
@@ -22,9 +27,9 @@ export class FetchDishesByCategoryUseCase {
     })
 
     if (!dishes) {
-      throw new Error('Dish not found !')
+      return left(new ResourceNotFoundError())
     }
 
-    return { dishes }
+    return right({ dishes })
   }
 }

@@ -21,11 +21,15 @@ describe('Get Dish by Slug', () => {
 
     await inMemoryDishRepository.create(newDish)
 
-    const { dish } = await sut.execute({
+    const result = await sut.execute({
       slug: input,
     })
 
-    expect(dish.id).toBeTruthy()
-    expect(dish.slug.value).toEqual(input)
+    expect(result.isRight()).toBe(true)
+
+    if (result.isRight()) {
+      expect(result.value.dish.slug.value).toEqual(input)
+      expect(result.value.dish.id).toBeTruthy()
+    }
   })
 })

@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/either'
 import { Dish } from '../../enterprise/entities/dish'
 import { Price } from '../../enterprise/entities/value-objects/price'
 import { DishRepository } from '../repositories/dish-repository'
@@ -10,9 +11,12 @@ interface CreateDishUseCaseRequest {
   price: number
 }
 
-interface CreateDishUseCaseResponse {
-  dish: Dish
-}
+type CreateDishUseCaseResponse = Either<
+  null,
+  {
+    dish: Dish
+  }
+>
 
 export class CreateDishUseCase {
   constructor(private dishRepository: DishRepository) {}
@@ -34,6 +38,6 @@ export class CreateDishUseCase {
 
     await this.dishRepository.create(dish)
 
-    return { dish }
+    return right({ dish })
   }
 }

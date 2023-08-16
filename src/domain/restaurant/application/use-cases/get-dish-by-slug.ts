@@ -1,13 +1,18 @@
+import { Either, left, right } from '@/core/either'
 import { Dish } from '../../enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface GetDishBySlugUseCaseRequest {
   slug: string
 }
 
-interface GetDishBySlugUseCaseResponse {
-  dish: Dish
-}
+type GetDishBySlugUseCaseResponse = Either<
+  ResourceNotFoundError,
+  {
+    dish: Dish
+  }
+>
 
 export class GetDishBySlugUseCase {
   constructor(private dishRepository: DishRepository) {}
@@ -18,9 +23,9 @@ export class GetDishBySlugUseCase {
     const dish = await this.dishRepository.findBySlug(slug)
 
     if (!dish) {
-      throw new Error('Dish not found !')
+      return left(new ResourceNotFoundError())
     }
 
-    return { dish }
+    return right({ dish })
   }
 }

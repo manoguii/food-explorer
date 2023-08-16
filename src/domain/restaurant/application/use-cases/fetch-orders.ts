@@ -1,13 +1,18 @@
+import { Either, left, right } from '@/core/either'
 import { Order } from '../../enterprise/entities/order'
 import { OrderRepository } from '../repositories/order-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface FetchOrdersUseCaseRequest {
   page: number
 }
 
-interface FetchOrdersUseCaseResponse {
-  orders: Order[]
-}
+type FetchOrdersUseCaseResponse = Either<
+  ResourceNotFoundError,
+  {
+    orders: Order[]
+  }
+>
 
 export class FetchOrdersUseCase {
   constructor(private orderRepository: OrderRepository) {}
@@ -20,9 +25,9 @@ export class FetchOrdersUseCase {
     })
 
     if (!orders) {
-      throw new Error('Order not found !')
+      return left(new ResourceNotFoundError())
     }
 
-    return { orders }
+    return right({ orders })
   }
 }

@@ -1,3 +1,4 @@
+import { Either, right } from '@/core/either'
 import { Dish } from '../../enterprise/entities/dish'
 import { Order } from '../../enterprise/entities/order'
 import { Price } from '../../enterprise/entities/value-objects/price'
@@ -10,9 +11,12 @@ interface CreateOrderUseCaseRequest {
   paymentMethod: 'credit' | 'pix'
 }
 
-interface CreateOrderUseCaseResponse {
-  order: Order
-}
+type CreateOrderUseCaseResponse = Either<
+  null,
+  {
+    order: Order
+  }
+>
 
 export class CreateOrderUseCase {
   constructor(private orderRepository: OrderRepository) {}
@@ -32,6 +36,6 @@ export class CreateOrderUseCase {
 
     await this.orderRepository.create(order)
 
-    return { order }
+    return right({ order })
   }
 }

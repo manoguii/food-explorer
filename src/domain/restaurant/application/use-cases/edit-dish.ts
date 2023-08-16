@@ -1,5 +1,7 @@
+import { Either, left, right } from '@/core/either'
 import { Price } from '../../enterprise/entities/value-objects/price'
 import { DishRepository } from '../repositories/dish-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface EditDishUseCaseRequest {
   dishId: string
@@ -10,7 +12,7 @@ interface EditDishUseCaseRequest {
   price: number
 }
 
-interface EditDishUseCaseResponse {}
+type EditDishUseCaseResponse = Either<ResourceNotFoundError, {}>
 
 export class EditDishUseCase {
   constructor(private dishRepository: DishRepository) {}
@@ -26,7 +28,7 @@ export class EditDishUseCase {
     const dish = await this.dishRepository.findById(dishId)
 
     if (!dish) {
-      throw new Error('Dish not found !')
+      return left(new ResourceNotFoundError())
     }
 
     dish.name = name
@@ -37,6 +39,6 @@ export class EditDishUseCase {
 
     await this.dishRepository.save(dish)
 
-    return {}
+    return right({})
   }
 }

@@ -25,17 +25,21 @@ describe('Get Order by Slug', () => {
       makeOrder({ createdAt: new Date(2022, 0, 30) }),
     )
 
-    const { orders } = await sut.execute({
+    const result = await sut.execute({
       page: 1,
     })
 
-    expect(orders).toHaveLength(4)
-    expect(orders).toEqual([
-      expect.objectContaining({ createdAt: new Date(2022, 0, 30) }),
-      expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
-      expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
-      expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
-    ])
+    expect(result.isRight()).toBe(true)
+
+    if (result.isRight()) {
+      expect(result.value.orders).toHaveLength(4)
+      expect(result.value.orders).toEqual([
+        expect.objectContaining({ createdAt: new Date(2022, 0, 30) }),
+        expect.objectContaining({ createdAt: new Date(2022, 0, 23) }),
+        expect.objectContaining({ createdAt: new Date(2022, 0, 20) }),
+        expect.objectContaining({ createdAt: new Date(2022, 0, 18) }),
+      ])
+    }
   })
 
   it('should be able to fetch paginated orders by category', async () => {
@@ -43,10 +47,14 @@ describe('Get Order by Slug', () => {
       await inMemoryOrderRepository.create(makeOrder())
     }
 
-    const { orders } = await sut.execute({
+    const result = await sut.execute({
       page: 2,
     })
 
-    expect(orders).toHaveLength(4)
+    expect(result.isRight()).toBe(true)
+
+    if (result.isRight()) {
+      expect(result.value.orders).toHaveLength(4)
+    }
   })
 })

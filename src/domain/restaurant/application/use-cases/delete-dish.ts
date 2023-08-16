@@ -1,10 +1,12 @@
+import { Either, left, right } from '@/core/either'
 import { DishRepository } from '../repositories/dish-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface DeleteDishUseCaseRequest {
   dishId: string
 }
 
-interface DeleteDishUseCaseResponse {}
+type DeleteDishUseCaseResponse = Either<ResourceNotFoundError, {}>
 
 export class DeleteDishUseCase {
   constructor(private dishRepository: DishRepository) {}
@@ -15,11 +17,11 @@ export class DeleteDishUseCase {
     const dish = await this.dishRepository.findById(dishId)
 
     if (!dish) {
-      throw new Error('Dish not found !')
+      return left(new ResourceNotFoundError())
     }
 
     await this.dishRepository.delete(dish)
 
-    return {}
+    return right({})
   }
 }

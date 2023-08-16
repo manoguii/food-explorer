@@ -14,16 +14,17 @@ describe('Create Order', () => {
   it('should be able to create a new order', async () => {
     const dish = makeDish()
 
-    const { order } = await sut.execute({
+    const result = await sut.execute({
       userId: '',
       dishes: [dish],
       paymentMethod: 'pix',
       total: 1200,
     })
 
-    expect(order.id).toBeTruthy()
-    expect(order.deliveredIn).toEqual(undefined)
-    expect(order.paymentStatus).toEqual('pending')
-    expect(order.orderStatus).toEqual('pending')
+    expect(result.isRight()).toBe(true)
+    expect(result.value?.order.id).toBeTruthy()
+    expect(result.value?.order.deliveredIn).toEqual(undefined)
+    expect(result.value?.order.paymentStatus).toEqual('pending')
+    expect(result.value?.order.orderStatus).toEqual('pending')
   })
 })

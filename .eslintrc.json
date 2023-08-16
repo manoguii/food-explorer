@@ -6,7 +6,8 @@
   "rules": {
     "no-useless-constructor": "off",
     "@typescript-eslint/no-empty-interface": "off",
-    "no-useless-return": "off"
+    "no-useless-return": "off",
+    "@typescript-eslint/ban-types": "off"
   },
   "env": {
     "vitest-globals/env": true

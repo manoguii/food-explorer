@@ -11,7 +11,7 @@ describe('Create Dish', () => {
   })
 
   it('should be able to create a dish', async () => {
-    const { dish } = await sut.execute({
+    const result = await sut.execute({
       name: 'Tropeiro',
       description: 'Prato mineiro',
       ingredients: ['Bacon', 'Feijão'],
@@ -19,8 +19,7 @@ describe('Create Dish', () => {
       price: 1299,
     })
 
-    expect(dish.name).toEqual('Tropeiro')
-    expect(dish.id).toBeTruthy()
-    expect(inMemoryDishRepository.items[0].id).toEqual(dish.id)
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryDishRepository.items[0]).toEqual(result.value?.dish)
   })
 })
