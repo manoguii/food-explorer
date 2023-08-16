@@ -1,26 +1,35 @@
 import { makeDish } from '@/test/factories/make-question'
-import { DeleteDishUseCase } from './delete-dish'
+import { EditDishUseCase } from './edit-dish'
 import { InMemoryDishRepository } from '@/test/repository/in-memory/in-memory-dish-repository'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 let inMemoryDishRepository: InMemoryDishRepository
-let sut: DeleteDishUseCase
+let sut: EditDishUseCase
 
-describe('Delete Dish', () => {
+describe('Edit Dish', () => {
   beforeEach(() => {
     inMemoryDishRepository = new InMemoryDishRepository()
-    sut = new DeleteDishUseCase(inMemoryDishRepository)
+    sut = new EditDishUseCase(inMemoryDishRepository)
   })
 
-  it('should be able to delete a dish', async () => {
+  it('should be able to edit a dish', async () => {
     const newDish = makeDish({}, new UniqueEntityId('dish-01'))
 
     await inMemoryDishRepository.create(newDish)
 
     await sut.execute({
       dishId: newDish.id.toString(),
+
+      name: 'Tropeiro',
+      category: 'Alimentação',
+      description: 'Prato tradicional de minas',
+      ingredients: ['Feijão', 'Bacon'],
+      price: 3400,
     })
 
-    expect(inMemoryDishRepository.items).toHaveLength(0)
+    expect(inMemoryDishRepository.items[0]).toMatchObject({
+      name: 'Tropeiro',
+      ingredients: ['Feijão', 'Bacon'],
+    })
   })
 })
