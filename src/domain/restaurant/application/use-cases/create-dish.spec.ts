@@ -1,13 +1,22 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { CreateDishUseCase } from './create-dish'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 
 let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
+let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let sut: CreateDishUseCase
 
 describe('Create Dish', () => {
   beforeEach(() => {
-    inMemoryDishRepository = new InMemoryDishRepository()
+    inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
+    inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryDishRepository = new InMemoryDishRepository(
+      inMemoryDishAttachmentsRepository,
+      inMemoryDishIngredientsRepository,
+    )
     sut = new CreateDishUseCase(inMemoryDishRepository)
   })
 

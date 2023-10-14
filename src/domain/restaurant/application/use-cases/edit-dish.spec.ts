@@ -14,9 +14,12 @@ let sut: EditDishUseCase
 
 describe('Edit Dish', () => {
   beforeEach(() => {
-    inMemoryDishRepository = new InMemoryDishRepository()
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryDishRepository = new InMemoryDishRepository(
+      inMemoryDishAttachmentsRepository,
+      inMemoryDishIngredientsRepository,
+    )
 
     sut = new EditDishUseCase(
       inMemoryDishRepository,

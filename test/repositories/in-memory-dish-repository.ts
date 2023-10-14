@@ -1,8 +1,15 @@
+import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
+import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 
 export class InMemoryDishRepository implements DishRepository {
   public items: Dish[] = []
+
+  constructor(
+    private dishAttachmentsRepository: DishAttachmentsRepository,
+    private dishIngredientsRepository: DishIngredientsRepository,
+  ) {}
 
   async findById(id: string) {
     const dish = this.items.find((item) => item.id.toString() === id)
@@ -38,5 +45,8 @@ export class InMemoryDishRepository implements DishRepository {
     const itemIndex = this.items.findIndex((item) => item.id === dish.id)
 
     this.items.splice(itemIndex, 1)
+
+    this.dishAttachmentsRepository.deleteManyByDishId(dish.id.toString())
+    this.dishIngredientsRepository.deleteManyByDishId(dish.id.toString())
   }
 }

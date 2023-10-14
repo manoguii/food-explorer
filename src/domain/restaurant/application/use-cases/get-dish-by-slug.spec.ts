@@ -2,13 +2,22 @@ import { GetDishBySlugUseCase } from './get-dish-by-slug'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { Slug } from '@/domain/restaurant/enterprise/entities/value-objects/slug'
 import { makeDish } from 'test/factories/make-dish'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 
 let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
+let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let sut: GetDishBySlugUseCase
 
 describe('Get Dish By Slug', () => {
   beforeEach(() => {
-    inMemoryDishRepository = new InMemoryDishRepository()
+    inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
+    inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryDishRepository = new InMemoryDishRepository(
+      inMemoryDishAttachmentsRepository,
+      inMemoryDishIngredientsRepository,
+    )
     sut = new GetDishBySlugUseCase(inMemoryDishRepository)
   })
 
