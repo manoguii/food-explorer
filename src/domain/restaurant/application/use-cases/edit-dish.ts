@@ -1,27 +1,29 @@
 import { Either, left, right } from '@/core/either'
-import { Price } from '../../enterprise/entities/value-objects/price'
-import { DishRepository } from '../repositories/dish-repository'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
+import { DishRepository } from '../repositories/dish-repository'
 
 interface EditDishUseCaseRequest {
   dishId: string
   name: string
   description: string
-  category: string
-  ingredients: string[]
-  price: number
+  price: string
 }
 
-type EditDishUseCaseResponse = Either<ResourceNotFoundError, {}>
+type EditDishUseCaseResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  {
+    dish: Dish
+  }
+>
 
 export class EditDishUseCase {
   constructor(private dishRepository: DishRepository) {}
 
   async execute({
     dishId,
-    category,
     description,
-    ingredients,
     name,
     price,
   }: EditDishUseCaseRequest): Promise<EditDishUseCaseResponse> {
@@ -32,13 +34,13 @@ export class EditDishUseCase {
     }
 
     dish.name = name
+    dish.price = price
     dish.description = description
-    dish.category = category
-    dish.ingredients = ingredients
-    dish.price = Price.fromCents(price)
 
     await this.dishRepository.save(dish)
 
-    return right({})
+    return right({
+      dish,
+    })
   }
 }

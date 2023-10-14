@@ -1,6 +1,6 @@
-import { Either, left, right } from '@/core/either'
-import { Dish } from '../../enterprise/entities/dish'
+import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
+import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface GetDishBySlugUseCaseRequest {
@@ -26,6 +26,8 @@ export class GetDishBySlugUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    return right({ dish })
+    return right({
+      dish,
+    })
   }
 }

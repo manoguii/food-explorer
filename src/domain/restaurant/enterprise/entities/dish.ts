@@ -1,21 +1,46 @@
 import { Slug } from './value-objects/slug'
-import { Entity } from '@/core/entities/entity'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import { Price } from './value-objects/price'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
+import { DishAttachmentList } from './dish-attachment-list'
+import { DishIngredientList } from './dish-ingredient-list'
 
 export interface DishProps {
+  categoryId: UniqueEntityID
+  attachments: DishAttachmentList
+  ingredients: DishIngredientList
   name: string
   description: string
-  category: string
-  ingredients: string[]
   price: Price
   slug: Slug
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Dish extends Entity<DishProps> {
+export class Dish extends AggregateRoot<DishProps> {
+  get categoryId() {
+    return this.props.categoryId
+  }
+
+  get attachments() {
+    return this.props.attachments
+  }
+
+  set attachments(attachments: DishAttachmentList) {
+    this.props.attachments = attachments
+    this.touch()
+  }
+
+  get ingredients() {
+    return this.props.ingredients
+  }
+
+  set ingredients(ingredients: DishIngredientList) {
+    this.props.ingredients = ingredients
+    this.touch()
+  }
+
   get name() {
     return this.props.name
   }
@@ -23,6 +48,7 @@ export class Dish extends Entity<DishProps> {
   set name(name: string) {
     this.props.name = name
     this.props.slug = Slug.createFromText(name)
+
     this.touch()
   }
 
@@ -36,29 +62,11 @@ export class Dish extends Entity<DishProps> {
   }
 
   get price() {
-    return this.props.price
+    return this.props.price.value
   }
 
-  set price(price: Price) {
-    this.props.price = price
-    this.touch()
-  }
-
-  get category() {
-    return this.props.category
-  }
-
-  set category(category: string) {
-    this.props.category = category
-    this.touch()
-  }
-
-  get ingredients() {
-    return this.props.ingredients
-  }
-
-  set ingredients(ingredients: string[]) {
-    this.props.ingredients = ingredients
+  set price(price: string) {
+    this.props.price.value = price
     this.touch()
   }
 
@@ -74,22 +82,23 @@ export class Dish extends Entity<DishProps> {
     return this.props.updatedAt
   }
 
-  get excerpt() {
-    return this.props.description.substring(0, 120).trimEnd().concat('...')
-  }
-
   private touch() {
     this.props.updatedAt = new Date()
   }
 
   static create(
-    props: Optional<DishProps, 'createdAt' | 'slug'>,
-    id?: UniqueEntityId,
+    props: Optional<
+      DishProps,
+      'createdAt' | 'slug' | 'attachments' | 'ingredients'
+    >,
+    id?: UniqueEntityID,
   ) {
     const dish = new Dish(
       {
         ...props,
         slug: props.slug ?? Slug.createFromText(props.name),
+        attachments: props.attachments ?? new DishAttachmentList([]),
+        ingredients: props.ingredients ?? new DishIngredientList(),
         createdAt: props.createdAt ?? new Date(),
       },
       id,

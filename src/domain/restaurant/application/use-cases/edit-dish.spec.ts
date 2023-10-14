@@ -1,7 +1,7 @@
-import { makeDish } from '@/test/factories/make-dish'
 import { EditDishUseCase } from './edit-dish'
-import { InMemoryDishRepository } from '@/test/repository/in-memory/in-memory-dish-repository'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { makeDish } from 'test/factories/make-dish'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let sut: EditDishUseCase
@@ -9,27 +9,25 @@ let sut: EditDishUseCase
 describe('Edit Dish', () => {
   beforeEach(() => {
     inMemoryDishRepository = new InMemoryDishRepository()
+
     sut = new EditDishUseCase(inMemoryDishRepository)
   })
 
   it('should be able to edit a dish', async () => {
-    const newDish = makeDish({}, new UniqueEntityId('dish-01'))
+    const newDish = makeDish({}, new UniqueEntityID('dish-1'))
 
     await inMemoryDishRepository.create(newDish)
 
-    await sut.execute({
-      dishId: newDish.id.toString(),
-
-      name: 'Tropeiro',
-      category: 'Alimentação',
-      description: 'Prato tradicional de minas',
-      ingredients: ['Feijão', 'Bacon'],
-      price: 3400,
+    const result = await sut.execute({
+      dishId: newDish.id.toValue(),
+      description: 'Dish description',
+      name: 'Dish name',
+      price: '1000',
     })
 
-    expect(inMemoryDishRepository.items[0]).toMatchObject({
-      name: 'Tropeiro',
-      ingredients: ['Feijão', 'Bacon'],
-    })
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryDishRepository.items[0].name).toBe('Dish name')
+    expect(inMemoryDishRepository.items[0].description).toBe('Dish description')
+    expect(inMemoryDishRepository.items[0].price).toBe('1000')
   })
 })

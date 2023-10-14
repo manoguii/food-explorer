@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 
-export class UniqueEntityId {
+export class UniqueEntityID {
   private value: string
 
   toString() {
@@ -15,7 +15,7 @@ export class UniqueEntityId {
     this.value = value ?? randomUUID()
   }
 
-  equals(id: UniqueEntityId) {
-    return id?.toValue() === this.value
+  public equals(id: UniqueEntityID) {
+    return id.toValue() === this.value
   }
 }

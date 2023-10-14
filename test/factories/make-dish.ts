@@ -1,22 +1,19 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { faker } from '@faker-js/faker'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Dish, DishProps } from '@/domain/restaurant/enterprise/entities/dish'
 import { Price } from '@/domain/restaurant/enterprise/entities/value-objects/price'
-import { faker } from '@faker-js/faker'
 
 export function makeDish(
   override: Partial<DishProps> = {},
-  id?: UniqueEntityId,
+  id?: UniqueEntityID,
 ) {
   const dish = Dish.create(
     {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      ingredients: [
-        faker.commerce.productAdjective(),
-        faker.commerce.productAdjective(),
-      ],
-      category: faker.commerce.productMaterial(),
-      price: Price.fromCents(Number(faker.commerce.price())),
+      price: Price.create(faker.commerce.price()),
+      categoryId: new UniqueEntityID(),
       ...override,
     },
     id,

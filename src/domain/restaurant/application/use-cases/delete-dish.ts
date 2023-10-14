@@ -6,7 +6,7 @@ interface DeleteDishUseCaseRequest {
   dishId: string
 }
 
-type DeleteDishUseCaseResponse = Either<ResourceNotFoundError, {}>
+type DeleteDishUseCaseResponse = Either<ResourceNotFoundError, null>
 
 export class DeleteDishUseCase {
   constructor(private dishRepository: DishRepository) {}
@@ -22,6 +22,6 @@ export class DeleteDishUseCase {
 
     await this.dishRepository.delete(dish)
 
-    return right({})
+    return right(null)
   }
 }
