@@ -1,11 +1,12 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
 
-export interface FavoriteDishRepository {
-  findManyByClientId(
+export abstract class FavoriteDishRepository {
+  abstract findManyByClientId(
     clientId: string,
     params: PaginationParams,
   ): Promise<FavoriteDish[]>
-  addFavoriteDish(favoriteDish: FavoriteDish): Promise<void>
-  removeFavoriteDish(favoriteDish: FavoriteDish): Promise<void>
+
+  abstract addFavoriteDish(favoriteDish: FavoriteDish): Promise<void>
+  abstract removeFavoriteDish(favoriteDish: FavoriteDish): Promise<void>
 }

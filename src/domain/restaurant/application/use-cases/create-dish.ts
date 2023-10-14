@@ -7,6 +7,7 @@ import { DishAttachment } from '../../enterprise/entities/dish-attachment'
 import { DishIngredient } from '../../enterprise/entities/dish-ingredient'
 import { DishAttachmentList } from '../../enterprise/entities/dish-attachment-list'
 import { DishIngredientList } from '../../enterprise/entities/dish-ingredient-list'
+import { Injectable } from '@nestjs/common'
 
 interface CreateDishUseCaseRequest {
   name: string
@@ -24,6 +25,7 @@ type CreateDishUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateDishUseCase {
   constructor(private dishRepository: DishRepository) {}
 

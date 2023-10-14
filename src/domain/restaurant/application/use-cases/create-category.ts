@@ -1,6 +1,7 @@
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
 import { Either, right } from '@/core/either'
 import { CategoryRepository } from '../repositories/category-repository'
+import { Injectable } from '@nestjs/common'
 
 interface CreateCategoryUseCaseRequest {
   name: string
@@ -13,6 +14,7 @@ type CreateCategoryUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateCategoryUseCase {
   constructor(private categoryRepository: CategoryRepository) {}
 

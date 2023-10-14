@@ -15,7 +15,7 @@ export interface DishProps {
   price: Price
   slug: Slug
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Dish extends AggregateRoot<DishProps> {

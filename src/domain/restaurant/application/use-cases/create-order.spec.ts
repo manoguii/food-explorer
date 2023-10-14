@@ -14,8 +14,8 @@ describe('Create Order', () => {
   it('should be able to create a order', async () => {
     const result = await sut.execute({
       dishes: [
-        { dishId: '10', quantity: 1 },
-        { dishId: '20', quantity: 2 },
+        { dishId: '10', quantity: '1' },
+        { dishId: '20', quantity: '2' },
       ],
     })
 

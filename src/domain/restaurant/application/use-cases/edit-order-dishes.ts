@@ -41,9 +41,8 @@ export class EditOrderUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    const currentOrderItems = await this.orderItemsRepository.findManyByOrderId(
-      orderId,
-    )
+    const currentOrderItems =
+      await this.orderItemsRepository.findManyByOrderId(orderId)
 
     const orderItemsList = new OrderItemList(currentOrderItems)
 

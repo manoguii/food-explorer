@@ -1,0 +1,55 @@
+@baseUrl = http://localhost:3333
+@authToken = {{authenticate.response.body.access_token}}
+
+# @name create_account
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+
+{
+  "name": "Guilherme David",
+  "email": "Guilherme@manoguicom.br",
+  "password": "123456"
+}
+
+###
+
+# @name authenticate
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "email": "Guilherme@manoguicom.br",
+  "password": "123456"
+}
+
+###
+
+# @name create_dish
+POST {{baseUrl}}/dishes
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Novo prato",
+  "description": "Descrição do prato",
+  "price": "100",
+  "categoryId": "bef68285-8b39-4f0d-a91e-27b40f34dd7e"
+}
+
+###
+
+# @name create_category
+POST {{baseUrl}}/categories
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Nova categoria"
+}
+
+###
+
+# @name fetch_recent_dishes
+GET {{baseUrl}}/dishes?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

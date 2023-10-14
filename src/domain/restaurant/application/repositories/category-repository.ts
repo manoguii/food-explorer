@@ -1,10 +1,10 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
 
-export interface CategoryRepository {
-  findById(id: string): Promise<Category | null>
-  findMany(params: PaginationParams): Promise<Category[]>
-  save(category: Category): Promise<void>
-  create(category: Category): Promise<void>
-  delete(category: Category): Promise<void>
+export abstract class CategoryRepository {
+  abstract findById(id: string): Promise<Category | null>
+  abstract findMany(params: PaginationParams): Promise<Category[]>
+  abstract save(category: Category): Promise<void>
+  abstract create(category: Category): Promise<void>
+  abstract delete(category: Category): Promise<void>
 }

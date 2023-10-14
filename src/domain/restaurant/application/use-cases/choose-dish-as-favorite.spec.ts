@@ -21,6 +21,7 @@ describe('Choose dish as favorite', () => {
     const result = await sut.execute({
       clientId: client.id.toString(),
       dishId: dish.id.toString(),
+      page: 1,
     })
 
     expect(result.isRight()).toBe(true)
