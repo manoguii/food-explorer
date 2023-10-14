@@ -1,48 +1,29 @@
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { ChooseDishAsFavoriteUseCase } from './choose-dish-as-favorite'
-import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 import { makeDish } from 'test/factories/make-dish'
 import { makeClient } from 'test/factories/make-client'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-let inMemoryClientsRepository: InMemoryClientsRepository
-let inMemoryDishAttachmentRepository: InMemoryDishAttachmentsRepository
-let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
-let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryFavoriteDishRepository: InMemoryFavoriteDishRepository
 let sut: ChooseDishAsFavoriteUseCase
 
 // TODO: Pending implementation
 describe('Choose dish as favorite', () => {
   beforeEach(() => {
-    inMemoryClientsRepository = new InMemoryClientsRepository()
-
-    inMemoryDishAttachmentRepository = new InMemoryDishAttachmentsRepository()
-    inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
-    inMemoryDishRepository = new InMemoryDishRepository(
-      inMemoryDishAttachmentRepository,
-      inMemoryDishIngredientsRepository,
-    )
-
-    sut = new ChooseDishAsFavoriteUseCase(
-      inMemoryDishRepository,
-      inMemoryClientsRepository,
-    )
+    inMemoryFavoriteDishRepository = new InMemoryFavoriteDishRepository()
+    sut = new ChooseDishAsFavoriteUseCase(inMemoryFavoriteDishRepository)
   })
 
-  it('should be able to choose dish dish as favorite', async () => {
-    const dish = makeDish()
+  it('should be able to choose dish as favorite', async () => {
+    const dish = makeDish({}, new UniqueEntityID('dish-id'))
+    const client = makeClient({}, new UniqueEntityID('client-id'))
 
-    const client = makeClient()
-
-    await inMemoryDishRepository.create(dish)
-    await inMemoryClientsRepository.create(client)
-
-    await sut.execute({
+    const result = await sut.execute({
       clientId: client.id.toString(),
       dishId: dish.id.toString(),
     })
 
-    expect(inMemoryDishRepository.items).toHaveLength(1)
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryFavoriteDishRepository.items).toHaveLength(1)
   })
 })

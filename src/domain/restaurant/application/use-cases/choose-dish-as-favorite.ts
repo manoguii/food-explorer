@@ -1,49 +1,53 @@
-import { Dish } from '../../enterprise/entities/dish'
-import { DishRepository } from '../repositories/dish-repository'
 import { Either, left, right } from '@/core/either'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
-import { ClientsRepository } from '../repositories/clients-repository'
+import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
+import { ConflictExceptionError } from './errors/conflict-exception-error'
+import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 interface ChooseDishAsFavoriteUseCaseRequest {
   clientId: string
   dishId: string
+  page: number
 }
 
 type ChooseDishAsFavoriteUseCaseResponse = Either<
-  ResourceNotFoundError | NotAllowedError,
+  ConflictExceptionError,
   {
-    dish: Dish
+    favoriteDish: FavoriteDish
   }
 >
 
 // TODO: Pending implementation
 export class ChooseDishAsFavoriteUseCase {
-  constructor(
-    private dishRepository: DishRepository,
-    private clientRepository: ClientsRepository,
-  ) {}
+  constructor(private favoriteDishRepository: FavoriteDishRepository) {}
 
   async execute({
     dishId,
     clientId,
+    page,
   }: ChooseDishAsFavoriteUseCaseRequest): Promise<ChooseDishAsFavoriteUseCaseResponse> {
-    const client = await this.clientRepository.findById(clientId)
+    const favorites = await this.favoriteDishRepository.findManyByClientId(
+      clientId,
+      { page },
+    )
 
-    if (!client) {
-      return left(new ResourceNotFoundError())
+    const isAlreadyFavorite = favorites.some(
+      (favorite) => favorite.dishId.toString() === dishId,
+    )
+
+    if (isAlreadyFavorite) {
+      return left(new ConflictExceptionError(dishId))
     }
 
-    const dish = await this.dishRepository.findById(dishId)
+    const favoriteDish = FavoriteDish.create({
+      dishId: new UniqueEntityID(dishId),
+      clientId: new UniqueEntityID(clientId),
+    })
 
-    if (!dish) {
-      return left(new ResourceNotFoundError())
-    }
-
-    await this.dishRepository.save(dish)
+    await this.favoriteDishRepository.addFavoriteDish(favoriteDish)
 
     return right({
-      dish,
+      favoriteDish,
     })
   }
 }
