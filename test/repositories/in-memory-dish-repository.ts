@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
@@ -27,6 +28,18 @@ export class InMemoryDishRepository implements DishRepository {
     if (!dish) {
       return null
     }
+
+    return dish
+  }
+
+  async findManyRecent({ page }: PaginationParams): Promise<Dish[]> {
+    const itemsPerPage = 20
+
+    const dish = this.items
+      .sort((a, b) => {
+        return b.createdAt.getTime() - a.createdAt.getTime()
+      })
+      .slice((page - 1) * itemsPerPage, page * itemsPerPage)
 
     return dish
   }
