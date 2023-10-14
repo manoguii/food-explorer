@@ -1,35 +1,31 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { Entity } from '@/core/entities/entity'
-import { Dish } from './dish'
 import { Code } from './value-objects/code'
+import { OrderItemList } from './order-item-list'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 
-type Status = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+export type OrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
 
 export interface OrderProps {
+  items: OrderItemList
   code: Code
-  status: Status
-  items: Dish[]
+  status: OrderStatus
   createdAt: Date
   updatedAt?: Date
 }
 
-export class Order extends Entity<OrderProps> {
+export class Order extends AggregateRoot<OrderProps> {
   get code() {
     return this.props.code
   }
 
-  get status() {
-    return this.props.status
-  }
-
-  set status(status: Status) {
-    this.props.status = status
-    this.touch()
-  }
-
   get items() {
     return this.props.items
+  }
+
+  set items(items: OrderItemList) {
+    this.props.items = items
+    this.touch()
   }
 
   get createdAt() {
@@ -40,14 +36,39 @@ export class Order extends Entity<OrderProps> {
     return this.props.updatedAt
   }
 
+  get status() {
+    return this.props.status
+  }
+
+  updateStatusBasedOnItems() {
+    const allItemsDelivered = this.props.items.allItemsDelivered()
+    const allItemsCanceled = this.props.items.allItemsCanceled()
+
+    if (allItemsCanceled) {
+      this.props.status = 'CANCELED'
+    } else if (allItemsDelivered) {
+      this.props.status = 'DELIVERED'
+    } else {
+      this.props.status = 'PREPARING'
+    }
+
+    this.touch()
+  }
+
   private touch() {
     this.props.updatedAt = new Date()
   }
 
-  static create(props: Optional<OrderProps, 'createdAt'>, id?: UniqueEntityID) {
+  static create(
+    props: Optional<OrderProps, 'createdAt' | 'status' | 'code' | 'items'>,
+    id?: UniqueEntityID,
+  ) {
     const order = new Order(
       {
         ...props,
+        status: props.status ?? 'PENDING',
+        code: props.code ?? Code.generateUniqueCode(),
+        items: props.items ?? new OrderItemList(),
         createdAt: props.createdAt ?? new Date(),
       },
       id,

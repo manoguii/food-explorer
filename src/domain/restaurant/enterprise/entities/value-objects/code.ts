@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid'
+
 export class Code {
   public value: string
 
@@ -6,6 +8,11 @@ export class Code {
   }
 
   static create(value: string) {
+    return new Code(value)
+  }
+
+  static generateUniqueCode(): Code {
+    const value = nanoid(8)
     return new Code(value)
   }
 }
