@@ -8,7 +8,7 @@ export interface OrderItemProps {
   dishId: UniqueEntityID
   quantity: string
   status: OrderStatus
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class OrderItem extends Entity<OrderItemProps> {

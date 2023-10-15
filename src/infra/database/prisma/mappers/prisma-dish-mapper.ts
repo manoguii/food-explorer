@@ -8,11 +8,11 @@ export class PrismaDishMapper {
   static toDomain(raw: PrismaDish): Dish {
     return Dish.create(
       {
-        name: raw.name,
         categoryId: new UniqueEntityID(raw.categoryId),
-        description: raw.description,
         price: Price.create(raw.price),
         slug: Slug.create(raw.slug),
+        name: raw.name,
+        description: raw.description,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -23,8 +23,8 @@ export class PrismaDishMapper {
   static toPrisma(dish: Dish): Prisma.DishUncheckedCreateInput {
     return {
       id: dish.id.toString(),
-      name: dish.name,
       categoryId: dish.categoryId.toString(),
+      name: dish.name,
       description: dish.description,
       price: dish.price,
       slug: dish.slug.value,

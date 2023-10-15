@@ -11,7 +11,7 @@ export interface OrderProps {
   code: Code
   status: OrderStatus
   createdAt: Date
-  updatedAt?: Date
+  updatedAt?: Date | null
 }
 
 export class Order extends AggregateRoot<OrderProps> {
