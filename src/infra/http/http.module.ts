@@ -7,11 +7,13 @@ import { CryptographyModule } from '../cryptography/cryptography.module'
 import { CreateDishController } from './controllers/create-dish.controller'
 import { FetchRecentDishController } from './controllers/fetch-recent-dish.controller'
 import { FetchRecentDishUseCase } from '@/domain/restaurant/application/use-cases/fetch-recent-dish'
-import { RegisterClientUseCase } from '@/domain/restaurant/application/use-cases/register-client'
+import { CreateAccountUseCase } from '@/domain/restaurant/application/use-cases/register-client'
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { AuthenticateClientUseCase } from '@/domain/restaurant/application/use-cases/authenticate-client'
 import { CreateCategoryController } from './controllers/create-category.controller'
 import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases/create-category'
+import { GetDishBySlugUseCase } from '@/domain/restaurant/application/use-cases/get-dish-by-slug'
+import { GetDishBySlugController } from './controllers/get-dish-by-slug.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -21,13 +23,15 @@ import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases
     FetchRecentDishController,
     AuthenticateController,
     CreateCategoryController,
+    GetDishBySlugController,
   ],
   providers: [
+    CreateAccountUseCase,
     CreateDishUseCase,
     FetchRecentDishUseCase,
-    RegisterClientUseCase,
     AuthenticateClientUseCase,
     CreateCategoryUseCase,
+    GetDishBySlugUseCase,
   ],
 })
 export class HttpModule {}

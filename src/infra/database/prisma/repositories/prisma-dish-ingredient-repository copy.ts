@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
-import { PrismaDishIngredientMapper } from '../mappers/dish-ingredient-mapper'
+import { PrismaDishIngredientMapper } from '../mappers/prisma-dish-ingredient-mapper'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { DishIngredient } from '@/domain/restaurant/enterprise/entities/dish-ingredient'
 

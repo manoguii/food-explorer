@@ -4,6 +4,8 @@ import {
   DishIngredient,
   DishIngredientProps,
 } from '@/domain/restaurant/enterprise/entities/dish-ingredient'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 export function makeDishIngredient(
   override: Partial<DishIngredientProps> = {},
@@ -19,4 +21,26 @@ export function makeDishIngredient(
   )
 
   return dishIngredient
+}
+
+@Injectable()
+export class DishIngredientFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaDishIngredient(
+    data: Partial<DishIngredientProps> = {},
+  ): Promise<DishIngredient> {
+    const dishIngredient = makeDishIngredient(data)
+
+    await this.prisma.ingredient.update({
+      where: {
+        id: dishIngredient.ingredientId.toString(),
+      },
+      data: {
+        dishId: dishIngredient.dishId.toString(),
+      },
+    })
+
+    return dishIngredient
+  }
 }

@@ -1,18 +1,18 @@
-import { RegisterClientUseCase } from './register-client'
+import { CreateAccountUseCase } from './register-client'
 import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let fakeHasher: FakeHasher
 
-let sut: RegisterClientUseCase
+let sut: CreateAccountUseCase
 
 describe('Register Client', () => {
   beforeEach(() => {
     inMemoryClientsRepository = new InMemoryClientsRepository()
     fakeHasher = new FakeHasher()
 
-    sut = new RegisterClientUseCase(inMemoryClientsRepository, fakeHasher)
+    sut = new CreateAccountUseCase(inMemoryClientsRepository, fakeHasher)
   })
 
   it('should be able to register a new client', async () => {

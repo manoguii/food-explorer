@@ -24,7 +24,6 @@ export class CreateCategoryController {
   ) {
     const { name } = body
     const userId = user.sub
-    console.log('userId', userId)
 
     const result = await this.createCategory.execute({
       name,

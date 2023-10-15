@@ -3,7 +3,7 @@ import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { OrderRepository } from '@/domain/restaurant/application/repositories/order-repository'
-import { PrismaOrderMapper } from '../mappers/order-mapper'
+import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {

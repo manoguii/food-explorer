@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
-import { PrismaDishAttachmentMapper } from '../mappers/dish-attachment-mapper'
+import { PrismaDishAttachmentMapper } from '../mappers/prisma-dish-attachment-mapper'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishAttachment } from '@/domain/restaurant/enterprise/entities/dish-attachment'
 

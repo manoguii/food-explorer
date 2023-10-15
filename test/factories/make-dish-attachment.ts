@@ -4,6 +4,8 @@ import {
   DishAttachment,
   DishAttachmentProps,
 } from '@/domain/restaurant/enterprise/entities/dish-attachment'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { Injectable } from '@nestjs/common'
 
 export function makeDishAttachment(
   override: Partial<DishAttachmentProps> = {},
@@ -19,4 +21,26 @@ export function makeDishAttachment(
   )
 
   return dishAttachment
+}
+
+@Injectable()
+export class DishAttachmentFactory {
+  constructor(private prisma: PrismaService) {}
+
+  async makePrismaDishAttachment(
+    data: Partial<DishAttachmentProps> = {},
+  ): Promise<DishAttachment> {
+    const dishAttachment = makeDishAttachment(data)
+
+    await this.prisma.attachment.update({
+      where: {
+        id: dishAttachment.attachmentId.toString(),
+      },
+      data: {
+        dishId: dishAttachment.dishId.toString(),
+      },
+    })
+
+    return dishAttachment
+  }
 }

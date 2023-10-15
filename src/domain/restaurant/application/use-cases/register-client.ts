@@ -5,13 +5,13 @@ import { Client } from '../../enterprise/entities/client'
 import { ClientAlreadyExistsError } from './errors/client-already-exists-error'
 import { Injectable } from '@nestjs/common'
 
-interface RegisterClientUseCaseRequest {
+interface CreateAccountUseCaseRequest {
   name: string
   email: string
   password: string
 }
 
-type RegisterClientUseCaseResponse = Either<
+type CreateAccountUseCaseResponse = Either<
   ClientAlreadyExistsError,
   {
     client: Client
@@ -19,7 +19,7 @@ type RegisterClientUseCaseResponse = Either<
 >
 
 @Injectable()
-export class RegisterClientUseCase {
+export class CreateAccountUseCase {
   constructor(
     private clientsRepository: ClientsRepository,
     private hashGenerator: HashGenerator,
@@ -29,7 +29,7 @@ export class RegisterClientUseCase {
     name,
     email,
     password,
-  }: RegisterClientUseCaseRequest): Promise<RegisterClientUseCaseResponse> {
+  }: CreateAccountUseCaseRequest): Promise<CreateAccountUseCaseResponse> {
     const clientWithSameEmail = await this.clientsRepository.findByEmail(email)
 
     if (clientWithSameEmail) {
