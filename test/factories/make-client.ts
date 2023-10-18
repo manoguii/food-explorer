@@ -15,7 +15,7 @@ export function makeClient(
 ) {
   const client = Client.create(
     {
-      name: faker.name.fullName(),
+      name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
       ...override,

@@ -14,6 +14,8 @@ import { CreateCategoryController } from './controllers/create-category.controll
 import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases/create-category'
 import { GetDishBySlugUseCase } from '@/domain/restaurant/application/use-cases/get-dish-by-slug'
 import { GetDishBySlugController } from './controllers/get-dish-by-slug.controller'
+import { UploadAttachmentController } from './controllers/upload-attachment.controller'
+import { UploadAndCreateAttachmentsUseCase } from '@/domain/restaurant/application/use-cases/upload-and-create-attachment'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -24,6 +26,7 @@ import { GetDishBySlugController } from './controllers/get-dish-by-slug.controll
     AuthenticateController,
     CreateCategoryController,
     GetDishBySlugController,
+    UploadAttachmentController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -32,6 +35,7 @@ import { GetDishBySlugController } from './controllers/get-dish-by-slug.controll
     AuthenticateClientUseCase,
     CreateCategoryUseCase,
     GetDishBySlugUseCase,
+    UploadAndCreateAttachmentsUseCase,
   ],
 })
 export class HttpModule {}
