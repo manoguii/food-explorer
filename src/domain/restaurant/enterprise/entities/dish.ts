@@ -65,7 +65,7 @@ export class Dish extends AggregateRoot<DishProps> {
     return this.props.price.value
   }
 
-  set price(price: string) {
+  set price(price: number) {
     this.props.price.value = price
     this.touch()
   }

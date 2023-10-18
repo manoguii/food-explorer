@@ -15,7 +15,7 @@ export function makeDish(
     {
       name: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
-      price: Price.create(faker.commerce.price()),
+      price: Price.create(Number(faker.commerce.price())),
       categoryId: new UniqueEntityID(),
       ...override,
     },

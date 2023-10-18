@@ -1,6 +1,6 @@
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Either, right } from '@/core/either'
+import { Either, left, right } from '@/core/either'
 import { Price } from '../../enterprise/entities/value-objects/price'
 import { DishRepository } from '../repositories/dish-repository'
 import { DishAttachment } from '../../enterprise/entities/dish-attachment'
@@ -8,18 +8,21 @@ import { DishIngredient } from '../../enterprise/entities/dish-ingredient'
 import { DishAttachmentList } from '../../enterprise/entities/dish-attachment-list'
 import { DishIngredientList } from '../../enterprise/entities/dish-ingredient-list'
 import { Injectable } from '@nestjs/common'
+import { Ingredient } from '../../enterprise/entities/ingredient'
+import { InvalidIngredientsTypeError } from './errors/invalid-ingredients-type-error'
+import { InvalidPriceError } from './errors/invalid-price-error'
 
 interface CreateDishUseCaseRequest {
   name: string
-  price: string
+  price: number
   description: string
   categoryId: string
-  ingredientIds: string[]
+  ingredients: string[]
   attachmentsIds: string[]
 }
 
 type CreateDishUseCaseResponse = Either<
-  null,
+  InvalidIngredientsTypeError | InvalidPriceError,
   {
     dish: Dish
   }
@@ -34,14 +37,28 @@ export class CreateDishUseCase {
     price,
     description,
     categoryId,
-    ingredientIds,
+    ingredients,
     attachmentsIds,
   }: CreateDishUseCaseRequest): Promise<CreateDishUseCaseResponse> {
+    if (ingredients.length < 1) {
+      return left(new InvalidIngredientsTypeError())
+    }
+
+    if (price < 0) {
+      return left(new InvalidPriceError())
+    }
+
     const dish = Dish.create({
       categoryId: new UniqueEntityID(categoryId),
       price: Price.create(price),
       description,
       name,
+    })
+
+    const ingredientsEntity = ingredients.map((ingredient) => {
+      return Ingredient.create({
+        name: ingredient,
+      })
     })
 
     const dishAttachments = attachmentsIds.map((attachmentId) => {
@@ -51,9 +68,9 @@ export class CreateDishUseCase {
       })
     })
 
-    const dishIngredient = ingredientIds.map((ingredientId) => {
+    const dishIngredient = ingredientsEntity.map((ingredient) => {
       return DishIngredient.create({
-        ingredientId: new UniqueEntityID(ingredientId),
+        ingredientId: ingredient.id,
         dishId: dish.id,
       })
     })

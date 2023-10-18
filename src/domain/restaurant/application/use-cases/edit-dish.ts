@@ -15,7 +15,7 @@ interface EditDishUseCaseRequest {
   dishId: string
   name: string
   description: string
-  price: string
+  price: number
   ingredientIds: string[]
   attachmentsIds: string[]
 }

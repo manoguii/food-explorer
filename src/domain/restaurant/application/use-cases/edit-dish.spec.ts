@@ -62,7 +62,7 @@ describe('Edit Dish', () => {
       dishId: newDish.id.toValue(),
       description: 'Dish description',
       name: 'Dish name',
-      price: '1000',
+      price: 1000,
       attachmentsIds: ['attachment-1', 'new-attachment'],
       ingredientIds: ['ingredient-1', 'new-ingredient'],
     })

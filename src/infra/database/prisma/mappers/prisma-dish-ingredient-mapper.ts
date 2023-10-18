@@ -4,6 +4,10 @@ import { DishIngredient } from '@/domain/restaurant/enterprise/entities/dish-ing
 
 export class PrismaDishIngredientMapper {
   static toDomain(raw: PrismaDishIngredient): DishIngredient {
+    if (!raw.dishId) {
+      throw new Error('DishId is required')
+    }
+
     return DishIngredient.create(
       {
         ingredientId: new UniqueEntityID(raw.id),

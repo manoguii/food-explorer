@@ -29,7 +29,7 @@ model Dish {
   name        String
   slug        String    @unique
   description String
-  price       String
+  price       Int
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime? @updatedAt @map("updated_at")
   categoryId  String    @map("category_id")
@@ -88,11 +88,11 @@ model OrderItem {
 }
 
 model Ingredient {
-  id     String @id @default(uuid())
-  title  String
-  dishId String @map("dish_id")
+  id     String  @id @default(uuid())
+  name   String
+  dishId String? @map("dish_id")
 
-  dish Dish @relation(fields: [dishId], references: [id])
+  dish Dish? @relation(fields: [dishId], references: [id])
 
   @@map("ingredients")
 }

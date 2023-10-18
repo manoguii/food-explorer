@@ -1,11 +1,11 @@
 export class Price {
-  public value: string
+  public value: number
 
-  private constructor(value: string) {
+  private constructor(value: number) {
     this.value = value
   }
 
-  static create(value: string) {
+  static create(value: number) {
     return new Price(value)
   }
 }

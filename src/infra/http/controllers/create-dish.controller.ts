@@ -7,9 +7,10 @@ import { CreateDishUseCase } from '@/domain/restaurant/application/use-cases/cre
 
 const createDishBodySchema = z.object({
   name: z.string(),
-  price: z.string(),
+  price: z.number(),
   description: z.string(),
   categoryId: z.string(),
+  ingredients: z.array(z.string()),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createDishBodySchema)
@@ -25,7 +26,7 @@ export class CreateDishController {
     @Body(bodyValidationPipe) body: CreateDishBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { description, name, price, categoryId } = body
+    const { description, name, price, categoryId, ingredients } = body
     const userId = user.sub
     console.log('userId', userId)
 
@@ -34,7 +35,7 @@ export class CreateDishController {
       price,
       description,
       categoryId,
-      ingredientIds: [],
+      ingredients,
       attachmentsIds: [],
     })
 

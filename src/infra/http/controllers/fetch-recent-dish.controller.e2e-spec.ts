@@ -49,14 +49,14 @@ describe('Fetch recent dishes (E2E)', () => {
           slug: 'dish-01',
           description: 'Dish description',
           categoryId: category.id,
-          price: '100',
+          price: 100,
         },
         {
           name: 'Dish 02',
           slug: 'dish-02',
           description: 'Dish description',
           categoryId: category.id,
-          price: '100',
+          price: 100,
         },
       ],
     })
