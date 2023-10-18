@@ -46,12 +46,28 @@ export class InMemoryDishRepository implements DishRepository {
 
   async create(dish: Dish) {
     this.items.push(dish)
+
+    await Promise.all([
+      this.dishAttachmentsRepository.createMany(dish.attachments.getItems()),
+      this.dishIngredientsRepository.createMany(dish.ingredients.getItems()),
+    ])
   }
 
   async save(dish: Dish) {
     const itemIndex = this.items.findIndex((item) => item.id === dish.id)
 
     this.items[itemIndex] = dish
+
+    await Promise.all([
+      this.dishAttachmentsRepository.createMany(dish.attachments.getNewItems()),
+      this.dishIngredientsRepository.createMany(dish.ingredients.getNewItems()),
+      this.dishAttachmentsRepository.deleteMany(
+        dish.attachments.getRemovedItems(),
+      ),
+      this.dishIngredientsRepository.deleteMany(
+        dish.ingredients.getRemovedItems(),
+      ),
+    ])
   }
 
   async delete(dish: Dish) {

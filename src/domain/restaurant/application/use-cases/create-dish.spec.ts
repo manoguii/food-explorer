@@ -75,4 +75,38 @@ describe('Create Dish', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(InvalidPriceError)
   })
+
+  it('should persist attachments when creating a new dish', async () => {
+    const result = await sut.execute({
+      categoryId: '1',
+      name: 'Dish name',
+      description: 'Dish description',
+      price: 1000,
+      ingredients: ['Arroz', 'Feijão'],
+      attachmentsIds: ['10', '20'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryDishAttachmentsRepository.items).toHaveLength(2)
+    expect(inMemoryDishAttachmentsRepository.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ attachmentId: new UniqueEntityID('10') }),
+        expect.objectContaining({ attachmentId: new UniqueEntityID('20') }),
+      ]),
+    )
+  })
+
+  it('should persist ingredients when creating a new dish', async () => {
+    const result = await sut.execute({
+      categoryId: '1',
+      name: 'Dish name',
+      description: 'Dish description',
+      price: 1000,
+      ingredients: ['Arroz', 'Feijão', 'Batata'],
+      attachmentsIds: ['10', '20'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryDishIngredientsRepository.items).toHaveLength(3)
+  })
 })

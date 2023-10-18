@@ -6,6 +6,18 @@ export class InMemoryDishIngredientsRepository
 {
   public items: DishIngredient[] = []
 
+  async createMany(ingredients: DishIngredient[]): Promise<void> {
+    this.items.push(...ingredients)
+  }
+
+  async deleteMany(ingredients: DishIngredient[]): Promise<void> {
+    const dishIngredients = this.items.filter((item) => {
+      return !ingredients.some((ingredient) => ingredient.equals(item))
+    })
+
+    this.items = dishIngredients
+  }
+
   async findManyByDishId(dishId: string) {
     const dishIngredients = this.items.filter(
       (item) => item.dishId.toString() === dishId,
