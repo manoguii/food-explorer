@@ -6,17 +6,21 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { AttachmentFactory } from 'test/factories/make-attachment'
+import { CategoryFactory } from 'test/factories/make-category'
+import { ClientFactory } from 'test/factories/make-client'
 
 describe('Create dish (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
   let attachmentFactory: AttachmentFactory
+  let clientFactory: ClientFactory
+  let categoryFactory: CategoryFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [AttachmentFactory],
+      providers: [AttachmentFactory, ClientFactory, CategoryFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -24,26 +28,18 @@ describe('Create dish (E2E)', () => {
     prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
     attachmentFactory = moduleRef.get(AttachmentFactory)
+    clientFactory = moduleRef.get(ClientFactory)
+    categoryFactory = moduleRef.get(CategoryFactory)
 
     await app.init()
   })
 
   test('[POST] /dishes', async () => {
-    const user = await prisma.user.create({
-      data: {
-        name: 'John Doe',
-        email: 'johndoe@example.com',
-        password: '123456',
-      },
-    })
+    const user = await clientFactory.makePrismaClient()
 
-    const accessToken = jwt.sign({ sub: user.id })
+    const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    const category = await prisma.category.create({
-      data: {
-        name: 'Category 01',
-      },
-    })
+    const category = await categoryFactory.makePrismaCategory()
 
     const attachment1 = await attachmentFactory.makePrismaAttachment()
     const attachment2 = await attachmentFactory.makePrismaAttachment()
@@ -55,7 +51,7 @@ describe('Create dish (E2E)', () => {
         name: 'Novo prato',
         description: 'Descrição do prato',
         price: 100,
-        categoryId: category.id,
+        categoryId: category.id.toString(),
         ingredients: ['Batata', 'Cebola', 'Queijo'],
         attachmentsIds: [attachment1.id.toString(), attachment2.id.toString()],
       })
