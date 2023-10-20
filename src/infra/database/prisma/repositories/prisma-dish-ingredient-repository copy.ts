@@ -35,7 +35,7 @@ export class PrismaDishIngredientsRepository
 
     const data = PrismaDishIngredientMapper.toPrismaUpdateMany(ingredients)
 
-    await this.prisma.ingredient.updateMany(data)
+    await this.prisma.ingredient.createMany(data)
   }
 
   async deleteMany(ingredients: DishIngredient[]): Promise<void> {

@@ -10,13 +10,14 @@ import { DishIngredientList } from '../../enterprise/entities/dish-ingredient-li
 import { DishAttachment } from '../../enterprise/entities/dish-attachment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DishIngredient } from '../../enterprise/entities/dish-ingredient'
+import { Injectable } from '@nestjs/common'
 
 interface EditDishUseCaseRequest {
   dishId: string
   name: string
   description: string
   price: number
-  ingredientIds: string[]
+  ingredients: string[]
   attachmentsIds: string[]
 }
 
@@ -27,6 +28,7 @@ type EditDishUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class EditDishUseCase {
   constructor(
     private dishRepository: DishRepository,
@@ -40,7 +42,7 @@ export class EditDishUseCase {
     name,
     price,
     attachmentsIds,
-    ingredientIds,
+    ingredients,
   }: EditDishUseCaseRequest): Promise<EditDishUseCaseResponse> {
     const dish = await this.dishRepository.findById(dishId)
 
@@ -65,9 +67,9 @@ export class EditDishUseCase {
         dishId: dish.id,
       })
     })
-    const dishIngredient = ingredientIds.map((ingredientId) => {
+    const dishIngredient = ingredients.map((ingredient) => {
       return DishIngredient.create({
-        ingredientId: new UniqueEntityID(ingredientId),
+        ingredientName: ingredient,
         dishId: dish.id,
       })
     })

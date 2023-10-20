@@ -43,11 +43,11 @@ describe('Delete Dish', () => {
 
     inMemoryDishIngredientsRepository.items.push(
       makeDishIngredient({
-        ingredientId: new UniqueEntityID('ingredient-1'),
+        ingredientName: 'Batata',
         dishId: newDish.id,
       }),
       makeDishIngredient({
-        ingredientId: new UniqueEntityID('ingredient-2'),
+        ingredientName: 'Banana',
         dishId: newDish.id,
       }),
     )

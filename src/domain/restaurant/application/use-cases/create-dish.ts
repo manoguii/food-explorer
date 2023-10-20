@@ -70,7 +70,7 @@ export class CreateDishUseCase {
 
     const dishIngredient = ingredientsEntity.map((ingredient) => {
       return DishIngredient.create({
-        ingredientId: ingredient.id,
+        ingredientName: ingredient.name,
         dishId: dish.id,
       })
     })

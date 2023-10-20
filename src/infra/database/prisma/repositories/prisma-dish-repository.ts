@@ -4,10 +4,16 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { PrismaDishMapper } from '../mappers/prisma-dish-mapper'
 import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
+import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
+import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 
 @Injectable()
 export class PrismaDishRepository implements DishRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private dishAttachmentsRepository: DishAttachmentsRepository,
+    private dishIngredientsRepository: DishIngredientsRepository,
+  ) {}
 
   async findById(id: string): Promise<Dish | null> {
     const dish = await this.prisma.dish.findUnique({
@@ -55,17 +61,32 @@ export class PrismaDishRepository implements DishRepository {
     await this.prisma.dish.create({
       data,
     })
+
+    await Promise.all([
+      this.dishAttachmentsRepository.createMany(dish.attachments.getItems()),
+      this.dishIngredientsRepository.createMany(dish.ingredients.getItems()),
+    ])
   }
 
   async save(dish: Dish): Promise<void> {
     const data = PrismaDishMapper.toPrisma(dish)
 
-    await this.prisma.dish.update({
-      where: {
-        id: dish.id.toString(),
-      },
-      data,
-    })
+    await Promise.all([
+      this.prisma.dish.update({
+        where: {
+          id: dish.id.toString(),
+        },
+        data,
+      }),
+      this.dishAttachmentsRepository.createMany(dish.attachments.getNewItems()),
+      this.dishAttachmentsRepository.deleteMany(
+        dish.attachments.getRemovedItems(),
+      ),
+      this.dishIngredientsRepository.createMany(dish.ingredients.getNewItems()),
+      this.dishIngredientsRepository.deleteMany(
+        dish.ingredients.getRemovedItems(),
+      ),
+    ])
   }
 
   async delete(dish: Dish): Promise<void> {

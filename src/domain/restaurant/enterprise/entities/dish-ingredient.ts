@@ -3,7 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 export interface DishIngredientProps {
   dishId: UniqueEntityID
-  ingredientId: UniqueEntityID
+  ingredientName: string
 }
 
 export class DishIngredient extends Entity<DishIngredientProps> {
@@ -11,8 +11,8 @@ export class DishIngredient extends Entity<DishIngredientProps> {
     return this.props.dishId
   }
 
-  get ingredientId() {
-    return this.props.ingredientId
+  get ingredientName() {
+    return this.props.ingredientName
   }
 
   static create(props: DishIngredientProps, id?: UniqueEntityID) {

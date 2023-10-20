@@ -11,6 +11,7 @@ const createDishBodySchema = z.object({
   description: z.string(),
   categoryId: z.string(),
   ingredients: z.array(z.string()),
+  attachmentsIds: z.array(z.string().uuid()),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(createDishBodySchema)
@@ -26,7 +27,14 @@ export class CreateDishController {
     @Body(bodyValidationPipe) body: CreateDishBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
-    const { description, name, price, categoryId, ingredients } = body
+    const {
+      description,
+      name,
+      price,
+      categoryId,
+      ingredients,
+      attachmentsIds,
+    } = body
     const userId = user.sub
     console.log('userId', userId)
 
@@ -36,7 +44,7 @@ export class CreateDishController {
       description,
       categoryId,
       ingredients,
-      attachmentsIds: [],
+      attachmentsIds,
     })
 
     if (result.isLeft()) {

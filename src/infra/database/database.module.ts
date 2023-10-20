@@ -11,6 +11,10 @@ import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attach
 import { Uploader } from '@/domain/restaurant/application/storage/uploader'
 import { R2Storage } from '../storage/r2-storage'
 import { EnvModule } from '../env/env.module'
+import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
+import { PrismaDishAttachmentsRepository } from './prisma/repositories/prisma-dish-attachments-repository'
+import { PrismaDishIngredientsRepository } from './prisma/repositories/prisma-dish-ingredient-repository copy'
+import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 
 @Module({
   imports: [EnvModule],
@@ -33,6 +37,14 @@ import { EnvModule } from '../env/env.module'
       useClass: PrismaAttachmentsRepository,
     },
     {
+      provide: DishAttachmentsRepository,
+      useClass: PrismaDishAttachmentsRepository,
+    },
+    {
+      provide: DishIngredientsRepository,
+      useClass: PrismaDishIngredientsRepository,
+    },
+    {
       provide: Uploader,
       useClass: R2Storage,
     },
@@ -44,6 +56,8 @@ import { EnvModule } from '../env/env.module'
     CategoryRepository,
     AttachmentsRepository,
     Uploader,
+    DishAttachmentsRepository,
+    DishIngredientsRepository,
   ],
 })
 export class DatabaseModule {}

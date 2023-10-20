@@ -47,11 +47,11 @@ describe('Edit Dish', () => {
     )
     inMemoryDishIngredientsRepository.items.push(
       makeDishIngredient({
-        ingredientId: new UniqueEntityID('ingredient-1'),
+        ingredientName: 'Laranja',
         dishId: newDish.id,
       }),
       makeDishIngredient({
-        ingredientId: new UniqueEntityID('ingredient-2'),
+        ingredientName: 'ingredient-to-remove',
         dishId: newDish.id,
       }),
     )
@@ -64,7 +64,7 @@ describe('Edit Dish', () => {
       name: 'Dish name',
       price: 1000,
       attachmentsIds: ['attachment-1', 'new-attachment'],
-      ingredientIds: ['ingredient-1', 'new-ingredient'],
+      ingredients: ['Laranja', 'new-ingredient'],
     })
 
     // Espera-se que nos currentItems tenha 1 arquivo novo e um antigo, o mesmo para os ingredientes
@@ -85,10 +85,10 @@ describe('Edit Dish', () => {
     ).toHaveLength(2)
     expect(inMemoryDishRepository.items[0].ingredients.currentItems).toEqual([
       expect.objectContaining({
-        ingredientId: new UniqueEntityID('ingredient-1'),
+        ingredientName: 'Laranja',
       }),
       expect.objectContaining({
-        ingredientId: new UniqueEntityID('new-ingredient'),
+        ingredientName: 'new-ingredient',
       }),
     ])
   })
@@ -115,7 +115,7 @@ describe('Edit Dish', () => {
       name: 'Dish name',
       price: 1000,
       attachmentsIds: ['attachment-1', 'new-attachment'],
-      ingredientIds: ['Batata', 'Laranja'],
+      ingredients: ['Batata', 'Laranja'],
     })
 
     expect(result.isRight()).toBe(true)
@@ -139,11 +139,11 @@ describe('Edit Dish', () => {
 
     inMemoryDishIngredientsRepository.items.push(
       makeDishIngredient({
-        ingredientId: new UniqueEntityID('ingredient-01'),
+        ingredientName: 'Batata',
         dishId: newDish.id,
       }),
       makeDishIngredient({
-        ingredientId: new UniqueEntityID('ingredient-02'),
+        ingredientName: 'ingredient-to-remove',
         dishId: newDish.id,
       }),
     )
@@ -154,7 +154,7 @@ describe('Edit Dish', () => {
       name: 'Dish name',
       price: 1000,
       attachmentsIds: ['1', '2'],
-      ingredientIds: ['ingredient-01', 'new-ingredient'],
+      ingredients: ['Batata', 'new-ingredient'],
     })
 
     expect(result.isRight()).toBe(true)
@@ -162,10 +162,10 @@ describe('Edit Dish', () => {
     expect(inMemoryDishIngredientsRepository.items).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          ingredientId: new UniqueEntityID('ingredient-01'),
+          ingredientName: 'Batata',
         }),
         expect.objectContaining({
-          ingredientId: new UniqueEntityID('new-ingredient'),
+          ingredientName: 'new-ingredient',
         }),
       ]),
     )

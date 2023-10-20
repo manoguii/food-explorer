@@ -10,7 +10,7 @@ export class PrismaDishIngredientMapper {
 
     return DishIngredient.create(
       {
-        ingredientId: new UniqueEntityID(raw.id),
+        ingredientName: raw.name,
         dishId: new UniqueEntityID(raw.dishId),
       },
       new UniqueEntityID(raw.id),
@@ -18,21 +18,17 @@ export class PrismaDishIngredientMapper {
   }
 
   static toPrismaUpdateMany(
-    ingredients: DishIngredient[],
-  ): Prisma.IngredientUpdateManyArgs {
-    const ingredientIds = ingredients.map((ingredient) => {
-      return ingredient.ingredientId.toString()
+    ingredientsParam: DishIngredient[],
+  ): Prisma.IngredientCreateManyArgs {
+    const ingredients = ingredientsParam.map((ingredient) => {
+      return {
+        name: ingredient.ingredientName.toString(),
+        dishId: ingredient.dishId.toString(),
+      }
     })
 
     return {
-      where: {
-        id: {
-          in: ingredientIds,
-        },
-      },
-      data: {
-        dishId: ingredients[0].dishId.toString(),
-      },
+      data: ingredients,
     }
   }
 }

@@ -5,6 +5,7 @@ import {
   DishIngredientProps,
 } from '@/domain/restaurant/enterprise/entities/dish-ingredient'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { faker } from '@faker-js/faker'
 import { Injectable } from '@nestjs/common'
 
 export function makeDishIngredient(
@@ -14,7 +15,7 @@ export function makeDishIngredient(
   const dishIngredient = DishIngredient.create(
     {
       dishId: new UniqueEntityID(),
-      ingredientId: new UniqueEntityID(),
+      ingredientName: faker.commerce.productMaterial(),
       ...override,
     },
     id,
@@ -32,12 +33,10 @@ export class DishIngredientFactory {
   ): Promise<DishIngredient> {
     const dishIngredient = makeDishIngredient(data)
 
-    await this.prisma.ingredient.update({
-      where: {
-        id: dishIngredient.ingredientId.toString(),
-      },
+    await this.prisma.ingredient.create({
       data: {
         dishId: dishIngredient.dishId.toString(),
+        name: dishIngredient.ingredientName,
       },
     })
 
