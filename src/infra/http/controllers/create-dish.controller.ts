@@ -36,7 +36,6 @@ export class CreateDishController {
       attachmentsIds,
     } = body
     const userId = user.sub
-    console.log('userId', userId)
 
     const result = await this.createDish.execute({
       name,

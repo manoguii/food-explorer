@@ -13,15 +13,15 @@ export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
     clientId: string,
     { page }: PaginationParams,
   ): Promise<FavoriteDish[]> {
-    const favoriteDishRepository = await this.prisma.favoriteDishes.findMany({
+    const favoriteDishes = await this.prisma.favoriteDishes.findMany({
       where: {
-        id: clientId,
+        userId: clientId,
       },
       take: 20,
       skip: (page - 1) * 20,
     })
 
-    return PrismaFavoriteDishMapper.toDomain(favoriteDishRepository)
+    return PrismaFavoriteDishMapper.toDomain(favoriteDishes)
   }
 
   async addFavoriteDish(favoriteDish: FavoriteDish): Promise<void> {

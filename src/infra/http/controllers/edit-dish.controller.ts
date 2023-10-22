@@ -3,7 +3,7 @@ import {
   Body,
   Controller,
   Param,
-  Post,
+  Patch,
 } from '@nestjs/common'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
@@ -27,17 +27,15 @@ type EditDishBodySchema = z.infer<typeof editDishBodySchema>
 export class EditDishController {
   constructor(private editDish: EditDishUseCase) {}
 
-  @Post()
+  @Patch()
   async handle(
     @Body(bodyValidationPipe) body: EditDishBodySchema,
     @CurrentUser() user: UserPayload,
     @Param('id') dishId: string,
   ) {
-    console.log({ body })
     const { description, name, price, ingredients, attachmentsIds } = body
 
     const userId = user.sub
-    console.log('userId', userId)
 
     const result = await this.editDish.execute({
       name,

@@ -105,7 +105,7 @@ describe('Edit dish (E2E)', () => {
     const newAttachment = await attachmentFactory.makePrismaAttachment()
 
     const response = await request(app.getHttpServer())
-      .post(`/dishes/${dish.id}`)
+      .patch(`/dishes/${dish.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'Novo prato',
@@ -119,7 +119,7 @@ describe('Edit dish (E2E)', () => {
         ],
       })
 
-    expect(response.statusCode).toBe(201)
+    expect(response.statusCode).toBe(200)
 
     const dishOnDatabase = await prisma.dish.findFirst({
       where: {

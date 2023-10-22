@@ -24,6 +24,10 @@ import { DeleteCategoryController } from './controllers/delete-category.controll
 import { DeleteCategoryUseCase } from '@/domain/restaurant/application/use-cases/delete-category'
 import { DeleteDishController } from './controllers/delete-dish.controller'
 import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/delete-dish'
+import { EditCategoryController } from './controllers/edit-category.controller'
+import { EditCategoryUseCase } from '@/domain/restaurant/application/use-cases/edit-category'
+import { FetchFavoriteDishesController } from './controllers/fetch-favorite-dishes.controller'
+import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-favorite-dishes'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -39,6 +43,8 @@ import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/del
     ChooseDishAsFavoriteController,
     DeleteCategoryController,
     DeleteDishController,
+    EditCategoryController,
+    FetchFavoriteDishesController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -52,6 +58,8 @@ import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/del
     ChooseDishAsFavoriteUseCase,
     DeleteCategoryUseCase,
     DeleteDishUseCase,
+    EditCategoryUseCase,
+    FetchFavoriteDishesUseCase,
   ],
 })
 export class HttpModule {}
