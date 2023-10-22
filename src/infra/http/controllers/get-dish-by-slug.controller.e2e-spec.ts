@@ -10,6 +10,8 @@ import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
 import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
+import { DishIngredientFactory } from 'test/factories/make-dish-ingredient'
+import { IngredientFactory } from 'test/factories/make-ingredient'
 
 describe('Get dish by slug (E2E)', () => {
   let app: INestApplication
@@ -18,6 +20,8 @@ describe('Get dish by slug (E2E)', () => {
   let attachmentFactory: AttachmentFactory
   let categoryFactory: CategoryFactory
   let dishAttachmentFactory: DishAttachmentFactory
+  let dishIngredientFactory: DishIngredientFactory
+  let ingredientFactory: IngredientFactory
   let jwt: JwtService
 
   beforeAll(async () => {
@@ -28,7 +32,9 @@ describe('Get dish by slug (E2E)', () => {
         DishFactory,
         AttachmentFactory,
         CategoryFactory,
+        IngredientFactory,
         DishAttachmentFactory,
+        DishIngredientFactory,
       ],
     }).compile()
 
@@ -39,6 +45,8 @@ describe('Get dish by slug (E2E)', () => {
     categoryFactory = moduleRef.get(CategoryFactory)
     attachmentFactory = moduleRef.get(AttachmentFactory)
     dishAttachmentFactory = moduleRef.get(DishAttachmentFactory)
+    dishIngredientFactory = moduleRef.get(DishIngredientFactory)
+    ingredientFactory = moduleRef.get(IngredientFactory)
     jwt = moduleRef.get(JwtService)
 
     await app.init()
@@ -59,6 +67,24 @@ describe('Get dish by slug (E2E)', () => {
       categoryId: category.id,
     })
 
+    const ingredient = await ingredientFactory.makePrismaIngredient({
+      name: 'Batata',
+    })
+
+    const ingredient2 = await ingredientFactory.makePrismaIngredient({
+      name: 'Banana',
+    })
+
+    await dishIngredientFactory.makePrismaDishIngredient({
+      dishId: dish.id,
+      ingredientName: ingredient.name,
+    })
+
+    await dishIngredientFactory.makePrismaDishIngredient({
+      dishId: dish.id,
+      ingredientName: ingredient2.name,
+    })
+
     const attachment = await attachmentFactory.makePrismaAttachment({
       title: 'Attachment title',
     })
@@ -77,11 +103,9 @@ describe('Get dish by slug (E2E)', () => {
     expect(response.body).toEqual({
       dishes: expect.objectContaining({
         name: 'Dish name',
-        // attachments: [
-        //   expect.objectContaining({
-        //     title: 'Attachment title',
-        //   }),
-        // ],
+        slug: 'dish-title',
+        category: category.name,
+        ingredients: ['Batata', 'Banana'],
       }),
     })
   })

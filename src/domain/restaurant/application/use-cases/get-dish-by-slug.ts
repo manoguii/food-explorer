@@ -1,8 +1,8 @@
-import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
+import { DishWithDetails } from '../../enterprise/entities/value-objects/dish-with-details'
 
 interface GetDishBySlugUseCaseRequest {
   slug: string
@@ -11,7 +11,7 @@ interface GetDishBySlugUseCaseRequest {
 type GetDishBySlugUseCaseResponse = Either<
   ResourceNotFoundError,
   {
-    dish: Dish
+    dish: DishWithDetails
   }
 >
 
@@ -22,7 +22,7 @@ export class GetDishBySlugUseCase {
   async execute({
     slug,
   }: GetDishBySlugUseCaseRequest): Promise<GetDishBySlugUseCaseResponse> {
-    const dish = await this.dishRepository.findBySlug(slug)
+    const dish = await this.dishRepository.findBySlugWithDetails(slug)
 
     if (!dish) {
       return left(new ResourceNotFoundError())

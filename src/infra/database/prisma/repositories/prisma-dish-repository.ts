@@ -6,6 +6,8 @@ import { PrismaDishMapper } from '../mappers/prisma-dish-mapper'
 import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
+import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
+import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
 
 @Injectable()
 export class PrismaDishRepository implements DishRepository {
@@ -41,6 +43,24 @@ export class PrismaDishRepository implements DishRepository {
     }
 
     return PrismaDishMapper.toDomain(dish)
+  }
+
+  async findBySlugWithDetails(slug: string): Promise<DishWithDetails | null> {
+    const dish = await this.prisma.dish.findUnique({
+      where: {
+        slug,
+      },
+      include: {
+        category: true,
+        ingredients: true,
+      },
+    })
+
+    if (!dish) {
+      return null
+    }
+
+    return PrismaDishWithDetailsMapper.toDomain(dish)
   }
 
   async findManyRecent({ page }: PaginationParams): Promise<Dish[]> {

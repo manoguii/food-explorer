@@ -1,6 +1,6 @@
 import { BadRequestException, Controller, Get, Param } from '@nestjs/common'
-import { DishPresenter } from '../presenters/dish-presenter'
 import { GetDishBySlugUseCase } from '@/domain/restaurant/application/use-cases/get-dish-by-slug'
+import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
 
 @Controller('/dishes/:slug')
 export class GetDishBySlugController {
@@ -17,6 +17,6 @@ export class GetDishBySlugController {
 
     const dishes = result.value.dish
 
-    return { dishes: DishPresenter.toHTTP(dishes) }
+    return { dishes: DishWithDetailsPresenter.toHTTP(dishes) }
   }
 }
