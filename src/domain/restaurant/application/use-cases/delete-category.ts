@@ -1,6 +1,7 @@
 import { Either, left, right } from '@/core/either'
 import { CategoryRepository } from '../repositories/category-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { Injectable } from '@nestjs/common'
 
 interface DeleteCategoryUseCaseRequest {
   categoryId: string
@@ -8,6 +9,7 @@ interface DeleteCategoryUseCaseRequest {
 
 type DeleteCategoryUseCaseResponse = Either<ResourceNotFoundError, null>
 
+@Injectable()
 export class DeleteCategoryUseCase {
   constructor(private categoryRepository: CategoryRepository) {}
 

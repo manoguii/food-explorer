@@ -19,9 +19,23 @@ model User {
   password String
   role     UserRole @default(CLIENT)
 
-  notifications Notification[]
+  notifications  Notification[]
+  favoriteDishes FavoriteDishes[]
 
   @@map("users")
+}
+
+model FavoriteDishes {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  dish      Dish     @relation(fields: [dishId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+
+  userId String @map("user_id")
+  dishId String @map("dish_id")
+
+  @@unique([userId, dishId])
+  @@map("favorite_dishes")
 }
 
 model Dish {
@@ -39,6 +53,7 @@ model Dish {
   attachments Attachment[]
   ingredients Ingredient[]
   orderItems  OrderItem[]
+  favoriteOf  FavoriteDishes[]
 
   @@map("dishes")
 }

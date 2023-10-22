@@ -3,6 +3,7 @@ import { FavoriteDishRepository } from '../repositories/favorite-dish-repository
 import { ConflictExceptionError } from './errors/conflict-exception-error'
 import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Injectable } from '@nestjs/common'
 
 interface ChooseDishAsFavoriteUseCaseRequest {
   clientId: string
@@ -17,7 +18,7 @@ type ChooseDishAsFavoriteUseCaseResponse = Either<
   }
 >
 
-// TODO: Pending implementation
+@Injectable()
 export class ChooseDishAsFavoriteUseCase {
   constructor(private favoriteDishRepository: FavoriteDishRepository) {}
 

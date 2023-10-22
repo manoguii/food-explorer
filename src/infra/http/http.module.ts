@@ -18,6 +18,12 @@ import { UploadAttachmentController } from './controllers/upload-attachment.cont
 import { UploadAndCreateAttachmentsUseCase } from '@/domain/restaurant/application/use-cases/upload-and-create-attachment'
 import { EditDishUseCase } from '@/domain/restaurant/application/use-cases/edit-dish'
 import { EditDishController } from './controllers/edit-dish.controller'
+import { ChooseDishAsFavoriteController } from './controllers/choose-dish-as-favorite.controller'
+import { ChooseDishAsFavoriteUseCase } from '@/domain/restaurant/application/use-cases/choose-dish-as-favorite'
+import { DeleteCategoryController } from './controllers/delete-category.controller'
+import { DeleteCategoryUseCase } from '@/domain/restaurant/application/use-cases/delete-category'
+import { DeleteDishController } from './controllers/delete-dish.controller'
+import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/delete-dish'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -30,6 +36,9 @@ import { EditDishController } from './controllers/edit-dish.controller'
     GetDishBySlugController,
     UploadAttachmentController,
     EditDishController,
+    ChooseDishAsFavoriteController,
+    DeleteCategoryController,
+    DeleteDishController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -40,6 +49,9 @@ import { EditDishController } from './controllers/edit-dish.controller'
     GetDishBySlugUseCase,
     UploadAndCreateAttachmentsUseCase,
     EditDishUseCase,
+    ChooseDishAsFavoriteUseCase,
+    DeleteCategoryUseCase,
+    DeleteDishUseCase,
   ],
 })
 export class HttpModule {}
