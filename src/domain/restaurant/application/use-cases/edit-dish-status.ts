@@ -7,21 +7,23 @@ import {
 } from '@/domain/restaurant/enterprise/entities/order'
 import { OrderRepository } from '../repositories/order-repository'
 import { OrderItemsRepository } from '../repositories/order-item-repository'
+import { Injectable } from '@nestjs/common'
 
-interface EditOrderStatusUseCaseRequest {
+interface EditDishStatusUseCaseRequest {
   orderId: string
   dishId: string
   status: OrderStatus
 }
 
-type EditOrderStatusUseCaseResponse = Either<
+type EditDishStatusUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   {
     order: Order
   }
 >
 
-export class EditOrderStatusUseCase {
+@Injectable()
+export class EditDishStatusUseCase {
   constructor(
     private orderRepository: OrderRepository,
     private orderItemsRepository: OrderItemsRepository,
@@ -31,7 +33,7 @@ export class EditOrderStatusUseCase {
     orderId,
     dishId,
     status,
-  }: EditOrderStatusUseCaseRequest): Promise<EditOrderStatusUseCaseResponse> {
+  }: EditDishStatusUseCaseRequest): Promise<EditDishStatusUseCaseResponse> {
     const order = await this.orderRepository.findById(orderId)
 
     if (!order) {
@@ -42,11 +44,13 @@ export class EditOrderStatusUseCase {
       order.id.toString(),
     )
 
-    currentOrderItems.forEach((item) => {
-      if (item.dishId.toString() === dishId) {
-        item.status = status
-      }
-    })
+    const dishIndex = currentOrderItems.findIndex(
+      (item) => item.dishId.toString() === dishId,
+    )
+
+    currentOrderItems[dishIndex].status = status
+
+    await this.orderItemsRepository.save(currentOrderItems[dishIndex])
 
     order.updateStatusBasedOnItems()
 

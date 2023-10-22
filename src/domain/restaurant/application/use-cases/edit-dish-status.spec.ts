@@ -1,4 +1,4 @@
-import { EditOrderStatusUseCase } from './edit-dish-status'
+import { EditDishStatusUseCase } from './edit-dish-status'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order-repository'
 import { makeOrder } from 'test/factories/make-order'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
@@ -9,7 +9,7 @@ import { InMemoryOrderItemsRepository } from 'test/repositories/in-memory-order-
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryOrderItemsRepository: InMemoryOrderItemsRepository
 
-let sut: EditOrderStatusUseCase
+let sut: EditDishStatusUseCase
 
 describe('Edit dish status', () => {
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('Edit dish status', () => {
       inMemoryOrderItemsRepository,
     )
 
-    sut = new EditOrderStatusUseCase(
+    sut = new EditDishStatusUseCase(
       inMemoryOrderRepository,
       inMemoryOrderItemsRepository,
     )

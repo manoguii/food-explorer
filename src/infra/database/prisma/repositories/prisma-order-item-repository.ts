@@ -8,6 +8,17 @@ import { OrderItem } from '@/domain/restaurant/enterprise/entities/order-item'
 export class PrismaOrderItemsRepository implements OrderItemsRepository {
   constructor(private prisma: PrismaService) {}
 
+  async save(orderItem: OrderItem): Promise<void> {
+    const data = PrismaOrderItemMapper.toPrisma(orderItem)
+
+    await this.prisma.orderItem.update({
+      where: {
+        id: data.id,
+      },
+      data,
+    })
+  }
+
   async createMany(orderItems: OrderItem[]): Promise<void> {
     if (orderItems.length === 0) {
       return

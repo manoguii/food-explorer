@@ -53,7 +53,7 @@ export class PrismaOrderRepository implements OrderRepository {
     const data = PrismaOrderMapper.toPrisma(order)
 
     await Promise.all([
-      await this.prisma.order.update({
+      this.prisma.order.update({
         where: {
           id: order.id.toString(),
         },

@@ -4,16 +4,22 @@ import { OrderItem } from '@/domain/restaurant/enterprise/entities/order-item'
 export class InMemoryOrderItemsRepository implements OrderItemsRepository {
   public items: OrderItem[] = []
 
-  async createMany(orders: OrderItem[]): Promise<void> {
-    this.items.push(...orders)
+  async createMany(orderItems: OrderItem[]): Promise<void> {
+    this.items.push(...orderItems)
   }
 
-  async deleteMany(orders: OrderItem[]): Promise<void> {
-    const orderItems = this.items.filter((item) => {
-      return !orders.some((orderItem) => orderItem.equals(item))
+  async deleteMany(orderItems: OrderItem[]): Promise<void> {
+    const orderItem = this.items.filter((item) => {
+      return !orderItems.some((orderItem) => orderItem.equals(item))
     })
 
-    this.items = orderItems
+    this.items = orderItem
+  }
+
+  async save(orderItem: OrderItem): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id === orderItem.id)
+
+    this.items[itemIndex] = orderItem
   }
 
   async findManyByOrderId(dishId: string) {
