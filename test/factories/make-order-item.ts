@@ -34,12 +34,12 @@ export class OrderItemFactory {
   ): Promise<OrderItem> {
     const orderItem = makeOrderItem(data)
 
-    await this.prisma.orderItem.update({
-      where: {
-        id: orderItem.orderId.toString(),
-      },
+    await this.prisma.orderItem.create({
       data: {
         dishId: orderItem.dishId.toString(),
+        orderId: orderItem.orderId.toString(),
+        quantity: orderItem.quantity,
+        status: orderItem.status,
       },
     })
 

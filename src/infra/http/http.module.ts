@@ -30,6 +30,8 @@ import { FetchFavoriteDishesController } from './controllers/fetch-favorite-dish
 import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-favorite-dishes'
 import { CreateOrderController } from './controllers/create-order.controller'
 import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/create-order'
+import { EditOrderController } from './controllers/edit-order.controller'
+import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order-dishes'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -48,6 +50,7 @@ import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/cr
     EditCategoryController,
     FetchFavoriteDishesController,
     CreateOrderController,
+    EditOrderController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -64,6 +67,7 @@ import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/cr
     EditCategoryUseCase,
     FetchFavoriteDishesUseCase,
     CreateOrderUseCase,
+    EditOrderUseCase,
   ],
 })
 export class HttpModule {}

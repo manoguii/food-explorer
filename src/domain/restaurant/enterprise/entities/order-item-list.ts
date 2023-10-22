@@ -3,7 +3,7 @@ import { OrderItem } from './order-item'
 
 export class OrderItemList extends WatchedList<OrderItem> {
   compareItems(a: OrderItem, b: OrderItem): boolean {
-    return a.orderId.equals(b.orderId)
+    return a.id.equals(b.id)
   }
 
   allItemsDelivered() {

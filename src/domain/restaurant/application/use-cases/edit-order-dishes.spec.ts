@@ -59,9 +59,11 @@ describe('Edit Order', () => {
     expect(inMemoryOrderRepository.items[0].items.currentItems).toEqual([
       expect.objectContaining({
         dishId: new UniqueEntityID('new-dish-10'),
+        quantity: 1,
       }),
       expect.objectContaining({
         dishId: new UniqueEntityID('new-dish-20'),
+        quantity: 3,
       }),
     ])
   })

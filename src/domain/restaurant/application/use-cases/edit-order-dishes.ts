@@ -7,6 +7,7 @@ import { OrderItemList } from '../../enterprise/entities/order-item-list'
 import { OrderItem } from '../../enterprise/entities/order-item'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { OrderItemsRepository } from '../repositories/order-item-repository'
+import { Injectable } from '@nestjs/common'
 
 interface Dish {
   dishId: string
@@ -25,6 +26,7 @@ type EditOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class EditOrderUseCase {
   constructor(
     private orderRepository: OrderRepository,
