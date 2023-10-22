@@ -53,6 +53,7 @@ export class PrismaDishRepository implements DishRepository {
       include: {
         category: true,
         ingredients: true,
+        attachments: true,
       },
     })
 

@@ -5,19 +5,27 @@ import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-d
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InvalidIngredientsTypeError } from './errors/invalid-ingredients-type-error'
 import { InvalidPriceError } from './errors/invalid-price-error'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
+let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let sut: CreateDishUseCase
 
 describe('Create Dish', () => {
   beforeEach(() => {
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryCategoryRepository = new InMemoryCategoryRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDishRepository = new InMemoryDishRepository(
       inMemoryDishAttachmentsRepository,
       inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new CreateDishUseCase(inMemoryDishRepository)
   })

@@ -5,6 +5,7 @@ import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-o
 import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
 import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
 import { InMemoryCategoryRepository } from './in-memory-category-repository'
+import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
 
 export class InMemoryDishRepository implements DishRepository {
   public items: Dish[] = []
@@ -13,6 +14,7 @@ export class InMemoryDishRepository implements DishRepository {
     private dishAttachmentsRepository: InMemoryDishAttachmentsRepository,
     private dishIngredientsRepository: InMemoryDishIngredientsRepository,
     private categoriesRepository: InMemoryCategoryRepository,
+    private attachmentsRepository: InMemoryAttachmentsRepository,
   ) {}
 
   async findById(id: string) {
@@ -54,6 +56,21 @@ export class InMemoryDishRepository implements DishRepository {
       dish.id.toString(),
     )
 
+    const dishAttachments =
+      await this.dishAttachmentsRepository.findManyByDishId(dish.id.toString())
+
+    const attachments = dishAttachments.map((dishAttachment) => {
+      const attachment = this.attachmentsRepository.items.find((attachment) =>
+        attachment.id.equals(dishAttachment.attachmentId),
+      )
+
+      if (!attachment) {
+        throw new Error('A dish cannot be created without an dish attachment !')
+      }
+
+      return attachment
+    })
+
     return DishWithDetails.create({
       dishId: dish.id,
       name: dish.name,
@@ -62,6 +79,7 @@ export class InMemoryDishRepository implements DishRepository {
       slug: dish.slug.value,
       category: category.name,
       ingredients: ingredients.map((ingredient) => ingredient.ingredientName),
+      attachments,
       createdAt: dish.createdAt,
       updatedAt: dish.updatedAt,
     })

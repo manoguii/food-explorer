@@ -10,6 +10,10 @@ export class DishWithDetailsPresenter {
       price: dish.price,
       category: dish.category,
       ingredients: dish.ingredients,
+      attachments: dish.attachments.map((attachment) => ({
+        title: attachment.title,
+        url: attachment.url,
+      })),
       createdAt: dish.createdAt,
       updatedAt: dish.updatedAt,
     }

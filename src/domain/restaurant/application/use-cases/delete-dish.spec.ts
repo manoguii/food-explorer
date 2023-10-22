@@ -6,19 +6,27 @@ import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-d
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { makeDishAttachment } from 'test/factories/make-dish-attachment'
 import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
+let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let sut: DeleteDishUseCase
 
 describe('Delete Dish', () => {
   beforeEach(() => {
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryCategoryRepository = new InMemoryCategoryRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDishRepository = new InMemoryDishRepository(
       inMemoryDishAttachmentsRepository,
       inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
     )
 
     sut = new DeleteDishUseCase(inMemoryDishRepository)

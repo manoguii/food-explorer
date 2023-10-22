@@ -15,8 +15,8 @@ export class GetDishBySlugController {
       throw new BadRequestException()
     }
 
-    const dishes = result.value.dish
+    const dish = result.value.dish
 
-    return { dishes: DishWithDetailsPresenter.toHTTP(dishes) }
+    return { dish: DishWithDetailsPresenter.toHTTP(dish) }
   }
 }

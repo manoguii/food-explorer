@@ -3,19 +3,27 @@ import { FetchRecentDishUseCase } from './fetch-recent-dish'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { makeDish } from 'test/factories/make-dish'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryDishAttachmentRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let sut: FetchRecentDishUseCase
 
 describe('Fetch recent dish', () => {
   beforeEach(() => {
     inMemoryDishAttachmentRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryCategoryRepository = new InMemoryCategoryRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDishRepository = new InMemoryDishRepository(
       inMemoryDishAttachmentRepository,
       inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new FetchRecentDishUseCase(inMemoryDishRepository)
   })

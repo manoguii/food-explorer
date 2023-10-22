@@ -8,11 +8,15 @@ import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category
 import { makeCategory } from 'test/factories/make-category'
 import { makeIngredient } from 'test/factories/make-ingredient'
 import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { makeAttachment } from 'test/factories/make-attachment'
+import { makeDishAttachment } from 'test/factories/make-dish-attachment'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let sut: GetDishBySlugUseCase
 
 describe('Get Dish By Slug', () => {
@@ -20,10 +24,12 @@ describe('Get Dish By Slug', () => {
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
     inMemoryCategoryRepository = new InMemoryCategoryRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
     inMemoryDishRepository = new InMemoryDishRepository(
       inMemoryDishAttachmentsRepository,
       inMemoryDishIngredientsRepository,
       inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new GetDishBySlugUseCase(inMemoryDishRepository)
   })
@@ -75,6 +81,21 @@ describe('Get Dish By Slug', () => {
       }),
     ])
 
+    const attachment = makeAttachment()
+    const attachment2 = makeAttachment()
+    inMemoryAttachmentsRepository.items.push(attachment, attachment2)
+
+    await inMemoryDishAttachmentsRepository.createMany([
+      makeDishAttachment({
+        dishId: newDish.id,
+        attachmentId: attachment.id,
+      }),
+      makeDishAttachment({
+        dishId: newDish.id,
+        attachmentId: attachment2.id,
+      }),
+    ])
+
     await inMemoryDishRepository.create(newDish)
 
     const result = await sut.execute({
@@ -87,6 +108,7 @@ describe('Get Dish By Slug', () => {
         name: newDish.name,
         category: category.name,
         ingredients: [ingredient.name, ingredient2.name],
+        attachments: [attachment, attachment2],
       }),
     })
   })

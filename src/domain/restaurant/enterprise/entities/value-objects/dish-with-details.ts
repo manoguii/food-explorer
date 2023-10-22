@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
+import { Attachment } from '../attachment'
 
 interface DishWithDetailsProps {
   dishId: UniqueEntityID
@@ -9,6 +10,7 @@ interface DishWithDetailsProps {
   slug: string
   category: string
   ingredients: string[]
+  attachments: Attachment[]
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -40,6 +42,10 @@ export class DishWithDetails extends ValueObject<DishWithDetailsProps> {
 
   get ingredients() {
     return this.props.ingredients
+  }
+
+  get attachments() {
+    return this.props.attachments
   }
 
   get createdAt() {
