@@ -16,18 +16,14 @@ export class PrismaOrderItemMapper {
     )
   }
 
-  static toPrismaUpdateMany(orders: OrderItem[]): Prisma.OrderUpdateManyArgs {
-    const orderIds = orders.map((order) => {
-      return order.orderId.toString()
-    })
-
+  static toPrisma(orderItem: OrderItem): Prisma.OrderItemUncheckedCreateInput {
     return {
-      where: {
-        id: {
-          in: orderIds,
-        },
-      },
-      data: {},
+      id: orderItem.id.toString(),
+      dishId: orderItem.dishId.toString(),
+      orderId: orderItem.orderId.toString(),
+      status: orderItem.status,
+      quantity: orderItem.quantity,
+      updatedAt: orderItem.updatedAt,
     }
   }
 }

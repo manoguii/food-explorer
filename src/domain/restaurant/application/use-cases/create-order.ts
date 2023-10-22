@@ -4,14 +4,15 @@ import { Either, right } from '@/core/either'
 import { OrderRepository } from '../repositories/order-repository'
 import { OrderItem } from '../../enterprise/entities/order-item'
 import { OrderItemList } from '../../enterprise/entities/order-item-list'
+import { Injectable } from '@nestjs/common'
 
-interface Dishes {
+type Dish = {
   dishId: string
-  quantity: string
+  quantity: number
 }
 
 interface CreateOrderUseCaseRequest {
-  dishes: Dishes[]
+  dishes: Dish[]
 }
 
 type CreateOrderUseCaseResponse = Either<
@@ -21,6 +22,7 @@ type CreateOrderUseCaseResponse = Either<
   }
 >
 
+@Injectable()
 export class CreateOrderUseCase {
   constructor(private orderRepository: OrderRepository) {}
 

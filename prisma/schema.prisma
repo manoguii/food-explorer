@@ -90,7 +90,7 @@ model Order {
 
 model OrderItem {
   id        String      @id @default(uuid())
-  quantity  String
+  quantity  Int
   status    OrderStatus @default(PENDING)
   updatedAt DateTime?   @updatedAt @map("updated_at")
   orderId   String      @map("order_id")

@@ -14,7 +14,9 @@ let sut: EditOrderUseCase
 describe('Edit Order', () => {
   beforeEach(() => {
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryOrderItemsRepository,
+    )
 
     sut = new EditOrderUseCase(
       inMemoryOrderRepository,
@@ -43,11 +45,11 @@ describe('Edit Order', () => {
       dishes: [
         {
           dishId: 'new-dish-10',
-          quantity: '1',
+          quantity: 1,
         },
         {
           dishId: 'new-dish-20',
-          quantity: '3',
+          quantity: 3,
         },
       ],
     })

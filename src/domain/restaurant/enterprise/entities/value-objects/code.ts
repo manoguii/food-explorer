@@ -1,4 +1,4 @@
-import { nanoid } from 'nanoid'
+import { randomUUID } from 'crypto'
 
 export class Code {
   public value: string
@@ -12,7 +12,7 @@ export class Code {
   }
 
   static generateUniqueCode(): Code {
-    const value = nanoid(8)
+    const value = randomUUID()
     return new Code(value)
   }
 }

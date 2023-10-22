@@ -16,7 +16,7 @@ export function makeOrderItem(
     {
       orderId: new UniqueEntityID(),
       dishId: new UniqueEntityID(),
-      quantity: faker.string.numeric(1),
+      quantity: Number(faker.string.numeric()),
       ...override,
     },
     id,

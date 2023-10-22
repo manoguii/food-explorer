@@ -17,7 +17,7 @@ export class PrismaDishIngredientMapper {
     )
   }
 
-  static toPrismaUpdateMany(
+  static toPrismaCreateMany(
     ingredientsParam: DishIngredient[],
   ): Prisma.IngredientCreateManyArgs {
     const ingredients = ingredientsParam.map((ingredient) => {

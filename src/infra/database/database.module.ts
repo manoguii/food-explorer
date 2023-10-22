@@ -13,10 +13,14 @@ import { R2Storage } from '../storage/r2-storage'
 import { EnvModule } from '../env/env.module'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { PrismaDishAttachmentsRepository } from './prisma/repositories/prisma-dish-attachments-repository'
-import { PrismaDishIngredientsRepository } from './prisma/repositories/prisma-dish-ingredient-repository copy'
+import { PrismaDishIngredientsRepository } from './prisma/repositories/prisma-dish-ingredient-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { FavoriteDishRepository } from '@/domain/restaurant/application/repositories/favorite-dish-repository'
 import { PrismaFavoriteDishRepository } from './prisma/repositories/prisma-favorite-dish-repository'
+import { OrderRepository } from '@/domain/restaurant/application/repositories/order-repository'
+import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository'
+import { OrderItemsRepository } from '@/domain/restaurant/application/repositories/order-item-repository'
+import { PrismaOrderItemsRepository } from './prisma/repositories/prisma-order-item-repository'
 
 @Module({
   imports: [EnvModule],
@@ -51,6 +55,14 @@ import { PrismaFavoriteDishRepository } from './prisma/repositories/prisma-favor
       useClass: PrismaFavoriteDishRepository,
     },
     {
+      provide: OrderRepository,
+      useClass: PrismaOrderRepository,
+    },
+    {
+      provide: OrderItemsRepository,
+      useClass: PrismaOrderItemsRepository,
+    },
+    {
       provide: Uploader,
       useClass: R2Storage,
     },
@@ -65,6 +77,8 @@ import { PrismaFavoriteDishRepository } from './prisma/repositories/prisma-favor
     DishAttachmentsRepository,
     DishIngredientsRepository,
     FavoriteDishRepository,
+    OrderRepository,
+    OrderItemsRepository,
   ],
 })
 export class DatabaseModule {}

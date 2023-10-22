@@ -8,14 +8,14 @@ import { OrderItem } from '../../enterprise/entities/order-item'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { OrderItemsRepository } from '../repositories/order-item-repository'
 
-interface Dishes {
+interface Dish {
   dishId: string
-  quantity: string
+  quantity: number
 }
 
 interface EditOrderUseCaseRequest {
   orderId: string
-  dishes: Dishes[]
+  dishes: Dish[]
 }
 
 type EditOrderUseCaseResponse = Either<

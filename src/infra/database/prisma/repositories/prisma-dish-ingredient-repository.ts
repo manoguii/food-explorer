@@ -33,7 +33,7 @@ export class PrismaDishIngredientsRepository
       return
     }
 
-    const data = PrismaDishIngredientMapper.toPrismaUpdateMany(ingredients)
+    const data = PrismaDishIngredientMapper.toPrismaCreateMany(ingredients)
 
     await this.prisma.ingredient.createMany(data)
   }

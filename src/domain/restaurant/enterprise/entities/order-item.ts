@@ -6,7 +6,7 @@ import { OrderStatus } from './order'
 export interface OrderItemProps {
   orderId: UniqueEntityID
   dishId: UniqueEntityID
-  quantity: string
+  quantity: number
   status: OrderStatus
   updatedAt?: Date | null
 }
@@ -31,6 +31,10 @@ export class OrderItem extends Entity<OrderItemProps> {
   set status(status: OrderStatus) {
     this.props.status = status
     this.touch()
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 
   isDelivered() {

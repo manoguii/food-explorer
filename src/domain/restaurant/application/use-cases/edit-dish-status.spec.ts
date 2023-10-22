@@ -11,10 +11,12 @@ let inMemoryOrderItemsRepository: InMemoryOrderItemsRepository
 
 let sut: EditOrderStatusUseCase
 
-describe('Edit Order', () => {
+describe('Edit dish status', () => {
   beforeEach(() => {
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
-    inMemoryOrderRepository = new InMemoryOrderRepository()
+    inMemoryOrderRepository = new InMemoryOrderRepository(
+      inMemoryOrderItemsRepository,
+    )
 
     sut = new EditOrderStatusUseCase(
       inMemoryOrderRepository,
@@ -22,7 +24,7 @@ describe('Edit Order', () => {
     )
   })
 
-  it('should be able to edit a order', async () => {
+  it('should be able to edit a dish status', async () => {
     const newOrder = makeOrder({}, new UniqueEntityID('order-1'))
 
     await inMemoryOrderRepository.create(newOrder)
