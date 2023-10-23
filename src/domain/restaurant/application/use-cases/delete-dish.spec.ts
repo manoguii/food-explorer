@@ -8,6 +8,7 @@ import { makeDishAttachment } from 'test/factories/make-dish-attachment'
 import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
@@ -67,5 +68,14 @@ describe('Delete Dish', () => {
     expect(inMemoryDishRepository.items).toHaveLength(0)
     expect(inMemoryDishAttachmentsRepository.items).toHaveLength(0)
     expect(inMemoryDishIngredientsRepository.items).toHaveLength(0)
+  })
+
+  it('should not be able to delete a dish when it does not exist', async () => {
+    const result = await sut.execute({
+      dishId: 'invalid-dish-id',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

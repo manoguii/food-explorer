@@ -30,8 +30,6 @@ export class InMemoryOrderRepository implements OrderRepository {
 
     this.items[itemIndex] = order
 
-    console.log(order.items.getNewItems())
-    console.log(order.items.getRemovedItems())
     await Promise.all([
       this.orderItemsRepository.createMany(order.items.getNewItems()),
       this.orderItemsRepository.deleteMany(order.items.getRemovedItems()),

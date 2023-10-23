@@ -57,7 +57,6 @@ describe('Edit category (E2E)', () => {
       },
     })
 
-    console.log({ categoryOnDatabase })
     expect(categoryOnDatabase).toBeTruthy()
   })
 })

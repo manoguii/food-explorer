@@ -11,6 +11,7 @@ import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeAttachment } from 'test/factories/make-attachment'
 import { makeDishAttachment } from 'test/factories/make-dish-attachment'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
@@ -111,5 +112,14 @@ describe('Get Dish By Slug', () => {
         attachments: [attachment, attachment2],
       }),
     })
+  })
+
+  it('should be able to return an error if dish does not exists', async () => {
+    const result = await sut.execute({
+      slug: 'example-dish',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

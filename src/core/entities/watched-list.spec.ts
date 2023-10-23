@@ -63,4 +63,13 @@ describe('watched list', () => {
     expect(list.getRemovedItems()).toEqual([2])
     expect(list.getNewItems()).toEqual([5])
   })
+
+  it('should return true when the item exists in the current list', () => {
+    const item1 = { id: 1, name: 'John' }
+    const item2 = { id: 2, name: 'Jane' }
+    const list = new NumberWatchedList([item1.id, item2.id])
+
+    expect(list.exists(item1.id)).toBe(true)
+    expect(list.exists(item2.id)).toBe(true)
+  })
 })

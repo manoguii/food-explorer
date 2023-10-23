@@ -5,6 +5,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 import { makeOrderItem } from 'test/factories/make-order-item'
 import { InMemoryOrderItemsRepository } from 'test/repositories/in-memory-order-item-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryOrderItemsRepository: InMemoryOrderItemsRepository
@@ -66,5 +67,24 @@ describe('Edit Order', () => {
         quantity: 3,
       }),
     ])
+  })
+
+  it('should not be able to edit a order when it does not exist', async () => {
+    const result = await sut.execute({
+      orderId: 'invalid-order-id',
+      dishes: [
+        {
+          dishId: 'new-dish-10',
+          quantity: 1,
+        },
+        {
+          dishId: 'new-dish-20',
+          quantity: 3,
+        },
+      ],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

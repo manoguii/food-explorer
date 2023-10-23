@@ -5,6 +5,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 import { makeOrderItem } from 'test/factories/make-order-item'
 import { InMemoryOrderItemsRepository } from 'test/repositories/in-memory-order-item-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryOrderItemsRepository: InMemoryOrderItemsRepository
@@ -59,5 +60,16 @@ describe('Edit dish status', () => {
     expect(inMemoryOrderItemsRepository.items).toHaveLength(2)
     expect(editedItem?.status).toBe('PREPARING')
     expect(initialItem?.status).toBe('PENDING')
+  })
+
+  it('should not be able to edit a dish status when the order does not exist', async () => {
+    const result = await sut.execute({
+      orderId: 'invalid-order-id',
+      dishId: 'edited-dish',
+      status: 'PREPARING',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

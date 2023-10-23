@@ -8,6 +8,7 @@ import { makeDishAttachment } from 'test/factories/make-dish-attachment'
 import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
@@ -177,5 +178,19 @@ describe('Edit Dish', () => {
         }),
       ]),
     )
+  })
+
+  it('should not be able to edit a dish when it does not exist', async () => {
+    const result = await sut.execute({
+      dishId: 'invalid-dish-id',
+      description: 'Dish description',
+      name: 'Dish name',
+      price: 1000,
+      attachmentsIds: ['1', '2'],
+      ingredients: ['Batata', 'Laranja'],
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

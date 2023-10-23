@@ -1,14 +1,15 @@
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
-import { Either, right } from '@/core/either'
+import { Either, left, right } from '@/core/either'
 import { CategoryRepository } from '../repositories/category-repository'
 import { Injectable } from '@nestjs/common'
+import { ConflictExceptionError } from './errors/conflict-exception-error'
 
 interface CreateCategoryUseCaseRequest {
   name: string
 }
 
 type CreateCategoryUseCaseResponse = Either<
-  null,
+  ConflictExceptionError,
   {
     category: Category
   }
@@ -21,6 +22,12 @@ export class CreateCategoryUseCase {
   async execute({
     name,
   }: CreateCategoryUseCaseRequest): Promise<CreateCategoryUseCaseResponse> {
+    const categoryExists = await this.categoryRepository.findByName(name)
+
+    if (categoryExists) {
+      return left(new ConflictExceptionError(categoryExists.id.toString()))
+    }
+
     const category = Category.create({
       name,
     })
