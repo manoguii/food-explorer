@@ -1,8 +1,5 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import {
-  DishRepository,
-  FindManyByCategoriesResponse,
-} from '@/domain/restaurant/application/repositories/dish-repository'
+import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
@@ -10,6 +7,7 @@ import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-
 import { InMemoryCategoryRepository } from './in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
+import { DishWithAttachments } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-attachments'
 
 export class InMemoryDishRepository implements DishRepository {
   public items: Dish[] = []
@@ -104,7 +102,12 @@ export class InMemoryDishRepository implements DishRepository {
   async findManyByCategories(
     categories: Category[],
     params: PaginationParams,
-  ): Promise<FindManyByCategoriesResponse[]> {
+  ): Promise<
+    {
+      category: string
+      items: DishWithAttachments[]
+    }[]
+  > {
     const itemsPerPage = 20
 
     const dishes = this.items
@@ -118,17 +121,55 @@ export class InMemoryDishRepository implements DishRepository {
       })
       .slice((params.page - 1) * itemsPerPage, params.page * itemsPerPage)
 
-    const dishesByCategory = categories.map((category) => {
-      const items = dishes.filter((dish) => {
-        return dish.categoryId.equals(category.id)
-      })
+    const dishesByCategory = await Promise.all(
+      categories.map(async (category) => {
+        const dishesByCategory = dishes.filter((dish) =>
+          dish.categoryId.equals(category.id),
+        )
 
-      return {
-        category: category.name,
-        items,
-      }
-    })
+        const items = await Promise.all(
+          dishesByCategory.map(async (dish) => {
+            const dishAttachments =
+              await this.dishAttachmentsRepository.findManyByDishId(
+                dish.id.toString(),
+              )
 
+            const attachments = await Promise.all(
+              dishAttachments.map(async (dishAttachment) => {
+                const attachment = this.attachmentsRepository.items.find(
+                  (attachment) =>
+                    attachment.id.equals(dishAttachment.attachmentId),
+                )
+
+                if (!attachment) {
+                  throw new Error(
+                    'A dish cannot be created without an dish attachment !',
+                  )
+                }
+
+                return attachment
+              }),
+            )
+
+            return DishWithAttachments.create({
+              dishId: dish.id,
+              name: dish.name,
+              description: dish.description,
+              price: dish.price,
+              slug: dish.slug.value,
+              attachments,
+              createdAt: dish.createdAt,
+              updatedAt: dish.updatedAt,
+            })
+          }),
+        )
+
+        return {
+          category: category.name,
+          items,
+        }
+      }),
+    )
     return dishesByCategory
   }
 

@@ -1,11 +1,9 @@
 import { Either, left, right } from '@/core/either'
-import {
-  DishRepository,
-  FindManyByCategoriesResponse,
-} from '../repositories/dish-repository'
+import { DishRepository } from '../repositories/dish-repository'
 import { Injectable } from '@nestjs/common'
 import { CategoryRepository } from '../repositories/category-repository'
 import { InvalidCategoryError } from './errors/invalid-category-error'
+import { DishWithAttachments } from '../../enterprise/entities/value-objects/dish-with-attachments'
 
 interface FetchDishesByCategoriesUseCaseRequest {
   categories: string[]
@@ -15,7 +13,10 @@ interface FetchDishesByCategoriesUseCaseRequest {
 type FetchDishesByCategoriesUseCaseResponse = Either<
   InvalidCategoryError,
   {
-    dishes: FindManyByCategoriesResponse[]
+    dishes: {
+      category: string
+      items: DishWithAttachments[]
+    }[]
   }
 >
 

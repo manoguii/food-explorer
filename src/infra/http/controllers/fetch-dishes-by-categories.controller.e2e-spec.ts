@@ -4,9 +4,11 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
+import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 
 describe('Fetch dishes by categories (E2E)', () => {
   let app: INestApplication
@@ -14,11 +16,19 @@ describe('Fetch dishes by categories (E2E)', () => {
   let clientFactory: ClientFactory
   let dishFactory: DishFactory
   let categoryFactory: CategoryFactory
+  let attachmentFactory: AttachmentFactory
+  let dishAttachmentFactory: DishAttachmentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [ClientFactory, DishFactory, CategoryFactory],
+      providers: [
+        ClientFactory,
+        DishFactory,
+        CategoryFactory,
+        AttachmentFactory,
+        DishAttachmentFactory,
+      ],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -27,6 +37,8 @@ describe('Fetch dishes by categories (E2E)', () => {
     clientFactory = moduleRef.get(ClientFactory)
     dishFactory = moduleRef.get(DishFactory)
     categoryFactory = moduleRef.get(CategoryFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    dishAttachmentFactory = moduleRef.get(DishAttachmentFactory)
 
     await app.init()
   })
@@ -49,7 +61,7 @@ describe('Fetch dishes by categories (E2E)', () => {
       }),
     ])
 
-    await Promise.all([
+    const [dish] = await Promise.all([
       dishFactory.makePrismaDish({
         name: 'Coca Cola',
         categoryId: category.id,
@@ -64,6 +76,15 @@ describe('Fetch dishes by categories (E2E)', () => {
       }),
     ])
 
+    const attachment = await attachmentFactory.makePrismaAttachment({
+      title: 'Attachment title',
+    })
+
+    await dishAttachmentFactory.makePrismaDishAttachment({
+      dishId: dish.id,
+      attachmentId: attachment.id,
+    })
+
     const response = await request(app.getHttpServer())
       .get('/dish/categories')
       .query({
@@ -72,7 +93,7 @@ describe('Fetch dishes by categories (E2E)', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
-    console.log(response.body.dishes)
+    console.log(response.body.dishes[0].items)
 
     expect(response.statusCode).toBe(200)
     expect(response.body.dishes).toEqual(
@@ -82,6 +103,11 @@ describe('Fetch dishes by categories (E2E)', () => {
           items: expect.arrayContaining([
             expect.objectContaining({
               name: 'Coca Cola',
+              attachments: expect.arrayContaining([
+                expect.objectContaining({
+                  title: 'Attachment title',
+                }),
+              ]),
             }),
             expect.objectContaining({
               name: 'Suco de Laranja',

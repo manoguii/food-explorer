@@ -7,9 +7,9 @@ import {
 } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
-import { DishPresenter } from '../presenters/dish-presenter'
 import { FetchDishesByCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-categories'
 import { InvalidCategoryError } from '@/domain/restaurant/application/use-cases/errors/invalid-category-error'
+import { DishWithAttachmentsPresenter } from '../presenters/dish-with-attachments-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -66,7 +66,7 @@ export class FetchDishesByCategoriesController {
       dishes: dishes.map((item) => {
         return {
           category: item.category,
-          items: item.items.map(DishPresenter.toHTTP),
+          items: item.items.map(DishWithAttachmentsPresenter.toHTTP),
         }
       }),
     }

@@ -3,15 +3,14 @@ import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { PrismaDishMapper } from '../mappers/prisma-dish-mapper'
-import {
-  DishRepository,
-  FindManyByCategoriesResponse,
-} from '@/domain/restaurant/application/repositories/dish-repository'
+import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
+import { DishWithAttachments } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-attachments'
+import { PrismaDishWithAttachmentsMapper } from '../mappers/prisma-dish-with-attachments-mapper'
 
 @Injectable()
 export class PrismaDishRepository implements DishRepository {
@@ -71,7 +70,12 @@ export class PrismaDishRepository implements DishRepository {
   async findManyByCategories(
     categories: Category[],
     params: PaginationParams,
-  ): Promise<FindManyByCategoriesResponse[]> {
+  ): Promise<
+    {
+      category: string
+      items: DishWithAttachments[]
+    }[]
+  > {
     const dishes = await this.prisma.dish.findMany({
       where: {
         categoryId: {
@@ -83,20 +87,27 @@ export class PrismaDishRepository implements DishRepository {
       },
       take: 20,
       skip: (params.page - 1) * 20,
+      include: {
+        category: true,
+        ingredients: true,
+        attachments: true,
+      },
     })
 
-    const dishesByCategory = categories.map((category) => {
-      const dishesByCategory = dishes.filter(
-        (dish) => dish.categoryId === category.id.toString(),
-      )
-
-      return {
-        category: category.name,
-        items: dishesByCategory.map(PrismaDishMapper.toDomain),
-      }
-    })
-
-    return dishesByCategory
+    return dishes.reduce(
+      (acc, dish) => {
+        const category = dish.category.name
+        const item = PrismaDishWithAttachmentsMapper.toDomain(dish)
+        const categoryIndex = acc.findIndex((c) => c.category === category)
+        if (categoryIndex === -1) {
+          acc.push({ category, items: [item] })
+        } else {
+          acc[categoryIndex].items.push(item)
+        }
+        return acc
+      },
+      [] as { category: string; items: DishWithAttachments[] }[],
+    )
   }
 
   async findManyRecent({ page }: PaginationParams): Promise<Dish[]> {
