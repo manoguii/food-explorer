@@ -5,9 +5,11 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
+import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 import { FavoriteDishFactory } from 'test/factories/make-favorite-dish'
 
 describe('Fetch favorite dishes (E2E)', () => {
@@ -18,6 +20,8 @@ describe('Fetch favorite dishes (E2E)', () => {
   let clientFactory: ClientFactory
   let dishFactory: DishFactory
   let categoryFactory: CategoryFactory
+  let attachmentFactory: AttachmentFactory
+  let dishAttachmentFactory: DishAttachmentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -28,6 +32,8 @@ describe('Fetch favorite dishes (E2E)', () => {
         DishFactory,
         CategoryFactory,
         FavoriteDishFactory,
+        AttachmentFactory,
+        DishAttachmentFactory,
       ],
     }).compile()
 
@@ -39,6 +45,8 @@ describe('Fetch favorite dishes (E2E)', () => {
     dishFactory = moduleRef.get(DishFactory)
     categoryFactory = moduleRef.get(CategoryFactory)
     favoriteDishFactory = moduleRef.get(FavoriteDishFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    dishAttachmentFactory = moduleRef.get(DishAttachmentFactory)
 
     await app.init()
   })
@@ -47,6 +55,11 @@ describe('Fetch favorite dishes (E2E)', () => {
     const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
+
+    const [attachment1, attachment2] = await Promise.all([
+      attachmentFactory.makePrismaAttachment(),
+      attachmentFactory.makePrismaAttachment(),
+    ])
 
     const category = await categoryFactory.makePrismaCategory()
 
@@ -65,15 +78,27 @@ describe('Fetch favorite dishes (E2E)', () => {
       }),
     ])
 
-    await favoriteDishFactory.makePrismaFavoriteDish({
-      clientId: user.id,
-      dishId: dish01.id,
-    })
+    await Promise.all([
+      dishAttachmentFactory.makePrismaDishAttachment({
+        dishId: dish01.id,
+        attachmentId: attachment1.id,
+      }),
+      dishAttachmentFactory.makePrismaDishAttachment({
+        dishId: dish02.id,
+        attachmentId: attachment2.id,
+      }),
+    ])
 
-    await favoriteDishFactory.makePrismaFavoriteDish({
-      clientId: user.id,
-      dishId: dish02.id,
-    })
+    await Promise.all([
+      favoriteDishFactory.makePrismaFavoriteDish({
+        clientId: user.id,
+        dishId: dish01.id,
+      }),
+      favoriteDishFactory.makePrismaFavoriteDish({
+        clientId: user.id,
+        dishId: dish02.id,
+      }),
+    ])
 
     const response = await request(app.getHttpServer())
       .get('/dish/favorites')
@@ -97,6 +122,37 @@ describe('Fetch favorite dishes (E2E)', () => {
         }),
         expect.objectContaining({
           dishId: dish02.id.toString(),
+        }),
+      ]),
+    )
+
+    expect(response.body.dishes).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: dish01.id.toString(),
+          name: dish01.name,
+          description: dish01.description,
+          price: dish01.price,
+          slug: dish01.slug.value,
+          attachments: expect.arrayContaining([
+            expect.objectContaining({
+              title: attachment1.title,
+              url: attachment1.url,
+            }),
+          ]),
+        }),
+        expect.objectContaining({
+          id: dish02.id.toString(),
+          name: dish02.name,
+          description: dish02.description,
+          price: dish02.price,
+          slug: dish02.slug.value,
+          attachments: expect.arrayContaining([
+            expect.objectContaining({
+              title: attachment2.title,
+              url: attachment2.url,
+            }),
+          ]),
         }),
       ]),
     )

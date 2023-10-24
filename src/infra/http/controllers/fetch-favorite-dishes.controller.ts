@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-favorite-dishes'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { DishWithAttachmentsPresenter } from '../presenters/dish-with-attachments-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -36,6 +37,6 @@ export class FetchFavoriteDishesController {
 
     const dishes = result.value.favoriteDishes
 
-    return { dishes }
+    return { dishes: dishes.map(DishWithAttachmentsPresenter.toHTTP) }
   }
 }

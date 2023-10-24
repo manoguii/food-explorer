@@ -1,7 +1,7 @@
 import { Either, right } from '@/core/either'
 import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
-import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
 import { Injectable } from '@nestjs/common'
+import { DishWithAttachments } from '../../enterprise/entities/value-objects/dish-with-attachments'
 
 interface FetchFavoriteDishesUseCaseRequest {
   clientId: string
@@ -11,7 +11,7 @@ interface FetchFavoriteDishesUseCaseRequest {
 type FetchFavoriteDishesUseCaseResponse = Either<
   null,
   {
-    favoriteDishes: FavoriteDish[]
+    favoriteDishes: DishWithAttachments[]
   }
 >
 
