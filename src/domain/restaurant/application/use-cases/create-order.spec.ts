@@ -9,6 +9,7 @@ import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-d
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeDish } from 'test/factories/make-dish'
+import { makeClient } from 'test/factories/make-client'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
@@ -42,6 +43,7 @@ describe('Create Order', () => {
   })
 
   it('should be able to create a order', async () => {
+    const client = makeClient()
     const dish = makeDish({}, new UniqueEntityID('10'))
     const dish2 = makeDish({}, new UniqueEntityID('20'))
 
@@ -49,6 +51,7 @@ describe('Create Order', () => {
     await inMemoryDishRepository.create(dish2)
 
     const result = await sut.execute({
+      clientId: client.id.toString(),
       dishes: [
         { dishId: dish.id.toString(), quantity: 1 },
         { dishId: dish2.id.toString(), quantity: 2 },
@@ -64,7 +67,9 @@ describe('Create Order', () => {
   })
 
   it('should not be able to create a order with no items', async () => {
+    const client = makeClient()
     const result = await sut.execute({
+      clientId: client.id.toString(),
       dishes: [],
     })
 
@@ -73,7 +78,9 @@ describe('Create Order', () => {
   })
 
   it('should not be able to create a order with invalid dish', async () => {
+    const client = makeClient()
     const result = await sut.execute({
+      clientId: client.id.toString(),
       dishes: [{ dishId: '10', quantity: 1 }],
     })
 

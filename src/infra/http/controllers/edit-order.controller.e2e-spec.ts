@@ -63,7 +63,9 @@ describe('Edit order (E2E)', () => {
       categoryId: category.id,
     })
 
-    const order = await orderFactory.makePrismaOrder()
+    const order = await orderFactory.makePrismaOrder({
+      clientId: user.id,
+    })
 
     await orderItemFactory.makePrismaOrderItem({
       orderId: order.id,
@@ -94,6 +96,7 @@ describe('Edit order (E2E)', () => {
     const ordersOnDatabase = await prisma.order.findMany()
 
     expect(ordersOnDatabase).toHaveLength(1)
+    expect(ordersOnDatabase[0].orderDetails).toEqual('2 x Batata frita')
 
     const orderItemsOnDatabase = await prisma.orderItem.findMany({
       where: {

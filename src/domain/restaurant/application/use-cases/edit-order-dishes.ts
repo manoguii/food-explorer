@@ -7,6 +7,8 @@ import { OrderItem } from '../../enterprise/entities/order-item'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { OrderItemsRepository } from '../repositories/order-item-repository'
 import { Injectable } from '@nestjs/common'
+import { InvalidOrderError } from './errors/invalid-order-error'
+import { DishRepository } from '../repositories/dish-repository'
 
 interface Dish {
   dishId: string
@@ -19,7 +21,7 @@ interface EditOrderUseCaseRequest {
 }
 
 type EditOrderUseCaseResponse = Either<
-  ResourceNotFoundError,
+  ResourceNotFoundError | InvalidOrderError,
   {
     order: Order
   }
@@ -30,6 +32,7 @@ export class EditOrderUseCase {
   constructor(
     private orderRepository: OrderRepository,
     private orderItemsRepository: OrderItemsRepository,
+    private dishRepository: DishRepository,
   ) {}
 
   async execute({
@@ -40,6 +43,18 @@ export class EditOrderUseCase {
 
     if (!order) {
       return left(new ResourceNotFoundError())
+    }
+
+    const orderDetails: string[] = []
+
+    for (const { dishId, quantity } of dishes) {
+      const dishEntity = await this.dishRepository.findById(dishId)
+
+      if (!dishEntity) {
+        return left(new InvalidOrderError())
+      }
+
+      orderDetails.push(`${quantity} x ${dishEntity.name}`)
     }
 
     const currentOrderItems =
@@ -58,6 +73,7 @@ export class EditOrderUseCase {
     orderItemsList.update(orderItems)
 
     order.items = orderItemsList
+    order.orderDetails = orderDetails.join(', ')
     order.updateStatusBasedOnItems()
 
     await this.orderRepository.save(order)

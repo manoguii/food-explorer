@@ -12,7 +12,7 @@ export class Code {
   }
 
   static generateUniqueCode(): Code {
-    const value = randomUUID()
+    const value = randomUUID().slice(0, 8).toUpperCase()
     return new Code(value)
   }
 }

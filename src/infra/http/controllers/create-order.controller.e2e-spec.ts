@@ -45,22 +45,31 @@ describe('Create order (E2E)', () => {
       categoryId: category.id,
     })
 
+    const items = [
+      {
+        dishId: dish.id.toString(),
+        quantity: 2,
+      },
+    ]
+
     const response = await request(app.getHttpServer())
       .post('/orders')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        items: [
-          {
-            dishId: dish.id.toString(),
-            quantity: 2,
-          },
-        ],
+        items,
       })
 
     expect(response.statusCode).toBe(201)
 
+    const orderDetails = items
+      .map((item) => {
+        return `${item.quantity} x ${dish.name}`
+      })
+      .join(', ')
+
     const ordersOnDatabase = await prisma.order.findMany()
 
+    expect(ordersOnDatabase[0].orderDetails).toBe(orderDetails)
     expect(ordersOnDatabase).toHaveLength(1)
 
     const orderItemsOnDatabase = await prisma.orderItem.findMany({

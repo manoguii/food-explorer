@@ -78,12 +78,13 @@ enum OrderStatus {
 }
 
 model Order {
-  id        String      @id @default(uuid())
-  code      String
-  status    OrderStatus @default(PENDING)
-  createdAt DateTime    @default(now()) @map("created_at")
-  updatedAt DateTime?   @updatedAt @map("updated_at")
-  userId    String      @map("user_id")
+  id           String      @id @default(uuid())
+  code         String
+  status       OrderStatus @default(PENDING)
+  orderDetails String
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime?   @updatedAt @map("updated_at")
+  userId       String      @map("user_id")
 
   user User @relation(fields: [userId], references: [id])
 

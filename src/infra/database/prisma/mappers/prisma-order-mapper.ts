@@ -10,6 +10,7 @@ export class PrismaOrderMapper {
         clientId: new UniqueEntityID(raw.userId),
         code: Code.create(raw.code),
         status: raw.status,
+        orderDetails: raw.orderDetails,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
       },
@@ -21,6 +22,7 @@ export class PrismaOrderMapper {
     return {
       id: order.id.toString(),
       userId: order.clientId.toString(),
+      orderDetails: order.orderDetails,
       code: order.code.value,
       status: order.status,
       createdAt: order.createdAt,

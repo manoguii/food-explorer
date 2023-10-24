@@ -1,3 +1,5 @@
+import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/create-order'
+import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
@@ -7,14 +9,13 @@ import request from 'supertest'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
-import { OrderFactory } from 'test/factories/make-order'
 import { OrderItemFactory } from 'test/factories/make-order-item'
 
 describe('Fetch recent orders (E2E)', () => {
   let app: INestApplication
   let jwt: JwtService
   let clientFactory: ClientFactory
-  let orderFactory: OrderFactory
+  let createOrderUseCase: CreateOrderUseCase
   let categoryFactory: CategoryFactory
   let dishFactory: DishFactory
   let orderItemFactory: OrderItemFactory
@@ -24,7 +25,7 @@ describe('Fetch recent orders (E2E)', () => {
       imports: [AppModule, DatabaseModule],
       providers: [
         ClientFactory,
-        OrderFactory,
+        CreateOrderUseCase,
         CategoryFactory,
         DishFactory,
         OrderItemFactory,
@@ -35,10 +36,10 @@ describe('Fetch recent orders (E2E)', () => {
 
     jwt = moduleRef.get(JwtService)
     clientFactory = moduleRef.get(ClientFactory)
-    orderFactory = moduleRef.get(OrderFactory)
     categoryFactory = moduleRef.get(CategoryFactory)
     dishFactory = moduleRef.get(DishFactory)
     orderItemFactory = moduleRef.get(OrderItemFactory)
+    createOrderUseCase = moduleRef.get(CreateOrderUseCase)
 
     await app.init()
   })
@@ -67,21 +68,39 @@ describe('Fetch recent orders (E2E)', () => {
     ])
 
     const [order] = await Promise.all([
-      orderFactory.makePrismaOrder({
-        clientId: user.id,
+      createOrderUseCase.execute({
+        clientId: user.id.toString(),
+        dishes: [
+          {
+            dishId: dish.id.toString(),
+            quantity: 2,
+          },
+          {
+            dishId: dish2.id.toString(),
+            quantity: 1,
+          },
+        ],
       }),
-      orderFactory.makePrismaOrder({
-        clientId: userTest.id,
+      createOrderUseCase.execute({
+        clientId: userTest.id.toString(),
+        dishes: [
+          {
+            dishId: dish.id.toString(),
+            quantity: 2,
+          },
+        ],
       }),
     ])
 
+    const result = order.value as { order: Order }
+
     await Promise.all([
       orderItemFactory.makePrismaOrderItem({
-        orderId: order.id,
+        orderId: result.order.id,
         dishId: dish.id,
       }),
       orderItemFactory.makePrismaOrderItem({
-        orderId: order.id,
+        orderId: result.order.id,
         dishId: dish2.id,
       }),
     ])
@@ -96,7 +115,10 @@ describe('Fetch recent orders (E2E)', () => {
     expect(response.body.orders).toHaveLength(1)
     expect(response.body).toEqual({
       orders: expect.arrayContaining([
-        expect.objectContaining({ clientId: user.id.toString() }),
+        expect.objectContaining({
+          code: expect.any(String),
+          details: '2 x Batata frita, 1 x Macarrão',
+        }),
       ]),
     })
   })

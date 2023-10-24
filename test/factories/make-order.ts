@@ -5,6 +5,7 @@ import {
 } from '@/domain/restaurant/enterprise/entities/order'
 import { PrismaOrderMapper } from '@/infra/database/prisma/mappers/prisma-order-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { faker } from '@faker-js/faker'
 import { Injectable } from '@nestjs/common'
 
 export function makeOrder(
@@ -14,6 +15,7 @@ export function makeOrder(
   const order = Order.create(
     {
       clientId: new UniqueEntityID(),
+      orderDetails: faker.commerce.productAdjective(),
       ...override,
     },
     id,

@@ -11,6 +11,7 @@ export interface OrderProps {
   items: OrderItemList
   code: Code
   status: OrderStatus
+  orderDetails: string
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -31,6 +32,14 @@ export class Order extends AggregateRoot<OrderProps> {
   set items(items: OrderItemList) {
     this.props.items = items
     this.touch()
+  }
+
+  get orderDetails() {
+    return this.props.orderDetails
+  }
+
+  set orderDetails(orderDetails: string) {
+    this.props.orderDetails = orderDetails
   }
 
   get createdAt() {

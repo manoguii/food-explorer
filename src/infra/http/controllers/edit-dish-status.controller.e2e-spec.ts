@@ -63,7 +63,9 @@ describe('Edit dish status (E2E)', () => {
       categoryId: category.id,
     })
 
-    const order = await orderFactory.makePrismaOrder()
+    const order = await orderFactory.makePrismaOrder({
+      clientId: user.id,
+    })
 
     await orderItemFactory.makePrismaOrderItem({
       orderId: order.id,

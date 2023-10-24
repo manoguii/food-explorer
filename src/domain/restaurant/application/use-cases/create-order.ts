@@ -14,6 +14,7 @@ type Dish = {
 }
 
 interface CreateOrderUseCaseRequest {
+  clientId: string
   dishes: Dish[]
 }
 
@@ -33,20 +34,28 @@ export class CreateOrderUseCase {
 
   async execute({
     dishes,
+    clientId,
   }: CreateOrderUseCaseRequest): Promise<CreateOrderUseCaseResponse> {
     if (dishes.length <= 0) {
       return left(new InvalidOrderError())
     }
 
-    for (const { dishId } of dishes) {
-      const dish = await this.dishRepository.findById(dishId)
+    const orderDetails: string[] = []
 
-      if (!dish) {
+    for (const { dishId, quantity } of dishes) {
+      const dishEntity = await this.dishRepository.findById(dishId)
+
+      if (!dishEntity) {
         return left(new InvalidOrderError())
       }
+
+      orderDetails.push(`${quantity} x ${dishEntity.name}`)
     }
 
-    const order = Order.create({})
+    const order = Order.create({
+      clientId: new UniqueEntityID(clientId),
+      orderDetails: orderDetails.join(', '),
+    })
 
     const orderItems = dishes.map(({ dishId, quantity }) => {
       return OrderItem.create({
