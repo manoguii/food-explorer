@@ -12,6 +12,7 @@ import { ChooseDishAsFavoriteUseCase } from '@/domain/restaurant/application/use
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
+import { ApiTags } from '@nestjs/swagger'
 
 const pageQueryParamSchema = z
   .string()
@@ -24,6 +25,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
+@ApiTags('Dish')
 @Controller('/dishes/:dishId/favorite')
 export class ChooseDishAsFavoriteController {
   constructor(private chooseDishAsFavorite: ChooseDishAsFavoriteUseCase) {}

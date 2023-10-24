@@ -7,7 +7,9 @@ import {
 } from '@nestjs/common'
 import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/delete-dish'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags('Dish')
 @Controller('/dishes/:dishId')
 export class DeleteDishController {
   constructor(private deleteDish: DeleteDishUseCase) {}

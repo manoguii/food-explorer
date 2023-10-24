@@ -3,6 +3,7 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { FetchRecentDishUseCase } from '@/domain/restaurant/application/use-cases/fetch-recent-dish'
 import { DishPresenter } from '../presenters/dish-presenter'
+import { ApiTags } from '@nestjs/swagger'
 
 const pageQueryParamSchema = z
   .string()
@@ -15,6 +16,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
+@ApiTags('Dish')
 @Controller('/dishes')
 export class FetchRecentDishController {
   constructor(private fetchRecentDish: FetchRecentDishUseCase) {}

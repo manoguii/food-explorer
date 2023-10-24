@@ -5,6 +5,7 @@ import { FetchRecentOrderUseCase } from '@/domain/restaurant/application/use-cas
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { OrderPresenter } from '../presenters/order-presenter'
+import { ApiTags } from '@nestjs/swagger'
 
 const pageQueryParamSchema = z
   .string()
@@ -17,6 +18,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
+@ApiTags('Orders')
 @Controller('/orders')
 export class FetchRecentOrderController {
   constructor(private fetchRecentOrder: FetchRecentOrderUseCase) {}

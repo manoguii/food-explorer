@@ -10,6 +10,7 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases/edit-dish-status'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { ApiTags } from '@nestjs/swagger'
 
 const editDishStatusBodySchema = z.object({
   status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
@@ -20,6 +21,7 @@ const bodyValidationPipe = new ZodValidationPipe(editDishStatusBodySchema)
 
 type EditDishStatusBodySchema = z.infer<typeof editDishStatusBodySchema>
 
+@ApiTags('Orders')
 @Controller('/orders/:orderId/status')
 export class EditDishStatusController {
   constructor(private editDishStatus: EditDishStatusUseCase) {}

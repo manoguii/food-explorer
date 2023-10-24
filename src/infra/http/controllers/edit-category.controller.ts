@@ -10,6 +10,7 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { EditCategoryUseCase } from '@/domain/restaurant/application/use-cases/edit-category'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { ApiTags } from '@nestjs/swagger'
 
 const editCategoryBodySchema = z.object({
   name: z.string(),
@@ -19,6 +20,7 @@ const bodyValidationPipe = new ZodValidationPipe(editCategoryBodySchema)
 
 type EditCategoryBodySchema = z.infer<typeof editCategoryBodySchema>
 
+@ApiTags('Categories')
 @Controller('/categories/:categoryId')
 export class EditCategoryController {
   constructor(private editCategory: EditCategoryUseCase) {}

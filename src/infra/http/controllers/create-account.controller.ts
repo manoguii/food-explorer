@@ -12,6 +12,7 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { CreateAccountUseCase } from '@/domain/restaurant/application/use-cases/register-client'
 import { ClientAlreadyExistsError } from '@/domain/restaurant/application/use-cases/errors/client-already-exists-error'
 import { Public } from '@/infra/auth/public'
+import { ApiTags } from '@nestjs/swagger'
 
 const createAccountBodySchema = z.object({
   name: z.string(),
@@ -21,6 +22,7 @@ const createAccountBodySchema = z.object({
 
 type CreateAccountBodySchema = z.infer<typeof createAccountBodySchema>
 
+@ApiTags('Sessions')
 @Controller('/accounts')
 @Public()
 export class CreateAccountController {

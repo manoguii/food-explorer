@@ -5,6 +5,7 @@ import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { DishWithAttachmentsPresenter } from '../presenters/dish-with-attachments-presenter'
+import { ApiTags } from '@nestjs/swagger'
 
 const pageQueryParamSchema = z
   .string()
@@ -17,6 +18,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 
+@ApiTags('Dish')
 @Controller('/dish/favorites')
 export class FetchFavoriteDishesController {
   constructor(private fetchFavoriteDishes: FetchFavoriteDishesUseCase) {}

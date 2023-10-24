@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { CreateDishUseCase } from '@/domain/restaurant/application/use-cases/create-dish'
+import { ApiTags } from '@nestjs/swagger'
 
 const createDishBodySchema = z.object({
   name: z.string(),
@@ -16,6 +17,7 @@ const bodyValidationPipe = new ZodValidationPipe(createDishBodySchema)
 
 type CreateDishBodySchema = z.infer<typeof createDishBodySchema>
 
+@ApiTags('Dish')
 @Controller('/dishes')
 export class CreateDishController {
   constructor(private createDish: CreateDishUseCase) {}

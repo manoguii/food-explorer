@@ -11,7 +11,9 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
+import { ApiTags } from '@nestjs/swagger'
 
+@ApiTags('Attachments')
 @Controller('/attachments')
 export class UploadAttachmentController {
   constructor(

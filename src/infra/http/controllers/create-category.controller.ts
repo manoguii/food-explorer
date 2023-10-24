@@ -9,6 +9,7 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases/create-category'
 import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
+import { ApiTags } from '@nestjs/swagger'
 
 const createCategoryBodySchema = z.object({
   name: z.string(),
@@ -18,6 +19,7 @@ const bodyValidationPipe = new ZodValidationPipe(createCategoryBodySchema)
 
 type CreateCategoryBodySchema = z.infer<typeof createCategoryBodySchema>
 
+@ApiTags('Categories')
 @Controller('/categories')
 export class CreateCategoryController {
   constructor(private createCategory: CreateCategoryUseCase) {}

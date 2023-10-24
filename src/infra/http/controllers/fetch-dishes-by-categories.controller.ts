@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { FetchDishesByCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-categories'
 import { InvalidCategoryError } from '@/domain/restaurant/application/use-cases/errors/invalid-category-error'
 import { DishWithAttachmentsPresenter } from '../presenters/dish-with-attachments-presenter'
+import { ApiTags } from '@nestjs/swagger'
 
 const pageQueryParamSchema = z
   .string()
@@ -32,6 +33,7 @@ const queryPageValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
 type CategoriesQueryParamSchema = z.infer<typeof categoriesQueryParamSchema>
 
+@ApiTags('Dish')
 @Controller('/dish/categories')
 export class FetchDishesByCategoriesController {
   constructor(

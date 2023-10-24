@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/create-order'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { ApiTags } from '@nestjs/swagger'
 
 const createOrderBodySchema = z.object({
   items: z.array(
@@ -18,6 +19,7 @@ const bodyValidationPipe = new ZodValidationPipe(createOrderBodySchema)
 
 type CreateOrderBodySchema = z.infer<typeof createOrderBodySchema>
 
+@ApiTags('Orders')
 @Controller('/orders')
 export class CreateOrderController {
   constructor(private createOrder: CreateOrderUseCase) {}
