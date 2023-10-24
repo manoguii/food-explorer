@@ -13,6 +13,7 @@ export function makeOrder(
 ) {
   const order = Order.create(
     {
+      clientId: new UniqueEntityID(),
       ...override,
     },
     id,

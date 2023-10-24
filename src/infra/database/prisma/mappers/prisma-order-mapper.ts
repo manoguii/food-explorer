@@ -7,6 +7,7 @@ export class PrismaOrderMapper {
   static toDomain(raw: PrismaOrder): Order {
     return Order.create(
       {
+        clientId: new UniqueEntityID(raw.userId),
         code: Code.create(raw.code),
         status: raw.status,
         createdAt: raw.createdAt,
@@ -19,6 +20,7 @@ export class PrismaOrderMapper {
   static toPrisma(order: Order): Prisma.OrderUncheckedCreateInput {
     return {
       id: order.id.toString(),
+      userId: order.clientId.toString(),
       code: order.code.value,
       status: order.status,
       createdAt: order.createdAt,

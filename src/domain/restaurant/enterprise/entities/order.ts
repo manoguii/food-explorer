@@ -7,6 +7,7 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 export type OrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
 
 export interface OrderProps {
+  clientId: UniqueEntityID
   items: OrderItemList
   code: Code
   status: OrderStatus
@@ -15,6 +16,10 @@ export interface OrderProps {
 }
 
 export class Order extends AggregateRoot<OrderProps> {
+  get clientId() {
+    return this.props.clientId
+  }
+
   get code() {
     return this.props.code
   }

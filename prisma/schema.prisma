@@ -21,6 +21,7 @@ model User {
 
   notifications  Notification[]
   favoriteDishes FavoriteDishes[]
+  orders         Order[]
 
   @@map("users")
 }
@@ -82,6 +83,9 @@ model Order {
   status    OrderStatus @default(PENDING)
   createdAt DateTime    @default(now()) @map("created_at")
   updatedAt DateTime?   @updatedAt @map("updated_at")
+  userId    String      @map("user_id")
+
+  user User @relation(fields: [userId], references: [id])
 
   orderItems OrderItem[]
 
