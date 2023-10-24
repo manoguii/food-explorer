@@ -34,6 +34,8 @@ import { EditOrderController } from './controllers/edit-order.controller'
 import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order-dishes'
 import { EditDishStatusController } from './controllers/edit-dish-status.controller'
 import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases/edit-dish-status'
+import { FetchDishesByCategoriesController } from './controllers/fetch-dishes-by-categories.controller'
+import { FetchDishesByCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-categories'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -54,6 +56,7 @@ import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases
     CreateOrderController,
     EditOrderController,
     EditDishStatusController,
+    FetchDishesByCategoriesController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -72,6 +75,7 @@ import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases
     CreateOrderUseCase,
     EditOrderUseCase,
     EditDishStatusUseCase,
+    FetchDishesByCategoriesUseCase,
   ],
 })
 export class HttpModule {}

@@ -3,11 +3,15 @@ import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { PrismaDishMapper } from '../mappers/prisma-dish-mapper'
-import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
+import {
+  DishRepository,
+  FindManyByCategoriesResponse,
+} from '@/domain/restaurant/application/repositories/dish-repository'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
+import { Category } from '@/domain/restaurant/enterprise/entities/category'
 
 @Injectable()
 export class PrismaDishRepository implements DishRepository {
@@ -62,6 +66,37 @@ export class PrismaDishRepository implements DishRepository {
     }
 
     return PrismaDishWithDetailsMapper.toDomain(dish)
+  }
+
+  async findManyByCategories(
+    categories: Category[],
+    params: PaginationParams,
+  ): Promise<FindManyByCategoriesResponse[]> {
+    const dishes = await this.prisma.dish.findMany({
+      where: {
+        categoryId: {
+          in: categories.map((category) => category.id.toString()),
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (params.page - 1) * 20,
+    })
+
+    const dishesByCategory = categories.map((category) => {
+      const dishesByCategory = dishes.filter(
+        (dish) => dish.categoryId === category.id.toString(),
+      )
+
+      return {
+        category: category.name,
+        items: dishesByCategory.map(PrismaDishMapper.toDomain),
+      }
+    })
+
+    return dishesByCategory
   }
 
   async findManyRecent({ page }: PaginationParams): Promise<Dish[]> {

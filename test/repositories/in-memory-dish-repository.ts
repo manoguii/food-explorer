@@ -1,11 +1,15 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
+import {
+  DishRepository,
+  FindManyByCategoriesResponse,
+} from '@/domain/restaurant/application/repositories/dish-repository'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
 import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
 import { InMemoryCategoryRepository } from './in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
+import { Category } from '@/domain/restaurant/enterprise/entities/category'
 
 export class InMemoryDishRepository implements DishRepository {
   public items: Dish[] = []
@@ -95,6 +99,37 @@ export class InMemoryDishRepository implements DishRepository {
       .slice((page - 1) * itemsPerPage, page * itemsPerPage)
 
     return dish
+  }
+
+  async findManyByCategories(
+    categories: Category[],
+    params: PaginationParams,
+  ): Promise<FindManyByCategoriesResponse[]> {
+    const itemsPerPage = 20
+
+    const dishes = this.items
+      .filter((item) => {
+        return categories.some((category) => {
+          return category.id.equals(item.categoryId)
+        })
+      })
+      .sort((a, b) => {
+        return b.createdAt.getTime() - a.createdAt.getTime()
+      })
+      .slice((params.page - 1) * itemsPerPage, params.page * itemsPerPage)
+
+    const dishesByCategory = categories.map((category) => {
+      const items = dishes.filter((dish) => {
+        return dish.categoryId.equals(category.id)
+      })
+
+      return {
+        category: category.name,
+        items,
+      }
+    })
+
+    return dishesByCategory
   }
 
   async create(dish: Dish) {

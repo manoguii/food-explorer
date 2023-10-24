@@ -25,6 +25,12 @@ export class InMemoryCategoryRepository implements CategoryRepository {
     return category
   }
 
+  async findManyByName(categories: string[]): Promise<Category[]> {
+    const category = this.items.filter((item) => categories.includes(item.name))
+
+    return category
+  }
+
   async findMany({ page }: PaginationParams) {
     const category = this.items
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
