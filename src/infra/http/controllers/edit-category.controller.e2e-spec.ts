@@ -31,7 +31,7 @@ describe('Edit category (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /categories/:categoryId', async () => {
+  test('[PATCH] /categories/:categoryId', async () => {
     const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })

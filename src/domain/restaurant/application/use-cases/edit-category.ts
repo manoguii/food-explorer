@@ -1,5 +1,4 @@
 import { Either, left, right } from '@/core/either'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
 import { CategoryRepository } from '../repositories/category-repository'
@@ -11,7 +10,7 @@ interface EditCategoryUseCaseRequest {
 }
 
 type EditCategoryUseCaseResponse = Either<
-  ResourceNotFoundError | NotAllowedError,
+  ResourceNotFoundError,
   {
     category: Category
   }

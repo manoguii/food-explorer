@@ -46,7 +46,7 @@ describe('Edit order (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /orders/:orderId', async () => {
+  test('[PUT] /orders/:orderId', async () => {
     const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
@@ -78,7 +78,7 @@ describe('Edit order (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .patch(`/orders/${order.id.toString()}`)
+      .put(`/orders/${order.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         items: [

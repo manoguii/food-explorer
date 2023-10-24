@@ -54,7 +54,7 @@ describe('Edit dish (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /dishes/:id', async () => {
+  test('[PUT] /dishes/:id', async () => {
     const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
@@ -105,7 +105,7 @@ describe('Edit dish (E2E)', () => {
     const newAttachment = await attachmentFactory.makePrismaAttachment()
 
     const response = await request(app.getHttpServer())
-      .patch(`/dishes/${dish.id.toString()}`)
+      .put(`/dishes/${dish.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'Novo prato',

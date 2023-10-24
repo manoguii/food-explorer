@@ -2,14 +2,14 @@ import {
   BadRequestException,
   Body,
   Controller,
+  NotFoundException,
   Param,
   Patch,
 } from '@nestjs/common'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases/edit-dish-status'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 const editDishStatusBodySchema = z.object({
   status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
@@ -27,12 +27,9 @@ export class EditDishStatusController {
   @Patch()
   async handle(
     @Body(bodyValidationPipe) body: EditDishStatusBodySchema,
-    @CurrentUser() user: UserPayload,
     @Param('orderId') orderId: string,
   ) {
     const { dishId, status } = body
-
-    const userId = user.sub
 
     const result = await this.editDishStatus.execute({
       orderId,
@@ -41,7 +38,14 @@ export class EditDishStatusController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

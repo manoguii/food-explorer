@@ -1,25 +1,32 @@
-import { BadRequestException, Controller, Delete, Param } from '@nestjs/common'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
+import {
+  BadRequestException,
+  Controller,
+  Delete,
+  NotFoundException,
+  Param,
+} from '@nestjs/common'
 import { DeleteCategoryUseCase } from '@/domain/restaurant/application/use-cases/delete-category'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 @Controller('/categories/:categoryId')
 export class DeleteCategoryController {
   constructor(private deleteCategory: DeleteCategoryUseCase) {}
 
   @Delete()
-  async handle(
-    @CurrentUser() user: UserPayload,
-    @Param('categoryId') categoryId: string,
-  ) {
-    const userId = user.sub
-
+  async handle(@Param('categoryId') categoryId: string) {
     const result = await this.deleteCategory.execute({
       categoryId,
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

@@ -2,14 +2,14 @@ import {
   BadRequestException,
   Body,
   Controller,
+  NotFoundException,
   Param,
   Patch,
 } from '@nestjs/common'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { EditCategoryUseCase } from '@/domain/restaurant/application/use-cases/edit-category'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 const editCategoryBodySchema = z.object({
   name: z.string(),
@@ -26,12 +26,9 @@ export class EditCategoryController {
   @Patch()
   async handle(
     @Body(bodyValidationPipe) body: EditCategoryBodySchema,
-    @CurrentUser() user: UserPayload,
     @Param('categoryId') categoryId: string,
   ) {
     const { name } = body
-
-    const userId = user.sub
 
     const result = await this.editCategory.execute({
       name,
@@ -39,7 +36,14 @@ export class EditCategoryController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

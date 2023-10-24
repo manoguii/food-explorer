@@ -2,14 +2,14 @@ import {
   BadRequestException,
   Body,
   Controller,
+  NotFoundException,
   Param,
-  Patch,
+  Put,
 } from '@nestjs/common'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { EditDishUseCase } from '@/domain/restaurant/application/use-cases/edit-dish'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 const editDishBodySchema = z.object({
   name: z.string(),
@@ -27,15 +27,12 @@ type EditDishBodySchema = z.infer<typeof editDishBodySchema>
 export class EditDishController {
   constructor(private editDish: EditDishUseCase) {}
 
-  @Patch()
+  @Put()
   async handle(
     @Body(bodyValidationPipe) body: EditDishBodySchema,
-    @CurrentUser() user: UserPayload,
     @Param('id') dishId: string,
   ) {
     const { description, name, price, ingredients, attachmentsIds } = body
-
-    const userId = user.sub
 
     const result = await this.editDish.execute({
       name,
@@ -47,7 +44,14 @@ export class EditDishController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case ResourceNotFoundError:
+          throw new NotFoundException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

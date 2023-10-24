@@ -34,7 +34,7 @@ describe('Choose dish as favorite (E2E)', () => {
     await app.init()
   })
 
-  test('[PATCH] /dishes/:dishId', async () => {
+  test('[PATCH] /dishes/:dishId/favorite', async () => {
     const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })

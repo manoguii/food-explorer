@@ -4,12 +4,14 @@ import {
   Param,
   Patch,
   Query,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { ChooseDishAsFavoriteUseCase } from '@/domain/restaurant/application/use-cases/choose-dish-as-favorite'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
 
 const pageQueryParamSchema = z
   .string()
@@ -39,7 +41,14 @@ export class ChooseDishAsFavoriteController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case ConflictExceptionError:
+          throw new UnauthorizedException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

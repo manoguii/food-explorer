@@ -1,5 +1,4 @@
 import { Either, left, right } from '@/core/either'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { OrderRepository } from '../repositories/order-repository'
@@ -20,7 +19,7 @@ interface EditOrderUseCaseRequest {
 }
 
 type EditOrderUseCaseResponse = Either<
-  ResourceNotFoundError | NotAllowedError,
+  ResourceNotFoundError,
   {
     order: Order
   }

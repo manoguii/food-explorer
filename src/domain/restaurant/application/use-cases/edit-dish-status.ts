@@ -1,5 +1,4 @@
 import { Either, left, right } from '@/core/either'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import {
   Order,
@@ -16,7 +15,7 @@ interface EditDishStatusUseCaseRequest {
 }
 
 type EditDishStatusUseCaseResponse = Either<
-  ResourceNotFoundError | NotAllowedError,
+  ResourceNotFoundError,
   {
     order: Order
   }

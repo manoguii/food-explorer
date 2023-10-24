@@ -1,9 +1,14 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases/create-category'
+import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
 
 const createCategoryBodySchema = z.object({
   name: z.string(),
@@ -18,19 +23,22 @@ export class CreateCategoryController {
   constructor(private createCategory: CreateCategoryUseCase) {}
 
   @Post()
-  async handle(
-    @Body(bodyValidationPipe) body: CreateCategoryBodySchema,
-    @CurrentUser() user: UserPayload,
-  ) {
+  async handle(@Body(bodyValidationPipe) body: CreateCategoryBodySchema) {
     const { name } = body
-    const userId = user.sub
 
     const result = await this.createCategory.execute({
       name,
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case ConflictExceptionError:
+          throw new UnauthorizedException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

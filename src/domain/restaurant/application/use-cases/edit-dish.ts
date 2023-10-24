@@ -1,5 +1,4 @@
 import { Either, left, right } from '@/core/either'
-import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { DishRepository } from '../repositories/dish-repository'
@@ -22,7 +21,7 @@ interface EditDishUseCaseRequest {
 }
 
 type EditDishUseCaseResponse = Either<
-  ResourceNotFoundError | NotAllowedError,
+  ResourceNotFoundError,
   {
     dish: Dish
   }
