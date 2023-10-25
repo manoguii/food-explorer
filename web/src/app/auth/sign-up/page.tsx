@@ -2,8 +2,9 @@ import { Metadata } from 'next'
 import { CreateAccountForm } from './components/create-account-form'
 
 export const metadata: Metadata = {
-  title: 'Autenticação',
-  description: 'Autenticação de usuário para o Food Explorer.',
+  title: 'Criar conta',
+  description:
+    'Crie sua conta para ter acesso a todos os recursos do Food Explorer.',
 }
 
 export default function SignUp() {
@@ -14,7 +15,7 @@ export default function SignUp() {
           <h1 className="text-2xl font-semibold tracking-tight">
             Crie sua conta
           </h1>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-muted-foreground">
             Crie sua conta para ter acesso a todos os recursos do Food Explorer.
           </p>
         </div>
