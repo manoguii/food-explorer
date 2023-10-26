@@ -12,6 +12,7 @@ import { WrongCredentialsError } from '@/domain/restaurant/application/use-cases
 import { Public } from '@/infra/auth/public'
 import { AuthenticateClientUseCase } from '@/domain/restaurant/application/use-cases/authenticate-client'
 import { ApiTags } from '@nestjs/swagger'
+import { ClientPresenter } from '../presenters/authenticate-client-presenter'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
@@ -50,7 +51,7 @@ export class AuthenticateController {
     const { accessToken } = result.value
 
     return {
-      access_token: accessToken,
+      user: ClientPresenter.toHTTP(result.value.user, accessToken),
     }
   }
 }

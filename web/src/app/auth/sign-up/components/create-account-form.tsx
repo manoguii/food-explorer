@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 const createAccountFormSchema = z.object({
   name: z
@@ -56,17 +57,41 @@ export function CreateAccountForm({
     defaultValues,
   })
 
-  function onSubmit(data: CreateAccountFormValues) {
-    console.log(data)
+  const router = useRouter()
+
+  async function onSubmit(userInfo: CreateAccountFormValues) {
     setIsLoading(true)
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+
+    const response = await fetch('http://localhost:3333/accounts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userInfo),
     })
+
+    if (!response.ok) {
+      const result = await response.json()
+
+      const errorMessage = result.message || 'Tente novamente mais tarde.'
+
+      toast({
+        title: 'Error ao criar conta.',
+        description: errorMessage,
+      })
+
+      setIsLoading(false)
+
+      return
+    }
+
+    router.replace('/auth/sign-in')
+
+    toast({
+      title: 'Conta criada com sucesso.',
+      description: 'Faça login para continuar.',
+    })
+
     setIsLoading(false)
   }
 

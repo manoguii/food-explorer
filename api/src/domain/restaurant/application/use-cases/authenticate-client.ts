@@ -4,6 +4,7 @@ import { ClientsRepository } from '../repositories/clients-repository'
 import { HashComparer } from '../cryptography/hash-comparer'
 import { Encrypter } from '../cryptography/encrypter'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
+import { Client } from '../../enterprise/entities/client'
 
 interface AuthenticateClientUseCaseRequest {
   email: string
@@ -13,6 +14,7 @@ interface AuthenticateClientUseCaseRequest {
 type AuthenticateClientUseCaseResponse = Either<
   WrongCredentialsError,
   {
+    user: Client
     accessToken: string
   }
 >
@@ -49,6 +51,7 @@ export class AuthenticateClientUseCase {
     })
 
     return right({
+      user: client,
       accessToken,
     })
   }

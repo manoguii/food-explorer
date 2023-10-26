@@ -22,7 +22,7 @@ describe('Authenticate (E2E)', () => {
   })
 
   test('[POST] /sessions', async () => {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name: 'John Doe',
         email: 'johndoe@example.com',
@@ -37,7 +37,12 @@ describe('Authenticate (E2E)', () => {
 
     expect(response.statusCode).toBe(201)
     expect(response.body).toEqual({
-      access_token: expect.any(String),
+      user: {
+        id: user.id.toString(),
+        name: user.name,
+        email: user.email,
+        access_token: expect.any(String),
+      },
     })
   })
 })
