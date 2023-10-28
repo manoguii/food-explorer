@@ -19,6 +19,33 @@ export const responsive = {
   },
 }
 
+export const categories = [
+  {
+    id: '1',
+    category: 'Sneakers',
+  },
+  {
+    id: '2',
+    category: 'Watches',
+  },
+  {
+    id: '3',
+    category: 'Bottles',
+  },
+  {
+    id: '4',
+    category: 'Perfumes',
+  },
+  {
+    id: '5',
+    category: 'Sunglasses',
+  },
+  {
+    id: '6',
+    category: 'Creams',
+  },
+]
+
 export const productData = [
   {
     id: 1,

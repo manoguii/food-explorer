@@ -2,7 +2,7 @@
 
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-import { productData, responsive } from './data'
+import { productData, responsive } from '@/tmp/data'
 import { Card } from './card'
 
 interface SectionDishesProps {
