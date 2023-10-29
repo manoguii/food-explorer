@@ -12,11 +12,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Loader2 } from 'lucide-react'
-// import { useMutation, useQueryClient } from '@tanstack/react-query'
-// import axios from 'axios'
 import { useToast } from '@/components/ui/use-toast'
 import { Badge } from '@/components/ui/badge'
 import { NewCategoryFormSchema, newCategoryFormSchema } from '../schema'
+import { useSession } from 'next-auth/react'
 
 interface CreateNewCategoryDialogProps {
   onRequestClose: () => void
@@ -25,8 +24,9 @@ interface CreateNewCategoryDialogProps {
 export function CreateNewCategoryDialog({
   onRequestClose,
 }: CreateNewCategoryDialogProps) {
+  const { data } = useSession()
+  const token = data?.user.access_token
   const { toast } = useToast()
-  // const queryClient = useQueryClient()
 
   const {
     register,
@@ -40,31 +40,28 @@ export function CreateNewCategoryDialog({
     },
   })
 
-  // const { mutateAsync: createCategory } = useMutation(
-  //   async (category: string) => {
-  //     await axios.post('/api/category', {
-  //       category,
-  //     })
-  //   },
-  //   {
-  //     onSuccess() {
-  //       queryClient.invalidateQueries(['category'])
-  //     },
-  //   },
-  // )
-
   async function handleCreateCategory({ category }: NewCategoryFormSchema) {
     try {
-      console.log(category)
-      // await createCategory(category)
+      const response = await fetch('http://localhost:3333/categories', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name: category }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Ocorreu um erro ao criar a categoria.')
+      }
 
       reset()
       onRequestClose()
     } catch (err) {
       toast({
-        title: 'Uh oh! Something went wrong.',
-        description: `An error ocurred while trying to create the category. Maybe you're trying to create a duplicated category.`,
-        variant: 'destructive',
+        title: 'Erro ao criar categoria',
+        description:
+          'Não foi possível criar a categoria, por favor tente novamente mais tarde.',
       })
     }
   }

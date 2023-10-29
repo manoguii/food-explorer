@@ -23,15 +23,40 @@ import { useFormContext } from 'react-hook-form'
 import { CreateDishFormValues } from '../schema'
 import { Dialog } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { categories } from '@/tmp/data'
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import { CheckIcon, PlusIcon } from 'lucide-react'
 import { CreateNewCategoryDialog } from '../dialog/create-category-dialog'
 import { cn } from '@/lib/utils'
+import { useSession } from 'next-auth/react'
+import { useQuery } from '@tanstack/react-query'
+
+async function getCategories(token: string) {
+  const response = await fetch('http://localhost:3333/categories', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  console.log('token', token)
+  const result = await response.json()
+
+  return result.categories as {
+    id: string
+    name: string
+  }[]
+}
 
 export function CategoryField() {
   const [createTagDialogOpen, setCreateTagDialogOpen] = React.useState(false)
   const form = useFormContext<CreateDishFormValues>()
+  const { data } = useSession()
+  const token = data?.user.access_token
+
+  const { isLoading, data: categories } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: async () => await getCategories(token),
+  })
 
   return (
     <Dialog open={createTagDialogOpen} onOpenChange={setCreateTagDialogOpen}>
@@ -53,9 +78,9 @@ export function CategoryField() {
                     )}
                   >
                     {field.value
-                      ? categories.find(
-                          (category) => category.category === field.value,
-                        )?.category
+                      ? categories?.find(
+                          (category) => category.name === field.value,
+                        )?.name
                       : 'Selecione a categoria'}
                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
@@ -79,24 +104,24 @@ export function CategoryField() {
                   </CommandGroup>
 
                   <CommandGroup>
-                    {categories.map((category) => (
+                    {categories?.map((category) => (
                       <CommandItem
-                        value={category.category}
+                        value={category.name}
                         key={category.id}
                         onSelect={() => {
-                          form.setValue('category', category.category)
+                          form.setValue('category', category.name)
                           form.trigger('category')
                         }}
                       >
                         <CheckIcon
                           className={cn(
                             'mr-2 h-4 w-4',
-                            category.category === field.value
+                            category.name === field.value
                               ? 'opacity-100'
                               : 'opacity-0',
                           )}
                         />
-                        {category.category}
+                        {category.name}
                       </CommandItem>
                     ))}
                   </CommandGroup>
