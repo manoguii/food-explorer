@@ -17,12 +17,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Loader2, Plus } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 import { Badge } from '@/components/ui/badge'
-import { useSession } from 'next-auth/react'
-import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schema'
+import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
 
 export function CreateCategory() {
-  const { data } = useSession()
-  const token = data?.user.access_token
   const { toast } = useToast()
 
   const {
@@ -43,7 +40,7 @@ export function CreateCategory() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name: category }),
       })

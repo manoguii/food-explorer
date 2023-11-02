@@ -7,23 +7,23 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../../../lib/schema'
+import { CreateDishFormValues } from '@/lib/schemas'
 import { Input } from '@/components/ui/input'
 
-export function AttachField() {
+export function NameField() {
   const form = useFormContext<CreateDishFormValues>()
 
   return (
     <FormField
       control={form.control}
-      name="file"
+      name="name"
       render={({ field }) => (
-        <FormItem className="flex basis-2/6 flex-col gap-1">
-          <FormLabel>Arquivo</FormLabel>
+        <FormItem className="flex basis-3/6 flex-col gap-1">
+          <FormLabel>Nome</FormLabel>
           <FormControl>
-            <Input type="file" {...field} />
+            <Input placeholder="Salada Ceasar" {...field} />
           </FormControl>
-          <FormDescription>Selecione um arquivo</FormDescription>
+          <FormDescription>Digite o nome do prato.</FormDescription>
 
           <FormMessage />
         </FormItem>

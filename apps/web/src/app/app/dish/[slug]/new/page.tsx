@@ -1,5 +1,5 @@
 import { CreateCategory } from '@/components/create-category'
-import { CreateDishForm } from '@/components/create-dish-form'
+import { CreateDishForm } from '@/components/forms/create-dish'
 
 export default function SettingsProfilePage() {
   return (

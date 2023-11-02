@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { CreateAccountForm } from './components/create-account-form'
+import { CreateAccountForm } from '../../../components/forms/create-account'
 
 export const metadata: Metadata = {
   title: 'Criar conta',

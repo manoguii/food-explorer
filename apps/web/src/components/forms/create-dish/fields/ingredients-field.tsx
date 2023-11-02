@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../../../lib/schema'
+import { CreateDishFormValues } from '@/lib/schemas'
 import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { Badge } from '@/components/ui/badge'

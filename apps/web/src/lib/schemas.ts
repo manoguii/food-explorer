@@ -49,5 +49,33 @@ export const newCategoryFormSchema = z.object({
     }),
 })
 
+export const createAccountFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: 'O nome deve ter pelo menos 2 caracteres.',
+    })
+    .max(30, {
+      message: 'O nome deve ter no máximo 30 caracteres.',
+    }),
+  email: z.string().email({
+    message: 'O email deve ser válido.',
+  }),
+  password: z.string().min(6, {
+    message: 'A senha deve ter pelo menos 6 caracteres.',
+  }),
+})
+
+export const userAuthFormSchema = z.object({
+  email: z.string().email({
+    message: 'O email deve ser válido.',
+  }),
+  password: z.string().min(6, {
+    message: 'A senha deve ter pelo menos 6 caracteres.',
+  }),
+})
+
+export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>
+export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type CreateDishFormValues = z.infer<typeof createDishFormSchema>
 export type NewCategoryFormSchema = z.infer<typeof newCategoryFormSchema>

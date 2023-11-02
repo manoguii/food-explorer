@@ -20,7 +20,7 @@ import {
   CommandItem,
 } from '@/components/ui/command'
 import { useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../../../lib/schema'
+import { CreateDishFormValues } from '@/lib/schemas'
 import { Button } from '@/components/ui/button'
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import { CheckIcon } from 'lucide-react'

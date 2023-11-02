@@ -1,15 +1,5 @@
 'use client'
 
-import * as React from 'react'
-
-import { cn } from '@/lib/utils'
-import { Icons } from '@/components/icons'
-import { Input } from '@/components/ui/input'
-import { Button, buttonVariants } from '@/components/ui/button'
-import Link from 'next/link'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import {
   Form,
   FormControl,
@@ -18,27 +8,17 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import { Icons } from '@/components/icons'
+import { Input } from '@/components/ui/input'
+import { Button, buttonVariants } from '@/components/ui/button'
+import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { toast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
-
-const createAccountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: 'O nome deve ter pelo menos 2 caracteres.',
-    })
-    .max(30, {
-      message: 'O nome deve ter no máximo 30 caracteres.',
-    }),
-  email: z.string().email({
-    message: 'O email deve ser válido.',
-  }),
-  password: z.string().min(6, {
-    message: 'A senha deve ter pelo menos 6 caracteres.',
-  }),
-})
-
-type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
+import { CreateAccountFormValues, createAccountFormSchema } from '@/lib/schemas'
 
 const defaultValues: Partial<CreateAccountFormValues> = {
   name: '',
@@ -78,6 +58,7 @@ export function CreateAccountForm({
       toast({
         title: 'Error ao criar conta.',
         description: errorMessage,
+        variant: 'destructive',
       })
 
       setIsLoading(false)
