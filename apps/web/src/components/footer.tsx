@@ -9,6 +9,15 @@ export function Footer() {
       </div>
 
       <p className="text-sm"> © 2023 - Todos os direitos reservados.</p>
+
+
+
+
+
+
+
+
     </footer>
   )
 }
+
