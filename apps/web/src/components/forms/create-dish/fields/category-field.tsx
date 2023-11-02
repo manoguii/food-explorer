@@ -25,9 +25,9 @@ import { Button } from '@/components/ui/button'
 import { CaretSortIcon } from '@radix-ui/react-icons'
 import { CheckIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { categories } from '@/tmp/data'
+import { Category } from '@/lib/types/definitions'
 
-export function CategoryField() {
+export function CategoryField({ categories }: { categories: Category[] }) {
   const form = useFormContext<CreateDishFormValues>()
 
   return (
@@ -60,7 +60,7 @@ export function CategoryField() {
             <PopoverContent align="start" className="w-full p-0">
               <Command>
                 <CommandInput placeholder="Search category..." />
-                <CommandEmpty>Nenhuma categoria encontrada</CommandEmpty>
+                <CommandEmpty>Nenhuma categoria encontrada !</CommandEmpty>
 
                 <CommandGroup>
                   {categories?.map((category) => (

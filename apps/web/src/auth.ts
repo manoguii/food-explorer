@@ -2,7 +2,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { authConfig } from './auth.config'
 import { z } from 'zod'
-import type { User } from '@/lib/definitions'
+import type { User } from '@/lib/types/definitions'
 
 async function getUserSession(credentials: {
   email: string
@@ -20,7 +20,7 @@ async function getUserSession(credentials: {
     return null
   }
 
-  const user = await response.json()
+  const { user } = await response.json()
 
   return user
 }

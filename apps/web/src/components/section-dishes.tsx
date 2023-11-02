@@ -16,7 +16,7 @@ export function SectionDishes({ title }: SectionDishesProps) {
 
       <Carousel showDots={false} responsive={responsive} sliderClass="gap-6">
         {productData.map((item) => (
-          <Card key={item.id} href="/dish/1" />
+          <Card key={item.id} href="/app/dish/1" />
         ))}
       </Carousel>
     </section>

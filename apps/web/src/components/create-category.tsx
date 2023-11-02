@@ -15,13 +15,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Loader2, Plus } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
 import { Badge } from '@/components/ui/badge'
 import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
+import { createCategory } from '@/app/actions'
 
 export function CreateCategory() {
-  const { toast } = useToast()
-
   const {
     register,
     handleSubmit,
@@ -35,28 +33,9 @@ export function CreateCategory() {
   })
 
   async function handleCreateCategory({ category }: NewCategoryFormSchema) {
-    try {
-      const response = await fetch('http://localhost:3333/categories', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: category }),
-      })
+    await createCategory(category)
 
-      if (!response.ok) {
-        throw new Error('Ocorreu um erro ao criar a categoria.')
-      }
-
-      reset()
-    } catch (err) {
-      toast({
-        title: 'Erro ao criar categoria',
-        description:
-          'Não foi possível criar a categoria, por favor tente novamente mais tarde.',
-      })
-    }
+    reset()
   }
 
   return (

@@ -13,6 +13,7 @@ import { CategoryField } from './fields/category-field'
 import { IngredientsField } from './fields/ingredients-field'
 import { PriceField } from './fields/price-field'
 import { DescriptionField } from './fields/description-field'
+import { Category } from '@/lib/types/definitions'
 
 const defaultValues: Partial<CreateDishFormValues> = {
   description: '',
@@ -22,7 +23,7 @@ const defaultValues: Partial<CreateDishFormValues> = {
   ingredients: [{ value: 'Batata' }, { value: 'Arroz' }, { value: 'Feijão' }],
 }
 
-export function CreateDishForm() {
+export function CreateDishForm({ categories }: { categories: Category[] }) {
   const form = useForm<CreateDishFormValues>({
     resolver: zodResolver(createDishFormSchema),
     defaultValues,
@@ -46,7 +47,7 @@ export function CreateDishForm() {
         <div className="flex flex-col gap-8 lg:flex-row">
           <NameField />
           <AttachField />
-          <CategoryField />
+          <CategoryField categories={categories} />
         </div>
         <div className="flex flex-col gap-8 lg:flex-row">
           <IngredientsField />

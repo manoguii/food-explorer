@@ -18,5 +18,18 @@ export const authConfig = {
       }
       return true
     },
+
+    async jwt({ token, user }) {
+      if (user) return { ...token, ...user }
+      return token
+    },
+
+    async session({ token, session }) {
+      if (session) {
+        session.user.access_token = token.access_token as string
+      }
+
+      return session
+    },
   },
 } satisfies NextAuthConfig

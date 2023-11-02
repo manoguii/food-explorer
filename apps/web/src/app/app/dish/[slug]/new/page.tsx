@@ -1,7 +1,34 @@
+import { auth } from '@/auth'
 import { CreateCategory } from '@/components/create-category'
 import { CreateDishForm } from '@/components/forms/create-dish'
+import { Category } from '@/lib/types/definitions'
 
-export default function SettingsProfilePage() {
+async function getCategories(token: string): Promise<Category[]> {
+  const response = await fetch('http://localhost:3333/categories', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    next: {
+      tags: ['Categories'],
+    },
+  })
+
+  const { categories } = await response.json()
+
+  return categories
+}
+
+export default async function SettingsProfilePage() {
+  const session = await auth()
+
+  if (!session) {
+    return
+  }
+
+  const categories = await getCategories(session.user.access_token)
+
   return (
     <div className="space-y-6 py-10">
       <div className="flex justify-between">
@@ -15,7 +42,7 @@ export default function SettingsProfilePage() {
         <CreateCategory />
       </div>
 
-      <CreateDishForm />
+      <CreateDishForm categories={categories} />
     </div>
   )
 }

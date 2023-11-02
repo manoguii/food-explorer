@@ -9,18 +9,22 @@ export const createDishFormSchema = z.object({
     .max(30, {
       message: 'O nome deve ter no máximo 30 caracteres.',
     }),
-  file: z.string().refine(
-    (value) => {
-      return (
-        value.endsWith('.jpg') ||
-        value.endsWith('.jpeg') ||
-        value.endsWith('.png')
-      )
-    },
-    {
-      message: 'O arquivo deve ser uma imagem JPG ou PNG.',
-    },
-  ),
+  file: z
+    .string({
+      required_error: 'Selecione uma imagem para o prato.',
+    })
+    .refine(
+      (value) => {
+        return (
+          value.endsWith('.jpg') ||
+          value.endsWith('.jpeg') ||
+          value.endsWith('.png')
+        )
+      },
+      {
+        message: 'O arquivo deve ser uma imagem JPG ou PNG.',
+      },
+    ),
   price: z.string().min(2, {
     message: 'Digite um preço válido.',
   }),
