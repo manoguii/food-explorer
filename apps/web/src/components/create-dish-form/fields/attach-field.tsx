@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../schema'
+import { CreateDishFormValues } from '../../../lib/schema'
 import { Input } from '@/components/ui/input'
 
 export function AttachField() {

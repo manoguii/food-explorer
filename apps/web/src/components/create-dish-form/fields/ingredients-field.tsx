@@ -8,12 +8,12 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../schema'
+import { CreateDishFormValues } from '../../../lib/schema'
 import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { Badge } from '@/components/ui/badge'
 import { Dialog } from '@/components/ui/dialog'
-import { CreateNewIngredientDialog } from '../dialog/create-ingredients-dialog'
+import { CreateNewIngredientDialog } from '../create-ingredients-dialog'
 import { X } from 'lucide-react'
 
 export function IngredientsField() {

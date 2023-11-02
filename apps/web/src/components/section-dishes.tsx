@@ -11,14 +11,14 @@ interface SectionDishesProps {
 
 export function SectionDishes({ title }: SectionDishesProps) {
   return (
-    <div className="space-y-5">
-      <h1 className="text-3xl">{title}</h1>
+    <section className="space-y-5">
+      <h4 className="text-3xl">{title}</h4>
 
       <Carousel showDots={false} responsive={responsive} sliderClass="gap-6">
         {productData.map((item) => (
           <Card key={item.id} href="/dish/1" />
         ))}
       </Carousel>
-    </div>
+    </section>
   )
 }

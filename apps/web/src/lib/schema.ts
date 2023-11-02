@@ -39,16 +39,15 @@ export const createDishFormSchema = z.object({
     .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
 })
 
-export type CreateDishFormValues = z.infer<typeof createDishFormSchema>
-
 export const newCategoryFormSchema = z.object({
   category: z
     .string({
-      required_error: 'The category name is required.',
+      required_error: 'O nome da categoria é obrigatório.',
     })
     .regex(/^[a-zA-Z]+(-[a-zA-Z]+)*$/, {
-      message: 'Use only letters and hyphens.',
+      message: 'Digite um nome de categoria válido.',
     }),
 })
 
+export type CreateDishFormValues = z.infer<typeof createDishFormSchema>
 export type NewCategoryFormSchema = z.infer<typeof newCategoryFormSchema>

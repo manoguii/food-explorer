@@ -7,24 +7,23 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../schema'
+import { CreateDishFormValues } from '../../../lib/schema'
 import { Input } from '@/components/ui/input'
 
-export function NameField() {
+export function PriceField() {
   const form = useFormContext<CreateDishFormValues>()
 
   return (
     <FormField
       control={form.control}
-      name="name"
+      name="price"
       render={({ field }) => (
-        <FormItem className="flex basis-3/6 flex-col gap-1">
-          <FormLabel>Nome</FormLabel>
+        <FormItem className="flex basis-2/6 flex-col gap-1">
+          <FormLabel>Preço</FormLabel>
           <FormControl>
-            <Input placeholder="Salada Ceasar" {...field} />
+            <Input placeholder="R$ 12,00" {...field} />
           </FormControl>
-          <FormDescription>Digite o nome do prato.</FormDescription>
-
+          <FormDescription>Digite o preço do prato.</FormDescription>
           <FormMessage />
         </FormItem>
       )}

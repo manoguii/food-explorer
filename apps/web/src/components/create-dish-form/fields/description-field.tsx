@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../schema'
+import { CreateDishFormValues } from '../../../lib/schema'
 import { Textarea } from '@/components/ui/textarea'
 
 export function DescriptionField() {

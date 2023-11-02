@@ -22,27 +22,27 @@ export const responsive = {
 export const categories = [
   {
     id: '1',
-    category: 'Sneakers',
+    name: 'Sneakers',
   },
   {
     id: '2',
-    category: 'Watches',
+    name: 'Watches',
   },
   {
     id: '3',
-    category: 'Bottles',
+    name: 'Bottles',
   },
   {
     id: '4',
-    category: 'Perfumes',
+    name: 'Perfumes',
   },
   {
     id: '5',
-    category: 'Sunglasses',
+    name: 'Sunglasses',
   },
   {
     id: '6',
-    category: 'Creams',
+    name: 'Creams',
   },
 ]
 

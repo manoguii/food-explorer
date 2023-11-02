@@ -13,7 +13,7 @@ import { AlertCircle, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { CreateDishFormValues } from '../schema'
+import { CreateDishFormValues } from '../../lib/schema'
 import { toast } from '@/components/ui/use-toast'
 
 interface CreateNewIngredientDialogProps {
