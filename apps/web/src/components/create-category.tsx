@@ -18,6 +18,7 @@ import { AlertCircle, Loader2, Plus } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
 import { createCategory } from '@/app/actions'
+import { toast } from './ui/use-toast'
 
 export function CreateCategory() {
   const {
@@ -33,7 +34,20 @@ export function CreateCategory() {
   })
 
   async function handleCreateCategory({ category }: NewCategoryFormSchema) {
-    await createCategory(category)
+    const data = await createCategory(category)
+
+    if (data.success) {
+      toast({
+        title: 'Categoria criada com sucesso !',
+        description: data.message,
+      })
+    } else {
+      toast({
+        title: 'Erro ao criar categoria',
+        description: data.message,
+        variant: 'destructive',
+      })
+    }
 
     reset()
   }

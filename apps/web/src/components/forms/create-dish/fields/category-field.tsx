@@ -8,23 +8,16 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command'
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useFormContext } from 'react-hook-form'
 import { CreateDishFormValues } from '@/lib/schemas'
-import { Button } from '@/components/ui/button'
-import { CaretSortIcon } from '@radix-ui/react-icons'
-import { CheckIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { Category } from '@/lib/types/definitions'
 
 export function CategoryField({ categories }: { categories: Category[] }) {
@@ -37,56 +30,23 @@ export function CategoryField({ categories }: { categories: Category[] }) {
       render={({ field }) => (
         <FormItem className="flex basis-2/6 flex-col gap-1">
           <FormLabel>Categoria</FormLabel>
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  className={cn(
-                    'w-full justify-between',
-                    !field.value && 'text-muted-foreground',
-                  )}
-                >
-                  {field.value
-                    ? categories?.find(
-                        (category) => category.name === field.value,
-                      )?.name
-                    : 'Selecione a categoria'}
-                  <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-full p-0">
-              <Command>
-                <CommandInput placeholder="Search category..." />
-                <CommandEmpty>Nenhuma categoria encontrada !</CommandEmpty>
-
-                <CommandGroup>
-                  {categories?.map((category) => (
-                    <CommandItem
-                      value={category.name}
-                      key={category.id}
-                      onSelect={() => {
-                        form.setValue('category', category.name)
-                        form.trigger('category')
-                      }}
-                    >
-                      <CheckIcon
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          category.name === field.value
-                            ? 'opacity-100'
-                            : 'opacity-0',
-                        )}
-                      />
-                      {category.name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </Command>
-            </PopoverContent>
-          </Popover>
+          <Select onValueChange={field.onChange}>
+            <FormControl>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecione a categoria" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Categorias</SelectLabel>
+                {categories?.map((category) => (
+                  <SelectItem key={category.id} value={category.name}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
           <FormDescription>Selecione a categoria do prato.</FormDescription>
           <FormMessage />
         </FormItem>

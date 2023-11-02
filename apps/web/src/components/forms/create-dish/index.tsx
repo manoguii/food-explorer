@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
-import { toast } from '@/components/ui/use-toast'
 import { CreateDishFormValues, createDishFormSchema } from '@/lib/schemas'
 import { AttachField } from './fields/attach-field'
 import { NameField } from './fields/name-field'
@@ -31,14 +30,7 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
   })
 
   function onSubmit(data: CreateDishFormValues) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    console.log(data.file)
   }
 
   return (

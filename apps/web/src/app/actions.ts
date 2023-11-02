@@ -22,12 +22,15 @@ export async function createCategory(category: string) {
   const session = await auth()
 
   if (!session) {
-    return 'Você precisa estar logado para criar uma categoria.'
+    return {
+      success: false,
+      message: 'Você precisa estar logado para criar uma categoria.',
+    }
   }
 
   const token = session.user.access_token
 
-  await fetch('http://localhost:3333/categories', {
+  const response = await fetch('http://localhost:3333/categories', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -36,5 +39,18 @@ export async function createCategory(category: string) {
     body: JSON.stringify({ name: category }),
   })
 
+  if (!response.ok) {
+    const data = await response.json()
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
   revalidateTag('Categories')
+
+  return {
+    success: true,
+    message: `A categoria ${category} foi criada com sucesso.`,
+  }
 }
