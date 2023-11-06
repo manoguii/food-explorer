@@ -1,15 +1,10 @@
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Post,
-  UnauthorizedException,
-} from '@nestjs/common'
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases/create-category'
 import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
 import { ApiTags } from '@nestjs/swagger'
+import { CategoryPresenter } from '../presenters/category-presenter'
 
 const createCategoryBodySchema = z.object({
   name: z.string(),
@@ -37,10 +32,19 @@ export class CreateCategoryController {
 
       switch (error.constructor) {
         case ConflictExceptionError:
-          throw new UnauthorizedException(error.message)
-        default:
           throw new BadRequestException(error.message)
+        default:
       }
+    }
+
+    const category = result.isRight() ? result.value.category : null
+
+    if (!category) {
+      throw new BadRequestException('Something went wrong')
+    }
+
+    return {
+      category: CategoryPresenter.toHTTP(category),
     }
   }
 }

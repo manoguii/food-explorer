@@ -4,9 +4,20 @@ import Image from 'next/image'
 import Link, { LinkProps } from 'next/link'
 import React from 'react'
 
-type CardProps = LinkProps
+interface CardProps extends LinkProps {
+  dish: {
+    name: string
+    description: string
+    price: number
+    categoryId: string
+    ingredients: string[]
+    attachmentsIds: string[]
+  }
+}
 
-export function Card(props: CardProps) {
+export function Card({ dish, ...props }: CardProps) {
+  const { name, description, price } = dish
+
   return (
     <Link
       className="embla__slide flex max-w-xs flex-col items-center justify-center gap-3 rounded-md bg-[#00070A] p-6"
@@ -21,13 +32,17 @@ export function Card(props: CardProps) {
         quality={100}
       />
 
-      <h4 className="text-2xl font-bold">Spaguetti Gambe</h4>
+      <h4 className="text-2xl font-bold">{name}</h4>
 
       <p className="text-center text-zinc-400">
-        Massa fresca com camarões e pesto.
+        {description.length > 50
+          ? `${description.slice(0, 50)}...`
+          : description}
       </p>
 
-      <strong className="block text-3xl text-sky-500">R$ 79,97</strong>
+      <strong className="block text-3xl text-sky-500">
+        R$ {price.toFixed(2)}
+      </strong>
 
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-3">

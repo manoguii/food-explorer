@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3333
-@authToken = {{authenticate.response.body.access_token}}
+@authToken = {{authenticate.response.body.user.access_token}}
 
 # @name create_account
 POST {{baseUrl}}/accounts
@@ -18,7 +18,7 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "Guilherme@manoguicom.br",
+  "email": "guilherme@manoguicom.com.br",
   "password": "123456"
 }
 
@@ -32,7 +32,7 @@ Authorization: Bearer {{authToken}}
 {
   "name": "Novo prato",
   "description": "Descrição do prato",
-  "price": "100",
+  "price": 100,
   "categoryId": "bef68285-8b39-4f0d-a91e-27b40f34dd7e"
 }
 

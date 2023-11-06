@@ -35,6 +35,7 @@ export class UploadAttachmentController {
     )
     file: Express.Multer.File,
   ) {
+    console.log(file)
     const result = await this.uploadAndCreateAttachment.execute({
       body: file.buffer,
       fileName: file.originalname,
