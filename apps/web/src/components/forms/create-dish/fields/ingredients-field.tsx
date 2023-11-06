@@ -31,10 +31,6 @@ export function IngredientsField() {
       control={form.control}
       name={`ingredients`}
       render={({ field }) => {
-        const isLong = field.value.length > 5
-        const initial = field.value.slice(0, 5)
-        const itemsRest = field.value.slice(5)
-
         return (
           <Dialog
             open={createIngredientDialogOpen}
@@ -56,57 +52,33 @@ export function IngredientsField() {
                     <span className="ml-2">Adicionar ingrediente</span>
                   </Button>
 
-                  <div className="flex w-full flex-wrap items-center justify-start gap-2 rounded-md border border-dashed px-4 py-2">
-                    {!isLong
-                      ? field.value.map((item, index) => {
-                          return (
-                            <Badge
-                              key={item.value}
-                              variant="outline"
-                              className="gap-1"
-                            >
-                              {item.value}
-                              <Button
-                                type="button"
-                                className="h-3 w-3 p-0"
-                                onClick={() => {
-                                  remove(index)
-                                }}
-                              >
-                                <X className="h-2 w-2" />
-                              </Button>
-                            </Badge>
-                          )
-                        })
-                      : initial.map((item, index) => {
-                          return (
-                            <Badge
-                              key={item.value}
-                              variant="outline"
-                              className="gap-1"
-                            >
-                              {item.value}
-                              <Button
-                                type="button"
-                                className="h-3 w-3 p-0"
-                                onClick={() => {
-                                  remove(index)
-                                }}
-                              >
-                                <X className="h-2 w-2" />
-                              </Button>
-                            </Badge>
-                          )
-                        })}
-                    {isLong && (
-                      <Badge variant="outline" className="gap-1">
-                        {itemsRest.length}+
-                      </Badge>
-                    )}
+                  <div className="flex min-h-[40px] w-full flex-wrap items-center justify-start gap-2 rounded-md border border-dashed px-4 py-2">
+                    {field.value.map((item, index) => {
+                      return (
+                        <Badge
+                          key={item.value}
+                          variant="outline"
+                          className="gap-1"
+                        >
+                          {item.value}
+                          <Button
+                            type="button"
+                            className="h-3 w-3 p-0"
+                            onClick={() => {
+                              remove(index)
+                            }}
+                          >
+                            <X className="h-2 w-2" />
+                          </Button>
+                        </Badge>
+                      )
+                    })}
                   </div>
                 </div>
               </FormControl>
-              <FormDescription>Digite ingredientes do prato.</FormDescription>
+              <FormDescription>
+                Selecione os ingredientes do prato.
+              </FormDescription>
               <FormMessage />
             </FormItem>
 

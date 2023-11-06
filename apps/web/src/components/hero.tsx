@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export function Hero() {
   return (
-    <div className="mt-24 flex rounded-lg bg-gradient-to-r from-gray-900 to-[#00131C]">
+    <div className="mt-24 flex rounded-lg bg-gradient-to-r from-gray-50/70 to-gray-200/80 dark:from-gray-900 dark:to-[#00131C]">
       <div className="flex basis-3/6 items-end">
         <Image
           src="/images/hero.png"

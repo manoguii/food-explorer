@@ -1,21 +1,31 @@
 type IconProps = React.HTMLAttributes<SVGElement>
 
 export const Icons = {
-  logo: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="43"
-      height="48"
-      fill="none"
-      viewBox="0 0 43 48"
-      {...props}
-    >
-      <path
-        fill="#065E7C"
-        d="M21.57.217l21.404 11.875v23.75L21.57 47.719.168 35.843V12.092L21.57.217z"
-      ></path>
-    </svg>
-  ),
+  logo: ({
+    isFooter = false,
+    ...props
+  }: IconProps & {
+    isFooter?: boolean
+  }) => {
+    const fill = isFooter ? 'fill-[#71717a]' : 'fill-[#065E7C]'
+
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="43"
+        height="48"
+        fill="none"
+        viewBox="0 0 43 48"
+        {...props}
+      >
+        <path
+          fill="currentColor"
+          className={fill}
+          d="M21.57.217l21.404 11.875v23.75L21.57 47.719.168 35.843V12.092L21.57.217z"
+        ></path>
+      </svg>
+    )
+  },
   gitHub: (props: IconProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { AlertCircle, X } from 'lucide-react'
+import { AlertCircle, Stars, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
@@ -37,18 +37,31 @@ export function CreateNewIngredientDialog({
   })
 
   function handleCreateIngredient(ingredient: string) {
-    const ingredientExists = fields.find(
-      (item) => item.value.toLowerCase() === ingredient.toLowerCase(),
-    )
+    const ingredientArray = ingredient.split(',')
+
+    const ingredientExists = ingredientArray.some((ingredient) => {
+      const ingredientAlreadyExists = fields.some((item) => {
+        return item.value === ingredient.trim()
+      })
+
+      if (ingredientAlreadyExists) {
+        return toast({
+          title: `Ingrediente ${ingredient} já adicionado`,
+          description: `O ingrediente ${ingredient} já foi adicionado ao prato`,
+          variant: 'destructive',
+        })
+      }
+
+      return ingredientAlreadyExists
+    })
 
     if (ingredientExists) {
-      return toast({
-        title: 'Ingrediente já adicionado',
-        description: 'Esse ingrediente já foi adicionado ao prato.',
-      })
+      return
     }
 
-    insert(fields.length - 1, { value: ingredient })
+    ingredientArray.forEach((ingredient) => {
+      insert(0, { value: ingredient.trim() })
+    })
 
     onRequestClose()
   }
@@ -67,8 +80,23 @@ export function CreateNewIngredientDialog({
             </span>
             .
           </DialogDescription>
-          <DialogDescription className="flex items-center">
-            <AlertCircle className="mr-2 inline h-4 w-4" />
+          <DialogDescription className="flex items-center text-start">
+            <Stars className="mr-2 hidden h-4 w-4 sm:inline" />
+            <span>
+              Para criar vários{' '}
+              <span className="font-semibold text-accent-foreground">
+                ingredientes
+              </span>{' '}
+              ao mesmo tempo, separe-os por vírgula. <br />
+              Exemplo:{' '}
+              <span className="font-semibold text-accent-foreground">
+                Batata, Cenoura, Alface
+              </span>
+            </span>
+          </DialogDescription>
+
+          <DialogDescription className="flex items-center text-start">
+            <AlertCircle className="mr-2 hidden h-4 w-4 sm:inline" />
             <span>
               Os{' '}
               <span className="font-semibold text-accent-foreground">
@@ -103,10 +131,13 @@ export function CreateNewIngredientDialog({
 
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-baseline gap-4">
-          <Label htmlFor="ingredient" className="text-right">
+          <Label
+            htmlFor="ingredient"
+            className="col-span-3 sm:col-span-1 sm:text-right"
+          >
             Novo ingrediente
           </Label>
-          <div className="col-span-3 space-y-4">
+          <div className="col-span-4 space-y-4 sm:col-span-3">
             <Input
               id="ingredient"
               placeholder="Digite um ingrediente"
@@ -115,14 +146,13 @@ export function CreateNewIngredientDialog({
           </div>
         </div>
       </div>
-      <DialogFooter>
+      <DialogFooter className="gap-2">
         <DialogTrigger asChild>
           <Button type="button" variant="ghost">
             Cancelar
           </Button>
         </DialogTrigger>
         <Button
-          className="w-24"
           type="submit"
           onClick={() => handleCreateIngredient(ingredient)}
         >

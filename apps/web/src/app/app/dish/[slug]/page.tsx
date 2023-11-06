@@ -1,8 +1,9 @@
 import { auth } from '@/auth'
+// import { AddToCart } from '@/components/add-to-cart'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Dish } from '@/lib/types/definitions'
-import { Dot, MinusIcon, Plus, Star, Cookie } from 'lucide-react'
+import { Dot, Star, Cookie } from 'lucide-react'
 import Image from 'next/image'
 
 async function getDishBySlug(slug: string, token: string): Promise<Dish> {
@@ -66,19 +67,8 @@ export default async function Dish({ params }: { params: { slug: string } }) {
         </dd>
       </dl>
       <div className="col-start-1 row-start-3 mt-4 self-center sm:col-start-2 sm:row-span-2 sm:row-start-2 sm:mt-0 lg:col-start-1 lg:row-start-3 lg:row-end-4 lg:mt-6">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-3">
-            <Button size="icon" variant="ghost">
-              <MinusIcon />
-            </Button>
-            <span>01</span>
-            <Button size="icon" variant="ghost">
-              <Plus />
-            </Button>
-          </div>
-
-          <Button variant="destructive">Adicionar</Button>
-        </div>
+        {/* <AddToCart /> */}
+        <Button variant="destructive">Editar prato</Button>
       </div>
       <div className="col-start-1 mt-4 sm:col-span-2 lg:col-span-1 lg:row-start-4 lg:mt-6">
         <div className="mb-4 flex flex-wrap items-center gap-2">

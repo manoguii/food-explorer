@@ -1,10 +1,9 @@
 import Balancer from 'react-wrap-balancer'
-import { Button } from '@/components/ui/button'
 import { Dish } from '@/lib/types/definitions'
-import { MinusIcon, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link, { LinkProps } from 'next/link'
 import React from 'react'
+import { AddToCart } from './add-to-cart'
 
 interface CardProps extends LinkProps {
   dish: Dish
@@ -14,7 +13,7 @@ export function Card({ dish, ...props }: CardProps) {
   const { name, description, price, attachments } = dish
 
   return (
-    <div className="flex min-h-[462px] max-w-xs flex-col items-center justify-between gap-4 rounded-md bg-[#00070A] p-6">
+    <div className="flex min-h-[462px] max-w-xs flex-col items-center justify-between gap-4 rounded-lg bg-gray-50/70 p-6 dark:bg-[#00070A]">
       <Link className="flex flex-col items-center gap-3" {...props}>
         <Image
           src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`}
@@ -41,19 +40,7 @@ export function Card({ dish, ...props }: CardProps) {
         </strong>
       </Link>
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-3">
-          <Button size="icon" variant="ghost">
-            <MinusIcon />
-          </Button>
-          <span>01</span>
-          <Button size="icon" variant="ghost">
-            <Plus />
-          </Button>
-        </div>
-
-        <Button variant="destructive">Adicionar</Button>
-      </div>
+      <AddToCart />
     </div>
   )
 }

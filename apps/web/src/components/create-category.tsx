@@ -65,32 +65,33 @@ export function CreateCategory() {
           <DialogTitle>Criar nova categoria</DialogTitle>
           <div className="space-y-3">
             <DialogDescription>
-              Lembre que um prato obrigatoriamente precisa estar associado a uma
+              Lembre que um prato obrigatoriamente precisa estar associado a uma{' '}
               <span className="font-semibold text-accent-foreground">
                 categoria
               </span>
               .
             </DialogDescription>
-            <DialogDescription className="flex items-center">
+            <DialogDescription className="flex items-center text-start">
               <AlertCircle className="mr-2 inline h-4 w-4" />
               <span>
-                Use alguns exemplos de{' '}
+                Exemplos de{' '}
                 <span className="font-semibold text-accent-foreground">
-                  categorias
+                  categorias:
                 </span>{' '}
-                a seguir:
               </span>
             </DialogDescription>
             <ol className="space-y-2">
-              <li className="text-sm text-muted-foreground">
-                <Badge variant="outline">Bebidas</Badge> - categoria para
-                bebidas
+              <li className="text-start text-sm text-muted-foreground">
+                <Badge variant="outline">Bebidas</Badge> - refrigerantes, cafés,
+                vinhos, etc.
               </li>
-              <li className="text-sm text-muted-foreground">
-                <Badge variant="outline">Sobremesas</Badge> - referente a doces
+              <li className="text-start text-sm text-muted-foreground">
+                <Badge variant="outline">Sobremesas</Badge> - petit gateau,
+                pudim, etc.
               </li>
-              <li className="text-sm text-muted-foreground">
-                <Badge variant="outline">Massas</Badge> - categoria para massas
+              <li className="text-start text-sm text-muted-foreground">
+                <Badge variant="outline">Massas</Badge> - lasanha, macarronada,
+                etc.
               </li>
             </ol>
           </div>
@@ -99,10 +100,13 @@ export function CreateCategory() {
         <form onSubmit={handleSubmit(handleCreateCategory)} className="w-full">
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-baseline gap-4">
-              <Label htmlFor="category" className="text-right">
+              <Label
+                htmlFor="category"
+                className="col-span-3 sm:col-span-1 sm:text-right"
+              >
                 Nova categoria
               </Label>
-              <div className="col-span-3 space-y-4">
+              <div className="col-span-4 space-y-4 sm:col-span-3">
                 <Input
                   id="category"
                   placeholder="Sua nova categoria"
@@ -123,7 +127,7 @@ export function CreateCategory() {
                 Cancelar
               </Button>
             </DialogTrigger>
-            <Button className="w-24" type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
