@@ -28,6 +28,7 @@ export default async function SettingsProfilePage() {
   }
 
   const categories = await getCategories(session.user.access_token)
+  const token = session.user.access_token
 
   return (
     <div className="space-y-6 py-10">
@@ -42,7 +43,7 @@ export default async function SettingsProfilePage() {
         <CreateCategory />
       </div>
 
-      <CreateDishForm categories={categories} />
+      <CreateDishForm categories={categories} token={token} />
     </div>
   )
 }

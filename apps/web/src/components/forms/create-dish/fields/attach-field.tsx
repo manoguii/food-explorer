@@ -23,11 +23,10 @@ export function AttachField() {
             <FormLabel>Arquivo</FormLabel>
             <FormControl>
               <Input
-                multiple
                 type="file"
                 onChange={(event) => {
                   if (event.target.files && event.target.files.length > 0) {
-                    onChange(event.target.files)
+                    onChange(event.target.files[0])
                   }
                 }}
               />

@@ -9,7 +9,7 @@ export const createDishFormSchema = z.object({
     .max(30, {
       message: 'O nome deve ter no máximo 30 caracteres.',
     }),
-  file: z.instanceof(FileList, {
+  file: z.instanceof(File, {
     message: 'Selecione uma imagem para o prato.',
   }),
   price: z.string().min(2, {
