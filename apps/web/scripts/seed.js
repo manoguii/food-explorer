@@ -95,18 +95,28 @@ async function createDish(categoryId, attachmentId, dishData, token) {
     throw error
   }
 }
-
 async function seedDatabase() {
   await createUser()
   const token = await createSession()
   try {
+    const categories = restaurantData.categories.map(
+      (category) => category.name,
+    )
+    const categoryIds = []
+
+    for (let i = 0; i < categories.length; i++) {
+      const categoryId = await createCategory(categories[i], token)
+      categoryIds.push(categoryId)
+    }
+
     for (let i = 0; i < restaurantData.dishes.length; i++) {
       const imagePath = path.resolve(__dirname, `images/dish-${i + 1}.png`)
       const attachmentId = await uploadImage(imagePath, token)
-      const categoryId = await createCategory(
-        restaurantData.categories[i].name,
-        token,
-      )
+
+      // Seleciona aleatoriamente uma categoria para cada prato
+      const randomIndex = Math.floor(Math.random() * categoryIds.length)
+      const categoryId = categoryIds[randomIndex]
+
       await createDish(
         categoryId,
         attachmentId,

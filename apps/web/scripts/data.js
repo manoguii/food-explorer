@@ -1,17 +1,8 @@
 const restaurantData = {
   categories: [
-    { name: 'Italiana' },
-    { name: 'Vegetariana' },
-    { name: 'Japonesa' },
-    { name: 'Francesa' },
-    { name: 'Saudável' },
-    { name: 'Árabe' },
-    { name: 'Sopas' },
-    { name: 'Sorvetes' },
     { name: 'Sobremesas' },
-    { name: 'Café da Manhã' },
-    { name: 'Brasileira' },
-    { name: 'Lanches' },
+    { name: 'Refeições' },
+    { name: 'Saladas' },
   ],
   dishes: [
     {

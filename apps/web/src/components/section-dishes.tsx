@@ -6,13 +6,14 @@ import { Card } from './card'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
-import { restaurantData } from '@/tmp/data'
+import { Dish } from '@/lib/types/definitions'
 
 interface SectionDishesProps {
   title: string
+  dishes: Dish[]
 }
 
-export function SectionDishes({ title }: SectionDishesProps) {
+export function SectionDishes({ title, dishes }: SectionDishesProps) {
   return (
     <section className="space-y-5">
       <h4 className="text-3xl">{title}</h4>
@@ -25,9 +26,9 @@ export function SectionDishes({ title }: SectionDishesProps) {
         onSwiper={(swiper) => console.log(swiper)}
         onSlideChange={() => console.log('slide change')}
       >
-        {restaurantData.dishes.map((item) => (
+        {dishes.map((item) => (
           <SwiperSlide key={item.name}>
-            <Card href="/app/dish/1" dish={item} />
+            <Card href={`/app/dish/${item.slug}`} dish={item} />
           </SwiperSlide>
         ))}
       </Swiper>

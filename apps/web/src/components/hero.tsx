@@ -9,8 +9,8 @@ export function Hero() {
           alt="Ingredientes"
           width={632}
           height={406}
-          objectFit="cover"
           quality={100}
+          priority
           className="-ml-2 -mt-14 min-w-[151px] sm:-ml-6"
         />
       </div>
