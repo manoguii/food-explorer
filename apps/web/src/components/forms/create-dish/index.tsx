@@ -14,6 +14,7 @@ import { PriceField } from './fields/price-field'
 import { DescriptionField } from './fields/description-field'
 import { Category } from '@/lib/types/definitions'
 import { toast } from '@/components/ui/use-toast'
+import { ReloadIcon } from '@radix-ui/react-icons'
 
 const defaultValues: Partial<CreateDishFormValues> = {
   description: '',
@@ -36,7 +37,7 @@ export function CreateDishForm({
     mode: 'onChange',
   })
 
-  async function onSubmit(data: CreateDishFormValues) {
+  async function handleCreateDish(data: CreateDishFormValues) {
     const formData = new FormData()
     formData.append('file', data.file)
 
@@ -94,7 +95,10 @@ export function CreateDishForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(handleCreateDish)}
+        className="space-y-8"
+      >
         <div className="flex flex-col gap-8 lg:flex-row">
           <NameField />
           <AttachField />
@@ -108,7 +112,10 @@ export function CreateDishForm({
         <DescriptionField />
 
         <div className="flex items-end justify-end">
-          <Button type="submit" className="">
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            )}
             Criar prato
           </Button>
         </div>

@@ -10,7 +10,6 @@ import {
 } from '@/components/ui/form'
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Icons } from '@/components/icons'
 import { Input } from '@/components/ui/input'
 import { Button, buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
@@ -19,6 +18,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from '@/components/ui/use-toast'
 import { useRouter } from 'next/navigation'
 import { CreateAccountFormValues, createAccountFormSchema } from '@/lib/schemas'
+import { ReloadIcon } from '@radix-ui/react-icons'
 
 const defaultValues: Partial<CreateAccountFormValues> = {
   name: '',
@@ -134,9 +134,7 @@ export function CreateAccountForm({
           />
 
           <Button disabled={isLoading} variant={'destructive'}>
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Criar conta
           </Button>
 

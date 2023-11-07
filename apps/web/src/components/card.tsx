@@ -13,21 +13,22 @@ export function Card({ dish, ...props }: CardProps) {
   const { name, description, price, attachments } = dish
 
   return (
-    <div className="flex min-h-[462px] max-w-xs flex-col items-center justify-between gap-4 rounded-lg bg-gray-50/70 p-6 dark:bg-[#00070A]">
-      <Link className="flex flex-col items-center gap-3" {...props}>
+    <div className="flex min-h-[462px] flex-col items-center justify-between gap-4 rounded-lg bg-gray-50/70 p-6 dark:bg-[#00070A]">
+      <Link className="flex w-full flex-col items-center gap-3" {...props}>
         <Image
           src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`}
           alt={description}
           width={176}
           height={176}
           quality={100}
+          className="h-[160px] w-[160px] rounded-full object-cover sm:h-[176px] sm:w-[176px]"
         />
 
         <h4 className="text-center text-2xl font-bold">
           <Balancer>{name}</Balancer>
         </h4>
 
-        <p className="text-center text-zinc-400">
+        <p className="w-full text-center text-zinc-400">
           <Balancer>
             {description.length > 50
               ? `${description.slice(0, 40)}...`

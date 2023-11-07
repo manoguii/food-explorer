@@ -47,6 +47,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
           quality={100}
           width={400}
           height={400}
+          className="h-[300px] w-[300px] rounded-full object-cover sm:h-[400px] sm:w-[400px]"
         />
       </div>
       <dl className="row-start-2 mt-4 flex items-center text-sm font-medium sm:row-start-3 sm:mt-1 md:mt-2.5 lg:row-start-2">

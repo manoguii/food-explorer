@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from '@/components/ui/use-toast'
 import { UserAuthFormValues, userAuthFormSchema } from '@/lib/schemas'
 import { authenticate } from '@/app/actions'
+import { ReloadIcon } from '@radix-ui/react-icons'
 
 const defaultValues: Partial<UserAuthFormValues> = {
   email: '',
@@ -92,9 +93,7 @@ export function UserAuthForm({
           />
 
           <Button disabled={isLoading} variant="destructive">
-            {isLoading && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Entrar
           </Button>
         </form>
@@ -113,7 +112,7 @@ export function UserAuthForm({
 
       <Button variant="outline" type="button" disabled={isLoading}>
         {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
         )}{' '}
