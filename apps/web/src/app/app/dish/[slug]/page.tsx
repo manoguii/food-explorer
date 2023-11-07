@@ -1,10 +1,11 @@
 import { auth } from '@/auth'
 // import { AddToCart } from '@/components/add-to-cart'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Dish } from '@/lib/types/definitions'
 import { Dot, Star, Cookie } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 async function getDishBySlug(slug: string, token: string): Promise<Dish> {
   const response = await fetch(`http://localhost:3333/dishes/${slug}`, {
@@ -28,6 +29,9 @@ export default async function Dish({ params }: { params: { slug: string } }) {
 
   const dish = await getDishBySlug(params.slug, access_token)
 
+  const imageSrc = dish.attachments[0]
+    ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`
+    : 'https://github.com/manoguii.png'
   return (
     <div className="mx-auto my-12 grid max-w-4xl grid-cols-1 lg:max-w-5xl lg:grid-cols-2 lg:gap-x-4">
       <div className="relative col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t p-3 dark:from-gray-950/75 dark:via-gray-950/0 sm:row-start-2 sm:bg-none sm:p-0 lg:row-start-1">
@@ -41,7 +45,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
 
       <div className="col-start-1 col-end-3 row-start-1 grid place-content-center gap-4 sm:mb-6 lg:col-start-2 lg:row-span-6 lg:row-start-1">
         <Image
-          src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`}
+          src={imageSrc}
           alt={dish.description}
           priority
           quality={100}
@@ -69,7 +73,15 @@ export default async function Dish({ params }: { params: { slug: string } }) {
       </dl>
       <div className="col-start-1 row-start-3 mt-4 self-center sm:col-start-2 sm:row-span-2 sm:row-start-2 sm:mt-0 lg:col-start-1 lg:row-start-3 lg:row-end-4 lg:mt-6">
         {/* <AddToCart /> */}
-        <Button variant="destructive">Editar prato</Button>
+
+        <Link
+          href={`/app/dish/${params.slug}/update`}
+          className={buttonVariants({
+            variant: 'destructive',
+          })}
+        >
+          Editar prato
+        </Link>
       </div>
       <div className="col-start-1 mt-4 sm:col-span-2 lg:col-span-1 lg:row-start-4 lg:mt-6">
         <div className="mb-4 flex flex-wrap items-center gap-2">

@@ -30,6 +30,45 @@ export const createDishFormSchema = z.object({
     .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
 })
 
+export const updateDishFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: 'Para atualizar o nome, ele deve ter pelo menos 2 caracteres.',
+    })
+    .max(30, {
+      message: 'O nome deve ter no máximo 30 caracteres.',
+    }),
+  file: z
+    .instanceof(File, {
+      message: 'Selecione uma imagem para o prato.',
+    })
+    .optional(),
+  price: z.string().min(2, {
+    message: 'Digite um preço válido.',
+  }),
+  category: z.string().min(1, {
+    message: 'Selecione uma categoria.',
+  }),
+  description: z
+    .string()
+    .min(4, {
+      message: 'A descrição deve ter pelo menos 4 caracteres.',
+    })
+    .max(160, {
+      message: 'A descrição deve ter no máximo 160 caracteres.',
+    }),
+  ingredients: z
+    .array(
+      z.object({
+        value: z
+          .string()
+          .min(3, { message: 'Adicione um ingrediente valido !' }),
+      }),
+    )
+    .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
+})
+
 export const newCategoryFormSchema = z.object({
   category: z
     .string({
@@ -69,4 +108,5 @@ export const userAuthFormSchema = z.object({
 export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type CreateDishFormValues = z.infer<typeof createDishFormSchema>
+export type UpdateDishFormValues = z.infer<typeof updateDishFormSchema>
 export type NewCategoryFormSchema = z.infer<typeof newCategoryFormSchema>

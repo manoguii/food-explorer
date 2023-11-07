@@ -12,11 +12,15 @@ interface CardProps extends LinkProps {
 export function Card({ dish, ...props }: CardProps) {
   const { name, description, price, attachments } = dish
 
+  const imageSrc = attachments[0]
+    ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`
+    : 'https://github.com/manoguii.png'
+
   return (
     <div className="flex min-h-[462px] flex-col items-center justify-between gap-4 rounded-lg bg-gray-50/70 p-6 dark:bg-[#00070A]">
       <Link className="flex w-full flex-col items-center gap-3" {...props}>
         <Image
-          src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`}
+          src={imageSrc}
           alt={description}
           width={176}
           height={176}

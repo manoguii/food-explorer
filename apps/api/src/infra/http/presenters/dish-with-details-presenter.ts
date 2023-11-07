@@ -13,6 +13,7 @@ export class DishWithDetailsPresenter {
       attachments: dish.attachments.map((attachment) => ({
         title: attachment.title,
         url: attachment.url,
+        id: attachment.id.toString(),
       })),
       createdAt: dish.createdAt,
       updatedAt: dish.updatedAt,

@@ -20,6 +20,7 @@ export type Dish = {
   attachments: {
     title: string
     url: string
+    id: string
   }[]
   ingredients: string[]
   category: string

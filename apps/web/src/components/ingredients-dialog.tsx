@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button'
 import {
   DialogContent,
   DialogDescription,
@@ -7,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AlertCircle, Stars, X } from 'lucide-react'
@@ -16,17 +16,21 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 import { CreateDishFormValues } from '@/lib/schemas'
 import { toast } from '@/components/ui/use-toast'
 
-interface CreateNewIngredientDialogProps {
+interface IngredientsDialogProps {
+  type: 'create' | 'update'
   onRequestClose: () => void
   fields: {
     value: string
   }[]
 }
 
-export function CreateNewIngredientDialog({
+export function IngredientsDialog({
   onRequestClose,
   fields,
-}: CreateNewIngredientDialogProps) {
+  type,
+}: IngredientsDialogProps) {
+  const message = type === 'create' ? messages.create : messages.update
+
   const [ingredient, setIngredient] = React.useState('')
 
   const form = useFormContext<CreateDishFormValues>()
@@ -69,7 +73,7 @@ export function CreateNewIngredientDialog({
   return (
     <DialogContent className="outline-none sm:max-w-[600px]">
       <DialogHeader>
-        <DialogTitle>Criar um novo ingrediente</DialogTitle>
+        <DialogTitle>{message.title}</DialogTitle>
 
         <div className="space-y-3">
           <DialogDescription>
@@ -161,4 +165,13 @@ export function CreateNewIngredientDialog({
       </DialogFooter>
     </DialogContent>
   )
+}
+
+const messages = {
+  create: {
+    title: 'Criar ingredientes !',
+  },
+  update: {
+    title: 'Atualizar ingredientes !',
+  },
 }

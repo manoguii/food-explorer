@@ -81,7 +81,11 @@ export class InMemoryDishRepository implements DishRepository {
       slug: dish.slug.value,
       category: category.name,
       ingredients: ingredients.map((ingredient) => ingredient.ingredientName),
-      attachments,
+      attachments: attachments.map((attachment) => ({
+        id: attachment.id.toString(),
+        title: attachment.title,
+        url: attachment.url,
+      })),
       createdAt: dish.createdAt,
       updatedAt: dish.updatedAt,
     })
