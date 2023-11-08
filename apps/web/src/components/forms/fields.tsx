@@ -10,7 +10,7 @@ import { Button } from '../ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { Badge } from '../ui/badge'
 import { AlertCircle, Check, Loader2, X } from 'lucide-react'
-import { IngredientsDialog } from '../ingredients-dialog'
+import { CreateIngredients } from './dialog/create-ingredients'
 import { CreateDishFormValues, UpdateDishFormValues } from '@/lib/schemas'
 
 export function Name({
@@ -315,7 +315,7 @@ export function Ingredients({ type }: { type: 'create' | 'update' }) {
               <Form.FormMessage />
             </Form.FormItem>
 
-            <IngredientsDialog
+            <CreateIngredients
               type={type}
               fields={field.value}
               onRequestClose={() => {

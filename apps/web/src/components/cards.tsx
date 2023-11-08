@@ -3,10 +3,41 @@ import { Dish } from '@/lib/types/definitions'
 import Image from 'next/image'
 import Link, { LinkProps } from 'next/link'
 import React from 'react'
-import { AddToCart } from './add-to-cart'
+import { AddToCart } from './buttons'
+import { Button } from './ui/button'
+import { Trash } from 'lucide-react'
 
 interface CardProps extends LinkProps {
   dish: Dish
+}
+
+export function FavoriteCard({ dish }: { dish: Dish }) {
+  const imageSrc = dish.attachments[0]
+    ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`
+    : '/images/food-placeholder.jpeg'
+
+  return (
+    <div className="grid grid-cols-[max-content_1fr] gap-4 rounded-lg bg-gray-900 p-4">
+      <Image
+        src={imageSrc}
+        width={100}
+        height={100}
+        alt=""
+        className="h-24 w-24 rounded-full object-cover"
+      />
+
+      <div className="flex flex-col place-content-center gap-2">
+        <div>
+          <h2 className="text-xl font-semibold">{dish.name}</h2>
+          <p className="text-muted-foreground">{dish.description}</p>
+        </div>
+
+        <Button variant="destructive" size="icon" className="ml-auto">
+          <Trash className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  )
 }
 
 export function Card({ dish, ...props }: CardProps) {

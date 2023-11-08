@@ -1,0 +1,34 @@
+import { getAuthToken } from '@/app/actions'
+import { CreateCategory } from '@/components/forms/dialog/create-category'
+import { UpdateDishForm } from '@/components/forms/update-dish'
+import { getCategories, getDishBySlug } from '@/lib/data'
+
+export default async function SettingsProfilePage({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const token = await getAuthToken()
+
+  const [categories, dish] = await Promise.all([
+    getCategories(token),
+    getDishBySlug(params.slug, token),
+  ])
+
+  return (
+    <div className="space-y-6 py-10">
+      <div className="flex justify-between">
+        <div>
+          <h3 className="text-lg font-medium">Editar prato</h3>
+          <p className="text-sm text-muted-foreground">
+            Editar informações do prato
+          </p>
+        </div>
+
+        <CreateCategory />
+      </div>
+
+      <UpdateDishForm categories={categories} currentDish={dish} />
+    </div>
+  )
+}

@@ -6,7 +6,7 @@ import { Icons } from '../icons'
 export function ButtonLinkAdmin() {
   return (
     <Link
-      href="/app/dish/new"
+      href="/dashboard/dish/new"
       className={cn(
         buttonVariants({
           variant: 'destructive',
@@ -22,7 +22,7 @@ export function ButtonLinkAdmin() {
 export function ButtonLink() {
   return (
     <Link
-      href="/app/dish/new"
+      href="/dashboard/dish/new"
       className={cn(
         buttonVariants({
           variant: 'destructive',

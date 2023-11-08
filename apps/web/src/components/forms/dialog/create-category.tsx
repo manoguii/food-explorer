@@ -1,14 +1,6 @@
 'use client'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import * as D from '@/components/ui/dialog'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -18,7 +10,7 @@ import { AlertCircle, Loader2, Plus } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
 import { createCategory } from '@/app/actions'
-import { toast } from './ui/use-toast'
+import { toast } from '../../ui/use-toast'
 
 export function CreateCategory() {
   const {
@@ -53,25 +45,25 @@ export function CreateCategory() {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <D.Dialog>
+      <D.DialogTrigger asChild>
         <Button variant="ghost">
           <Plus className="mr-2 h-4 w-4" />
           Criar categoria
         </Button>
-      </DialogTrigger>
-      <DialogContent className="outline-none sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Criar nova categoria</DialogTitle>
+      </D.DialogTrigger>
+      <D.DialogContent className="outline-none sm:max-w-[600px]">
+        <D.DialogHeader>
+          <D.DialogTitle>Criar nova categoria</D.DialogTitle>
           <div className="space-y-3">
-            <DialogDescription>
+            <D.DialogDescription>
               Lembre que um prato obrigatoriamente precisa estar associado a uma{' '}
               <span className="font-semibold text-accent-foreground">
                 categoria
               </span>
               .
-            </DialogDescription>
-            <DialogDescription className="flex items-center text-start">
+            </D.DialogDescription>
+            <D.DialogDescription className="flex items-center text-start">
               <AlertCircle className="mr-2 inline h-4 w-4" />
               <span>
                 Exemplos de{' '}
@@ -79,7 +71,7 @@ export function CreateCategory() {
                   categorias:
                 </span>{' '}
               </span>
-            </DialogDescription>
+            </D.DialogDescription>
             <ol className="space-y-2">
               <li className="text-start text-sm text-muted-foreground">
                 <Badge variant="outline">Bebidas</Badge> - refrigerantes, cafés,
@@ -95,7 +87,7 @@ export function CreateCategory() {
               </li>
             </ol>
           </div>
-        </DialogHeader>
+        </D.DialogHeader>
 
         <form onSubmit={handleSubmit(handleCreateCategory)} className="w-full">
           <div className="grid gap-4 py-4">
@@ -121,12 +113,12 @@ export function CreateCategory() {
               </div>
             </div>
           </div>
-          <DialogFooter>
-            <DialogTrigger asChild>
+          <D.DialogFooter>
+            <D.DialogTrigger asChild>
               <Button type="button" variant="ghost">
                 Cancelar
               </Button>
-            </DialogTrigger>
+            </D.DialogTrigger>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -134,9 +126,9 @@ export function CreateCategory() {
                 'Criar'
               )}
             </Button>
-          </DialogFooter>
+          </D.DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </D.DialogContent>
+    </D.Dialog>
   )
 }

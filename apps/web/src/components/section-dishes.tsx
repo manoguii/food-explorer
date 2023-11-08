@@ -2,7 +2,7 @@
 
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Card } from './card'
+import { Card } from './cards'
 import { Dish } from '@/lib/types/definitions'
 
 import 'swiper/css'
@@ -16,7 +16,7 @@ interface SectionDishesProps {
 export function SectionDishes({ title, dishes }: SectionDishesProps) {
   return (
     <section className="space-y-5">
-      <h4 className="text-3xl">{title}</h4>
+      <h4 className="text-2xl font-semibold">{title}</h4>
 
       <Swiper
         modules={[Navigation, A11y]}
@@ -43,7 +43,7 @@ export function SectionDishes({ title, dishes }: SectionDishesProps) {
       >
         {dishes.map((item) => (
           <SwiperSlide key={item.name}>
-            <Card href={`/app/dish/${item.slug}`} dish={item} />
+            <Card href={`/dashboard/dish/${item.slug}`} dish={item} />
           </SwiperSlide>
         ))}
       </Swiper>

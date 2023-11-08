@@ -1,35 +1,22 @@
-import { auth } from '@/auth'
-// import { AddToCart } from '@/components/add-to-cart'
+import { getAuthToken } from '@/app/actions'
+import { AddToFavorite } from '@/components/buttons'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
+import { getDishBySlug, getFavoriteDishes } from '@/lib/data'
 import { Dish } from '@/lib/types/definitions'
-import { Dot, Star, Cookie } from 'lucide-react'
+import { Dot, Cookie } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-async function getDishBySlug(slug: string, token: string): Promise<Dish> {
-  const response = await fetch(`http://localhost:3333/dishes/${slug}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    next: {
-      tags: [`dish-${slug}`],
-    },
-  })
-
-  const data = await response.json()
-
-  return data.dish
-}
-
 export default async function Dish({ params }: { params: { slug: string } }) {
-  const session = await auth()
+  const token = await getAuthToken()
 
-  if (!session) return
+  const [dish, favoriteDishes] = await Promise.all([
+    getDishBySlug(params.slug, token),
+    getFavoriteDishes(token),
+  ])
 
-  const token = session.user.access_token
-
-  const dish = await getDishBySlug(params.slug, token)
+  const isFavorite = favoriteDishes.some((item) => item.id === dish.id)
 
   const imageSrc = dish.attachments[0]
     ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`
@@ -60,12 +47,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
       <dl className="row-start-2 mt-4 flex items-center text-sm font-medium sm:row-start-3 sm:mt-1 md:mt-2.5 lg:row-start-2">
         <dt className="sr-only">Avaliações</dt>
         <dd className="flex items-center text-indigo-600 dark:text-indigo-400">
-          <button>
-            <Star className="h-4 w-4 stroke-current dark:stroke-indigo-500" />
-          </button>
-          <span>
-            4.89 <span className="font-normal text-slate-400">(128)</span>
-          </span>
+          <AddToFavorite dishId={dish.id} isFavorite={isFavorite} />
         </dd>
         <dt className="sr-only">Categoria</dt>
         <dd className="flex items-center">
@@ -78,7 +60,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
         {/* <AddToCart /> */}
 
         <Link
-          href={`/app/dish/${params.slug}/update`}
+          href={`/dashboard/dish/${params.slug}/update`}
           className={buttonVariants({
             variant: 'destructive',
           })}

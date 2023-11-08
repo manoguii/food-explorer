@@ -27,3 +27,34 @@ export type Dish = {
   createdAt: Date
   updatedAt: Date
 }
+
+export type UploadFileResponse =
+  | {
+      success: true
+      message: string
+      attachmentId: string
+    }
+  | {
+      success: false
+      message: string
+    }
+
+export interface CreateDishParams {
+  name: string
+  description: string
+  price: number
+  ingredients: string[]
+  categoryId: string
+  attachmentsIds: string[]
+}
+
+export interface UpdateDishParams {
+  id: string
+  name: string
+  description: string
+  slug: string
+  price: number
+  ingredients: string[]
+  categoryId: string
+  attachmentsIds: string[]
+}

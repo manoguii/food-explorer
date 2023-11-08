@@ -1,22 +1,15 @@
-import {
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import React from 'react'
+import * as D from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AlertCircle, Stars, X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { CreateDishFormValues } from '@/lib/schemas'
 import { toast } from '@/components/ui/use-toast'
 
-interface IngredientsDialogProps {
+interface CreateIngredientsProps {
   type: 'create' | 'update'
   onRequestClose: () => void
   fields: {
@@ -24,11 +17,11 @@ interface IngredientsDialogProps {
   }[]
 }
 
-export function IngredientsDialog({
+export function CreateIngredients({
   onRequestClose,
   fields,
   type,
-}: IngredientsDialogProps) {
+}: CreateIngredientsProps) {
   const message = type === 'create' ? messages.create : messages.update
 
   const [ingredient, setIngredient] = React.useState('')
@@ -71,20 +64,20 @@ export function IngredientsDialog({
   }
 
   return (
-    <DialogContent className="outline-none sm:max-w-[600px]">
-      <DialogHeader>
-        <DialogTitle>{message.title}</DialogTitle>
+    <D.DialogContent className="outline-none sm:max-w-[600px]">
+      <D.DialogHeader>
+        <D.DialogTitle>{message.title}</D.DialogTitle>
 
         <div className="space-y-3">
-          <DialogDescription>
+          <D.DialogDescription>
             Lembre que um prato obrigatoriamente precisa estar associado a pelo
             menos tres{' '}
             <span className="font-semibold text-accent-foreground">
               ingredientes
             </span>
             .
-          </DialogDescription>
-          <DialogDescription className="flex items-center text-start">
+          </D.DialogDescription>
+          <D.DialogDescription className="flex items-center text-start">
             <Stars className="mr-2 hidden h-4 w-4 sm:inline" />
             <span>
               Para criar vários{' '}
@@ -97,9 +90,9 @@ export function IngredientsDialog({
                 Batata, Cenoura, Alface
               </span>
             </span>
-          </DialogDescription>
+          </D.DialogDescription>
 
-          <DialogDescription className="flex items-center text-start">
+          <D.DialogDescription className="flex items-center text-start">
             <AlertCircle className="mr-2 hidden h-4 w-4 sm:inline" />
             <span>
               Os{' '}
@@ -108,7 +101,7 @@ export function IngredientsDialog({
               </span>{' '}
               adicionados ao prato são:
             </span>
-          </DialogDescription>
+          </D.DialogDescription>
 
           <ol className="flex flex-wrap items-center gap-1">
             {fields.map((item, index) => {
@@ -131,7 +124,7 @@ export function IngredientsDialog({
             })}
           </ol>
         </div>
-      </DialogHeader>
+      </D.DialogHeader>
 
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-baseline gap-4">
@@ -150,20 +143,20 @@ export function IngredientsDialog({
           </div>
         </div>
       </div>
-      <DialogFooter className="gap-2">
-        <DialogTrigger asChild>
+      <D.DialogFooter className="gap-2">
+        <D.DialogTrigger asChild>
           <Button type="button" variant="ghost">
             Cancelar
           </Button>
-        </DialogTrigger>
+        </D.DialogTrigger>
         <Button
           type="submit"
           onClick={() => handleCreateIngredient(ingredient)}
         >
           Criar
         </Button>
-      </DialogFooter>
-    </DialogContent>
+      </D.DialogFooter>
+    </D.DialogContent>
   )
 }
 

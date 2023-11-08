@@ -1,37 +1,22 @@
 'use server'
 
+import {
+  CreateDishParams,
+  UpdateDishParams,
+  UploadFileResponse,
+} from '@/lib/types/definitions'
 import { revalidateTag } from 'next/cache'
 import { auth, signIn, signOut } from '../auth'
+import { notFound } from 'next/navigation'
 
-type UploadFileResponse =
-  | {
-      success: true
-      message: string
-      attachmentId: string
-    }
-  | {
-      success: false
-      message: string
-    }
+export async function getAuthToken() {
+  const session = await auth()
 
-interface CreateDishType {
-  name: string
-  description: string
-  price: number
-  ingredients: string[]
-  categoryId: string
-  attachmentsIds: string[]
-}
+  if (!session) return notFound()
 
-interface UpdateDishType {
-  id: string
-  name: string
-  description: string
-  slug: string
-  price: number
-  ingredients: string[]
-  categoryId: string
-  attachmentsIds: string[]
+  const token = session.user.access_token
+
+  return token
 }
 
 export async function authenticate(user: { email: string; password: string }) {
@@ -50,16 +35,7 @@ export async function logout() {
 }
 
 export async function createCategory(category: string) {
-  const session = await auth()
-
-  if (!session) {
-    return {
-      success: false,
-      message: 'Você precisa estar logado para criar uma categoria.',
-    }
-  }
-
-  const token = session.user.access_token
+  const token = await getAuthToken()
 
   const response = await fetch('http://localhost:3333/categories', {
     method: 'POST',
@@ -86,17 +62,8 @@ export async function createCategory(category: string) {
   }
 }
 
-export async function createDish(dish: CreateDishType) {
-  const session = await auth()
-
-  if (!session) {
-    return {
-      success: false,
-      message: 'Você precisa estar logado para criar um prato.',
-    }
-  }
-
-  const token = session.user.access_token
+export async function createDish(dish: CreateDishParams) {
+  const token = await getAuthToken()
 
   const response = await fetch('http://localhost:3333/dishes', {
     method: 'POST',
@@ -123,17 +90,8 @@ export async function createDish(dish: CreateDishType) {
   }
 }
 
-export async function updateDish(dish: UpdateDishType) {
-  const session = await auth()
-
-  if (!session) {
-    return {
-      success: false,
-      message: 'Você precisa estar logado para atualizar um prato.',
-    }
-  }
-
-  const token = session.user.access_token
+export async function updateDish(dish: UpdateDishParams) {
+  const token = await getAuthToken()
 
   const response = await fetch(`http://localhost:3333/dishes/${dish.id}`, {
     method: 'PUT',
@@ -164,16 +122,7 @@ export async function updateDish(dish: UpdateDishType) {
 export async function uploadFile(
   formData: FormData,
 ): Promise<UploadFileResponse> {
-  const session = await auth()
-
-  if (!session) {
-    return {
-      success: false,
-      message: 'Você precisa estar logado para criar um arquivo.',
-    }
-  }
-
-  const token = session.user.access_token
+  const token = await getAuthToken()
 
   const response = await fetch('http://localhost:3333/attachments', {
     method: 'POST',
@@ -199,5 +148,34 @@ export async function uploadFile(
     success: true,
     message: `Arquivo criado com sucesso.`,
     attachmentId,
+  }
+}
+
+export async function addFavoriteDish(dishId: string) {
+  const token = await getAuthToken()
+
+  const response = await fetch(
+    `http://localhost:3333/dishes/${dishId}/favorite`,
+    {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  if (!response.ok) {
+    const data = await response.json()
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
+  revalidateTag('favorite-dishes')
+
+  return {
+    success: true,
+    message: `Prato adicionado aos favoritos com sucesso.`,
   }
 }
