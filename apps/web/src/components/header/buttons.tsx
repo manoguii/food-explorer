@@ -3,15 +3,27 @@ import Link from 'next/link'
 import { buttonVariants } from '../ui/button'
 import { Icons } from '../icons'
 
-export function ButtonLinkAdmin() {
+export function FavoriteDish() {
+  return (
+    <Link
+      href="/dashboard/favorite-dishes"
+      className={buttonVariants({
+        variant: 'link',
+      })}
+    >
+      Pratos favoritos
+    </Link>
+  )
+}
+
+export function NewDish() {
   return (
     <Link
       href="/dashboard/dish/new"
       className={cn(
         buttonVariants({
-          variant: 'destructive',
+          variant: 'link',
         }),
-        'flex items-center gap-2 px-8 py-3',
       )}
     >
       Novo prato
@@ -19,10 +31,10 @@ export function ButtonLinkAdmin() {
   )
 }
 
-export function ButtonLink() {
+export function OrderButton() {
   return (
     <Link
-      href="/dashboard/dish/new"
+      href="/dashboard/orders"
       className={cn(
         buttonVariants({
           variant: 'destructive',

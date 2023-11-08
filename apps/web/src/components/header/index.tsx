@@ -3,8 +3,7 @@ import { Icons } from '../icons'
 import { ModeToggle } from './mode-toggle'
 import { SearchInput } from './search-input'
 import { SignOutButton } from './sign-out-button'
-import { ButtonLinkAdmin } from './buttons'
-import { buttonVariants } from '../ui/button'
+import { FavoriteDish, NewDish, OrderButton } from './buttons'
 
 export function Header() {
   return (
@@ -20,15 +19,9 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-1">
-          <Link
-            href="/dashboard/favorite-dishes"
-            className={buttonVariants({
-              variant: 'link',
-            })}
-          >
-            Pratos favoritos
-          </Link>
-          <ButtonLinkAdmin />
+          <FavoriteDish />
+          <NewDish />
+          <OrderButton />
           <SignOutButton />
           <ModeToggle />
         </div>

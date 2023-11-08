@@ -6,8 +6,6 @@ export default async function FavoriteDishes() {
   const token = await getAuthToken()
   const favoriteDishes = await fetchFavoriteDishes(token)
 
-  console.log(favoriteDishes)
-
   return (
     <div className="space-y-5">
       <h1 className="text-2xl font-semibold">Meus favoritos</h1>
