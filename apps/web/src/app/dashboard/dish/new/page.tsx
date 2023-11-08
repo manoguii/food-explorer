@@ -1,14 +1,26 @@
 import { getAuthToken } from '@/app/actions'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { CreateDishForm } from '@/components/forms/create-dish'
-import { getCategories } from '@/lib/data'
+import { fetchCategories } from '@/lib/data'
+import { Breadcrumbs } from '@/components/breadcrumbs'
 
 export default async function SettingsProfilePage() {
   const token = await getAuthToken()
-  const categories = await getCategories(token)
+  const categories = await fetchCategories(token)
 
   return (
     <div className="space-y-5">
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: 'Painel', href: '/dashboard' },
+          {
+            label: 'Criar prato',
+            href: '/dashboard/dish/new',
+            active: true,
+          },
+        ]}
+      />
+
       <div className="flex justify-between">
         <div>
           <h3 className="text-lg font-medium">Criar um novo prato</h3>

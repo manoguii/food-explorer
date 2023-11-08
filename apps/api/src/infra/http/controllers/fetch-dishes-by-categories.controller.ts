@@ -19,19 +19,20 @@ const pageQueryParamSchema = z
   .transform(Number)
   .pipe(z.number().min(1))
 
-const categoriesQueryParamSchema = z
+const categoryQueryParamSchema = z
   .array(z.string())
   .min(1)
   .max(10)
   .transform((value) => value.map((category) => category.trim()))
+  .or(z.string().transform((value) => [value.trim()]))
 
 const queryCategoriesValidationPipe = new ZodValidationPipe(
-  categoriesQueryParamSchema,
+  categoryQueryParamSchema,
 )
 const queryPageValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 
 type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
-type CategoriesQueryParamSchema = z.infer<typeof categoriesQueryParamSchema>
+type CategoryQueryParamSchema = z.infer<typeof categoryQueryParamSchema>
 
 @ApiTags('Dish')
 @Controller('/dish/categories')
@@ -42,12 +43,12 @@ export class FetchDishesByCategoriesController {
 
   @Get()
   async handle(
-    @Query('categories', queryCategoriesValidationPipe)
-    categories: CategoriesQueryParamSchema,
+    @Query('category', queryCategoriesValidationPipe)
+    category: CategoryQueryParamSchema,
     @Query('page', queryPageValidationPipe) page: PageQueryParamSchema,
   ) {
     const result = await this.fetchDishesByCategories.execute({
-      categories,
+      categories: category,
       page,
     })
 

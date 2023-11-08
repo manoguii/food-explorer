@@ -7,12 +7,12 @@ import {
 } from '@/lib/types/definitions'
 import { revalidateTag } from 'next/cache'
 import { auth, signIn, signOut } from '../auth'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export async function getAuthToken() {
   const session = await auth()
 
-  if (!session) return notFound()
+  if (!session) return redirect('/auth/sign-in')
 
   const token = session.user.access_token
 

@@ -1,10 +1,10 @@
 import { getAuthToken } from '@/app/actions'
 import { FavoriteCard } from '@/components/cards'
-import { getFavoriteDishes } from '@/lib/data'
+import { fetchFavoriteDishes } from '@/lib/data'
 
 export default async function FavoriteDishes() {
   const token = await getAuthToken()
-  const favoriteDishes = await getFavoriteDishes(token)
+  const favoriteDishes = await fetchFavoriteDishes(token)
 
   console.log(favoriteDishes)
 

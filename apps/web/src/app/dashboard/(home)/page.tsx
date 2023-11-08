@@ -1,19 +1,27 @@
-import { SectionDishes } from '@/components/section-dishes'
-import { Hero } from '@/components/hero'
-import { getDishes } from '@/lib/data'
 import { getAuthToken } from '@/app/actions'
+import { DishSlides } from '@/components/dish-slide'
+import { Hero } from '@/components/hero'
+import { fetchDishesByCategories } from '@/lib/data'
 
 export default async function Home() {
   const token = await getAuthToken()
-  const dishes = await getDishes(token)
+  const { dishes } = await fetchDishesByCategories(token, [
+    'Saladas',
+    'Sobremesas',
+    'Refeições',
+  ])
 
   return (
-    <>
+    <div className="space-y-8">
       <Hero />
-
-      {dishes.dishes.map(({ category, items }) => (
-        <SectionDishes key={category} title={category} dishes={items} />
-      ))}
-    </>
+      <div className="space-y-6">
+        {dishes.map(({ category, items }) => (
+          <div key={category}>
+            <h4 className="text-2xl font-semibold">{category}</h4>
+            <DishSlides dishes={items} />
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }

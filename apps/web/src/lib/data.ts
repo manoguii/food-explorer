@@ -8,7 +8,7 @@ interface GetDishesResponse {
   }[]
 }
 
-export async function getFavoriteDishes(token: string): Promise<Dish[]> {
+export async function fetchFavoriteDishes(token: string): Promise<Dish[]> {
   const response = await fetch('http://localhost:3333/dish/favorites', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -23,7 +23,7 @@ export async function getFavoriteDishes(token: string): Promise<Dish[]> {
   return favoriteDishes.dishes
 }
 
-export async function getCategories(token: string): Promise<Category[]> {
+export async function fetchCategories(token: string): Promise<Category[]> {
   const response = await fetch('http://localhost:3333/categories', {
     method: 'GET',
     headers: {
@@ -54,9 +54,14 @@ export async function getDishBySlug(
   return data.dish
 }
 
-export async function getDishes(token: string): Promise<GetDishesResponse> {
+export async function fetchDishesByCategories(
+  token: string,
+  category: string[],
+): Promise<GetDishesResponse> {
+  const query = category.map((category) => `category=${category}`).join('&')
+
   const response = await fetch(
-    'http://localhost:3333/dish/categories?categories=Saladas&categories=Refeições&categories=Sobremesas',
+    `http://localhost:3333/dish/categories?${query}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
