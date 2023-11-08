@@ -42,10 +42,12 @@ export default async function SettingsProfilePage({
     return
   }
 
-  const categories = await getCategories(session.user.access_token)
   const token = session.user.access_token
 
-  const dish = await getDishBySlug(params.slug, token)
+  const [categories, dish] = await Promise.all([
+    getCategories(token),
+    getDishBySlug(params.slug, token),
+  ])
 
   return (
     <div className="space-y-6 py-10">
@@ -60,11 +62,7 @@ export default async function SettingsProfilePage({
         <CreateCategory />
       </div>
 
-      <UpdateDishForm
-        categories={categories}
-        token={token}
-        currentDish={dish}
-      />
+      <UpdateDishForm categories={categories} currentDish={dish} />
     </div>
   )
 }

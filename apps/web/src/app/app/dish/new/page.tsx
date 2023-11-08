@@ -11,7 +11,7 @@ async function getCategories(token: string): Promise<Category[]> {
       Authorization: `Bearer ${token}`,
     },
     next: {
-      tags: ['Categories'],
+      tags: ['categories-tag'],
     },
   })
 
@@ -28,7 +28,6 @@ export default async function SettingsProfilePage() {
   }
 
   const categories = await getCategories(session.user.access_token)
-  const token = session.user.access_token
 
   return (
     <div className="space-y-6 py-10">
@@ -43,7 +42,7 @@ export default async function SettingsProfilePage() {
         <CreateCategory />
       </div>
 
-      <CreateDishForm categories={categories} token={token} />
+      <CreateDishForm categories={categories} />
     </div>
   )
 }

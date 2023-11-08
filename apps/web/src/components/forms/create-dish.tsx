@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { PlusCircledIcon, ReloadIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/navigation'
+import { createDish, uploadFile } from '@/app/actions'
 
 const defaultValues: Partial<CreateDishFormValues> = {
   description: '',
@@ -26,13 +27,7 @@ const defaultValues: Partial<CreateDishFormValues> = {
   ingredients: [{ value: 'Batata' }, { value: 'Arroz' }, { value: 'Feijão' }],
 }
 
-export function CreateDishForm({
-  categories,
-  token,
-}: {
-  categories: Category[]
-  token: string
-}) {
+export function CreateDishForm({ categories }: { categories: Category[] }) {
   const [createIngredientDialogOpen, setCreateIngredientDialogOpen] =
     React.useState(false)
   const [uploadingFile, setUploadingFile] = React.useState<{
@@ -57,62 +52,65 @@ export function CreateDishForm({
       state: 'uploading',
     })
 
-    const response = await fetch('http://localhost:3333/attachments', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    })
+    const result = await uploadFile(formData)
 
-    const attachmentResponse = await response.json()
+    if (!result.success) {
+      setUploadingFile({
+        state: 'error',
+      })
+
+      return toast({
+        title: 'Erro ao criar as imagens do prato !',
+        description: result.message,
+        variant: 'destructive',
+      })
+    }
 
     setUploadingFile({
       state: 'success',
     })
 
-    const attachmentId = attachmentResponse.attachmentId
-    const ingredients = data.ingredients.map((ingredient) => ingredient.value)
+    const attachmentId = result.attachmentId
+
     const categoryId = categories.find(
       (category) => category.name === data.category,
     )?.id
-    const price = Number(data.price.replace(',', ''))
 
-    const dish = {
-      name: data.name,
-      description: data.description,
-      price,
-      ingredients,
-      categoryId,
-      attachmentsIds: [attachmentId],
-    }
-
-    const dishResponse = await fetch('http://localhost:3333/dishes', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dish),
-    })
-
-    form.reset()
-
-    if (dishResponse.ok) {
-      toast({
-        title: 'Prato criado com sucesso !',
-        description: 'Seu prato foi criado com sucesso !',
-      })
-    } else {
-      toast({
-        title: 'Erro ao criar prato !',
-        description:
-          'Ocorreu um erro ao criar seu prato, tente novamente mais tarde !',
+    if (!categoryId) {
+      return toast({
+        title: 'Categoria não encontrada !',
+        description: `A categoria ${data.category} não foi encontrada !`,
         variant: 'destructive',
       })
     }
 
-    router.replace('/app')
+    const dish = {
+      name: data.name,
+      description: data.description,
+      price: Number(data.price.replace(',', '')),
+      ingredients: data.ingredients.map((ingredient) => ingredient.value),
+      categoryId,
+      attachmentsIds: [attachmentId],
+    }
+
+    const dishResult = await createDish(dish)
+
+    form.reset()
+
+    if (dishResult.success) {
+      toast({
+        title: 'Prato criado com sucesso !',
+        description: dishResult.message,
+      })
+    } else {
+      toast({
+        title: 'Erro ao criar prato !',
+        description: dishResult.message,
+        variant: 'destructive',
+      })
+    }
+
+    router.replace(`/app`)
   }
 
   const { remove } = useFieldArray({

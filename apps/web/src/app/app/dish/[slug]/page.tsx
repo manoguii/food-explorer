@@ -12,7 +12,11 @@ async function getDishBySlug(slug: string, token: string): Promise<Dish> {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    next: {
+      tags: [`dish-${slug}`],
+    },
   })
+
   const data = await response.json()
 
   return data.dish
@@ -23,11 +27,9 @@ export default async function Dish({ params }: { params: { slug: string } }) {
 
   if (!session) return
 
-  const {
-    user: { access_token },
-  } = session
+  const token = session.user.access_token
 
-  const dish = await getDishBySlug(params.slug, access_token)
+  const dish = await getDishBySlug(params.slug, token)
 
   const imageSrc = dish.attachments[0]
     ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`

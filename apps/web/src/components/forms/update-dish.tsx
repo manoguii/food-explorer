@@ -17,17 +17,15 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { PlusCircledIcon, ReloadIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/navigation'
+import { updateDish, uploadFile } from '@/app/actions'
 
 export function UpdateDishForm({
   currentDish,
   categories,
-  token,
 }: {
   currentDish: Dish
   categories: Category[]
-  token: string
 }) {
-  console.log(currentDish)
   const [updateIngredientDialogOpen, setUpdateIngredientDialogOpen] =
     React.useState(false)
   const [uploadingFile, setUploadingFile] = React.useState<{
@@ -67,72 +65,74 @@ export function UpdateDishForm({
         state: 'uploading',
       })
 
-      const response = await fetch('http://localhost:3333/attachments', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      })
+      const result = await uploadFile(formData)
 
-      const attachmentResponse = await response.json()
+      if (!result.success) {
+        setUploadingFile({
+          state: 'error',
+        })
+
+        return toast({
+          title: `Error ao fazer upload das imagens !`,
+          description: result.message,
+          variant: 'destructive',
+        })
+      }
 
       setUploadingFile({
         state: 'success',
       })
 
-      const attachmentId = attachmentResponse.attachmentId
+      const attachmentId = result.attachmentId
 
       attachmentsIds = [...attachmentsIds, attachmentId]
     }
 
-    const ingredients = data.ingredients.map((ingredient) => ingredient.value)
     const categoryId = categories.find(
       (category) => category.name === data.category,
     )?.id
-    const price = Number(data.price.replace(',', ''))
 
-    const dish = {
-      name: data.name,
-      description: data.description,
-      price,
-      ingredients,
-      categoryId,
-      attachmentsIds,
-    }
-
-    console.log('dish =>', dish)
-    console.log('attachmentsIds =>', attachmentsIds)
-
-    const dishResponse = await fetch(
-      `http://localhost:3333/dishes/${currentDish.id}`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dish),
-      },
-    )
-
-    form.reset()
-
-    if (dishResponse.ok) {
-      toast({
-        title: 'Prato atualizado com sucesso !',
-        description: `O prato ${dish.name} foi atualizado com sucesso !`,
-      })
-    } else {
-      toast({
-        title: `Error ao atualizar o prato ${dish.name} !`,
-        description:
-          'Ocorreu um erro ao criar seu prato, tente novamente mais tarde !',
+    if (!categoryId) {
+      return toast({
+        title: 'Categoria não encontrada !',
+        description: `A categoria ${data.category} não foi encontrada !`,
         variant: 'destructive',
       })
     }
 
-    router.replace('/app')
+    const dish = {
+      id: currentDish.id,
+      slug: currentDish.slug,
+      name: data.name,
+      description: data.description,
+      price: Number(data.price.replace(',', '')),
+      ingredients: data.ingredients.map((ingredient) => ingredient.value),
+      categoryId,
+      attachmentsIds,
+    }
+
+    const result = await updateDish(dish)
+
+    form.reset()
+
+    if (result.success) {
+      toast({
+        title: 'Prato atualizado com sucesso !',
+        description: result.message,
+      })
+    } else {
+      toast({
+        title: `Error ao atualizar o prato ${dish.name} !`,
+        description: result.message,
+        variant: 'destructive',
+      })
+    }
+
+    if (currentDish.name !== data.name) {
+      router.replace(`/app`)
+    } else {
+      router.replace(`/app/dish/${currentDish.slug}`)
+    }
   }
 
   const { remove } = useFieldArray({

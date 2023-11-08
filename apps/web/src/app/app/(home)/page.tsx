@@ -17,6 +17,9 @@ async function getDishes(token: string): Promise<GetDishesResponse> {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      next: {
+        tags: ['featured-dishes'],
+      },
     },
   )
   const dishes = await response.json()
