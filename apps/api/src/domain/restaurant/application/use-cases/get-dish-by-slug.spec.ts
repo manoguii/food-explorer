@@ -109,7 +109,18 @@ describe('Get Dish By Slug', () => {
         name: newDish.name,
         category: category.name,
         ingredients: [ingredient.name, ingredient2.name],
-        attachments: [attachment, attachment2],
+        attachments: expect.arrayContaining([
+          expect.objectContaining({
+            url: attachment.url,
+            id: attachment.id.toString(),
+            title: attachment.title,
+          }),
+          expect.objectContaining({
+            url: attachment2.url,
+            id: attachment2.id.toString(),
+            title: attachment2.title,
+          }),
+        ]),
       }),
     })
   })

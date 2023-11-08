@@ -38,9 +38,14 @@ describe('Authenticate Client', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value).toEqual({
-      accessToken: expect.any(String),
-    })
+    expect(result.value).toEqual(
+      expect.objectContaining({
+        accessToken: expect.any(String),
+        user: expect.objectContaining({
+          email: 'johndoe@example.com',
+        }),
+      }),
+    )
   })
 
   it('should not be able to authenticate a client when the email does not exist', async () => {

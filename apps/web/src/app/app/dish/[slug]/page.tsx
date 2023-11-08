@@ -31,7 +31,8 @@ export default async function Dish({ params }: { params: { slug: string } }) {
 
   const imageSrc = dish.attachments[0]
     ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`
-    : 'https://github.com/manoguii.png'
+    : '/images/food-placeholder.jpeg'
+
   return (
     <div className="mx-auto my-12 grid max-w-4xl grid-cols-1 lg:max-w-5xl lg:grid-cols-2 lg:gap-x-4">
       <div className="relative col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t p-3 dark:from-gray-950/75 dark:via-gray-950/0 sm:row-start-2 sm:bg-none sm:p-0 lg:row-start-1">

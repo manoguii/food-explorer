@@ -23,6 +23,11 @@ export class Dish extends AggregateRoot<DishProps> {
     return this.props.categoryId
   }
 
+  set categoryId(categoryId: UniqueEntityID) {
+    this.props.categoryId = categoryId
+    this.touch()
+  }
+
   get attachments() {
     return this.props.attachments
   }

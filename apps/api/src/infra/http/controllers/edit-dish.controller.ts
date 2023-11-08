@@ -17,6 +17,7 @@ const editDishBodySchema = z.object({
   price: z.number(),
   description: z.string(),
   ingredients: z.array(z.string()),
+  categoryId: z.string().uuid(),
   attachmentsIds: z.array(z.string().uuid()),
 })
 
@@ -34,7 +35,14 @@ export class EditDishController {
     @Body(bodyValidationPipe) body: EditDishBodySchema,
     @Param('id') dishId: string,
   ) {
-    const { description, name, price, ingredients, attachmentsIds } = body
+    const {
+      description,
+      name,
+      price,
+      ingredients,
+      attachmentsIds,
+      categoryId,
+    } = body
 
     const result = await this.editDish.execute({
       name,
@@ -43,6 +51,7 @@ export class EditDishController {
       ingredients,
       attachmentsIds,
       dishId,
+      categoryId,
     })
 
     if (result.isLeft()) {

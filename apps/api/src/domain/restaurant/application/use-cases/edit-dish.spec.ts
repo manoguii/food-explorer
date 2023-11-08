@@ -9,6 +9,7 @@ import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { makeCategory } from 'test/factories/make-category'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
@@ -34,11 +35,21 @@ describe('Edit Dish', () => {
       inMemoryDishRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
     )
   })
 
   it('should be able to edit a dish', async () => {
-    const newDish = makeDish({}, new UniqueEntityID('dish-1'))
+    const category = makeCategory()
+
+    await inMemoryCategoryRepository.create(category)
+
+    const newDish = makeDish(
+      {
+        categoryId: category.id,
+      },
+      new UniqueEntityID('dish-1'),
+    )
 
     await inMemoryDishRepository.create(newDish)
 
@@ -65,6 +76,12 @@ describe('Edit Dish', () => {
       }),
     )
 
+    const newCategory = makeCategory({
+      name: 'Saladas',
+    })
+
+    await inMemoryCategoryRepository.create(newCategory)
+
     // Edita o prato com 1 arquivo novo e um antigo, o mesmo para os ingredientes
 
     const result = await sut.execute({
@@ -74,6 +91,7 @@ describe('Edit Dish', () => {
       price: 1000,
       attachmentsIds: ['attachment-1', 'new-attachment'],
       ingredients: ['Laranja', 'new-ingredient'],
+      categoryId: newCategory.id.toValue(),
     })
 
     // Espera-se que nos currentItems tenha 1 arquivo novo e um antigo, o mesmo para os ingredientes
@@ -100,10 +118,20 @@ describe('Edit Dish', () => {
         ingredientName: 'new-ingredient',
       }),
     ])
+    expect(inMemoryDishRepository.items[0].categoryId).toEqual(newCategory.id)
   })
 
   it('should sync new and removed attachments when edit a dish', async () => {
-    const newDish = makeDish({}, new UniqueEntityID('dish-1'))
+    const category = makeCategory()
+
+    await inMemoryCategoryRepository.create(category)
+
+    const newDish = makeDish(
+      {
+        categoryId: category.id,
+      },
+      new UniqueEntityID('dish-1'),
+    )
 
     await inMemoryDishRepository.create(newDish)
 
@@ -125,6 +153,7 @@ describe('Edit Dish', () => {
       price: 1000,
       attachmentsIds: ['attachment-1', 'new-attachment'],
       ingredients: ['Batata', 'Laranja'],
+      categoryId: category.id.toValue(),
     })
 
     expect(result.isRight()).toBe(true)
@@ -142,7 +171,16 @@ describe('Edit Dish', () => {
   })
 
   it('should sync new and removed ingredients when edit a dish', async () => {
-    const newDish = makeDish({}, new UniqueEntityID('dish-1'))
+    const category = makeCategory()
+
+    await inMemoryCategoryRepository.create(category)
+
+    const newDish = makeDish(
+      {
+        categoryId: category.id,
+      },
+      new UniqueEntityID('dish-1'),
+    )
 
     await inMemoryDishRepository.create(newDish)
 
@@ -164,6 +202,7 @@ describe('Edit Dish', () => {
       price: 1000,
       attachmentsIds: ['1', '2'],
       ingredients: ['Batata', 'new-ingredient'],
+      categoryId: category.id.toValue(),
     })
 
     expect(result.isRight()).toBe(true)
@@ -188,6 +227,7 @@ describe('Edit Dish', () => {
       price: 1000,
       attachmentsIds: ['1', '2'],
       ingredients: ['Batata', 'Laranja'],
+      categoryId: 'category-id',
     })
 
     expect(result.isLeft()).toBe(true)

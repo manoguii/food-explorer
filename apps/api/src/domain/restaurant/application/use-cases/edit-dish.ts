@@ -10,9 +10,11 @@ import { DishAttachment } from '../../enterprise/entities/dish-attachment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DishIngredient } from '../../enterprise/entities/dish-ingredient'
 import { Injectable } from '@nestjs/common'
+import { CategoryRepository } from '../repositories/category-repository'
 
 interface EditDishUseCaseRequest {
   dishId: string
+  categoryId: string
   name: string
   description: string
   price: number
@@ -33,6 +35,7 @@ export class EditDishUseCase {
     private dishRepository: DishRepository,
     private dishAttachmentsRepository: DishAttachmentsRepository,
     private dishIngredientsRepository: DishIngredientsRepository,
+    private categoryRepository: CategoryRepository,
   ) {}
 
   async execute({
@@ -40,6 +43,7 @@ export class EditDishUseCase {
     description,
     name,
     price,
+    categoryId,
     attachmentsIds,
     ingredients,
   }: EditDishUseCaseRequest): Promise<EditDishUseCaseResponse> {
@@ -73,6 +77,12 @@ export class EditDishUseCase {
       })
     })
 
+    const category = await this.categoryRepository.findById(categoryId)
+
+    if (!category) {
+      return left(new ResourceNotFoundError())
+    }
+
     // Compara os arquivos e ingredientes atuais com os novos com base na Watched List
     dishAttachmentsList.update(dishAttachments)
     dishIngredientsList.update(dishIngredient)
@@ -80,6 +90,7 @@ export class EditDishUseCase {
     dish.name = name
     dish.price = price
     dish.description = description
+    dish.categoryId = category.id
 
     // Atualiza os arquivos e ingredientes do prato
     dish.attachments = dishAttachmentsList

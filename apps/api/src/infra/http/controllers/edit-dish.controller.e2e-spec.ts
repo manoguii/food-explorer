@@ -103,6 +103,7 @@ describe('Edit dish (E2E)', () => {
     ])
 
     const newAttachment = await attachmentFactory.makePrismaAttachment()
+    const newCategory = await categoryFactory.makePrismaCategory()
 
     const response = await request(app.getHttpServer())
       .put(`/dishes/${dish.id.toString()}`)
@@ -111,7 +112,7 @@ describe('Edit dish (E2E)', () => {
         name: 'Novo prato',
         description: 'Descrição do prato',
         price: 100,
-        categoryId: category.id,
+        categoryId: newCategory.id.toString(),
         ingredients: ['Batata', 'Cebola', 'Queijo'],
         attachmentsIds: [
           attachment1.id.toString(),
@@ -142,6 +143,8 @@ describe('Edit dish (E2E)', () => {
     })
 
     expect(attachmentsOnDatabase).toHaveLength(2)
+    expect(dishOnDatabase?.categoryId).toEqual(newCategory.id.toString())
+
     expect(attachmentsOnDatabase).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
