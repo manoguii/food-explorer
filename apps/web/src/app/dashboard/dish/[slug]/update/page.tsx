@@ -16,7 +16,7 @@ export default async function SettingsProfilePage({
   ])
 
   return (
-    <div className="space-y-6 py-10">
+    <div className="space-y-5">
       <div className="flex justify-between">
         <div>
           <h3 className="text-lg font-medium">Editar prato</h3>

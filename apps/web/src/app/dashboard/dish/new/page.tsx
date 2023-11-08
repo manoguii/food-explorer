@@ -8,7 +8,7 @@ export default async function SettingsProfilePage() {
   const categories = await getCategories(token)
 
   return (
-    <div className="space-y-6 py-10">
+    <div className="space-y-5">
       <div className="flex justify-between">
         <div>
           <h3 className="text-lg font-medium">Criar um novo prato</h3>

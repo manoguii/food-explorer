@@ -9,7 +9,7 @@ export default async function FavoriteDishes() {
   console.log(favoriteDishes)
 
   return (
-    <div className="my-8 space-y-8">
+    <div className="space-y-5">
       <h1 className="text-2xl font-semibold">Meus favoritos</h1>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
