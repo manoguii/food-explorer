@@ -1,16 +1,9 @@
 'use client'
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
+import * as Field from './fields'
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Input } from '@/components/ui/input'
 import { Button, buttonVariants } from '@/components/ui/button'
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -80,58 +73,9 @@ export function CreateAccountForm({
     <div className={cn('grid gap-6', className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="John Doe" type="text" {...field} />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="johndoe@example.com"
-                    type="email"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Senha</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="No mínimo 6 caracteres"
-                    type="password"
-                    {...field}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <Field.Name />
+          <Field.Email />
+          <Field.Password />
 
           <Button disabled={isLoading} variant={'destructive'}>
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
