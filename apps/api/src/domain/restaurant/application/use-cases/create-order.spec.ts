@@ -64,6 +64,9 @@ describe('Create Order', () => {
       expect.objectContaining({ dishId: new UniqueEntityID('10') }),
       expect.objectContaining({ dishId: new UniqueEntityID('20') }),
     ])
+    expect(inMemoryOrderRepository.items).toHaveLength(1)
+    expect(inMemoryOrderRepository.items[0].label).toEqual('TABLE')
+    expect(inMemoryOrderRepository.items[0].priority).toEqual('LOW')
   })
 
   it('should not be able to create a order with no items', async () => {

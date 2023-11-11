@@ -2,7 +2,7 @@
 
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Card } from './cards'
+import { DishCard } from './cards'
 import { Dish } from '@/lib/types/definitions'
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -38,7 +38,7 @@ export function DishSlides({ dishes }: DishSlidesProps) {
     >
       {dishes.map((item) => (
         <SwiperSlide key={item.name}>
-          <Card href={`/dashboard/dish/${item.slug}`} dish={item} />
+          <DishCard dish={item} />
         </SwiperSlide>
       ))}
     </Swiper>

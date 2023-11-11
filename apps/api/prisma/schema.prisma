@@ -76,10 +76,24 @@ enum OrderStatus {
   CANCELED
 }
 
+enum Label {
+  TABLE
+  DELIVERY
+  TAKEOUT
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 model Order {
   id           String      @id @default(uuid())
   code         String
   status       OrderStatus @default(PENDING)
+  label        Label       @default(TABLE)
+  priority     Priority    @default(LOW)
   orderDetails String
   createdAt    DateTime    @default(now()) @map("created_at")
   updatedAt    DateTime?   @updatedAt @map("updated_at")

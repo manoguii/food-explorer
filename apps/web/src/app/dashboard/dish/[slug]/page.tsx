@@ -36,14 +36,14 @@ export default async function Dish({ params }: { params: { slug: string } }) {
         ]}
       />
 
-      <div className="mx-auto grid h-full max-w-4xl grid-cols-1 place-content-center lg:max-w-5xl lg:grid-cols-2 lg:gap-x-8">
+      <div className="grid h-full max-w-4xl grid-cols-1 place-content-center lg:max-w-5xl lg:grid-cols-2 lg:gap-x-8">
         <div className="relative col-start-1 row-start-1 flex flex-col-reverse rounded-lg bg-gradient-to-t p-3 dark:from-gray-950/75 dark:via-gray-950/0 sm:row-start-2 sm:bg-none sm:p-0 lg:row-start-1">
           <h1 className="mt-1 text-2xl font-semibold text-white sm:text-slate-900 dark:sm:text-white md:text-3xl">
             {dish.name}
           </h1>
         </div>
 
-        <div className="col-start-1 col-end-3 row-start-1 grid place-content-center gap-4 sm:mb-6 lg:col-start-2 lg:row-span-6 lg:row-start-1">
+        <div className="col-start-1 col-end-3 row-start-1 grid place-content-center gap-4 sm:mb-6 lg:col-start-2 lg:row-span-6 lg:row-start-1 lg:ml-auto">
           <Image
             src={imageSrc}
             alt={dish.description}
@@ -51,7 +51,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
             quality={100}
             width={400}
             height={400}
-            className="h-[300px] w-[300px] rounded-full object-cover sm:h-[400px] sm:w-[400px]"
+            className="aspect-square rounded-md object-cover"
           />
         </div>
         <dl className="row-start-2 mt-4 flex items-center text-sm font-medium sm:row-start-3 sm:mt-1 md:mt-2.5 lg:row-start-2">

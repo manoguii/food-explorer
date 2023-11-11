@@ -118,6 +118,8 @@ describe('Fetch recent orders (E2E)', () => {
         expect.objectContaining({
           code: expect.any(String),
           details: '2 x Batata frita, 1 x Macarrão',
+          label: 'TABLE',
+          priority: 'LOW',
         }),
       ]),
     })

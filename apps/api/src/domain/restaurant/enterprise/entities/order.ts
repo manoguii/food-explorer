@@ -5,6 +5,8 @@ import { OrderItemList } from './order-item-list'
 import { AggregateRoot } from '@/core/entities/aggregate-root'
 
 export type OrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+export type Label = 'TABLE' | 'DELIVERY' | 'TAKEOUT'
+export type Priority = 'LOW' | 'MEDIUM' | 'HIGH'
 
 export interface OrderProps {
   clientId: UniqueEntityID
@@ -12,6 +14,8 @@ export interface OrderProps {
   code: Code
   status: OrderStatus
   orderDetails: string
+  label: Label
+  priority: Priority
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -40,6 +44,24 @@ export class Order extends AggregateRoot<OrderProps> {
 
   set orderDetails(orderDetails: string) {
     this.props.orderDetails = orderDetails
+  }
+
+  get label() {
+    return this.props.label
+  }
+
+  set label(label: Label) {
+    this.props.label = label
+    this.touch()
+  }
+
+  get priority() {
+    return this.props.priority
+  }
+
+  set priority(priority: Priority) {
+    this.props.priority = priority
+    this.touch()
   }
 
   get createdAt() {
@@ -74,13 +96,18 @@ export class Order extends AggregateRoot<OrderProps> {
   }
 
   static create(
-    props: Optional<OrderProps, 'createdAt' | 'status' | 'code' | 'items'>,
+    props: Optional<
+      OrderProps,
+      'createdAt' | 'status' | 'code' | 'items' | 'priority' | 'label'
+    >,
     id?: UniqueEntityID,
   ) {
     const order = new Order(
       {
         ...props,
         status: props.status ?? 'PENDING',
+        label: props.label ?? 'TABLE',
+        priority: props.priority ?? 'LOW',
         code: props.code ?? Code.generateUniqueCode(),
         items: props.items ?? new OrderItemList(),
         createdAt: props.createdAt ?? new Date(),

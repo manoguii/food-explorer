@@ -7,6 +7,8 @@ export class OrderPresenter {
       details: order.orderDetails,
       code: order.code.value,
       status: order.status,
+      label: order.label,
+      priority: order.priority,
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     }
