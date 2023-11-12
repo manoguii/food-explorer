@@ -119,19 +119,17 @@ export function DishCard({ dish, ...props }: { dish: Dish }) {
       className="relative flex h-full flex-col justify-between"
       {...props}
     >
-      <CardHeader className="items-center">
-        <div className="flex aspect-square max-h-[176px] max-w-[176px] items-center overflow-hidden rounded-lg p-0">
-          <Image
-            src={imageSrc}
-            alt={description}
-            width={176}
-            height={176}
-            quality={100}
-            priority
-            className="aspect-square object-cover"
-          />
-        </div>
-      </CardHeader>
+      <div className="relative mb-4 flex aspect-video max-h-[176px] w-full items-center overflow-hidden">
+        <Image
+          src={imageSrc}
+          alt={description}
+          fill
+          quality={100}
+          priority
+          className="aspect-video rounded-t-md object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t p-0 dark:from-gray-950 dark:via-gray-950/0"></div>
+      </div>
 
       <CardContent>
         <Link href={`/dashboard/dish/${slug}`}>
