@@ -5,11 +5,9 @@ import { addFavoriteDish, createOrder } from '@/app/actions'
 import { Loader2, MinusIcon, Plus, Heart } from 'lucide-react'
 import { toast } from './ui/use-toast'
 import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from './ui/button'
+import { Button } from './ui/button'
 import { useCartStore } from '@/lib/store/cart'
 import { Dish } from '@/lib/types/definitions'
-import Link from 'next/link'
-import { Icons } from './icons'
 import { useRouter } from 'next/navigation'
 
 export function ChangeQuantityButtons({ dishId }: { dishId: string }) {
@@ -92,25 +90,6 @@ export function AddToFavorite({
         {isLoading === 'idle' && ' (12)'}
       </span>
     </div>
-  )
-}
-
-export function OrderButton() {
-  const { count } = useCartStore()
-
-  return (
-    <Link
-      href="/dashboard/orders/create"
-      className={cn(
-        buttonVariants({
-          variant: 'destructive',
-        }),
-        'flex items-center gap-2 px-8 py-3',
-      )}
-    >
-      <Icons.receipt className="h-5 w-5" />
-      Pedidos ({count()})
-    </Link>
   )
 }
 
