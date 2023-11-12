@@ -1,6 +1,6 @@
 import { getAuthToken } from '@/app/actions'
-import { DishSlides } from '@/components/dish-slide'
-import { Hero } from '@/components/hero'
+import { DishSlides } from '@/app/dashboard/(home)/dish-slide'
+import { Hero } from '@/app/dashboard/(home)/hero'
 import { fetchDishesByCategories } from '@/lib/data'
 
 export default async function Home() {

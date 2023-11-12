@@ -1,27 +1,48 @@
 'use client'
 
 import React from 'react'
-import { addFavoriteDish } from '@/app/actions'
-import { Loader2, Star, MinusIcon, Plus } from 'lucide-react'
+import { addFavoriteDish, createOrder } from '@/app/actions'
+import { Loader2, MinusIcon, Plus, Heart } from 'lucide-react'
 import { toast } from './ui/use-toast'
 import { cn } from '@/lib/utils'
-import { Button } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
+import { useCartStore } from '@/lib/store/cart'
+import { Dish } from '@/lib/types/definitions'
+import Link from 'next/link'
+import { Icons } from './icons'
+import { useRouter } from 'next/navigation'
 
-export function AddToCart() {
+export function ChangeQuantityButtons({ dishId }: { dishId: string }) {
+  const { increment, countItem, decrement } = useCartStore()
+
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex items-center gap-3">
-        <Button size="icon" variant="ghost">
-          <MinusIcon />
-        </Button>
-        <span>01</span>
-        <Button size="icon" variant="ghost">
-          <Plus />
-        </Button>
-      </div>
+    <div className="flex items-center gap-2">
+      <Button size="icon" variant="ghost" onClick={() => decrement(dishId)}>
+        <MinusIcon />
+      </Button>
 
-      <Button variant="destructive">Adicionar</Button>
+      <span>{countItem(dishId)}</span>
+
+      <Button size="icon" variant="ghost" onClick={() => increment(dishId)}>
+        <Plus />
+      </Button>
     </div>
+  )
+}
+
+export function AddToCart({ dish }: { dish: Dish }) {
+  const router = useRouter()
+  const { add } = useCartStore()
+
+  function handleAddToCart() {
+    add(dish)
+    router.replace('/dashboard/orders/create')
+  }
+
+  return (
+    <Button variant="destructive" onClick={handleAddToCart}>
+      Adicionar
+    </Button>
   )
 }
 
@@ -56,7 +77,7 @@ export function AddToFavorite({
   return (
     <div className="flex items-center gap-2">
       <button onClick={handleAddFavorite} className="flex items-center gap-1">
-        <Star
+        <Heart
           className={cn('h-4 w-4 stroke-indigo-500', {
             'fill-indigo-500': isFavorite,
           })}
@@ -71,5 +92,39 @@ export function AddToFavorite({
         {isLoading === 'idle' && ' (12)'}
       </span>
     </div>
+  )
+}
+
+export function OrderButton() {
+  const { count } = useCartStore()
+
+  return (
+    <Link
+      href="/dashboard/orders/create"
+      className={cn(
+        buttonVariants({
+          variant: 'destructive',
+        }),
+        'flex items-center gap-2 px-8 py-3',
+      )}
+    >
+      <Icons.receipt className="h-5 w-5" />
+      Pedidos ({count()})
+    </Link>
+  )
+}
+
+export function CreateOrderButton() {
+  const { cart } = useCartStore()
+
+  const items = cart.map((item) => ({
+    dishId: item.id,
+    quantity: item.count,
+  }))
+
+  return (
+    <form action={() => createOrder(items)}>
+      <Button className="w-full">Continue</Button>
+    </form>
   )
 }

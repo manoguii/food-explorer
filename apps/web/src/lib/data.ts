@@ -1,10 +1,23 @@
 import type { User } from '@/lib/types/definitions'
 import { Category, Dish } from '@/lib/types/definitions'
 
-interface GetDishesResponse {
+interface FetchDishesResponse {
   dishes: {
     category: string
     items: Dish[]
+  }[]
+}
+
+interface FetchOrdersResponse {
+  orders: {
+    id: string
+    details: string
+    code: string
+    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+    label: 'TABLE' | 'DELIVERY' | 'TAKEOUT'
+    priority: 'LOW' | 'MEDIUM' | 'HIGH'
+    createdAt: Date
+    updatedAt: Date | null
   }[]
 }
 
@@ -57,7 +70,7 @@ export async function getDishBySlug(
 export async function fetchDishesByCategories(
   token: string,
   category: string[],
-): Promise<GetDishesResponse> {
+): Promise<FetchDishesResponse> {
   const query = category.map((category) => `category=${category}`).join('&')
 
   const response = await fetch(
@@ -74,6 +87,19 @@ export async function fetchDishesByCategories(
   const dishes = await response.json()
 
   return dishes
+}
+
+export async function fetchOrders(token: string): Promise<FetchOrdersResponse> {
+  const response = await fetch(`http://localhost:3333/orders`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const orders = await response.json()
+
+  return orders
 }
 
 export async function getUserSession(credentials: {

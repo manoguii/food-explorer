@@ -3,7 +3,8 @@ import { Icons } from '../icons'
 import { ModeToggle } from './mode-toggle'
 import { SearchInput } from './search-input'
 import { SignOutButton } from './sign-out-button'
-import { FavoriteDish, NewDish, OrderButton } from './buttons'
+import { FavoriteDish, NewDish } from '../links'
+import { OrderButton } from '../buttons'
 
 export function Header() {
   return (

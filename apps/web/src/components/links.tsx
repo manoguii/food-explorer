@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { buttonVariants } from '../ui/button'
-import { Icons } from '../icons'
+import { buttonVariants } from './ui/button'
 
 export function FavoriteDish() {
   return (
@@ -31,19 +30,15 @@ export function NewDish() {
   )
 }
 
-export function OrderButton() {
+export function EditDish(slug: string) {
   return (
     <Link
-      href="/dashboard/orders"
-      className={cn(
-        buttonVariants({
-          variant: 'destructive',
-        }),
-        'flex items-center gap-2 px-8 py-3',
-      )}
+      href={`/dashboard/dish/${slug}/update`}
+      className={buttonVariants({
+        variant: 'destructive',
+      })}
     >
-      <Icons.receipt className="h-5 w-5" />
-      Pedidos (0)
+      Editar prato
     </Link>
   )
 }

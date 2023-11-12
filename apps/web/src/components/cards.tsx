@@ -10,15 +10,24 @@ import { Dish } from '@/lib/types/definitions'
 import Image from 'next/image'
 import React from 'react'
 import { Button } from './ui/button'
-import { Heart, MinusIcon, Plus, Trash } from 'lucide-react'
+import { Heart, Trash } from 'lucide-react'
 import Link from 'next/link'
+import { AddToCart, ChangeQuantityButtons } from './buttons'
+import { CartItem, useCartStore } from '@/lib/store/cart'
 
-export function OrderCard() {
+export function OrderCard({ dish }: { dish: CartItem }) {
+  const { remove } = useCartStore()
+  const { id, name, description, price, attachments, slug } = dish
+
+  const imageSrc = attachments[0]
+    ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`
+    : '/images/food-placeholder.jpeg'
+
   return (
     <CardRoot className="grid grid-cols-[max-content_1fr] pl-4">
       <div className="flex aspect-square max-h-[100px] max-w-[100px] items-center place-self-center overflow-hidden rounded-lg">
         <Image
-          src={'/images/food-placeholder.jpeg'}
+          src={imageSrc}
           alt={''}
           width={90}
           height={90}
@@ -29,15 +38,28 @@ export function OrderCard() {
       </div>
 
       <div className="flex flex-col space-y-1.5 p-4">
-        <Link href={`/dashboard/dish/`}>
-          <CardTitle>Salada Radish</CardTitle>
+        <Link href={`/dashboard/dish/${slug}`}>
+          <CardTitle>{name}</CardTitle>
         </Link>
-        <CardDescription>Otimo prato de salada</CardDescription>
+        <CardDescription>
+          {description.length > 50
+            ? `${description.slice(0, 40)}...`
+            : description}
+        </CardDescription>
 
         <div className="mt-2 flex w-full items-center justify-between">
-          <strong className="text-lg text-muted-foreground">$80.99</strong>
+          <strong className="mr-4 font-normal text-muted-foreground">
+            ${price}
+          </strong>
 
-          <Button variant="ghost" size="icon" className="ml-auto">
+          <ChangeQuantityButtons dishId={dish.id} />
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="ml-auto"
+            onClick={() => remove(id)}
+          >
             <Trash className="h-5 w-5" />
           </Button>
         </div>
@@ -93,7 +115,10 @@ export function DishCard({ dish, ...props }: { dish: Dish }) {
     : '/images/food-placeholder.jpeg'
 
   return (
-    <CardRoot className="flex h-full flex-col justify-between" {...props}>
+    <CardRoot
+      className="relative flex h-full flex-col justify-between"
+      {...props}
+    >
       <CardHeader className="items-center">
         <div className="flex aspect-square max-h-[176px] max-w-[176px] items-center overflow-hidden rounded-lg p-0">
           <Image
@@ -123,27 +148,18 @@ export function DishCard({ dish, ...props }: { dish: Dish }) {
         </div>
       </CardContent>
 
-      <CardFooter className="w-full flex-col gap-2">
-        <div className="flex w-full items-center justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <Button size="icon" variant="ghost">
-              <MinusIcon />
-            </Button>
-            <span>01</span>
-            <Button size="icon" variant="ghost">
-              <Plus />
-            </Button>
-          </div>
-
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <Heart />
-          </Button>
-        </div>
-
-        <Button variant="destructive" className="w-full">
-          Adicionar ao carrinho
-        </Button>
+      <CardFooter className="flex items-center gap-4">
+        <ChangeQuantityButtons dishId={dish.id} />
+        <AddToCart dish={dish} />
       </CardFooter>
+
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute right-3 top-3 rounded-full"
+      >
+        <Heart className="h-5 w-5" />
+      </Button>
     </CardRoot>
   )
 }

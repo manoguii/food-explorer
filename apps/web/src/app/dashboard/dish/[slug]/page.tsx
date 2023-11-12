@@ -1,13 +1,11 @@
 import { getAuthToken } from '@/app/actions'
 import { Breadcrumbs } from '@/components/breadcrumbs'
-import { AddToFavorite } from '@/components/buttons'
+import { AddToCart, AddToFavorite } from '@/components/buttons'
 import { Badge } from '@/components/ui/badge'
-import { buttonVariants } from '@/components/ui/button'
 import { getDishBySlug, fetchFavoriteDishes } from '@/lib/data'
 import { Dish } from '@/lib/types/definitions'
 import { Dot, Cookie } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 export default async function Dish({ params }: { params: { slug: string } }) {
   const token = await getAuthToken()
@@ -67,16 +65,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
           </dd>
         </dl>
         <div className="col-start-1 row-start-3 mt-4 self-center sm:col-start-2 sm:row-span-2 sm:row-start-2 sm:mt-0 lg:col-start-1 lg:row-start-3 lg:row-end-4 lg:mt-6">
-          {/* <AddToCart /> */}
-
-          <Link
-            href={`/dashboard/dish/${params.slug}/update`}
-            className={buttonVariants({
-              variant: 'destructive',
-            })}
-          >
-            Editar prato
-          </Link>
+          <AddToCart dish={dish} />
         </div>
         <div className="col-start-1 mt-4 sm:col-span-2 lg:col-span-1 lg:row-start-4 lg:mt-6">
           <div className="mb-4 flex flex-wrap items-center gap-2">

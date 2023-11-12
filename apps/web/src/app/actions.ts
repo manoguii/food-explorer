@@ -179,3 +179,34 @@ export async function addFavoriteDish(dishId: string) {
     message: `Prato adicionado aos favoritos com sucesso.`,
   }
 }
+
+export async function createOrder(
+  items: {
+    dishId: string
+    quantity: number
+  }[],
+) {
+  const token = await getAuthToken()
+
+  const response = await fetch(`http://localhost:3333/orders`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ items }),
+  })
+
+  if (!response.ok) {
+    const data = await response.json()
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
+  return {
+    success: true,
+    message: `Pedido criado com sucesso !`,
+  }
+}

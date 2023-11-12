@@ -2,7 +2,7 @@
 
 import { Navigation, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { DishCard } from './cards'
+import { DishCard } from '../../../components/cards'
 import { Dish } from '@/lib/types/definitions'
 import 'swiper/css'
 import 'swiper/css/navigation'

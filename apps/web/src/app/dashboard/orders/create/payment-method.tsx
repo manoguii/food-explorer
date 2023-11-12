@@ -1,5 +1,4 @@
 import { Icons } from '@/components/icons'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -19,6 +18,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { DollarSign } from 'lucide-react'
+import { CreateOrderButton } from '../../../../components/buttons'
 
 export function PaymentMethod() {
   return (
@@ -128,7 +128,7 @@ export function PaymentMethod() {
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">Continue</Button>
+        <CreateOrderButton />
       </CardFooter>
     </Card>
   )
