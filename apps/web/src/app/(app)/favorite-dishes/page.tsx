@@ -1,5 +1,5 @@
 import { getAuthToken } from '@/app/actions'
-import { FavoriteCard } from '@/components/cards'
+import { FavoriteCard } from '@/components/cards/favorite-card'
 import { fetchFavoriteDishes } from '@/lib/data'
 
 export default async function FavoriteDishes() {

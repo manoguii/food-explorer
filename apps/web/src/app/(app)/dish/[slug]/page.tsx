@@ -1,6 +1,7 @@
 import { getAuthToken } from '@/app/actions'
 import { Breadcrumbs } from '@/components/breadcrumbs'
-import { AddToCart, AddToFavorite } from '@/components/buttons'
+import { AddToCart } from '@/components/buttons/add-to-cart'
+import { AddToFavorite } from '@/components/buttons/add-to-favorite'
 import { Badge } from '@/components/ui/badge'
 import { getDishBySlug, fetchFavoriteDishes } from '@/lib/data'
 import { Dish } from '@/lib/types/definitions'

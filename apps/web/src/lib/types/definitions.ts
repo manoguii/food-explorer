@@ -58,3 +58,7 @@ export interface UpdateDishParams {
   categoryId: string
   attachmentsIds: string[]
 }
+
+export interface CartItem extends Dish {
+  quantity?: number
+}

@@ -1,11 +1,15 @@
 import type { User } from '@/lib/types/definitions'
 import { Category, Dish } from '@/lib/types/definitions'
 
-interface FetchDishesResponse {
+interface FetchDishesByCategoriesResponse {
   dishes: {
     category: string
     items: Dish[]
   }[]
+}
+
+interface FetchAllDishesResponse {
+  dishes: Dish[]
 }
 
 interface FetchOrdersResponse {
@@ -70,7 +74,7 @@ export async function getDishBySlug(
 export async function fetchDishesByCategories(
   token: string,
   category: string[],
-): Promise<FetchDishesResponse> {
+): Promise<FetchDishesByCategoriesResponse> {
   const query = category.map((category) => `category=${category}`).join('&')
 
   const response = await fetch(
@@ -84,6 +88,22 @@ export async function fetchDishesByCategories(
       },
     },
   )
+  const dishes = await response.json()
+
+  return dishes
+}
+
+export async function fetchAllDishes(
+  token: string,
+): Promise<FetchAllDishesResponse> {
+  const response = await fetch(`http://localhost:3333/dishes`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    next: {
+      tags: ['all-dishes'],
+    },
+  })
   const dishes = await response.json()
 
   return dishes

@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react'
-import { Input } from '../ui/input'
+import { Input } from '../../../components/ui/input'
 
 export function SearchInput() {
   return (
@@ -13,7 +13,7 @@ export function SearchInput() {
 
         <Input
           placeholder="Busque por pratos ou ingredientes"
-          className="bg-gray-100 pl-10 dark:bg-gray-800"
+          className="pl-10"
         />
       </div>
     </form>

@@ -1,5 +1,5 @@
 import { getAuthToken } from '@/app/actions'
-import { DishCard } from '@/components/cards'
+import { DishCard } from '@/components/cards/dish-card'
 import { fetchDishesByCategories } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
