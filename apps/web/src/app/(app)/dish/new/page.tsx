@@ -15,7 +15,7 @@ export default async function SettingsProfilePage() {
           { label: 'Painel', href: '/dashboard' },
           {
             label: 'Criar prato',
-            href: '/dashboard/dish/new',
+            href: '/dish/new',
             active: true,
           },
         ]}

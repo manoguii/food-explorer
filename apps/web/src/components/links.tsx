@@ -5,7 +5,7 @@ import { buttonVariants } from './ui/button'
 export function FavoriteDish() {
   return (
     <Link
-      href="/dashboard/favorite-dishes"
+      href="/favorite-dishes"
       className={buttonVariants({
         variant: 'link',
       })}
@@ -18,7 +18,7 @@ export function FavoriteDish() {
 export function NewDish() {
   return (
     <Link
-      href="/dashboard/dish/new"
+      href="/dish/new"
       className={cn(
         buttonVariants({
           variant: 'link',
@@ -33,7 +33,7 @@ export function NewDish() {
 export function EditDish(slug: string) {
   return (
     <Link
-      href={`/dashboard/dish/${slug}/update`}
+      href={`/dish/${slug}/update`}
       className={buttonVariants({
         variant: 'destructive',
       })}

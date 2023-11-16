@@ -23,11 +23,11 @@ export default async function SettingsProfilePage({
           { label: 'Painel', href: '/dashboard' },
           {
             label: `Prato ${dish.name}`,
-            href: `/dashboard/dish/${dish.slug}`,
+            href: `/dish/${dish.slug}`,
           },
           {
             label: `Atualizar ${dish.name}`,
-            href: `/dashboard/dish/${dish.slug}/update`,
+            href: `/dish/${dish.slug}/update`,
             active: true,
           },
         ]}

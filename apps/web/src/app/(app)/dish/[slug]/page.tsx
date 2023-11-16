@@ -28,7 +28,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
           { label: 'Painel', href: '/dashboard' },
           {
             label: `Prato ${dish.name}`,
-            href: `/dashboard/dish/${dish.slug}`,
+            href: `/dish/${dish.slug}`,
             active: true,
           },
         ]}

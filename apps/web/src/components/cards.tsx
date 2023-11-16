@@ -38,7 +38,7 @@ export function OrderCard({ dish }: { dish: CartItem }) {
       </div>
 
       <div className="flex flex-col space-y-1.5 p-4">
-        <Link href={`/dashboard/dish/${slug}`}>
+        <Link href={`/dish/${slug}`}>
           <CardTitle>{name}</CardTitle>
         </Link>
         <CardDescription>
@@ -90,7 +90,7 @@ export function FavoriteCard({ dish }: { dish: Dish }) {
       </div>
 
       <CardHeader className="p-4">
-        <Link href={`/dashboard/dish/${slug}`}>
+        <Link href={`/dish/${slug}`}>
           <CardTitle>{name}</CardTitle>
         </Link>
         <CardDescription>
@@ -132,7 +132,7 @@ export function DishCard({ dish, ...props }: { dish: Dish }) {
       </div>
 
       <CardContent>
-        <Link href={`/dashboard/dish/${slug}`}>
+        <Link href={`/dish/${slug}`}>
           <CardTitle className="text-center">{name}</CardTitle>
         </Link>
         <CardDescription className="text-center">

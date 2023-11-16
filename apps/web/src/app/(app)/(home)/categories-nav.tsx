@@ -21,7 +21,7 @@ export function CategoriesNav({
 
   const categoriesWithHref = categories.map((category) => ({
     ...category,
-    href: `/dashboard/${category.name.toLowerCase()}`,
+    href: `/${category.name.toLowerCase()}`,
   }))
 
   return (

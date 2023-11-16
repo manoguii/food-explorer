@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
+import { Autoplay, Navigation } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 
@@ -11,10 +11,9 @@ import Image from 'next/image'
 export function SectionForYou() {
   return (
     <Swiper
-      slidesPerView={'auto'}
-      centeredSlides={true}
-      centerInsufficientSlides={true}
-      centeredSlidesBounds={true}
+      autoplay={{
+        delay: 5000,
+      }}
       breakpoints={{
         640: {
           width: 640,
@@ -24,10 +23,16 @@ export function SectionForYou() {
           width: 768,
           slidesPerView: 2,
         },
+        1024: {
+          width: 1024,
+          slidesPerView: 3,
+        },
       }}
+      loop={true}
+      centeredSlides={true}
       spaceBetween={16}
       navigation={true}
-      modules={[Navigation]}
+      modules={[Autoplay, Navigation]}
     >
       <SwiperSlide>
         <Image

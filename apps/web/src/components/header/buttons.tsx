@@ -13,7 +13,7 @@ export function OrderButton() {
 
   return (
     <Link
-      href="/dashboard/orders/create"
+      href="/orders/create"
       className={cn(
         buttonVariants({
           variant: 'destructive',

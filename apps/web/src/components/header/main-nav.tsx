@@ -17,10 +17,10 @@ export function MainNav() {
       </Link>
       <nav className="flex items-center space-x-6 text-sm font-medium">
         <Link
-          href="/dashboard/favorite-dishes"
+          href="/favorite-dishes"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname === '/dashboard/favorite-dishes'
+            pathname === '/favorite-dishes'
               ? 'text-foreground'
               : 'text-foreground/60',
           )}
@@ -28,10 +28,10 @@ export function MainNav() {
           Meus favoritos
         </Link>
         <Link
-          href="/dashboard/orders"
+          href="/orders"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/dashboard/orders')
+            pathname?.startsWith('/orders')
               ? 'text-foreground'
               : 'text-foreground/60',
           )}
@@ -39,10 +39,10 @@ export function MainNav() {
           Histórico de pedidos
         </Link>
         <Link
-          href="/dashboard/dish/new"
+          href="/dish/new"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/dashboard/dish/new')
+            pathname?.startsWith('/dish/new')
               ? 'text-foreground'
               : 'text-foreground/60',
           )}

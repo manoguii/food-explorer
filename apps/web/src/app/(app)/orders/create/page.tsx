@@ -1,5 +1,5 @@
-import { OrderItems } from '@/app/dashboard/orders/create/order-items'
-import { PaymentMethod } from '@/app/dashboard/orders/create/payment-method'
+import { OrderItems } from './order-items'
+import { PaymentMethod } from './payment-method'
 
 export default async function CreateOrder() {
   return (

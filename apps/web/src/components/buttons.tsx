@@ -34,7 +34,7 @@ export function AddToCart({ dish }: { dish: Dish }) {
 
   function handleAddToCart() {
     add(dish)
-    router.replace('/dashboard/orders/create')
+    router.replace('/orders/create')
   }
 
   return (
