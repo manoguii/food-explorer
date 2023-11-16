@@ -25,26 +25,24 @@ export function CategoriesNav({
   }))
 
   return (
-    <div className="relative">
-      <ScrollArea className="max-w-[600px] lg:max-w-none">
-        <div className={cn('mb-4 flex items-center', className)} {...props}>
-          {categoriesWithHref.map((category) => (
-            <Link
-              href={category.href}
-              key={category.id}
-              className={cn(
-                'flex items-center px-4',
-                decodeURIComponent(pathname)?.startsWith(category.href)
-                  ? 'font-bold text-primary'
-                  : 'font-medium text-muted-foreground',
-              )}
-            >
-              {category.name}
-            </Link>
-          ))}
-        </div>
-        <ScrollBar orientation="horizontal" className="invisible" />
-      </ScrollArea>
-    </div>
+    <ScrollArea className="max-w-[600px] lg:max-w-none">
+      <div className={cn('my-2 -ml-4 flex items-center', className)} {...props}>
+        {categoriesWithHref.map((category) => (
+          <Link
+            href={category.href}
+            key={category.id}
+            className={cn(
+              'flex items-center px-4',
+              decodeURIComponent(pathname)?.startsWith(category.href)
+                ? 'font-bold text-primary'
+                : 'font-medium text-muted-foreground',
+            )}
+          >
+            {category.name}
+          </Link>
+        ))}
+      </div>
+      <ScrollBar orientation="horizontal" className="invisible" />
+    </ScrollArea>
   )
 }
