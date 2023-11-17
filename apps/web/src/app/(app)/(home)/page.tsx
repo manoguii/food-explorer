@@ -1,5 +1,5 @@
-import CategoryPage from './[category]/page'
+import { redirect } from 'next/navigation'
 
 export default async function Home() {
-  return <CategoryPage params={{ category: 'saladas' }} />
+  return redirect('/inicio')
 }

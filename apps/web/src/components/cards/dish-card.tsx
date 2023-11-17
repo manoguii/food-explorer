@@ -14,9 +14,11 @@ import { AddToFavorite } from '../buttons/add-to-favorite'
 
 export function DishCard({
   dish,
+  isFavorite = false,
   ...props
 }: {
-  dish: Dish & { isFavorite: boolean }
+  dish: Dish
+  isFavorite?: boolean
 }) {
   const { name, description, price, attachments, slug } = dish
 
@@ -63,7 +65,7 @@ export function DishCard({
 
       <AddToFavorite
         dishId={dish.id}
-        isFavorite={dish.isFavorite}
+        isFavorite={isFavorite}
         className="absolute right-3 top-3"
       />
     </CardRoot>

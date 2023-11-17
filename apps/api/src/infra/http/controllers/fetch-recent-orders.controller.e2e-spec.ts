@@ -110,7 +110,6 @@ describe('Fetch recent orders (E2E)', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
-    console.log(response.body.orders)
     expect(response.statusCode).toBe(200)
     expect(response.body.orders).toHaveLength(1)
     expect(response.body).toEqual({

@@ -4,21 +4,31 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AttachmentFactory } from 'test/factories/make-attachment'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
+import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 
-describe('Fetch recent dishes (E2E)', () => {
+describe('Fetch filtered dishes (E2E)', () => {
   let app: INestApplication
   let jwt: JwtService
   let clientFactory: ClientFactory
   let dishFactory: DishFactory
   let categoryFactory: CategoryFactory
+  let attachmentFactory: AttachmentFactory
+  let dishAttachmentFactory: DishAttachmentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [ClientFactory, DishFactory, CategoryFactory],
+      providers: [
+        ClientFactory,
+        DishFactory,
+        CategoryFactory,
+        AttachmentFactory,
+        DishAttachmentFactory,
+      ],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -27,6 +37,8 @@ describe('Fetch recent dishes (E2E)', () => {
     clientFactory = moduleRef.get(ClientFactory)
     dishFactory = moduleRef.get(DishFactory)
     categoryFactory = moduleRef.get(CategoryFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    dishAttachmentFactory = moduleRef.get(DishAttachmentFactory)
 
     await app.init()
   })
@@ -40,29 +52,61 @@ describe('Fetch recent dishes (E2E)', () => {
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    const category = await categoryFactory.makePrismaCategory()
-
-    await Promise.all([
-      dishFactory.makePrismaDish({
-        name: 'Dish 01',
-        categoryId: category.id,
+    const [category, category2] = await Promise.all([
+      categoryFactory.makePrismaCategory({
+        name: 'Bebidas',
       }),
-      dishFactory.makePrismaDish({
-        name: 'Dish 02',
-        categoryId: category.id,
+      categoryFactory.makePrismaCategory({
+        name: 'Sobremesas',
       }),
     ])
+
+    const [dish] = await Promise.all([
+      dishFactory.makePrismaDish({
+        name: 'Coca Cola',
+        categoryId: category.id,
+      }),
+      dishFactory.makePrismaDish({
+        name: 'Suco de Laranja',
+        categoryId: category.id,
+      }),
+      dishFactory.makePrismaDish({
+        name: 'Petit Gateau',
+        categoryId: category2.id,
+      }),
+    ])
+
+    const attachment = await attachmentFactory.makePrismaAttachment({
+      title: 'Attachment title',
+    })
+
+    await dishAttachmentFactory.makePrismaDishAttachment({
+      dishId: dish.id,
+      attachmentId: attachment.id,
+    })
 
     const response = await request(app.getHttpServer())
       .get('/dishes')
       .set('Authorization', `Bearer ${accessToken}`)
+      .query({
+        page: 1,
+        query: 'Coca',
+      })
       .send()
 
     expect(response.statusCode).toBe(200)
+    expect(response.body.dishes).toHaveLength(1)
     expect(response.body).toEqual({
       dishes: expect.arrayContaining([
-        expect.objectContaining({ name: 'Dish 01' }),
-        expect.objectContaining({ name: 'Dish 02' }),
+        expect.objectContaining({
+          name: 'Coca Cola',
+          ingredients: expect.arrayContaining([]),
+          attachments: expect.arrayContaining([
+            expect.objectContaining({
+              title: 'Attachment title',
+            }),
+          ]),
+        }),
       ]),
     })
   })

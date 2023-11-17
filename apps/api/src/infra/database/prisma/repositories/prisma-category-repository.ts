@@ -24,9 +24,12 @@ export class PrismaCategoryRepository implements CategoryRepository {
   }
 
   async findByName(name: string): Promise<Category | null> {
-    const category = await this.prisma.category.findUnique({
+    const category = await this.prisma.category.findFirst({
       where: {
-        name,
+        name: {
+          equals: name,
+          mode: 'insensitive',
+        },
       },
     })
 
@@ -35,18 +38,6 @@ export class PrismaCategoryRepository implements CategoryRepository {
     }
 
     return PrismaCategoryMapper.toDomain(category)
-  }
-
-  async findManyByName(categories: string[]): Promise<Category[]> {
-    const categoriesData = await this.prisma.category.findMany({
-      where: {
-        name: {
-          in: categories,
-        },
-      },
-    })
-
-    return categoriesData.map(PrismaCategoryMapper.toDomain)
   }
 
   async findMany({ page }: PaginationParams): Promise<Category[]> {

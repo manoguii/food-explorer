@@ -43,7 +43,7 @@ describe('Fetch dishes by categories (E2E)', () => {
     await app.init()
   })
 
-  test('[GET] /dishes/categories', async () => {
+  test('[GET] /dishes/:category', async () => {
     const user = await clientFactory.makePrismaClient({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -86,41 +86,25 @@ describe('Fetch dishes by categories (E2E)', () => {
     })
 
     const response = await request(app.getHttpServer())
-      .get('/dish/categories')
-      .query({
-        categories: ['Bebidas', 'Sobremesas'],
-      })
+      .get(`/dish/${category.name}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
-
-    console.log(response.body.dishes[0].items)
 
     expect(response.statusCode).toBe(200)
     expect(response.body.dishes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          category: 'Bebidas',
-          items: expect.arrayContaining([
+          name: 'Coca Cola',
+          ingredients: expect.arrayContaining([]),
+          attachments: expect.arrayContaining([
             expect.objectContaining({
-              name: 'Coca Cola',
-              attachments: expect.arrayContaining([
-                expect.objectContaining({
-                  title: 'Attachment title',
-                }),
-              ]),
-            }),
-            expect.objectContaining({
-              name: 'Suco de Laranja',
+              title: 'Attachment title',
             }),
           ]),
         }),
         expect.objectContaining({
-          category: 'Sobremesas',
-          items: expect.arrayContaining([
-            expect.objectContaining({
-              name: 'Petit Gateau',
-            }),
-          ]),
+          name: 'Suco de Laranja',
+          ingredients: expect.arrayContaining([]),
         }),
       ]),
     )

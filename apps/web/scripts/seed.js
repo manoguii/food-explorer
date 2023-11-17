@@ -130,12 +130,3 @@ async function seedDatabase() {
 }
 
 seedDatabase()
-
-// const imagePath = path.resolve(__dirname, `images/dish-1.png`)
-// uploadImage(imagePath)
-//   .then((data) => console.log(data))
-//   .catch((error) => console.log(error))
-
-// createCategory('Abobrinha')
-//   .then((categoryId) => console.log(categoryId))
-//   .catch((error) => console.log(error))

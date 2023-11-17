@@ -45,18 +45,6 @@ export class PrismaOrderRepository implements OrderRepository {
     return orders.map(PrismaOrderMapper.toDomain)
   }
 
-  async findManyRecent({ page }: PaginationParams): Promise<Order[]> {
-    const orders = await this.prisma.order.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: 20,
-      skip: (page - 1) * 20,
-    })
-
-    return orders.map(PrismaOrderMapper.toDomain)
-  }
-
   async create(order: Order): Promise<void> {
     const data = PrismaOrderMapper.toPrisma(order)
 
@@ -80,15 +68,5 @@ export class PrismaOrderRepository implements OrderRepository {
       this.orderItemsRepository.createMany(order.items.getNewItems()),
       this.orderItemsRepository.deleteMany(order.items.getRemovedItems()),
     ])
-  }
-
-  async delete(order: Order): Promise<void> {
-    const data = PrismaOrderMapper.toPrisma(order)
-
-    await this.prisma.order.delete({
-      where: {
-        id: data.id,
-      },
-    })
   }
 }

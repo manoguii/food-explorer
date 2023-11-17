@@ -42,7 +42,6 @@ export function OrdersModal() {
     }
   }, [])
 
-  console.log(side)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>

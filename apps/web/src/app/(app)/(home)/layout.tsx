@@ -2,7 +2,7 @@ import React from 'react'
 import { CategoriesNav } from './categories-nav'
 import {
   fetchCategories,
-  fetchDishesByCategories,
+  fetchDishesByCategory,
   fetchFavoriteDishes,
 } from '@/lib/data'
 import { getAuthToken } from '@/app/actions'
@@ -20,16 +20,14 @@ export default async function HomeLayout({
   const token = await getAuthToken()
   const [categories, { dishes }, favoriteDishes] = await Promise.all([
     fetchCategories(token),
-    fetchDishesByCategories(token, ['Sobremesas']),
+    fetchDishesByCategory(token, 'Sobremesas'),
     fetchFavoriteDishes(token),
   ])
 
-  const allItems = dishes
-    .flatMap((dish) => dish.items)
-    .map((dish) => ({
-      ...dish,
-      isFavorite: favoriteDishes.some((item) => item.id === dish.id),
-    }))
+  const allItems = dishes.map((dish) => ({
+    ...dish,
+    isFavorite: favoriteDishes.some((item) => item.id === dish.id),
+  }))
 
   return (
     <main className="relative mx-auto w-full space-y-8">

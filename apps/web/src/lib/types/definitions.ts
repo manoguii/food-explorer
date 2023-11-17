@@ -24,6 +24,7 @@ export type Dish = {
   }[]
   ingredients: string[]
   category: string
+  isFavorite?: boolean
   createdAt: Date
   updatedAt: Date
 }

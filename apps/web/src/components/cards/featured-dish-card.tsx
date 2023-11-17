@@ -14,7 +14,7 @@ export function FeaturedDishCard({
 }: {
   dish: Dish & { isFavorite: boolean }
 }) {
-  const { name, description, price, attachments, isFavorite } = dish
+  const { name, description, price, attachments, isFavorite, category } = dish
 
   const imageSrc = attachments[0]
     ? `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`
@@ -55,7 +55,9 @@ export function FeaturedDishCard({
 
           <Dot className="mx-1 inline-block h-2 w-2 text-primary" />
 
-          <CardDescription className="text-sm">Destaque</CardDescription>
+          <CardDescription className="text-sm text-primary">
+            {category}
+          </CardDescription>
         </div>
 
         <AddToFavorite

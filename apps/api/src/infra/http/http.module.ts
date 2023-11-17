@@ -5,8 +5,6 @@ import { DatabaseModule } from '../database/database.module'
 import { CreateDishUseCase } from '@/domain/restaurant/application/use-cases/create-dish'
 import { CryptographyModule } from '../cryptography/cryptography.module'
 import { CreateDishController } from './controllers/create-dish.controller'
-import { FetchRecentDishController } from './controllers/fetch-recent-dish.controller'
-import { FetchRecentDishUseCase } from '@/domain/restaurant/application/use-cases/fetch-recent-dish'
 import { CreateAccountUseCase } from '@/domain/restaurant/application/use-cases/register-client'
 import { AuthenticateController } from './controllers/authenticate.controller'
 import { AuthenticateClientUseCase } from '@/domain/restaurant/application/use-cases/authenticate-client'
@@ -34,19 +32,20 @@ import { EditOrderController } from './controllers/edit-order.controller'
 import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order-dishes'
 import { EditDishStatusController } from './controllers/edit-dish-status.controller'
 import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases/edit-dish-status'
-import { FetchDishesByCategoriesController } from './controllers/fetch-dishes-by-categories.controller'
-import { FetchDishesByCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-categories'
 import { FetchRecentOrderController } from './controllers/fetch-recent-orders.controller'
 import { FetchRecentOrderUseCase } from '@/domain/restaurant/application/use-cases/fetch-recent-orders'
 import { FetchCategoriesController } from './controllers/fetch-categories.controller'
 import { FetchCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-categories'
+import { FetchFilteredDishesController } from './controllers/fetch-filtered-dishes.controller'
+import { FetchFilteredDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-filtered-dishes'
+import { FetchDishesByCategoryController } from './controllers/fetch-dishes-by-category.controller'
+import { FetchDishesByCategoryUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-category'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
   controllers: [
     CreateAccountController,
     CreateDishController,
-    FetchRecentDishController,
     AuthenticateController,
     CreateCategoryController,
     GetDishBySlugController,
@@ -60,14 +59,14 @@ import { FetchCategoriesUseCase } from '@/domain/restaurant/application/use-case
     CreateOrderController,
     EditOrderController,
     EditDishStatusController,
-    FetchDishesByCategoriesController,
+    FetchDishesByCategoryController,
     FetchRecentOrderController,
     FetchCategoriesController,
+    FetchFilteredDishesController,
   ],
   providers: [
     CreateAccountUseCase,
     CreateDishUseCase,
-    FetchRecentDishUseCase,
     AuthenticateClientUseCase,
     CreateCategoryUseCase,
     GetDishBySlugUseCase,
@@ -81,9 +80,10 @@ import { FetchCategoriesUseCase } from '@/domain/restaurant/application/use-case
     CreateOrderUseCase,
     EditOrderUseCase,
     EditDishStatusUseCase,
-    FetchDishesByCategoriesUseCase,
+    FetchDishesByCategoryUseCase,
     FetchRecentOrderUseCase,
     FetchCategoriesUseCase,
+    FetchFilteredDishesUseCase,
   ],
 })
 export class HttpModule {}
