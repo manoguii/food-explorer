@@ -22,7 +22,27 @@ import { CreateOrderButton } from '../buttons/create-order'
 export function OrdersModal() {
   const { cart, getTotal } = useCartStore()
   const [open, setOpen] = React.useState(false)
+  const [side, setSide] = React.useState<'right' | 'bottom'>('right')
 
+  React.useEffect(() => {
+    const verifySide = () => {
+      if (window.innerWidth <= 640) {
+        setSide('bottom')
+      } else {
+        setSide('right')
+      }
+    }
+
+    verifySide()
+
+    window.addEventListener('resize', verifySide)
+
+    return () => {
+      window.removeEventListener('resize', verifySide)
+    }
+  }, [])
+
+  console.log(side)
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -32,44 +52,48 @@ export function OrdersModal() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="right" className="sm:max-w-xl">
-        <ScrollArea className="my-4 h-[calc(100vh-4rem)] pr-6">
-          <SheetHeader>
-            <SheetTitle className="mb-6 text-2xl">Meus pedidos</SheetTitle>
-          </SheetHeader>
+      <SheetContent
+        side={side}
+        className="max-h-[calc(100vh-20%)] overflow-y-auto sm:max-h-screen sm:max-w-xl"
+      >
+        <SheetHeader>
+          <SheetTitle className="mb-6 text-2xl">Meus pedidos</SheetTitle>
+        </SheetHeader>
 
-          {cart.length === 0 ? (
-            <OrdersModalEmpty />
-          ) : (
-            <div className="space-y-6">
+        {cart.length === 0 ? (
+          <OrdersModalEmpty />
+        ) : (
+          <div className="flex h-[90%] flex-col justify-between gap-6">
+            <ScrollArea className="my-4 h-[300px] py-4 pr-6">
               <div className="space-y-3">
                 {cart.map((item) => (
                   <OrderCard key={item.id} dish={item} />
                 ))}
               </div>
+            </ScrollArea>
 
+            <SheetFooter className="flex-col sm:flex-col">
               <div>
                 <div className="flex justify-between text-sm">
                   <p>Cupom de desconto</p>
                   <p>R$ 0</p>
                 </div>
+
                 <div className="flex justify-between text-sm">
                   <p>Taxa de serviço</p>
                   <p>R$ 0,99</p>
                 </div>
-
-                <div className="mt-6 flex justify-between">
-                  <span className="text-lg font-semibold">Total</span>
-                  <strong className="text-xl font-bold">R$ {getTotal()}</strong>
-                </div>
               </div>
 
-              <SheetFooter className="gap-4 sm:flex-col">
-                <CreateOrderButton />
-              </SheetFooter>
-            </div>
-          )}
-        </ScrollArea>
+              <div className="mb-2 mt-6 flex justify-between">
+                <span className="text-lg font-semibold">Total</span>
+                <strong className="text-xl font-bold">R$ {getTotal()}</strong>
+              </div>
+
+              <CreateOrderButton />
+            </SheetFooter>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   )
@@ -77,10 +101,10 @@ export function OrdersModal() {
 
 function OrdersModalEmpty() {
   return (
-    <div className="mt-10 flex w-full flex-col items-center justify-center overflow-hidden">
+    <div className="mt-10 flex w-full flex-col items-center justify-center overflow-hidden text-center">
       <Image src="/images/empty-cart.png" width={260} height={220} alt="" />
       <SheetTitle>Seu carrinho está vazio</SheetTitle>
-      <SheetDescription className="text-center">
+      <SheetDescription>
         Voce ainda não adicionou nenhum prato ao seu pedido.
       </SheetDescription>
     </div>

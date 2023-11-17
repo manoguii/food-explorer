@@ -1,6 +1,6 @@
 import { getAuthToken } from '@/app/actions'
 import { DishCard } from '@/components/cards/dish-card'
-import { fetchDishesByCategories } from '@/lib/data'
+import { fetchDishesByCategories, fetchFavoriteDishes } from '@/lib/data'
 
 export const dynamic = 'force-dynamic'
 
@@ -11,11 +11,17 @@ export default async function CategoryPage({
 }) {
   const token = await getAuthToken()
   const decodedParam = decodeURIComponent(params.category)
-  const { dishes } = await fetchDishesByCategories(token, [
-    decodedParam.charAt(0).toUpperCase() + decodedParam.slice(1),
+  const [{ dishes }, favoriteDishes] = await Promise.all([
+    fetchDishesByCategories(token, [
+      decodedParam.charAt(0).toUpperCase() + decodedParam.slice(1),
+    ]),
+    fetchFavoriteDishes(token),
   ])
 
-  const items = dishes[0].items
+  const items = dishes[0].items.map((dish) => ({
+    ...dish,
+    isFavorite: favoriteDishes.some((item) => item.id === dish.id),
+  }))
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

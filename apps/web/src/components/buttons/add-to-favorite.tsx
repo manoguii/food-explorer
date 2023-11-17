@@ -2,17 +2,22 @@
 
 import React from 'react'
 import { addFavoriteDish } from '@/app/actions'
-import { Loader2, Heart } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import { toast } from '../ui/use-toast'
 import { cn } from '@/lib/utils'
+import { Button, ButtonProps } from '../ui/button'
+
+interface AddToFavoriteProps extends ButtonProps {
+  dishId: string
+  isFavorite: boolean
+}
 
 export function AddToFavorite({
   dishId,
   isFavorite,
-}: {
-  dishId: string
-  isFavorite: boolean
-}) {
+  className,
+  ...rest
+}: AddToFavoriteProps) {
   const [isLoading, setIsLoading] = React.useState<'idle' | 'loading'>('idle')
 
   async function handleAddFavorite() {
@@ -35,22 +40,23 @@ export function AddToFavorite({
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <button onClick={handleAddFavorite} className="flex items-center gap-1">
-        <Heart
-          className={cn('h-4 w-4 stroke-indigo-500', {
-            'fill-indigo-500': isFavorite,
-          })}
-        />
-        <span className="text-indigo-500">4.89</span>
-      </button>
-
-      <span className="font-normal text-slate-400">
-        {isLoading === 'loading' && (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        )}
-        {isLoading === 'idle' && ' (12)'}
-      </span>
-    </div>
+    <Button
+      variant="ghost"
+      size="icon"
+      className={cn(
+        'group rounded-full bg-red-600/10 text-red-500 transition-all hover:bg-red-600/20 hover:text-red-500',
+        isLoading === 'loading' && 'animate-pulse cursor-not-allowed',
+        className,
+      )}
+      disabled={isLoading === 'loading'}
+      onClick={handleAddFavorite}
+      {...rest}
+    >
+      <Heart
+        className={cn('h-4 w-4 fill-red-500/20 group-hover:fill-red-500', {
+          'fill-red-500': isFavorite,
+        })}
+      />
+    </Button>
   )
 }

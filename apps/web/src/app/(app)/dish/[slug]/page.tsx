@@ -5,7 +5,7 @@ import { AddToFavorite } from '@/components/buttons/add-to-favorite'
 import { Badge } from '@/components/ui/badge'
 import { getDishBySlug, fetchFavoriteDishes } from '@/lib/data'
 import { Dish } from '@/lib/types/definitions'
-import { Dot, Cookie } from 'lucide-react'
+import { Dot, ChefHat } from 'lucide-react'
 import Image from 'next/image'
 
 export default async function Dish({ params }: { params: { slug: string } }) {
@@ -26,7 +26,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
     <div>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Painel', href: '/dashboard' },
+          { label: 'Inicio', href: '/' },
           {
             label: `Prato ${dish.name}`,
             href: `/dish/${dish.slug}`,
@@ -61,7 +61,7 @@ export default async function Dish({ params }: { params: { slug: string } }) {
           <dt className="sr-only">Categoria</dt>
           <dd className="flex items-center">
             <Dot className="mx-1 text-slate-300" />
-            <Cookie className="mr-1 h-4 w-4" />
+            <ChefHat className="mr-1 h-4 w-4" />
             {dish.category}
           </dd>
         </dl>

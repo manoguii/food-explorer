@@ -8,12 +8,16 @@ import {
 import { Dish } from '@/lib/types/definitions'
 import Image from 'next/image'
 import React from 'react'
-import { Button } from '../ui/button'
-import { Heart } from 'lucide-react'
 import Link from 'next/link'
 import { AddToCart } from '../buttons/add-to-cart'
+import { AddToFavorite } from '../buttons/add-to-favorite'
 
-export function DishCard({ dish, ...props }: { dish: Dish }) {
+export function DishCard({
+  dish,
+  ...props
+}: {
+  dish: Dish & { isFavorite: boolean }
+}) {
   const { name, description, price, attachments, slug } = dish
 
   const imageSrc = attachments[0]
@@ -57,13 +61,11 @@ export function DishCard({ dish, ...props }: { dish: Dish }) {
         <AddToCart dish={dish} />
       </CardFooter>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        className="group absolute right-3 top-3 rounded-full hover:bg-red-700/10 hover:text-red-500"
-      >
-        <Heart className="h-5 w-5 group-hover:fill-red-500" />
-      </Button>
+      <AddToFavorite
+        dishId={dish.id}
+        isFavorite={dish.isFavorite}
+        className="absolute right-3 top-3"
+      />
     </CardRoot>
   )
 }

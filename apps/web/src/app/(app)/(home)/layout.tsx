@@ -1,11 +1,16 @@
 import React from 'react'
 import { CategoriesNav } from './categories-nav'
-import { fetchCategories } from '@/lib/data'
+import {
+  fetchCategories,
+  fetchDishesByCategories,
+  fetchFavoriteDishes,
+} from '@/lib/data'
 import { getAuthToken } from '@/app/actions'
 import { SectionForYou } from './section-for-you'
 import { Button } from '@/components/ui/button'
 import { MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { SearchInput } from './search-input'
+import { FeaturedDishes } from './featured-dish'
 
 export default async function HomeLayout({
   children,
@@ -13,12 +18,26 @@ export default async function HomeLayout({
   children: React.ReactNode
 }) {
   const token = await getAuthToken()
-  const categories = await fetchCategories(token)
+  const [categories, { dishes }, favoriteDishes] = await Promise.all([
+    fetchCategories(token),
+    fetchDishesByCategories(token, ['Sobremesas']),
+    fetchFavoriteDishes(token),
+  ])
+
+  const allItems = dishes
+    .flatMap((dish) => dish.items)
+    .map((dish) => ({
+      ...dish,
+      isFavorite: favoriteDishes.some((item) => item.id === dish.id),
+    }))
 
   return (
     <main className="relative mx-auto w-full space-y-8">
       <section>
-        <h2 className="mb-4 text-xl font-bold text-primary">Categorias</h2>
+        <h2 className="mb-4 text-xl font-bold text-primary">
+          Pratos em destaque
+        </h2>
+        <FeaturedDishes dishes={allItems} />
       </section>
 
       <section className="space-y-4">

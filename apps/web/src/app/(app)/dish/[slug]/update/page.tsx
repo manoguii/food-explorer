@@ -20,7 +20,7 @@ export default async function SettingsProfilePage({
     <div className="space-y-5">
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Painel', href: '/dashboard' },
+          { label: 'Inicio', href: '/' },
           {
             label: `Prato ${dish.name}`,
             href: `/dish/${dish.slug}`,
