@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Card as CardRoot,
   CardTitle,
@@ -5,7 +6,6 @@ import {
 } from '@/components/ui/card'
 import { Dish } from '@/lib/types/definitions'
 import Image from 'next/image'
-import React from 'react'
 import { AddToFavorite } from '../buttons/add-to-favorite'
 import { Dot } from 'lucide-react'
 

@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
@@ -17,29 +16,31 @@ export function CategoriesNav({
   className,
   ...props
 }: CategoriesNavProps) {
+  const searchParams = useSearchParams()
   const pathname = usePathname()
-
-  const categoriesWithHref = categories.map((category) => ({
-    ...category,
-    href: `/${category.name.toLowerCase()}`,
-  }))
+  const params = new URLSearchParams(searchParams)
+  const { replace } = useRouter()
 
   return (
     <ScrollArea className="max-w-[600px] lg:max-w-none">
       <div className={cn('my-2 -ml-4 flex items-center', className)} {...props}>
-        {categoriesWithHref.map((category) => (
-          <Link
-            href={category.href}
+        {categories.map((category) => (
+          <button
             key={category.id}
+            onClick={() => {
+              params.set('category', category.name.toLocaleLowerCase())
+              params.delete('query')
+              replace(`${pathname}?${params.toString()}`, { scroll: false })
+            }}
             className={cn(
               'flex items-center px-4',
-              decodeURIComponent(pathname)?.startsWith(category.href)
+              params.get('category') === category.name.toLocaleLowerCase()
                 ? 'font-bold text-primary'
                 : 'font-medium text-muted-foreground',
             )}
           >
             {category.name}
-          </Link>
+          </button>
         ))}
       </div>
       <ScrollBar orientation="horizontal" className="invisible" />

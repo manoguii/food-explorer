@@ -13,11 +13,12 @@ export function SearchInput() {
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams)
     if (term) {
+      params.delete('category')
       params.set('query', term)
     } else {
       params.delete('query')
     }
-    replace(`${pathname}?${params.toString()}`)
+    replace(`${pathname}?${params.toString()}`, { scroll: false })
   }, 300)
 
   return (

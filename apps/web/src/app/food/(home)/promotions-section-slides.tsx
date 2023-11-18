@@ -8,7 +8,7 @@ import 'swiper/css/navigation'
 
 import Image from 'next/image'
 
-export function SectionForYou() {
+export function PromotionsSectionSlide() {
   return (
     <Swiper
       breakpoints={{

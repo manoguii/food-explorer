@@ -11,16 +11,16 @@ export function MainNav() {
 
   return (
     <div className="mr-4 hidden md:flex">
-      <Link href="/" className="mr-6 flex items-center space-x-2">
+      <Link href="/food" className="mr-6 flex items-center space-x-2">
         <Icons.logo className="h-6 w-6" />
         <span className="hidden font-bold sm:inline-block">Food explorer</span>
       </Link>
       <nav className="flex items-center space-x-6 text-sm font-medium">
         <Link
-          href="/favorite-dishes"
+          href="/food/dish/favorites"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname === '/favorite-dishes'
+            pathname === '/food/dish/favorites'
               ? 'text-foreground'
               : 'text-foreground/60',
           )}
@@ -28,10 +28,10 @@ export function MainNav() {
           Meus favoritos
         </Link>
         <Link
-          href="/orders"
+          href="/food/orders"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/orders')
+            pathname?.startsWith('/food/orders')
               ? 'text-foreground'
               : 'text-foreground/60',
           )}
@@ -39,10 +39,10 @@ export function MainNav() {
           Histórico de pedidos
         </Link>
         <Link
-          href="/dish/new"
+          href="food/dish/create"
           className={cn(
             'transition-colors hover:text-foreground/80',
-            pathname?.startsWith('/dish/new')
+            pathname?.startsWith('food/dish/create')
               ? 'text-foreground'
               : 'text-foreground/60',
           )}

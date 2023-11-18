@@ -47,7 +47,7 @@ export function DishCard({
       </div>
 
       <CardContent>
-        <Link href={`/dish/${slug}`}>
+        <Link href={`/food/dish/${slug}`}>
           <CardTitle className="text-center">{name}</CardTitle>
         </Link>
         <CardDescription className="text-center">

@@ -26,10 +26,10 @@ export default async function Dish({ params }: { params: { slug: string } }) {
     <div>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Inicio', href: '/' },
+          { label: 'Inicio', href: '/food' },
           {
             label: `Prato ${dish.name}`,
-            href: `/dish/${dish.slug}`,
+            href: `/food/dish/${dish.slug}`,
             active: true,
           },
         ]}

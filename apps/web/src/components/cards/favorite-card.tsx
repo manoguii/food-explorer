@@ -33,7 +33,7 @@ export function FavoriteCard({ dish }: { dish: Dish }) {
       </div>
 
       <CardHeader className="p-4">
-        <Link href={`/dish/${slug}`}>
+        <Link href={`/food/dish/${slug}`}>
           <CardTitle>{name}</CardTitle>
         </Link>
         <CardDescription>

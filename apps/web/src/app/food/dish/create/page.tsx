@@ -6,7 +6,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs'
 
 export default async function SettingsProfilePage() {
   const token = await getAuthToken()
-  const categories = await fetchCategories(token)
+  const { categories } = await fetchCategories(token)
 
   return (
     <div className="space-y-5">
