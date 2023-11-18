@@ -7,12 +7,16 @@ import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attac
 import { makeCategory } from 'test/factories/make-category'
 import { InvalidCategoryError } from './errors/invalid-category-error'
 import { FetchDishesByCategoryUseCase } from './fetch-dishes-by-category'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+import { makeClient } from 'test/factories/make-client'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
 
 let inMemoryDishAttachmentRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+let inMemoryFavoriteDishRepository: InMemoryFavoriteDishRepository
 let sut: FetchDishesByCategoryUseCase
 
 describe('Fetch dishes by category', () => {
@@ -27,13 +31,21 @@ describe('Fetch dishes by category', () => {
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
+    inMemoryFavoriteDishRepository = new InMemoryFavoriteDishRepository(
+      inMemoryDishAttachmentRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishRepository,
+    )
     sut = new FetchDishesByCategoryUseCase(
       inMemoryDishRepository,
       inMemoryCategoryRepository,
+      inMemoryFavoriteDishRepository,
     )
   })
 
   it('should be able to fetch dishes by category', async () => {
+    const client = makeClient()
+
     const category = makeCategory({
       name: 'Bebidas',
     })
@@ -45,10 +57,17 @@ describe('Fetch dishes by category', () => {
     await inMemoryCategoryRepository.create(category)
     await inMemoryCategoryRepository.create(category2)
 
-    await inMemoryDishRepository.create(
-      makeDish({
-        name: 'Coca Cola',
-        categoryId: category.id,
+    const dish = makeDish({
+      name: 'Coca Cola',
+      categoryId: category.id,
+    })
+
+    await inMemoryDishRepository.create(dish)
+
+    inMemoryFavoriteDishRepository.items.push(
+      makeFavoriteDish({
+        clientId: client.id,
+        dishId: dish.id,
       }),
     )
 
@@ -68,6 +87,7 @@ describe('Fetch dishes by category', () => {
 
     const result = await sut.execute({
       category: 'Bebidas',
+      clientId: client.id.toString(),
       page: 1,
     })
 
@@ -81,6 +101,7 @@ describe('Fetch dishes by category', () => {
             name: 'Coca Cola',
             ingredients: [],
             attachments: [],
+            isFavorite: true,
           }),
           expect.objectContaining({
             name: 'Suco de Laranja',
@@ -93,6 +114,8 @@ describe('Fetch dishes by category', () => {
   })
 
   it('should not be able to fetch dishes by category if category does not exists', async () => {
+    const client = makeClient()
+
     await inMemoryDishRepository.create(
       makeDish({
         name: 'Coca Cola',
@@ -101,6 +124,7 @@ describe('Fetch dishes by category', () => {
 
     const result = await sut.execute({
       category: 'Bebidas',
+      clientId: client.id.toString(),
       page: 1,
     })
 

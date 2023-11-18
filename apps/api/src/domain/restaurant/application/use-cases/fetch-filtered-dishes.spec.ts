@@ -6,12 +6,16 @@ import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-d
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeCategory } from 'test/factories/make-category'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+import { makeClient } from 'test/factories/make-client'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
 
 let inMemoryDishAttachmentRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+let inMemoryFavoriteDishRepository: InMemoryFavoriteDishRepository
 let sut: FetchFilteredDishesUseCase
 
 describe('Fetch filtered dishes', () => {
@@ -26,23 +30,34 @@ describe('Fetch filtered dishes', () => {
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
-    sut = new FetchFilteredDishesUseCase(inMemoryDishRepository)
+    inMemoryFavoriteDishRepository = new InMemoryFavoriteDishRepository(
+      inMemoryDishAttachmentRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishRepository,
+    )
+    sut = new FetchFilteredDishesUseCase(
+      inMemoryDishRepository,
+      inMemoryFavoriteDishRepository,
+    )
   })
 
   it('should be able to fetch filtered dishes by query', async () => {
+    const client = makeClient()
+
     const category = makeCategory({
       name: 'Bebidas',
     })
 
     await inMemoryCategoryRepository.create(category)
 
-    await inMemoryDishRepository.create(
-      makeDish({
-        createdAt: new Date(2022, 0, 20),
-        name: 'Salada de alface',
-        categoryId: category.id,
-      }),
-    )
+    const dish = makeDish({
+      createdAt: new Date(2022, 0, 20),
+      name: 'Salada de alface',
+      categoryId: category.id,
+    })
+
+    await inMemoryDishRepository.create(dish)
+
     await inMemoryDishRepository.create(
       makeDish({
         createdAt: new Date(2022, 0, 18),
@@ -50,6 +65,7 @@ describe('Fetch filtered dishes', () => {
         categoryId: category.id,
       }),
     )
+
     await inMemoryDishRepository.create(
       makeDish({
         createdAt: new Date(2022, 0, 23),
@@ -57,8 +73,16 @@ describe('Fetch filtered dishes', () => {
       }),
     )
 
+    inMemoryFavoriteDishRepository.items.push(
+      makeFavoriteDish({
+        clientId: client.id,
+        dishId: dish.id,
+      }),
+    )
+
     const result = await sut.execute({
       page: 1,
+      clientId: client.id.toString(),
       query: 'de',
     })
 
@@ -68,11 +92,13 @@ describe('Fetch filtered dishes', () => {
           name: 'Salada de alface',
           ingredients: [],
           attachments: [],
+          isFavorite: true,
         }),
         expect.objectContaining({
           name: 'Molho de tomate',
           ingredients: [],
           attachments: [],
+          isFavorite: false,
         }),
       ]),
     )
@@ -96,6 +122,7 @@ describe('Fetch filtered dishes', () => {
 
     const result = await sut.execute({
       page: 3,
+      clientId: 'any_client_id',
       query: 'Dish',
     })
 

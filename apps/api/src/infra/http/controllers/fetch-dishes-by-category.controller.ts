@@ -12,6 +12,8 @@ import { InvalidCategoryError } from '@/domain/restaurant/application/use-cases/
 import { ApiTags } from '@nestjs/swagger'
 import { FetchDishesByCategoryUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-category'
 import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { CurrentUser } from '@/infra/auth/current-user-decorator'
 
 const queryParamSchema = z.object({
   page: z
@@ -33,6 +35,7 @@ export class FetchDishesByCategoryController {
 
   @Get()
   async handle(
+    @CurrentUser() user: UserPayload,
     @Param('category') category: string,
     @Query(queryValidationPipe) query: QueryParamSchema,
   ) {
@@ -40,6 +43,7 @@ export class FetchDishesByCategoryController {
 
     const result = await this.fetchDishesByCategories.execute({
       category,
+      clientId: user.sub,
       page,
     })
 

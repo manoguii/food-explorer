@@ -19,6 +19,7 @@ export class PrismaFavoriteDishMapper {
     favoriteDish: FavoriteDish,
   ): Prisma.FavoriteDishesUncheckedCreateInput {
     return {
+      id: favoriteDish.id.toString(),
       dishId: favoriteDish.dishId.toString(),
       userId: favoriteDish.clientId.toString(),
     }

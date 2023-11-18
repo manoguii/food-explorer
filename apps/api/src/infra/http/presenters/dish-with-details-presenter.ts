@@ -15,6 +15,7 @@ export class DishWithDetailsPresenter {
         url: attachment.url,
         id: attachment.id.toString(),
       })),
+      isFavorite: dish.isFavorite,
       createdAt: dish.createdAt,
       updatedAt: dish.updatedAt,
     }

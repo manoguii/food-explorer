@@ -4,6 +4,8 @@ import { z } from 'zod'
 import { FetchFilteredDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-filtered-dishes'
 import { ApiTags } from '@nestjs/swagger'
 import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { CurrentUser } from '@/infra/auth/current-user-decorator'
 
 const searchParamsSchema = z.object({
   page: z
@@ -26,6 +28,7 @@ export class FetchFilteredDishesController {
 
   @Get()
   async handle(
+    @CurrentUser() user: UserPayload,
     @Query(searchParamsValidationPipe)
     searchParams: SearchParamsSchema,
   ) {
@@ -34,6 +37,7 @@ export class FetchFilteredDishesController {
     const result = await this.fetchFilteredDishes.execute({
       page,
       query,
+      clientId: user.sub,
     })
 
     if (result.isLeft()) {

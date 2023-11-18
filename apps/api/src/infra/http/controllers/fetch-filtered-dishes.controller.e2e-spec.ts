@@ -9,6 +9,7 @@ import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
 import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
+import { FavoriteDishFactory } from 'test/factories/make-favorite-dish'
 
 describe('Fetch filtered dishes (E2E)', () => {
   let app: INestApplication
@@ -18,6 +19,7 @@ describe('Fetch filtered dishes (E2E)', () => {
   let categoryFactory: CategoryFactory
   let attachmentFactory: AttachmentFactory
   let dishAttachmentFactory: DishAttachmentFactory
+  let favoriteDishFactory: FavoriteDishFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -28,6 +30,7 @@ describe('Fetch filtered dishes (E2E)', () => {
         CategoryFactory,
         AttachmentFactory,
         DishAttachmentFactory,
+        FavoriteDishFactory,
       ],
     }).compile()
 
@@ -39,6 +42,7 @@ describe('Fetch filtered dishes (E2E)', () => {
     categoryFactory = moduleRef.get(CategoryFactory)
     attachmentFactory = moduleRef.get(AttachmentFactory)
     dishAttachmentFactory = moduleRef.get(DishAttachmentFactory)
+    favoriteDishFactory = moduleRef.get(FavoriteDishFactory)
 
     await app.init()
   })
@@ -85,6 +89,11 @@ describe('Fetch filtered dishes (E2E)', () => {
       attachmentId: attachment.id,
     })
 
+    await favoriteDishFactory.makePrismaFavoriteDish({
+      clientId: user.id,
+      dishId: dish.id,
+    })
+
     const response = await request(app.getHttpServer())
       .get('/dishes')
       .set('Authorization', `Bearer ${accessToken}`)
@@ -106,6 +115,7 @@ describe('Fetch filtered dishes (E2E)', () => {
               title: 'Attachment title',
             }),
           ]),
+          isFavorite: true,
         }),
       ]),
       totalPages: expect.any(Number),

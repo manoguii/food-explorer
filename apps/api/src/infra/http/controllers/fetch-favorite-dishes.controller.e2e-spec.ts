@@ -114,7 +114,7 @@ describe('Fetch favorite dishes (E2E)', () => {
     })
 
     expect(favoriteDishOnDatabase).toHaveLength(2)
-    expect(response.body.dishes).toHaveLength(2)
+    expect(response.body.favoriteDishes).toHaveLength(2)
     expect(favoriteDishOnDatabase).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -126,7 +126,7 @@ describe('Fetch favorite dishes (E2E)', () => {
       ]),
     )
 
-    expect(response.body.dishes).toEqual(
+    expect(response.body.favoriteDishes).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           id: dish01.id.toString(),

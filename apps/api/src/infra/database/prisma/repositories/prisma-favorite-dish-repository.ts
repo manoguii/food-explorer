@@ -82,6 +82,49 @@ export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
     }
   }
 
+  async findOneByDishIdAndClientId(
+    dishId: string,
+    clientId: string,
+  ): Promise<FavoriteDish | null> {
+    const favoriteDish = await this.prisma.favoriteDishes.findFirst({
+      where: {
+        dishId,
+        userId: clientId,
+      },
+    })
+
+    if (!favoriteDish) {
+      return null
+    }
+
+    return PrismaFavoriteDishMapper.toDomain([favoriteDish])[0]
+  }
+
+  async findAllByClientId(clientId: string): Promise<FavoriteDish[]> {
+    const favoriteDishes = await this.prisma.user.findUnique({
+      where: {
+        id: clientId,
+      },
+      select: {
+        favoriteDishes: {
+          include: {
+            dish: {
+              include: {
+                attachments: true,
+              },
+            },
+          },
+        },
+      },
+    })
+
+    if (!favoriteDishes) {
+      return []
+    }
+
+    return PrismaFavoriteDishMapper.toDomain(favoriteDishes.favoriteDishes)
+  }
+
   async addFavoriteDish(favoriteDish: FavoriteDish): Promise<void> {
     const data = PrismaFavoriteDishMapper.toPrisma(favoriteDish)
 

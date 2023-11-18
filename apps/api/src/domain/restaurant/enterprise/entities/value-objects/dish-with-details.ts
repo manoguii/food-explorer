@@ -14,6 +14,7 @@ interface DishWithDetailsProps {
     title: string
     url: string
   }[]
+  isFavorite?: boolean
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -49,6 +50,14 @@ export class DishWithDetails extends ValueObject<DishWithDetailsProps> {
 
   get attachments() {
     return this.props.attachments
+  }
+
+  get isFavorite() {
+    return this.props.isFavorite
+  }
+
+  set isFavorite(value: boolean | undefined) {
+    this.props.isFavorite = value
   }
 
   get createdAt() {

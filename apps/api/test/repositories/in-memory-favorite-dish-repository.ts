@@ -82,6 +82,25 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
     }
   }
 
+  async findOneByDishIdAndClientId(
+    dishId: string,
+    clientId: string,
+  ): Promise<FavoriteDish | null> {
+    const favoriteDish = this.items.find(
+      (item) =>
+        item.dishId.toString() === dishId.toString() &&
+        item.clientId.toString() === clientId.toString(),
+    )
+
+    return favoriteDish || null
+  }
+
+  async findAllByClientId(clientId: string): Promise<FavoriteDish[]> {
+    return this.items.filter(
+      (item) => item.clientId.toString() === clientId.toString(),
+    )
+  }
+
   async addFavoriteDish(favoriteDish: FavoriteDish): Promise<void> {
     this.items.push(favoriteDish)
   }
