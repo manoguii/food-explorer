@@ -15,6 +15,7 @@ type ChooseDishAsFavoriteUseCaseResponse = Either<
   ConflictExceptionError,
   {
     favoriteDish: FavoriteDish
+    totalPages: number
   }
 >
 
@@ -27,10 +28,8 @@ export class ChooseDishAsFavoriteUseCase {
     clientId,
     page,
   }: ChooseDishAsFavoriteUseCaseRequest): Promise<ChooseDishAsFavoriteUseCaseResponse> {
-    const favorites = await this.favoriteDishRepository.findManyByClientId(
-      clientId,
-      { page },
-    )
+    const { favorites, totalPages } =
+      await this.favoriteDishRepository.findManyByClientId(clientId, { page })
 
     const isAlreadyFavorite = favorites.some(
       (favorite) => favorite.dishId.toString() === dishId,
@@ -49,6 +48,7 @@ export class ChooseDishAsFavoriteUseCase {
 
     return right({
       favoriteDish,
+      totalPages,
     })
   }
 }

@@ -40,16 +40,29 @@ export class PrismaCategoryRepository implements CategoryRepository {
     return PrismaCategoryMapper.toDomain(category)
   }
 
-  async findMany({ page }: PaginationParams): Promise<Category[]> {
-    const categories = await this.prisma.category.findMany({
+  async findMany({ page }: PaginationParams): Promise<{
+    categories: Category[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalCategories = await this.prisma.category.count()
+
+    const rawCategories = await this.prisma.category.findMany({
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20,
-      skip: (page - 1) * 20,
+      take: perPage,
+      skip: (page - 1) * perPage,
     })
 
-    return categories.map(PrismaCategoryMapper.toDomain)
+    const categories = rawCategories.map(PrismaCategoryMapper.toDomain)
+    const totalPages = Math.ceil(totalCategories / perPage)
+
+    return {
+      categories,
+      totalPages,
+    }
   }
 
   async create(category: Category): Promise<void> {

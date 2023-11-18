@@ -6,7 +6,10 @@ export abstract class FavoriteDishRepository {
   abstract findManyByClientId(
     clientId: string,
     params: PaginationParams,
-  ): Promise<DishWithAttachments[]>
+  ): Promise<{
+    favorites: DishWithAttachments[]
+    totalPages: number
+  }>
 
   abstract addFavoriteDish(favoriteDish: FavoriteDish): Promise<void>
   abstract removeFavoriteDish(favoriteDish: FavoriteDish): Promise<void>

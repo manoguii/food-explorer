@@ -32,7 +32,11 @@ export class FetchCategoriesController {
     }
 
     const categories = result.value.categories
+    const totalPages = result.value.totalPages
 
-    return { categories: categories.map(CategoryPresenter.toHTTP) }
+    return {
+      categories: categories.map(CategoryPresenter.toHTTP),
+      totalPages,
+    }
   }
 }

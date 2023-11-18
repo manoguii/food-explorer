@@ -11,6 +11,7 @@ type FetchCategoriesUseCaseResponse = Either<
   null,
   {
     categories: Category[]
+    totalPages: number
   }
 >
 
@@ -21,10 +22,13 @@ export class FetchCategoriesUseCase {
   async execute({
     page,
   }: FetchCategoriesUseCaseRequest): Promise<FetchCategoriesUseCaseResponse> {
-    const categories = await this.categoryRepository.findMany({ page })
+    const { categories, totalPages } = await this.categoryRepository.findMany({
+      page,
+    })
 
     return right({
       categories,
+      totalPages,
     })
   }
 }

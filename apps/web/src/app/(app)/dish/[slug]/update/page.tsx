@@ -11,7 +11,7 @@ export default async function SettingsProfilePage({
 }) {
   const token = await getAuthToken()
 
-  const [categories, dish] = await Promise.all([
+  const [{ categories }, dish] = await Promise.all([
     fetchCategories(token),
     getDishBySlug(params.slug, token),
   ])

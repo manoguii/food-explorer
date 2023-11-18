@@ -14,6 +14,7 @@ type FetchDishesByCategoryUseCaseResponse = Either<
   InvalidCategoryError,
   {
     dishes: DishWithDetails[]
+    totalPages: number
   }
 >
 
@@ -34,7 +35,7 @@ export class FetchDishesByCategoryUseCase {
       return left(new InvalidCategoryError(category))
     }
 
-    const { dishes } = await this.dishRepository.findManyByCategory(
+    const { dishes, totalPages } = await this.dishRepository.findManyByCategory(
       categoryEntity,
       {
         page,
@@ -43,6 +44,7 @@ export class FetchDishesByCategoryUseCase {
 
     return right({
       dishes,
+      totalPages,
     })
   }
 }

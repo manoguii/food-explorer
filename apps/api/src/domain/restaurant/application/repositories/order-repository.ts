@@ -6,7 +6,10 @@ export abstract class OrderRepository {
   abstract findManyByClientId(
     clientId: string,
     params: PaginationParams,
-  ): Promise<Order[]>
+  ): Promise<{
+    orders: Order[]
+    totalPages: number
+  }>
 
   abstract save(order: Order): Promise<void>
   abstract create(order: Order): Promise<void>

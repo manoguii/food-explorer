@@ -18,8 +18,12 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
   async findManyByClientId(
     clientId: string,
     params: PaginationParams,
-  ): Promise<DishWithAttachments[]> {
-    const itemsPerPage = 20
+  ): Promise<{ favorites: DishWithAttachments[]; totalPages: number }> {
+    const perPage = 10
+
+    const totalFavoriteDishes = this.items.filter(
+      (favoriteDish) => favoriteDish.clientId.toString() === clientId,
+    ).length
 
     const dishes = this.dishRepository.items
       .filter((item) => {
@@ -32,7 +36,7 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
       .sort((a, b) => {
         return b.createdAt.getTime() - a.createdAt.getTime()
       })
-      .slice((params.page - 1) * itemsPerPage, params.page * itemsPerPage)
+      .slice((params.page - 1) * perPage, params.page * perPage)
 
     const items = await Promise.all(
       dishes.map(async (dish) => {
@@ -70,7 +74,12 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
       }),
     )
 
-    return items
+    const totalPages = Math.ceil(totalFavoriteDishes / perPage)
+
+    return {
+      favorites: items,
+      totalPages,
+    }
   }
 
   async addFavoriteDish(favoriteDish: FavoriteDish): Promise<void> {

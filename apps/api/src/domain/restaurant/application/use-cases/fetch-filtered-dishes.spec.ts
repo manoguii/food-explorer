@@ -95,7 +95,7 @@ describe('Fetch filtered dishes', () => {
     }
 
     const result = await sut.execute({
-      page: 2,
+      page: 3,
       query: 'Dish',
     })
 

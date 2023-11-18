@@ -68,7 +68,18 @@ export class PrismaDishRepository implements DishRepository {
   async findManyByCategory(
     category: Category,
     params: PaginationParams,
-  ): Promise<{ dishes: DishWithDetails[] }> {
+  ): Promise<{
+    dishes: DishWithDetails[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalDishes = await this.prisma.dish.count({
+      where: {
+        categoryId: category.id.toString(),
+      },
+    })
+
     const dishes = await this.prisma.dish.findMany({
       where: {
         categoryId: category.id.toString(),
@@ -81,19 +92,36 @@ export class PrismaDishRepository implements DishRepository {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20,
-      skip: (params.page - 1) * 20,
+      take: perPage,
+      skip: (params.page - 1) * perPage,
     })
+
+    const totalPages = Math.ceil(totalDishes / perPage)
 
     return {
       dishes: dishes.map(PrismaDishWithDetailsMapper.toDomain),
+      totalPages,
     }
   }
 
   async findManyByQuery(
     query: string,
     params: PaginationParams,
-  ): Promise<{ dishes: DishWithDetails[] }> {
+  ): Promise<{
+    dishes: DishWithDetails[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalDishes = await this.prisma.dish.count({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+    })
+
     const dishes = await this.prisma.dish.findMany({
       where: {
         name: {
@@ -109,12 +137,15 @@ export class PrismaDishRepository implements DishRepository {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20,
-      skip: (params.page - 1) * 20,
+      take: perPage,
+      skip: (params.page - 1) * perPage,
     })
+
+    const totalPages = Math.ceil(totalDishes / perPage)
 
     return {
       dishes: dishes.map(PrismaDishWithDetailsMapper.toDomain),
+      totalPages,
     }
   }
 

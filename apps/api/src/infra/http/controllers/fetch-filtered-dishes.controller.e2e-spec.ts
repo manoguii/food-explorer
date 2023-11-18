@@ -108,6 +108,7 @@ describe('Fetch filtered dishes (E2E)', () => {
           ]),
         }),
       ]),
+      totalPages: expect.any(Number),
     })
   })
 })

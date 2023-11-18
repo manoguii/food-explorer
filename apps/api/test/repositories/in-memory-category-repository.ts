@@ -25,12 +25,24 @@ export class InMemoryCategoryRepository implements CategoryRepository {
     return category
   }
 
-  async findMany({ page }: PaginationParams) {
-    const category = this.items
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      .slice((page - 1) * 20, page * 20)
+  async findMany({ page }: PaginationParams): Promise<{
+    categories: Category[]
+    totalPages: number
+  }> {
+    const perPage = 10
 
-    return category
+    const totalCategories = this.items.length
+
+    const categories = this.items
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice((page - 1) * perPage, page * perPage)
+
+    const totalPages = Math.ceil(totalCategories / perPage)
+
+    return {
+      categories,
+      totalPages,
+    }
   }
 
   async create(category: Category) {

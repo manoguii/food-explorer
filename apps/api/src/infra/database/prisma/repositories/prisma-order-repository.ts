@@ -30,7 +30,18 @@ export class PrismaOrderRepository implements OrderRepository {
   async findManyByClientId(
     clientId: string,
     params: PaginationParams,
-  ): Promise<Order[]> {
+  ): Promise<{
+    orders: Order[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalOrders = await this.prisma.order.count({
+      where: {
+        userId: clientId,
+      },
+    })
+
     const orders = await this.prisma.order.findMany({
       where: {
         userId: clientId,
@@ -38,11 +49,16 @@ export class PrismaOrderRepository implements OrderRepository {
       orderBy: {
         createdAt: 'desc',
       },
-      take: 20,
-      skip: (params.page - 1) * 20,
+      take: perPage,
+      skip: (params.page - 1) * perPage,
     })
 
-    return orders.map(PrismaOrderMapper.toDomain)
+    const totalPages = Math.ceil(totalOrders / perPage)
+
+    return {
+      orders: orders.map(PrismaOrderMapper.toDomain),
+      totalPages,
+    }
   }
 
   async create(order: Order): Promise<void> {

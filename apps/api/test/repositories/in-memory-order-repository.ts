@@ -21,12 +21,26 @@ export class InMemoryOrderRepository implements OrderRepository {
   async findManyByClientId(
     clientId: string,
     { page }: PaginationParams,
-  ): Promise<Order[]> {
-    const orders = this.items.filter(
-      (item) => item.clientId.toString() === clientId,
-    )
+  ): Promise<{
+    orders: Order[]
+    totalPages: number
+  }> {
+    const perPage = 10
 
-    return orders.slice((page - 1) * 20, page * 20)
+    const totalOrders = this.items.filter(
+      (item) => item.clientId.toString() === clientId,
+    ).length
+
+    const orders = this.items
+      .filter((item) => item.clientId.toString() === clientId)
+      .slice((page - 1) * perPage, page * perPage)
+
+    const totalPages = Math.ceil(totalOrders / perPage)
+
+    return {
+      orders,
+      totalPages,
+    }
   }
 
   async create(order: Order) {

@@ -12,6 +12,7 @@ type FetchFavoriteDishesUseCaseResponse = Either<
   null,
   {
     favoriteDishes: DishWithAttachments[]
+    totalPages: number
   }
 >
 
@@ -23,13 +24,12 @@ export class FetchFavoriteDishesUseCase {
     clientId,
     page,
   }: FetchFavoriteDishesUseCaseRequest): Promise<FetchFavoriteDishesUseCaseResponse> {
-    const favoriteDishes = await this.favoriteDishRepository.findManyByClientId(
-      clientId,
-      { page },
-    )
+    const { favorites, totalPages } =
+      await this.favoriteDishRepository.findManyByClientId(clientId, { page })
 
     return right({
-      favoriteDishes,
+      favoriteDishes: favorites,
+      totalPages,
     })
   }
 }

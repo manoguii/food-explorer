@@ -17,11 +17,12 @@ export default async function HomeLayout({
 }: {
   children: React.ReactNode
 }) {
+  // console.log('searchParams', searchParams)
   const token = await getAuthToken()
-  const [categories, { dishes }, favoriteDishes] = await Promise.all([
+  const [{ categories }, { dishes }, { favoriteDishes }] = await Promise.all([
     fetchCategories(token),
-    fetchDishesByCategory(token, 'Sobremesas'),
-    fetchFavoriteDishes(token),
+    fetchDishesByCategory(token, 'Sobremesas', 1),
+    fetchFavoriteDishes(token, 1),
   ])
 
   const allItems = dishes.map((dish) => ({

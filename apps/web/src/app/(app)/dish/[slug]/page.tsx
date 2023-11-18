@@ -11,9 +11,9 @@ import Image from 'next/image'
 export default async function Dish({ params }: { params: { slug: string } }) {
   const token = await getAuthToken()
 
-  const [dish, favoriteDishes] = await Promise.all([
+  const [dish, { favoriteDishes }] = await Promise.all([
     getDishBySlug(params.slug, token),
-    fetchFavoriteDishes(token),
+    fetchFavoriteDishes(token, 1),
   ])
 
   const isFavorite = favoriteDishes.some((item) => item.id === dish.id)

@@ -12,6 +12,7 @@ type FetchFilteredDishesUseCaseResponse = Either<
   null,
   {
     dishes: DishWithDetails[]
+    totalPages: number
   }
 >
 
@@ -23,12 +24,16 @@ export class FetchFilteredDishesUseCase {
     query,
     page,
   }: FetchFilteredDishesUseCaseRequest): Promise<FetchFilteredDishesUseCaseResponse> {
-    const { dishes } = await this.dishRepository.findManyByQuery(query, {
-      page,
-    })
+    const { dishes, totalPages } = await this.dishRepository.findManyByQuery(
+      query,
+      {
+        page,
+      },
+    )
 
     return right({
       dishes,
+      totalPages,
     })
   }
 }

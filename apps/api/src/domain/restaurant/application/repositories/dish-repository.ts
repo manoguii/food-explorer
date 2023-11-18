@@ -13,6 +13,7 @@ export abstract class DishRepository {
     params: PaginationParams,
   ): Promise<{
     dishes: DishWithDetails[]
+    totalPages: number
   }>
 
   abstract findManyByQuery(
@@ -20,6 +21,7 @@ export abstract class DishRepository {
     params: PaginationParams,
   ): Promise<{
     dishes: DishWithDetails[]
+    totalPages: number
   }>
 
   abstract save(dish: Dish): Promise<void>

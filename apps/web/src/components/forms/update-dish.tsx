@@ -123,7 +123,7 @@ export function UpdateDishForm({
     if (currentDish.name !== data.name) {
       router.replace(`/app`)
     } else {
-      router.replace(`/app/dish/${currentDish.slug}`)
+      router.replace(`/dish/${currentDish.slug}`)
     }
   }
 

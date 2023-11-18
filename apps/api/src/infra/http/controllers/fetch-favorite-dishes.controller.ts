@@ -37,8 +37,12 @@ export class FetchFavoriteDishesController {
       throw new BadRequestException()
     }
 
-    const dishes = result.value.favoriteDishes
+    const favoriteDishes = result.value.favoriteDishes
+    const totalPages = result.value.totalPages
 
-    return { dishes: dishes.map(DishWithAttachmentsPresenter.toHTTP) }
+    return {
+      favoriteDishes: favoriteDishes.map(DishWithAttachmentsPresenter.toHTTP),
+      totalPages,
+    }
   }
 }

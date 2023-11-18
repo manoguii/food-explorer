@@ -57,6 +57,7 @@ describe('Fetch categories (E2E)', () => {
         expect.objectContaining({ name: 'Category 01' }),
         expect.objectContaining({ name: 'Category 02' }),
       ]),
+      totalPages: expect.any(Number),
     })
   })
 })

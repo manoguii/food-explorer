@@ -41,7 +41,11 @@ export class FetchFilteredDishesController {
     }
 
     const dishes = result.value.dishes
+    const totalPages = result.value.totalPages
 
-    return { dishes: dishes.map(DishWithDetailsPresenter.toHTTP) }
+    return {
+      dishes: dishes.map(DishWithDetailsPresenter.toHTTP),
+      totalPages,
+    }
   }
 }

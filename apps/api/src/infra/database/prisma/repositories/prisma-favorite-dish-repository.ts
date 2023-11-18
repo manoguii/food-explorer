@@ -15,7 +15,18 @@ export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
   async findManyByClientId(
     clientId: string,
     params: PaginationParams,
-  ): Promise<DishWithAttachments[]> {
+  ): Promise<{
+    favorites: DishWithAttachments[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalFavoriteDishes = await this.prisma.favoriteDishes.count({
+      where: {
+        userId: clientId,
+      },
+    })
+
     const favoriteDishes = await this.prisma.user.findUnique({
       where: {
         id: clientId,
@@ -32,13 +43,13 @@ export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
           orderBy: {
             createdAt: 'desc',
           },
-          take: 20,
-          skip: (params.page - 1) * 20,
+          take: perPage,
+          skip: (params.page - 1) * perPage,
         },
       },
     })
 
-    const dishWithAttachments = favoriteDishes?.favoriteDishes.map((raw) => {
+    const favorites = favoriteDishes?.favoriteDishes.map((raw) => {
       return DishWithAttachments.create({
         dishId: new UniqueEntityID(raw.dish.id),
         name: raw.dish.name,
@@ -56,11 +67,19 @@ export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
       })
     })
 
-    if (!dishWithAttachments) {
-      return []
+    if (!favorites) {
+      return {
+        favorites: [],
+        totalPages: 0,
+      }
     }
 
-    return dishWithAttachments
+    const totalPages = Math.ceil(totalFavoriteDishes / perPage)
+
+    return {
+      favorites,
+      totalPages,
+    }
   }
 
   async addFavoriteDish(favoriteDish: FavoriteDish): Promise<void> {

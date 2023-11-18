@@ -2,6 +2,7 @@
 
 import { Search } from 'lucide-react'
 import { Input } from '../../../components/ui/input'
+import { useDebouncedCallback } from 'use-debounce'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 export function SearchInput() {
@@ -9,17 +10,15 @@ export function SearchInput() {
   const pathname = usePathname()
   const { replace } = useRouter()
 
-  function handleSearch(term: string) {
+  const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams)
-
     if (term) {
       params.set('query', term)
     } else {
       params.delete('query')
     }
-
     replace(`${pathname}?${params.toString()}`)
-  }
+  }, 300)
 
   return (
     <form className="flex items-center">

@@ -12,24 +12,37 @@ interface FetchOrdersResponse {
     createdAt: Date
     updatedAt: Date | null
   }[]
+  totalPages: number
 }
 
-export async function fetchFavoriteDishes(token: string): Promise<Dish[]> {
-  const response = await fetch('http://localhost:3333/dish/favorites', {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export async function fetchFavoriteDishes(
+  token: string,
+  page: number,
+): Promise<{
+  favoriteDishes: Dish[]
+  totalPages: number
+}> {
+  const response = await fetch(
+    `http://localhost:3333/dish/favorites?page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      next: {
+        tags: ['favorite-dishes'],
+      },
     },
-    next: {
-      tags: ['favorite-dishes'],
-    },
-  })
+  )
 
   const favoriteDishes = await response.json()
 
-  return favoriteDishes.dishes
+  return favoriteDishes
 }
 
-export async function fetchCategories(token: string): Promise<Category[]> {
+export async function fetchCategories(token: string): Promise<{
+  categories: Category[]
+  totalPages: number
+}> {
   const response = await fetch('http://localhost:3333/categories', {
     method: 'GET',
     headers: {
@@ -41,7 +54,7 @@ export async function fetchCategories(token: string): Promise<Category[]> {
     },
   })
 
-  const { categories } = await response.json()
+  const categories = await response.json()
 
   return categories
 }
@@ -63,17 +76,22 @@ export async function getDishBySlug(
 export async function fetchDishesByCategory(
   token: string,
   category: string,
+  page: number,
 ): Promise<{
   dishes: Dish[]
+  totalPages: number
 }> {
-  const response = await fetch(`http://localhost:3333/dish/${category}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await fetch(
+    `http://localhost:3333/dish/${category}?page=${page}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      next: {
+        tags: ['featured-dishes'],
+      },
     },
-    next: {
-      tags: ['featured-dishes'],
-    },
-  })
+  )
   const dishes = await response.json()
 
   return dishes
@@ -90,6 +108,7 @@ export async function fetchDishes(
   },
 ): Promise<{
   dishes: Dish[]
+  totalPages: number
 }> {
   const response = await fetch(
     `http://localhost:3333/dishes?page=${page}&query=${query}`,

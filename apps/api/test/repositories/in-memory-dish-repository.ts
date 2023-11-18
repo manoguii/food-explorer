@@ -93,15 +93,22 @@ export class InMemoryDishRepository implements DishRepository {
   async findManyByCategory(
     category: Category,
     params: PaginationParams,
-  ): Promise<{ dishes: DishWithDetails[] }> {
-    const itemsPerPage = 20
+  ): Promise<{
+    dishes: DishWithDetails[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalDishes = this.items.filter((item) =>
+      item.categoryId.equals(category.id),
+    ).length
 
     const dishes = this.items
       .filter((item) => item.categoryId.equals(category.id))
       .sort((a, b) => {
         return b.createdAt.getTime() - a.createdAt.getTime()
       })
-      .slice((params.page - 1) * itemsPerPage, params.page * itemsPerPage)
+      .slice((params.page - 1) * perPage, params.page * perPage)
 
     const items = await Promise.all(
       dishes.map(async (dish) => {
@@ -152,23 +159,33 @@ export class InMemoryDishRepository implements DishRepository {
       }),
     )
 
+    const totalPages = Math.ceil(totalDishes / perPage)
+
     return {
       dishes: items,
+      totalPages,
     }
   }
 
   async findManyByQuery(
     query: string,
     params: PaginationParams,
-  ): Promise<{ dishes: DishWithDetails[] }> {
-    const itemsPerPage = 20
+  ): Promise<{
+    dishes: DishWithDetails[]
+    totalPages: number
+  }> {
+    const perPage = 10
+
+    const totalDishes = this.items.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase()),
+    ).length
 
     const dishes = this.items
       .filter((item) => item.name.toLowerCase().includes(query.toLowerCase()))
       .sort((a, b) => {
         return b.createdAt.getTime() - a.createdAt.getTime()
       })
-      .slice((params.page - 1) * itemsPerPage, params.page * itemsPerPage)
+      .slice((params.page - 1) * perPage, params.page * perPage)
 
     const items = await Promise.all(
       dishes.map(async (dish) => {
@@ -226,9 +243,11 @@ export class InMemoryDishRepository implements DishRepository {
         })
       }),
     )
+    const totalPages = Math.ceil(totalDishes / perPage)
 
     return {
       dishes: items,
+      totalPages,
     }
   }
 

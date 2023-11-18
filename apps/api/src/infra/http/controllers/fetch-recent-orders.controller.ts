@@ -38,7 +38,11 @@ export class FetchRecentOrderController {
     }
 
     const orders = result.value.order
+    const totalPages = result.value.totalPages
 
-    return { orders: orders.map(OrderPresenter.toHTTP) }
+    return {
+      orders: orders.map(OrderPresenter.toHTTP),
+      totalPages,
+    }
   }
 }
