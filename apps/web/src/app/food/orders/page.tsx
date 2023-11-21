@@ -1,7 +1,7 @@
-import { DataTable } from './components/data-table'
-import { columns } from './components/columns'
 import { fetchOrders } from '@/lib/data'
 import { getAuthToken } from '@/app/actions'
+import { DataTable } from '@/components/layout/orders/table/data-table'
+import { columns } from '@/components/layout/orders/table/columns'
 
 export default async function Orders() {
   const token = await getAuthToken()

@@ -2,15 +2,15 @@ export const routesConfig = {
   mainNav: [
     {
       title: 'Meus favoritos',
-      href: 'food/dish/favorites',
+      href: '/food/dish/favorites',
     },
     {
       title: 'Histórico de pedidos',
-      href: 'food/orders',
+      href: '/food/orders',
     },
     {
       title: 'Novo prato',
-      href: 'food/create',
+      href: '/food/dish/create',
     },
   ],
 }

@@ -43,7 +43,7 @@ export function CategoriesNav({
           </button>
         ))}
       </div>
-      <ScrollBar orientation="horizontal" className="invisible" />
+      <ScrollBar orientation="horizontal" />
     </ScrollArea>
   )
 }

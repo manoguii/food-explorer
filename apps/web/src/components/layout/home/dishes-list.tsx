@@ -51,11 +51,13 @@ export default async function DishesList({
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.dishes.map((dish) => (
-          <DishCard key={dish.id} dish={dish} isFavorite={dish.isFavorite} />
+          <li key={dish.id}>
+            <DishCard dish={dish} isFavorite={dish.isFavorite} />
+          </li>
         ))}
-      </div>
+      </ul>
 
       <Pagination totalPages={items.totalPages} />
     </>

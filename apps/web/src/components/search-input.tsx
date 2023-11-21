@@ -1,7 +1,7 @@
 'use client'
 
 import { Search } from 'lucide-react'
-import { Input } from '../../../components/ui/input'
+import { Input } from './ui/input'
 import { useDebouncedCallback } from 'use-debounce'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
@@ -12,6 +12,9 @@ export function SearchInput() {
 
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams)
+
+    params.delete('page')
+
     if (term) {
       params.delete('category')
       params.set('query', term)

@@ -1,5 +1,13 @@
 import { z } from 'zod'
 
+export const taskSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  status: z.string(),
+  label: z.string(),
+  priority: z.string(),
+})
+
 export const createDishFormSchema = z.object({
   name: z
     .string()
@@ -105,6 +113,7 @@ export const userAuthFormSchema = z.object({
   }),
 })
 
+export type Task = z.infer<typeof taskSchema>
 export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type CreateDishFormValues = z.infer<typeof createDishFormSchema>

@@ -9,7 +9,7 @@ import { Icons } from '@/components/icons'
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
-import { routesConfig } from '@/config/routes-config'
+import { routesConfig } from '@/config/navigation'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
