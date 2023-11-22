@@ -70,10 +70,7 @@ export function OrdersModal() {
               <ul className="flex-grow overflow-auto py-4">
                 {cart.map((item, i) => {
                   return (
-                    <li
-                      key={i}
-                      className="flex w-full flex-col border-b border-gray-300 dark:border-gray-700"
-                    >
+                    <li key={i} className="flex w-full flex-col">
                       <div className="relative flex w-full flex-row justify-between px-1 py-4">
                         <div className="absolute z-40 -mt-2 ml-[55px]">
                           <DeleteItemButton dishId={item.id} />
@@ -83,7 +80,7 @@ export function OrdersModal() {
                           onClick={closeCart}
                           className="z-30 flex flex-row space-x-4"
                         >
-                          <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-gray-300 bg-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800">
+                          <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800">
                             <Image
                               className="h-full w-full object-cover"
                               width={64}
@@ -106,10 +103,11 @@ export function OrdersModal() {
                             amount={item.price.toString()}
                             currencyCode={'BRL'}
                           />
-                          <div className="ml-auto flex h-9 flex-row items-center rounded-lg border border-gray-200 dark:border-gray-700">
+                          <div className="ml-auto flex flex-row items-center rounded-lg border border-gray-200 p-1 dark:border-gray-800">
                             <EditItemQuantityButton
                               dishId={item.id}
                               type="minus"
+                              quantity={item.quantity || 1}
                             />
                             <p className="w-6 text-center">
                               <span className="w-full text-sm">
@@ -119,6 +117,7 @@ export function OrdersModal() {
                             <EditItemQuantityButton
                               dishId={item.id}
                               type="plus"
+                              quantity={item.quantity || 1}
                             />
                           </div>
                         </div>
@@ -130,7 +129,7 @@ export function OrdersModal() {
             </ScrollArea>
 
             <div className="py-4 text-sm text-gray-500 dark:text-gray-400">
-              <div className="mb-3 flex items-center justify-between border-b border-gray-200 pb-1 dark:border-gray-700">
+              <div className="mb-3 flex items-center justify-between border-gray-200 pb-1">
                 <p>Taxas</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"
@@ -138,11 +137,11 @@ export function OrdersModal() {
                   currencyCode={'BRL'}
                 />
               </div>
-              <div className="mb-3 flex items-center justify-between border-b border-gray-200 pb-1 pt-1 dark:border-gray-700">
+              <div className="mb-3 flex items-center justify-between border-gray-200 pb-1 pt-1">
                 <p>Entrega</p>
                 <p className="text-right">Entrega gratis</p>
               </div>
-              <div className="mb-3 flex items-center justify-between border-b border-gray-200 pb-1 pt-1 dark:border-gray-700">
+              <div className="mb-3 flex items-center justify-between border-gray-200 pb-1 pt-1">
                 <p>Total</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"

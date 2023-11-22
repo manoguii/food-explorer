@@ -35,11 +35,11 @@ export function Gallery({
   })
 
   return (
-    <>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+    <div className="flex flex-col items-start gap-4 sm:flex-row">
+      <div className="relative aspect-square h-full max-h-[450px] w-full max-w-[450px] overflow-hidden">
         {images[imageIndex] && (
           <Image
-            className="h-full w-full object-contain"
+            className="aspect-square h-full w-full rounded-lg object-cover"
             fill
             sizes="(min-width: 1024px) 66vw, 100vw"
             alt={images[imageIndex]?.altText as string}
@@ -74,7 +74,7 @@ export function Gallery({
       </div>
 
       {images.length > 1 ? (
-        <ul className="my-12 flex items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
+        <ul className="flex flex-row items-center justify-center gap-2 py-1 sm:flex-col lg:mb-0">
           {images.map((image, index) => {
             const isActive = index === imageIndex
             const imageSearchParams = new URLSearchParams(
@@ -104,6 +104,6 @@ export function Gallery({
           })}
         </ul>
       ) : null}
-    </>
+    </div>
   )
 }

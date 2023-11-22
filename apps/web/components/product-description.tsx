@@ -6,10 +6,14 @@ import { Dish } from '@/lib/types/definitions'
 export function DishDescription({ dish }: { dish: Dish }) {
   return (
     <>
-      <div className="mb-6 flex flex-col border-b pb-6 dark:border-gray-700">
+      <div className="mb-6 flex flex-col pb-6">
         <h1 className="mb-2 text-4xl font-medium">{dish.name}</h1>
         <div className="mr-auto w-auto rounded-lg bg-blue-600 p-2 text-sm text-white">
-          <Price amount={dish.price.toString()} currencyCode={'BRL'} />
+          <Price
+            amount={dish.price.toString()}
+            currencyCode={'BRL'}
+            currencyCodeClassName="hidden @[275px]/label:inline"
+          />
         </div>
       </div>
 

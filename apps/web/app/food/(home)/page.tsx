@@ -1,13 +1,12 @@
-import DishesList from '../../../components/layout/home/dishes-list'
+import DishesList from '../../../components/dishes-list'
 import { Suspense } from 'react'
 import { CardsSkeleton } from '@/components/skeletons'
 import { fetchCategories } from '@/lib/data'
 import { getAuthToken } from '@/app/actions'
-import { CategoriesNav } from '@/components/layout/home/categories-nav'
+import { CategoriesNav } from '@/components/categories-nav'
 import { Button } from '@/components/ui/button'
 import { MixerHorizontalIcon } from '@radix-ui/react-icons'
 import { SearchInput } from '@/components/search-input'
-import { PromotionsSection } from '@/components/layout/home/promotions'
 
 export default async function Home({
   searchParams,
@@ -35,8 +34,7 @@ export default async function Home({
   }
 
   return (
-    <main className="mx-auto w-full space-y-4">
-      <PromotionsSection />
+    <>
       <section className="flex flex-col gap-4">
         <div className="flex items-center gap-2">
           <CategoriesNav categories={categories} />
@@ -45,9 +43,7 @@ export default async function Home({
             View
           </Button>
         </div>
-
         <SearchInput />
-
         <Suspense
           key={query + currentPage + category}
           fallback={<CardsSkeleton />}
@@ -60,6 +56,6 @@ export default async function Home({
           />
         </Suspense>
       </section>
-    </main>
+    </>
   )
 }

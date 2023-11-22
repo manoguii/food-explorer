@@ -151,13 +151,23 @@ export async function uploadFile(
   }
 }
 
-export async function addFavoriteDish(dishId: string) {
+export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
   const token = await getAuthToken()
+  let successMessage: string
+  let method: 'PATCH' | 'DELETE'
+
+  if (isFavorite) {
+    successMessage = 'Prato removido dos favoritos com sucesso.'
+    method = 'DELETE'
+  } else {
+    successMessage = 'Prato adicionado aos favoritos com sucesso.'
+    method = 'PATCH'
+  }
 
   const response = await fetch(
     `http://localhost:3333/dishes/${dishId}/favorite`,
     {
-      method: 'PATCH',
+      method,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -176,7 +186,7 @@ export async function addFavoriteDish(dishId: string) {
 
   return {
     success: true,
-    message: `Prato adicionado aos favoritos com sucesso.`,
+    message: successMessage,
   }
 }
 

@@ -12,6 +12,7 @@ interface CartStore {
   persistCart: () => void
   initializeCart: () => void
   getTotal: () => number
+  changeDishQuantity: (productId: string, quantity: number) => void
 }
 
 export const useCartStore = create<CartStore>((set, get) => ({
@@ -117,5 +118,23 @@ export const useCartStore = create<CartStore>((set, get) => ({
       const quantity = item.quantity ?? 1
       return total + item.price * quantity
     }, 0)
+  },
+
+  changeDishQuantity: (productId, quantity) => {
+    if (quantity < 1) {
+      return
+    }
+
+    set((state) => {
+      const updatedCart = state.cart.map((item) =>
+        item.id === productId ? { ...item, quantity } : item,
+      )
+      return {
+        ...state,
+        cart: updatedCart,
+      }
+    })
+
+    get().persistCart()
   },
 }))

@@ -1,37 +1,43 @@
 'use client'
 
 import React from 'react'
-import { addFavoriteDish } from '@/app/actions'
+import { toggleFavoriteDish } from '@/app/actions'
 import { Heart } from 'lucide-react'
 import { toast } from '../ui/use-toast'
 import { cn } from '@/lib/utils'
 import { Button, ButtonProps } from '../ui/button'
 
-interface AddToFavoriteProps extends ButtonProps {
+interface FavoriteButtonProps extends ButtonProps {
   dishId: string
-  isFavorite: boolean
+  favorite: boolean
 }
 
-export function AddToFavorite({
+export function FavoriteButton({
   dishId,
-  isFavorite,
+  favorite,
   className,
   ...rest
-}: AddToFavoriteProps) {
+}: FavoriteButtonProps) {
   const [isLoading, setIsLoading] = React.useState<'idle' | 'loading'>('idle')
 
-  async function handleAddFavorite() {
+  async function handleAddFavorite(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+
     setIsLoading('loading')
-    const result = await addFavoriteDish(dishId)
+    const result = await toggleFavoriteDish(dishId, favorite)
 
     if (result.success) {
       toast({
-        title: 'Prato adicionado aos favoritos !',
+        title: favorite
+          ? 'Prato removido dos favoritos !'
+          : 'Prato adicionado aos favoritos !',
         description: result.message,
       })
     } else {
       toast({
-        title: 'Erro ao adicionar o prato aos favoritos !',
+        title: favorite
+          ? 'Erro ao remover prato dos favoritos !'
+          : 'Erro ao adicionar prato aos favoritos !',
         description: result.message,
         variant: 'destructive',
       })
@@ -44,7 +50,7 @@ export function AddToFavorite({
       variant="ghost"
       size="icon"
       className={cn(
-        'group rounded-full bg-red-600/10 text-red-500 transition-all hover:bg-red-600/20 hover:text-red-500',
+        'group rounded-lg border bg-white/70 backdrop-blur-md dark:border-neutral-800 dark:bg-black/70',
         isLoading === 'loading' && 'animate-pulse cursor-not-allowed',
         className,
       )}
@@ -53,8 +59,8 @@ export function AddToFavorite({
       {...rest}
     >
       <Heart
-        className={cn('h-4 w-4 fill-red-500/20 group-hover:fill-red-500', {
-          'fill-red-500': isFavorite,
+        className={cn('h-4 w-4 fill-gray-50 text-gray-50', {
+          'fill-red-500 text-red-500': favorite,
         })}
       />
     </Button>

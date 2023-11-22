@@ -1,7 +1,9 @@
 import { getAuthToken } from '@/app/actions'
-import { FavoriteCard } from '@/components/cards/favorite-card'
+import { DishCard } from '@/components/cards'
+import Grid from '@/components/grid'
 import { Pagination } from '@/components/pagination'
 import { fetchFavoriteDishes } from '@/lib/data'
+import Link from 'next/link'
 
 export default async function FavoriteDishes({
   searchParams,
@@ -22,11 +24,21 @@ export default async function FavoriteDishes({
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-semibold">Meus favoritos</h1>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {favoriteDishes.map((dish) => (
-          <FavoriteCard key={dish.id} dish={dish} />
-        ))}
-      </div>
+      <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {favoriteDishes.map((dish) => {
+          return (
+            <Grid.Item key={dish.id} className="animate-fadeIn">
+              <Link
+                className="relative h-full w-full"
+                href={`/food/dish/${dish.slug}`}
+              >
+                <DishCard dish={{ ...dish, isFavorite: true }} />
+              </Link>
+            </Grid.Item>
+          )
+        })}
+      </Grid>
+
       <Pagination totalPages={totalPages} />
     </div>
   )

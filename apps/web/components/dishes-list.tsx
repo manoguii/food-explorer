@@ -1,9 +1,10 @@
 import { fetchDishes, fetchDishesByCategory } from '@/lib/data'
 import { getAuthToken } from '@/app/actions'
-import { DishCard } from '@/components/cards/dish-card'
+import { DishCard } from '@/components/cards'
 import { Pagination } from '@/components/pagination'
 import { Dish } from '@/lib/types/definitions'
 import Grid from '@/components/grid'
+import Link from 'next/link'
 
 export default async function DishesList({
   mode,
@@ -52,10 +53,15 @@ export default async function DishesList({
 
   return (
     <>
-      <Grid className="grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.dishes.map((dish) => (
-          <Grid.Item className="!aspect-auto" key={dish.id}>
-            <DishCard dish={dish} isFavorite={dish.isFavorite} />
+          <Grid.Item key={dish.id} className="animate-fadeIn">
+            <Link
+              className="relative h-full w-full"
+              href={`/food/dish/${dish.slug}`}
+            >
+              <DishCard dish={{ ...dish, isFavorite: true }} />
+            </Link>
           </Grid.Item>
         ))}
       </Grid>
