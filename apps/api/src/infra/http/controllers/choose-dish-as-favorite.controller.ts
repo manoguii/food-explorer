@@ -4,7 +4,6 @@ import {
   Param,
   Patch,
   Query,
-  UnauthorizedException,
 } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
@@ -47,7 +46,7 @@ export class ChooseDishAsFavoriteController {
 
       switch (error.constructor) {
         case ConflictExceptionError:
-          throw new UnauthorizedException(error.message)
+          throw new BadRequestException(error.message)
         default:
           throw new BadRequestException(error.message)
       }

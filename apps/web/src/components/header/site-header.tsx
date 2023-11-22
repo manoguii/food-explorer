@@ -1,7 +1,7 @@
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
 import { ModeToggle } from './mode-toggle'
-import { OrdersModal } from './orders-modal'
+import { OrdersModal } from '../order/orders-modal'
 import { SignOutButton } from '../buttons/sign-out'
 import { UserNav } from './user-nav'
 

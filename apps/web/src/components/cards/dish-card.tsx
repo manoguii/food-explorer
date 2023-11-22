@@ -30,44 +30,45 @@ export function DishCard({
     description.length > 60 ? `${description.slice(0, 50)}...` : description
 
   return (
-    <CardRoot
-      className="relative flex h-full flex-col justify-between"
-      {...props}
-    >
-      <div className="relative mb-4 flex aspect-video max-h-[176px] w-full items-center overflow-hidden">
-        <Image
-          src={imageSrc}
-          alt={description}
-          fill
-          quality={100}
-          priority
-          className="aspect-video rounded-t-md object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-gray-50/0 p-0 dark:from-gray-950 dark:via-gray-950/0"></div>
-      </div>
-
-      <CardContent>
-        <Link href={`/food/dish/${slug}`}>
-          <CardTitle className="text-center">{name}</CardTitle>
-        </Link>
-        <CardDescription className="text-center">
-          {cardDescription}
-        </CardDescription>
-
-        <div className="mt-2 w-full flex-none text-center text-3xl font-bold text-blue-600">
-          ${price}
+    <Link href={`/food/dish/${slug}`}>
+      <CardRoot
+        className="relative flex h-full flex-col justify-between"
+        {...props}
+      >
+        <div className="relative mb-4 flex aspect-video max-h-[176px] w-full items-center overflow-hidden">
+          <Image
+            src={imageSrc}
+            alt={description}
+            fill
+            quality={100}
+            priority
+            className="aspect-video rounded-t-md object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-gray-50/0 p-0 dark:from-gray-950 dark:via-gray-950/0"></div>
         </div>
-      </CardContent>
 
-      <CardFooter className="flex items-center gap-4">
-        <AddToCart dish={dish} />
-      </CardFooter>
+        <CardContent>
+          <CardTitle className="text-center">{name}</CardTitle>
 
-      <AddToFavorite
-        dishId={dish.id}
-        isFavorite={isFavorite}
-        className="absolute right-3 top-3"
-      />
-    </CardRoot>
+          <CardDescription className="text-center">
+            {cardDescription}
+          </CardDescription>
+
+          <div className="mt-2 w-full flex-none text-center text-3xl font-bold text-blue-600">
+            ${price}
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex items-center gap-4">
+          <AddToCart dish={dish} />
+        </CardFooter>
+
+        <AddToFavorite
+          dishId={dish.id}
+          isFavorite={isFavorite}
+          className="absolute right-3 top-3"
+        />
+      </CardRoot>
+    </Link>
   )
 }

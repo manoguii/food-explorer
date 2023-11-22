@@ -27,7 +27,6 @@ export default async function FavoriteDishes({
           <FavoriteCard key={dish.id} dish={dish} />
         ))}
       </div>
-
       <Pagination totalPages={totalPages} />
     </div>
   )

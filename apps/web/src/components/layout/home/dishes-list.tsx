@@ -3,6 +3,7 @@ import { getAuthToken } from '@/app/actions'
 import { DishCard } from '@/components/cards/dish-card'
 import { Pagination } from '@/components/pagination'
 import { Dish } from '@/lib/types/definitions'
+import Grid from '@/components/grid'
 
 export default async function DishesList({
   mode,
@@ -51,13 +52,13 @@ export default async function DishesList({
 
   return (
     <>
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <Grid className="grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.dishes.map((dish) => (
-          <li key={dish.id}>
+          <Grid.Item className="!aspect-auto" key={dish.id}>
             <DishCard dish={dish} isFavorite={dish.isFavorite} />
-          </li>
+          </Grid.Item>
         ))}
-      </ul>
+      </Grid>
 
       <Pagination totalPages={items.totalPages} />
     </>

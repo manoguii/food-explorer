@@ -225,9 +225,6 @@ importers:
       react-wrap-balancer:
         specifier: ^1.1.0
         version: 1.1.0(react@18.2.0)
-      swiper:
-        specifier: ^11.0.4
-        version: 11.0.4
       tailwind-merge:
         specifier: ^2.0.0
         version: 2.0.0
@@ -8534,11 +8531,6 @@ packages:
 
   /swagger-ui-dist@5.9.0:
     resolution: {integrity: sha512-NUHSYoe5XRTk/Are8jPJ6phzBh3l9l33nEyXosM17QInoV95/jng8+PuSGtbD407QoPf93MH3Bkh773OgesJpA==}
-    dev: false
-
-  /swiper@11.0.4:
-    resolution: {integrity: sha512-qtUxILrD4aD++rpKzGrkz3IAWL92f9uTrDwjb6HaNLmPvJhZCE/83DL+9w4kIgDDJeF6QKalV47rMBN77UOVYQ==}
-    engines: {node: '>= 4.7.0'}
     dev: false
 
   /symbol-observable@4.0.0:

@@ -17,7 +17,7 @@ export function AddToCart({ dish }: { dish: Dish }) {
   }
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <div className="flex items-center gap-2">
         <Button size="icon" variant="ghost">
           <MinusIcon />
@@ -34,6 +34,6 @@ export function AddToCart({ dish }: { dish: Dish }) {
         {loading && <RotateCw className="h-4 w-4 animate-spin" />}
         Adicionar
       </Button>
-    </>
+    </div>
   )
 }
