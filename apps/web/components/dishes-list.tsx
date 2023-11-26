@@ -60,7 +60,7 @@ export default async function DishesList({
               className="relative h-full w-full"
               href={`/food/dish/${dish.slug}`}
             >
-              <DishCard dish={{ ...dish, isFavorite: true }} />
+              <DishCard dish={dish} />
             </Link>
           </Grid.Item>
         ))}

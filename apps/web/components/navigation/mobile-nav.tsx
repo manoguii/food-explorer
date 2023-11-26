@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
 import { Icons } from '@/components/icons'
-import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import { routesConfig } from '@/config/navigation'
@@ -16,14 +15,9 @@ export function MobileNav() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          className="mr-2 gap-2 px-0 text-base font-medium hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-        >
-          <Icons.logo className="h-5 w-5" />
-          <span>Menu</span>
-        </Button>
+      <SheetTrigger className="flex items-center">
+        <Icons.logo className="mr-2 h-4 w-4" />
+        <span className="font-bold">Food Explorer</span>
       </SheetTrigger>
 
       <SheetContent side="top">

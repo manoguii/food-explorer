@@ -19,6 +19,16 @@ export async function getAuthToken() {
   return token
 }
 
+export async function getCurrentUser() {
+  const session = await auth()
+
+  if (!session) return redirect('/auth/sign-in')
+
+  const user = session.user
+
+  return user
+}
+
 export async function authenticate(user: { email: string; password: string }) {
   try {
     await signIn('credentials', user)

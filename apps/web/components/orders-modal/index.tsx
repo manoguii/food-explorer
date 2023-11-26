@@ -48,9 +48,15 @@ export function OrdersModal() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="destructive" className="flex items-center gap-2">
-          <ShoppingCart className="h-5 w-5" />
-          <span>Pedidos ({cart.length})</span>
+        <Button
+          variant="destructive"
+          size={'icon'}
+          className="relative flex items-center gap-2"
+        >
+          <ShoppingCart className="h-4 w-4" />
+          <span className="absolute -right-2 -top-2 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 p-1 text-xs">
+            {cart.length}
+          </span>
         </Button>
       </SheetTrigger>
 

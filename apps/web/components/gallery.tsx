@@ -35,7 +35,7 @@ export function Gallery({
   })
 
   return (
-    <div className="flex flex-col items-start gap-4 sm:flex-row">
+    <div className="flex flex-col items-start justify-center gap-4 sm:flex-row">
       <div className="relative aspect-square h-full max-h-[450px] w-full max-w-[450px] overflow-hidden">
         {images[imageIndex] && (
           <Image

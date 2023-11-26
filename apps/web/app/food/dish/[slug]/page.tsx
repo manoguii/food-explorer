@@ -18,7 +18,7 @@ export default async function DishPage({
   if (!dish) return notFound()
 
   return (
-    <div className="flex flex-col rounded-lg bg-gray-50 p-4 dark:bg-gray-950 md:p-6 lg:flex-row lg:gap-6">
+    <div className="flex flex-col gap-6 rounded-lg bg-gray-50 dark:bg-gray-950 md:p-6 lg:flex-row">
       <div className="h-full w-full basis-full lg:basis-2/3">
         <Gallery
           images={dish.attachments.map(
