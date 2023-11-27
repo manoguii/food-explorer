@@ -1,5 +1,6 @@
-import Image from 'next/image'
-import { SheetDescription, SheetTitle } from '../ui/sheet'
+import Image from "next/image"
+
+import { SheetDescription, SheetTitle } from "../ui/sheet"
 
 export function OrdersModalEmpty() {
   return (

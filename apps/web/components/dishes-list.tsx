@@ -1,10 +1,11 @@
-import { fetchDishes, fetchDishesByCategory } from '@/lib/data'
-import { getAuthToken } from '@/app/actions'
-import { DishCard } from '@/components/cards'
-import { Pagination } from '@/components/pagination'
-import { Dish } from '@/lib/types/definitions'
-import Grid from '@/components/grid'
-import Link from 'next/link'
+import Link from "next/link"
+
+import { fetchDishes, fetchDishesByCategory } from "@/lib/data"
+import { Dish } from "@/lib/types/definitions"
+import { DishCard } from "@/components/cards"
+import Grid from "@/components/grid"
+import { Pagination } from "@/components/pagination"
+import { getAuthToken } from "@/app/actions"
 
 export default async function DishesList({
   mode,
@@ -12,7 +13,7 @@ export default async function DishesList({
   query,
   category,
 }: {
-  mode: 'start' | 'search' | 'category'
+  mode: "start" | "search" | "category"
   currentPage: number
   query: string
   category: string
@@ -26,27 +27,27 @@ export default async function DishesList({
   }
 
   switch (mode) {
-    case 'start':
+    case "start":
       items = await fetchDishes(token, {
         page: currentPage,
-        query: '',
+        query: "",
       })
 
       break
-    case 'search':
+    case "search":
       items = await fetchDishes(token, {
         page: currentPage,
         query,
       })
 
       break
-    case 'category':
+    case "category":
       decodedCategoryParam = decodeURIComponent(category)
 
       items = await fetchDishesByCategory(
         token,
         decodedCategoryParam,
-        currentPage,
+        currentPage
       )
       break
   }

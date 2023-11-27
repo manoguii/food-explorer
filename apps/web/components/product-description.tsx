@@ -1,7 +1,7 @@
-import { AddToCart } from '@/components/buttons/add-to-cart'
-import Price from '@/components/price'
-import { Badge } from '@/components/ui/badge'
-import { Dish } from '@/lib/types/definitions'
+import { Dish } from "@/lib/types/definitions"
+import { Badge } from "@/components/ui/badge"
+import { AddToCart } from "@/components/buttons/add-to-cart"
+import Price from "@/components/price"
 
 export function DishDescription({ dish }: { dish: Dish }) {
   return (
@@ -11,7 +11,7 @@ export function DishDescription({ dish }: { dish: Dish }) {
         <div className="mr-auto w-auto rounded-lg bg-blue-600 p-2 text-sm text-white">
           <Price
             amount={dish.price.toString()}
-            currencyCode={'BRL'}
+            currencyCode={"BRL"}
             currencyCodeClassName="hidden @[275px]/label:inline"
           />
         </div>

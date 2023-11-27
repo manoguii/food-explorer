@@ -1,9 +1,10 @@
-'use client'
+"use client"
 
-import { Search } from 'lucide-react'
-import { Input } from './ui/input'
-import { useDebouncedCallback } from 'use-debounce'
-import { useSearchParams, usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { Search } from "lucide-react"
+import { useDebouncedCallback } from "use-debounce"
+
+import { Input } from "./ui/input"
 
 export function SearchInput() {
   const searchParams = useSearchParams()
@@ -13,20 +14,22 @@ export function SearchInput() {
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams)
 
-    params.delete('page')
+    params.delete("page")
 
     if (term) {
-      params.delete('category')
-      params.set('query', term)
+      params.delete("category")
+      params.set("query", term)
     } else {
-      params.delete('query')
+      params.delete("query")
     }
     replace(`${pathname}?${params.toString()}`, { scroll: false })
   }, 300)
 
   return (
     <form className="flex items-center">
-      <label className="sr-only">Search</label>
+      <label htmlFor="search" className="sr-only">
+        Search
+      </label>
 
       <div className="relative w-full">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -36,10 +39,11 @@ export function SearchInput() {
         <Input
           placeholder="Busque por pratos ou ingredientes"
           className="pl-10"
+          id="search"
           onChange={(e) => {
             handleSearch(e.target.value)
           }}
-          defaultValue={searchParams.get('query')?.toString()}
+          defaultValue={searchParams.get("query")?.toString()}
         />
       </div>
     </form>

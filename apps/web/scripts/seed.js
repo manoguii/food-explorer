@@ -1,23 +1,22 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const axios = require('axios')
-const FormData = require('form-data')
-const fs = require('fs')
-const path = require('path')
-const restaurantData = require('./data.js')
+const axios = require("axios")
+const FormData = require("form-data")
+const fs = require("fs")
+const path = require("path")
+const restaurantData = require("./data.js")
 
-const baseUrl = 'http://localhost:3333'
+const baseUrl = "http://localhost:3333"
 
 async function createUser() {
   try {
     const response = await axios.post(`${baseUrl}/accounts`, {
-      name: 'Guilherme David',
-      email: 'guilhermedavid@gmail.com',
-      password: '123456',
+      name: "Guilherme David",
+      email: "guilhermedavid@gmail.com",
+      password: "123456",
     })
 
     return response.data.user
   } catch (error) {
-    console.error('Erro ao criar usuário:', error)
+    console.error("Erro ao criar usuário:", error)
     throw error
   }
 }
@@ -25,13 +24,13 @@ async function createUser() {
 async function createSession() {
   try {
     const response = await axios.post(`${baseUrl}/sessions`, {
-      email: 'guilhermedavid@gmail.com',
-      password: '123456',
+      email: "guilhermedavid@gmail.com",
+      password: "123456",
     })
 
     return response.data.user.access_token
   } catch (error) {
-    console.error('Erro ao criar sessão:', error)
+    console.error("Erro ao criar sessão:", error)
     throw error
   }
 }
@@ -39,9 +38,9 @@ async function createSession() {
 async function uploadImage(imagePath, token) {
   const formData = new FormData()
   formData.append(
-    'file',
+    "file",
     fs.createReadStream(imagePath),
-    path.basename(imagePath),
+    path.basename(imagePath)
   )
 
   const result = await axios.post(`${baseUrl}/attachments`, formData, {
@@ -61,15 +60,15 @@ async function createCategory(name, token) {
       { name },
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      },
+      }
     )
 
     return response.data.category.id
   } catch (error) {
-    console.error('Erro ao criar categoria:', error)
+    console.error("Erro ao criar categoria:", error)
     throw error
   }
 }
@@ -84,14 +83,14 @@ async function createDish(categoryId, attachmentId, dishData, token) {
 
     await axios.post(`${baseUrl}/dishes`, dishBody, {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     })
 
     console.log(`Prato ${dishData.name} criado com sucesso!`)
   } catch (error) {
-    console.error('Erro ao criar prato:', error)
+    console.error("Erro ao criar prato:", error)
     throw error
   }
 }
@@ -100,7 +99,7 @@ async function seedDatabase() {
   const token = await createSession()
   try {
     const categories = restaurantData.categories.map(
-      (category) => category.name,
+      (category) => category.name
     )
     const categoryIds = []
 
@@ -121,11 +120,11 @@ async function seedDatabase() {
         categoryId,
         attachmentId,
         restaurantData.dishes[i],
-        token,
+        token
       )
     }
   } catch (error) {
-    console.error('Erro durante o processo de seeding:', error)
+    console.error("Erro durante o processo de seeding:", error)
   }
 }
 

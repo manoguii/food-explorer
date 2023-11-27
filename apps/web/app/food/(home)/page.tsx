@@ -1,13 +1,15 @@
-import DishesList from '../../../components/dishes-list'
-import { Suspense } from 'react'
-import { CardsSkeleton } from '@/components/skeletons'
-import { fetchCategories } from '@/lib/data'
-import { getAuthToken, getCurrentUser } from '@/app/actions'
-import { CategoriesNav } from '@/components/categories-nav'
-import { Button } from '@/components/ui/button'
-import { MixerHorizontalIcon } from '@radix-ui/react-icons'
-import { SearchInput } from '@/components/search-input'
-import { OrdersModal } from '@/components/orders-modal'
+import { Suspense } from "react"
+import { MixerHorizontalIcon } from "@radix-ui/react-icons"
+
+import { fetchCategories } from "@/lib/data"
+import { Button } from "@/components/ui/button"
+import { CategoriesNav } from "@/components/categories-nav"
+import { OrdersModal } from "@/components/orders-modal"
+import { SearchInput } from "@/components/search-input"
+import { CardsSkeleton } from "@/components/skeletons"
+import { getAuthToken, getCurrentUser } from "@/app/actions"
+
+import DishesList from "../../../components/dishes-list"
 
 export default async function Home({
   searchParams,
@@ -21,26 +23,26 @@ export default async function Home({
   const [user, token] = await Promise.all([getCurrentUser(), getAuthToken()])
   const { categories } = await fetchCategories(token)
 
-  const query = searchParams?.query || ''
-  const category = searchParams?.category || ''
+  const query = searchParams?.query || ""
+  const category = searchParams?.category || ""
   const currentPage = Number(searchParams?.page) || 1
 
-  let mode: 'start' | 'search' | 'category'
+  let mode: "start" | "search" | "category"
 
   if (query) {
-    mode = 'search'
+    mode = "search"
   } else if (category) {
-    mode = 'category'
+    mode = "category"
   } else {
-    mode = 'start'
+    mode = "start"
   }
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="truncate text-xl font-semibold text-primary">
-          Ola,{' '}
-          <span className="font-bold">{user.name.split(' ').slice(0, 1)}</span>
+          Ola,{" "}
+          <span className="font-bold">{user.name.split(" ").slice(0, 1)}</span>
         </h1>
 
         <OrdersModal />

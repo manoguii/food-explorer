@@ -1,7 +1,8 @@
-import { MobileNav } from './mobile-nav'
-import { UserAccountNav } from './user-nav'
-import { auth } from '@/auth'
-import { notFound } from 'next/navigation'
+import { notFound } from "next/navigation"
+import { auth } from "@/auth"
+
+import { MobileNav } from "./mobile-nav"
+import { UserAccountNav } from "./user-nav"
 
 export async function SiteHeader() {
   const session = await auth()

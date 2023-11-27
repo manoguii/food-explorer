@@ -1,7 +1,7 @@
-import { fetchOrders } from '@/lib/data'
-import { getAuthToken } from '@/app/actions'
-import { DataTable } from '@/app/food/orders/table/data-table'
-import { columns } from '@/app/food/orders/table/columns'
+import { fetchOrders } from "@/lib/data"
+import { getAuthToken } from "@/app/actions"
+import { columns } from "@/app/food/orders/table/columns"
+import { DataTable } from "@/app/food/orders/table/data-table"
 
 export default async function Orders() {
   const token = await getAuthToken()

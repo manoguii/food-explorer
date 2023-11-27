@@ -1,10 +1,11 @@
-import { getAuthToken } from '@/app/actions'
-import { Gallery } from '@/components/gallery'
-import { DishDescription } from '@/components/product-description'
-import { getDishBySlug } from '@/lib/data'
-import { notFound } from 'next/navigation'
+import { notFound } from "next/navigation"
 
-export const runtime = 'edge'
+import { getDishBySlug } from "@/lib/data"
+import { Gallery } from "@/components/gallery"
+import { DishDescription } from "@/components/product-description"
+import { getAuthToken } from "@/app/actions"
+
+export const runtime = "edge"
 
 export default async function DishPage({
   params,
@@ -25,7 +26,7 @@ export default async function DishPage({
             (image: { title: string; url: string; id: string }) => ({
               src: `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${image.url}`,
               altText: image.title,
-            }),
+            })
           )}
         />
       </div>

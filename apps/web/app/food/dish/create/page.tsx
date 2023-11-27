@@ -1,7 +1,7 @@
-import { getAuthToken } from '@/app/actions'
-import { CreateCategory } from '@/components/forms/dialog/create-category'
-import { CreateDishForm } from '@/components/forms/create-dish'
-import { fetchCategories } from '@/lib/data'
+import { fetchCategories } from "@/lib/data"
+import { CreateDishForm } from "@/components/forms/create-dish"
+import { CreateCategory } from "@/components/forms/dialog/create-category"
+import { getAuthToken } from "@/app/actions"
 
 export default async function SettingsProfilePage() {
   const token = await getAuthToken()

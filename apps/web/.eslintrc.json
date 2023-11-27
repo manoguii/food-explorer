@@ -1,9 +1,37 @@
 {
+  "$schema": "https://json.schemastore.org/eslintrc",
+  "root": true,
   "extends": [
-    "@rocketseat/eslint-config/next",
-    "next/core-web-vitals"
+    "standard",
+    "next",
+    "prettier",
+    "plugin:tailwindcss/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
+  "globals": {
+    "React": "readonly"
+  },
+  "plugins": ["jsx-a11y", "tailwindcss"],
   "rules": {
-    "camelcase": "off"
-  }
+    "@next/next/no-html-link-for-pages": "off",
+    "react/jsx-key": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/classnames-order": "error"
+  },
+  "settings": {
+    "tailwindcss": {
+      "callees": ["cn", "classnames", "clsx", "ctl", "cva", "tv"],
+      "config": "tailwind.config.js"
+    },
+    "next": {
+      "rootDir": true
+    }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser"
+    }
+  ]
 }

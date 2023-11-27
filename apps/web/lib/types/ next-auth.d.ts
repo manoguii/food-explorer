@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-redeclare */
+/* eslint-disable no-unused-vars */
 import NextAuth from 'next-auth/next'
 import NextAuth from 'next-auth'
 import { JWT } from 'next-auth/jwt'

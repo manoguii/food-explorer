@@ -1,17 +1,19 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import * as Field from './fields'
-import { Form } from '@/components/ui/form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Button } from '@/components/ui/button'
-import { UpdateDishFormValues, updateDishFormSchema } from '@/lib/schemas'
-import { Category, Dish } from '@/lib/types/definitions'
-import { toast } from '@/components/ui/use-toast'
-import { ReloadIcon } from '@radix-ui/react-icons'
-import { useRouter } from 'next/navigation'
-import { updateDish, uploadFile } from '@/app/actions'
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ReloadIcon } from "@radix-ui/react-icons"
+import { useForm } from "react-hook-form"
+
+import { updateDishFormSchema, UpdateDishFormValues } from "@/lib/schemas"
+import { Category, Dish } from "@/lib/types/definitions"
+import { Button } from "@/components/ui/button"
+import { Form } from "@/components/ui/form"
+import { toast } from "@/components/ui/use-toast"
+import { updateDish, uploadFile } from "@/app/actions"
+
+import * as Field from "./fields"
 
 export function UpdateDishForm({
   currentDish,
@@ -21,9 +23,9 @@ export function UpdateDishForm({
   categories: Category[]
 }) {
   const [uploadingFile, setUploadingFile] = React.useState<{
-    state: 'idle' | 'uploading' | 'success' | 'error'
+    state: "idle" | "uploading" | "success" | "error"
   }>({
-    state: 'idle',
+    state: "idle",
   })
 
   const defaultValues: Partial<UpdateDishFormValues> = {
@@ -41,38 +43,38 @@ export function UpdateDishForm({
   const form = useForm<UpdateDishFormValues>({
     resolver: zodResolver(updateDishFormSchema),
     defaultValues,
-    mode: 'onChange',
+    mode: "onChange",
   })
 
   async function handleUpdateDish(data: UpdateDishFormValues) {
     let attachmentsIds = currentDish.attachments.map(
-      (attachment) => attachment.id,
+      (attachment) => attachment.id
     )
 
     if (data.file) {
       const formData = new FormData()
-      formData.append('file', data.file)
+      formData.append("file", data.file)
 
       setUploadingFile({
-        state: 'uploading',
+        state: "uploading",
       })
 
       const result = await uploadFile(formData)
 
       if (!result.success) {
         setUploadingFile({
-          state: 'error',
+          state: "error",
         })
 
         return toast({
           title: `Error ao fazer upload das imagens !`,
           description: result.message,
-          variant: 'destructive',
+          variant: "destructive",
         })
       }
 
       setUploadingFile({
-        state: 'success',
+        state: "success",
       })
 
       const attachmentId = result.attachmentId
@@ -81,14 +83,14 @@ export function UpdateDishForm({
     }
 
     const categoryId = categories.find(
-      (category) => category.name === data.category,
+      (category) => category.name === data.category
     )?.id
 
     if (!categoryId) {
       return toast({
-        title: 'Categoria não encontrada !',
+        title: "Categoria não encontrada !",
         description: `A categoria ${data.category} não foi encontrada !`,
-        variant: 'destructive',
+        variant: "destructive",
       })
     }
 
@@ -97,7 +99,7 @@ export function UpdateDishForm({
       slug: currentDish.slug,
       name: data.name,
       description: data.description,
-      price: Number(data.price.replace(',', '')),
+      price: Number(data.price.replace(",", "")),
       ingredients: data.ingredients.map((ingredient) => ingredient.value),
       categoryId,
       attachmentsIds,
@@ -109,14 +111,14 @@ export function UpdateDishForm({
 
     if (result.success) {
       toast({
-        title: 'Prato atualizado com sucesso !',
+        title: "Prato atualizado com sucesso !",
         description: result.message,
       })
     } else {
       toast({
         title: `Error ao atualizar o prato ${dish.name} !`,
         description: result.message,
-        variant: 'destructive',
+        variant: "destructive",
       })
     }
 

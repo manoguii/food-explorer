@@ -1,8 +1,10 @@
-import clsx from 'clsx'
-import Image from 'next/image'
-import { Dish } from '@/lib/types/definitions'
-import Label from './label'
-import { FavoriteButton } from './buttons/favorite-button'
+import Image from "next/image"
+import clsx from "clsx"
+
+import { Dish } from "@/lib/types/definitions"
+
+import { FavoriteButton } from "./buttons/favorite-button"
+import Label from "./label"
 
 export function DishCard({
   isInteractive = true,
@@ -16,16 +18,16 @@ export function DishCard({
   return (
     <div
       className={clsx(
-        'group relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg border bg-white hover:!border-blue-600 dark:bg-gray-950',
+        "group relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg border bg-white hover:!border-blue-600 dark:bg-gray-950",
         {
-          'border-2 border-blue-600': active,
-          'border-gray-200 dark:border-gray-800': !active,
-        },
+          "border-2 border-blue-600": active,
+          "border-gray-200 dark:border-gray-800": !active,
+        }
       )}
     >
       <Image
-        className={clsx('relative h-full w-full object-cover', {
-          'transition duration-300 ease-in-out group-hover:scale-105':
+        className={clsx("relative h-full w-full object-cover", {
+          "transition duration-300 ease-in-out group-hover:scale-105":
             isInteractive,
         })}
         alt={dish.description}

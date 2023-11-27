@@ -1,12 +1,13 @@
-'use client'
+"use client"
 
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { createUrl } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
-import { GridTileImage } from '@/components/grid/tile'
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname, useSearchParams } from "next/navigation"
+import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react"
+
+import { createUrl } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { GridTileImage } from "@/components/grid/tile"
 
 export function Gallery({
   images,
@@ -15,23 +16,23 @@ export function Gallery({
 }) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const imageSearchParam = searchParams.get('image')
+  const imageSearchParam = searchParams.get("image")
   const imageIndex = imageSearchParam ? parseInt(imageSearchParam) : 0
 
   const nextSearchParams = new URLSearchParams(searchParams.toString())
   const nextImageIndex = imageIndex + 1 < images.length ? imageIndex + 1 : 0
-  nextSearchParams.set('image', nextImageIndex.toString())
+  nextSearchParams.set("image", nextImageIndex.toString())
   const nextUrl = createUrl(pathname, nextSearchParams)
 
   const previousSearchParams = new URLSearchParams(searchParams.toString())
   const previousImageIndex =
     imageIndex === 0 ? images.length - 1 : imageIndex - 1
-  previousSearchParams.set('image', previousImageIndex.toString())
+  previousSearchParams.set("image", previousImageIndex.toString())
   const previousUrl = createUrl(pathname, previousSearchParams)
 
   const buttonClassName = buttonVariants({
-    variant: 'ghost',
-    size: 'icon',
+    variant: "ghost",
+    size: "icon",
   })
 
   return (
@@ -78,10 +79,10 @@ export function Gallery({
           {images.map((image, index) => {
             const isActive = index === imageIndex
             const imageSearchParams = new URLSearchParams(
-              searchParams.toString(),
+              searchParams.toString()
             )
 
-            imageSearchParams.set('image', index.toString())
+            imageSearchParams.set("image", index.toString())
 
             return (
               <li key={image.src} className="h-20 w-20">

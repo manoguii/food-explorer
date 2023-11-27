@@ -1,47 +1,49 @@
-'use client'
+"use client"
 
-import * as React from 'react'
+import * as React from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { ShoppingCart } from "lucide-react"
+
+import { useCartStore } from "@/lib/use-cart-store"
+
+import Price from "../price"
+import { Button } from "../ui/button"
+import { ScrollArea } from "../ui/scroll-area"
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../ui/sheet'
-import { Button } from '../ui/button'
-import { ShoppingCart } from 'lucide-react'
-import Image from 'next/image'
-import { useCartStore } from '@/lib/use-cart-store'
-import Link from 'next/link'
-import { CreateOrderButton } from './create-order'
-import Price from '../price'
-import { DeleteItemButton } from './delete-item'
-import { EditItemQuantityButton } from './edit-quantity-button'
-import { OrdersModalEmpty } from './order-modal-empty'
-import { ScrollArea } from '../ui/scroll-area'
+} from "../ui/sheet"
+import { CreateOrderButton } from "./create-order"
+import { DeleteItemButton } from "./delete-item"
+import { EditItemQuantityButton } from "./edit-quantity-button"
+import { OrdersModalEmpty } from "./order-modal-empty"
 
 export function OrdersModal() {
   const { cart, getTotal } = useCartStore()
   const [open, setOpen] = React.useState(false)
-  const [side, setSide] = React.useState<'right' | 'bottom'>('right')
+  const [side, setSide] = React.useState<"right" | "bottom">("right")
 
   const closeCart = () => setOpen(false)
 
   React.useEffect(() => {
     const verifySide = () => {
       if (window.innerWidth <= 640) {
-        setSide('bottom')
+        setSide("bottom")
       } else {
-        setSide('right')
+        setSide("right")
       }
     }
 
     verifySide()
 
-    window.addEventListener('resize', verifySide)
+    window.addEventListener("resize", verifySide)
 
     return () => {
-      window.removeEventListener('resize', verifySide)
+      window.removeEventListener("resize", verifySide)
     }
   }, [])
 
@@ -50,7 +52,7 @@ export function OrdersModal() {
       <SheetTrigger asChild>
         <Button
           variant="destructive"
-          size={'icon'}
+          size={"icon"}
           className="relative flex items-center gap-2"
         >
           <ShoppingCart className="h-4 w-4" />
@@ -73,7 +75,7 @@ export function OrdersModal() {
         ) : (
           <div className="flex h-full flex-col justify-between overflow-hidden p-1">
             <ScrollArea>
-              <ul className="flex-grow overflow-auto py-4">
+              <ul className="grow overflow-auto py-4">
                 {cart.map((item, i) => {
                   return (
                     <li key={i} className="flex w-full flex-col">
@@ -107,7 +109,7 @@ export function OrdersModal() {
                           <Price
                             className="flex justify-end space-y-2 text-right text-sm"
                             amount={item.price.toString()}
-                            currencyCode={'BRL'}
+                            currencyCode={"BRL"}
                           />
                           <div className="ml-auto flex flex-row items-center rounded-lg border border-gray-200 p-1 dark:border-gray-800">
                             <EditItemQuantityButton
@@ -139,20 +141,20 @@ export function OrdersModal() {
                 <p>Taxas</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"
-                  amount={'0'}
-                  currencyCode={'BRL'}
+                  amount={"0"}
+                  currencyCode={"BRL"}
                 />
               </div>
-              <div className="mb-3 flex items-center justify-between border-gray-200 pb-1 pt-1">
+              <div className="mb-3 flex items-center justify-between border-gray-200 py-1">
                 <p>Entrega</p>
                 <p className="text-right">Entrega gratis</p>
               </div>
-              <div className="mb-3 flex items-center justify-between border-gray-200 pb-1 pt-1">
+              <div className="mb-3 flex items-center justify-between border-gray-200 py-1">
                 <p>Total</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"
                   amount={getTotal().toString()}
-                  currencyCode={'BRL'}
+                  currencyCode={"BRL"}
                 />
               </div>
               <CreateOrderButton />

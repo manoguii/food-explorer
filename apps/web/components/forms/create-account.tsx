@@ -1,28 +1,30 @@
-'use client'
+"use client"
 
-import { Form } from '@/components/ui/form'
-import * as Field from './fields'
-import * as React from 'react'
-import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from '@/components/ui/button'
-import Link from 'next/link'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from '@/components/ui/use-toast'
-import { useRouter } from 'next/navigation'
-import { CreateAccountFormValues, createAccountFormSchema } from '@/lib/schemas'
-import { ReloadIcon } from '@radix-ui/react-icons'
+import * as React from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ReloadIcon } from "@radix-ui/react-icons"
+import { useForm } from "react-hook-form"
+
+import { createAccountFormSchema, CreateAccountFormValues } from "@/lib/schemas"
+import { cn } from "@/lib/utils"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Form } from "@/components/ui/form"
+import { toast } from "@/components/ui/use-toast"
+
+import * as Field from "./fields"
 
 const defaultValues: Partial<CreateAccountFormValues> = {
-  name: '',
-  email: '',
-  password: '',
+  name: "",
+  email: "",
+  password: "",
 }
 
-export function CreateAccountForm({
+export async function CreateAccountForm({
   className,
   ...props
-}: React.ComponentProps<'div'>) {
+}: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const form = useForm<CreateAccountFormValues>({
@@ -35,10 +37,10 @@ export function CreateAccountForm({
   async function onSubmit(userInfo: CreateAccountFormValues) {
     setIsLoading(true)
 
-    const response = await fetch('http://localhost:3333/accounts', {
-      method: 'POST',
+    const response = await fetch("http://localhost:3333/accounts", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(userInfo),
     })
@@ -46,12 +48,12 @@ export function CreateAccountForm({
     if (!response.ok) {
       const result = await response.json()
 
-      const errorMessage = result.message || 'Tente novamente mais tarde.'
+      const errorMessage = result.message || "Tente novamente mais tarde."
 
       toast({
-        title: 'Error ao criar conta.',
+        title: "Error ao criar conta.",
         description: errorMessage,
-        variant: 'destructive',
+        variant: "destructive",
       })
 
       setIsLoading(false)
@@ -59,32 +61,32 @@ export function CreateAccountForm({
       return
     }
 
-    router.replace('/auth/sign-in')
+    router.replace("/auth/sign-in")
 
     toast({
-      title: 'Conta criada com sucesso.',
-      description: 'Faça login para continuar.',
+      title: "Conta criada com sucesso.",
+      description: "Faça login para continuar.",
     })
 
     setIsLoading(false)
   }
 
   return (
-    <div className={cn('grid gap-6', className)} {...props}>
+    <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
           <Field.Name />
           <Field.Email />
           <Field.Password />
 
-          <Button disabled={isLoading} variant={'destructive'}>
+          <Button disabled={isLoading} variant={"destructive"}>
             {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             Criar conta
           </Button>
 
           <Link
             href="/auth/sign-in"
-            className={cn(buttonVariants({ variant: 'ghost' }))}
+            className={cn(buttonVariants({ variant: "ghost" }))}
           >
             Ja tenho uma conta
           </Link>

@@ -1,11 +1,11 @@
-import { AvatarProps } from '@radix-ui/react-avatar'
+import { AvatarProps } from "@radix-ui/react-avatar"
+import { User as UserSvg } from "lucide-react"
+import { User } from "next-auth"
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { User } from 'next-auth'
-import { User as UserSvg } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface UserAvatarProps extends AvatarProps {
-  user: Pick<User, 'image' | 'name'>
+  user: Pick<User, "image" | "name">
 }
 
 export function UserAvatar({ user, ...props }: UserAvatarProps) {

@@ -1,5 +1,6 @@
-import { Icons } from '@/components/icons'
-import React from 'react'
+import React from "react"
+
+import { Icons } from "@/components/icons"
 
 export default async function Layout({
   children,

@@ -1,14 +1,14 @@
-import type { User } from '@/lib/types/definitions'
-import { Category, Dish } from '@/lib/types/definitions'
+import type { User } from "@/lib/types/definitions"
+import { Category, Dish } from "@/lib/types/definitions"
 
 interface FetchOrdersResponse {
   orders: {
     id: string
     details: string
     code: string
-    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
-    label: 'TABLE' | 'DELIVERY' | 'TAKEOUT'
-    priority: 'LOW' | 'MEDIUM' | 'HIGH'
+    status: "PENDING" | "PREPARING" | "DELIVERED" | "CANCELED"
+    label: "TABLE" | "DELIVERY" | "TAKEOUT"
+    priority: "LOW" | "MEDIUM" | "HIGH"
     createdAt: Date
     updatedAt: Date | null
   }[]
@@ -17,7 +17,7 @@ interface FetchOrdersResponse {
 
 export async function fetchFavoriteDishes(
   token: string,
-  page: number,
+  page: number
 ): Promise<{
   favoriteDishes: Dish[]
   totalPages: number
@@ -29,9 +29,9 @@ export async function fetchFavoriteDishes(
         Authorization: `Bearer ${token}`,
       },
       next: {
-        tags: ['favorite-dishes'],
+        tags: ["favorite-dishes"],
       },
-    },
+    }
   )
 
   const favoriteDishes = await response.json()
@@ -43,14 +43,14 @@ export async function fetchCategories(token: string): Promise<{
   categories: Category[]
   totalPages: number
 }> {
-  const response = await fetch('http://localhost:3333/categories', {
-    method: 'GET',
+  const response = await fetch("http://localhost:3333/categories", {
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     next: {
-      tags: ['Categories'],
+      tags: ["Categories"],
     },
   })
 
@@ -61,7 +61,7 @@ export async function fetchCategories(token: string): Promise<{
 
 export async function getDishBySlug(
   slug: string,
-  token: string,
+  token: string
 ): Promise<Dish> {
   const response = await fetch(`http://localhost:3333/dishes/${slug}`, {
     headers: {
@@ -76,7 +76,7 @@ export async function getDishBySlug(
 export async function fetchDishesByCategory(
   token: string,
   category: string,
-  page: number,
+  page: number
 ): Promise<{
   dishes: Dish[]
   totalPages: number
@@ -88,9 +88,9 @@ export async function fetchDishesByCategory(
         Authorization: `Bearer ${token}`,
       },
       next: {
-        tags: ['featured-dishes'],
+        tags: ["featured-dishes"],
       },
-    },
+    }
   )
   const dishes = await response.json()
 
@@ -105,7 +105,7 @@ export async function fetchDishes(
   }: {
     page?: number
     query?: string
-  },
+  }
 ): Promise<{
   dishes: Dish[]
   totalPages: number
@@ -117,9 +117,9 @@ export async function fetchDishes(
         Authorization: `Bearer ${token}`,
       },
       next: {
-        tags: ['all-dishes'],
+        tags: ["all-dishes"],
       },
-    },
+    }
   )
   const dishes = await response.json()
 
@@ -128,7 +128,7 @@ export async function fetchDishes(
 
 export async function fetchOrders(token: string): Promise<FetchOrdersResponse> {
   const response = await fetch(`http://localhost:3333/orders`, {
-    method: 'GET',
+    method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -143,11 +143,11 @@ export async function getUserSession(credentials: {
   email: string
   password: string
 }): Promise<User | null> {
-  const response = await fetch('http://localhost:3333/sessions', {
-    method: 'POST',
+  const response = await fetch("http://localhost:3333/sessions", {
+    method: "POST",
     body: JSON.stringify(credentials),
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   })
 

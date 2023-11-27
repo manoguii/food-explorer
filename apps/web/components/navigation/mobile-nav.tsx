@@ -1,14 +1,15 @@
-'use client'
+"use client"
 
-import * as React from 'react'
-import Link, { LinkProps } from 'next/link'
-import { useRouter } from 'next/navigation'
+import * as React from "react"
+import Link, { LinkProps } from "next/link"
+import { useRouter } from "next/navigation"
 
-import { cn } from '@/lib/utils'
-import { Icons } from '@/components/icons'
-import { ScrollArea } from '../ui/scroll-area'
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
-import { routesConfig } from '@/config/navigation'
+import { routesConfig } from "@/config/navigation"
+import { cn } from "@/lib/utils"
+import { Icons } from "@/components/icons"
+
+import { ScrollArea } from "../ui/scroll-area"
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -42,7 +43,7 @@ export function MobileNav() {
                   >
                     {item.title}
                   </MobileLink>
-                ),
+                )
             )}
           </div>
         </ScrollArea>

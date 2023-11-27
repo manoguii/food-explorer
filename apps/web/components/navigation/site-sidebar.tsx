@@ -1,13 +1,14 @@
-'use client'
+"use client"
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
-import { cn } from '@/lib/utils'
-import { routesConfig } from '@/config/navigation'
-import { Icons } from '../icons'
-import { UserAccountNav } from './user-nav'
-import { User } from '@/lib/types/definitions'
+import { routesConfig } from "@/config/navigation"
+import { User } from "@/lib/types/definitions"
+import { cn } from "@/lib/utils"
+
+import { Icons } from "../icons"
+import { UserAccountNav } from "./user-nav"
 
 export function SiteSidebar({ user }: { user: User }) {
   const path = usePathname()
@@ -26,14 +27,14 @@ export function SiteSidebar({ user }: { user: User }) {
 
         <nav className="mb-6 grid items-start gap-2">
           {routesConfig.sidebarNav.map((item, index) => {
-            const Icon = item.icon || 'arrowRight'
+            const Icon = item.icon || "arrowRight"
             return (
               item.href && (
                 <Link key={index} href={item.href}>
                   <span
                     className={cn(
-                      'group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground',
-                      path === item.href ? 'bg-accent' : 'transparent',
+                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                      path === item.href ? "bg-accent" : "transparent"
                     )}
                   >
                     <Icon className="mr-2 h-4 w-4" />

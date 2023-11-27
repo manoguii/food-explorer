@@ -1,28 +1,30 @@
-'use client'
+"use client"
 
-import { Form } from '@/components/ui/form'
-import * as Field from './fields'
-import * as React from 'react'
-import { cn } from '@/lib/utils'
-import { Icons } from '@/components/icons'
-import { Button, buttonVariants } from '@/components/ui/button'
-import Link from 'next/link'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from '@/components/ui/use-toast'
-import { UserAuthFormValues, userAuthFormSchema } from '@/lib/schemas'
-import { authenticate } from '@/app/actions'
-import { ReloadIcon } from '@radix-ui/react-icons'
+import * as React from "react"
+import Link from "next/link"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { ReloadIcon } from "@radix-ui/react-icons"
+import { useForm } from "react-hook-form"
+
+import { userAuthFormSchema, UserAuthFormValues } from "@/lib/schemas"
+import { cn } from "@/lib/utils"
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Form } from "@/components/ui/form"
+import { toast } from "@/components/ui/use-toast"
+import { Icons } from "@/components/icons"
+import { authenticate } from "@/app/actions"
+
+import * as Field from "./fields"
 
 const defaultValues: Partial<UserAuthFormValues> = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 }
 
 export function UserAuthForm({
   className,
   ...props
-}: React.ComponentProps<'div'>) {
+}: React.ComponentProps<"div">) {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
   const form = useForm<UserAuthFormValues>({
@@ -36,15 +38,15 @@ export function UserAuthForm({
     authenticate(data)
 
     toast({
-      title: 'Seja Bem vindo!',
-      description: 'Você está logado.',
+      title: "Seja Bem vindo!",
+      description: "Você está logado.",
     })
 
     return setIsLoading(false)
   }
 
   return (
-    <div className={cn('grid gap-6', className)} {...props}>
+    <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-2">
           <Field.Email />
@@ -73,13 +75,13 @@ export function UserAuthForm({
           <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
         ) : (
           <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{' '}
+        )}{" "}
         Github
       </Button>
 
       <Link
         href="/auth/sign-up"
-        className={cn(buttonVariants({ variant: 'ghost' }))}
+        className={cn(buttonVariants({ variant: "ghost" }))}
       >
         Criar uma conta
       </Link>

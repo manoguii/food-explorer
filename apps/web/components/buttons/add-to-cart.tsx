@@ -1,10 +1,12 @@
-'use client'
+"use client"
 
-import React from 'react'
-import { PlusIcon, RotateCw } from 'lucide-react'
-import { Button } from '../ui/button'
-import { Dish } from '@/lib/types/definitions'
-import { useCartStore } from '@/lib/use-cart-store'
+import React from "react"
+import { PlusIcon, RotateCw } from "lucide-react"
+
+import { Dish } from "@/lib/types/definitions"
+import { useCartStore } from "@/lib/use-cart-store"
+
+import { Button } from "../ui/button"
 
 export function AddToCart({ dish }: { dish: Dish }) {
   const [loading, setLoading] = React.useState(false)

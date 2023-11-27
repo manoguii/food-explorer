@@ -1,4 +1,4 @@
-import { Icons } from './icons'
+import { Icons } from "./icons"
 
 export function Footer() {
   return (

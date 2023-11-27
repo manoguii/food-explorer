@@ -1,8 +1,9 @@
-import { auth } from '@/auth'
-import { SiteSidebar } from '@/components/navigation/site-sidebar'
-import { notFound } from 'next/navigation'
-import React from 'react'
-import { SiteHeader } from '@/components/navigation/site-header'
+import React from "react"
+import { notFound } from "next/navigation"
+import { auth } from "@/auth"
+
+import { SiteHeader } from "@/components/navigation/site-header"
+import { SiteSidebar } from "@/components/navigation/site-sidebar"
 
 export default async function AppLayout({
   children,

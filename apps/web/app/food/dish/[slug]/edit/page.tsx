@@ -1,7 +1,7 @@
-import { getAuthToken } from '@/app/actions'
-import { CreateCategory } from '@/components/forms/dialog/create-category'
-import { UpdateDishForm } from '@/components/forms/update-dish'
-import { fetchCategories, getDishBySlug } from '@/lib/data'
+import { fetchCategories, getDishBySlug } from "@/lib/data"
+import { CreateCategory } from "@/components/forms/dialog/create-category"
+import { UpdateDishForm } from "@/components/forms/update-dish"
+import { getAuthToken } from "@/app/actions"
 
 export default async function SettingsProfilePage({
   params,
