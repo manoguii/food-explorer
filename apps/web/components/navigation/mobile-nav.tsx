@@ -35,7 +35,7 @@ export function MobileNav() {
           <span className="inline-block font-bold">Food explorer</span>
         </MobileLink>
 
-        <SearchInput />
+        <SearchInput onClose={setOpen} />
 
         <div className="flex flex-col space-y-3">
           {routesConfig.mainNav?.map(

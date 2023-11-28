@@ -1,10 +1,7 @@
-import Link from "next/link"
+import { Suspense } from "react"
 
-import { fetchFavoriteDishes } from "@/lib/data"
-import { DishCard } from "@/components/cards"
-import Grid from "@/components/grid"
-import { Pagination } from "@/components/pagination"
-import { getAuthToken } from "@/app/actions"
+import FavoritesDishesList from "@/components/favorites-dishes-list"
+import { CardsSkeleton } from "@/components/skeletons"
 
 export default async function FavoriteDishes({
   searchParams,
@@ -15,32 +12,13 @@ export default async function FavoriteDishes({
 }) {
   const currentPage = Number(searchParams?.page) || 1
 
-  const token = await getAuthToken()
-  const { favoriteDishes, totalPages } = await fetchFavoriteDishes(
-    token,
-    currentPage
-  )
-
   return (
     <div className="flex flex-col gap-5">
       <h1 className="text-2xl font-semibold">Meus favoritos</h1>
 
-      <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {favoriteDishes.map((dish) => {
-          return (
-            <Grid.Item key={dish.id} className="animate-fadeIn">
-              <Link
-                className="relative h-full w-full"
-                href={`/food/dish/${dish.slug}`}
-              >
-                <DishCard dish={{ ...dish, isFavorite: true }} favoriteCard />
-              </Link>
-            </Grid.Item>
-          )
-        })}
-      </Grid>
-
-      <Pagination totalPages={totalPages} />
+      <Suspense key={currentPage} fallback={<CardsSkeleton favoriteCard />}>
+        <FavoritesDishesList currentPage={currentPage} />
+      </Suspense>
     </div>
   )
 }

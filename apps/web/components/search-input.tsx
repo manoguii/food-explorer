@@ -14,7 +14,11 @@ const defaultValues: Partial<SearchDishFormValues> = {
   search: "",
 }
 
-export function SearchInput() {
+interface SearchInputProps {
+  onClose?: (open: boolean) => void
+}
+
+export function SearchInput({ onClose }: SearchInputProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -34,6 +38,10 @@ export function SearchInput() {
     }
 
     router.push(createUrl("/food/search", newParams))
+
+    if (onClose) {
+      onClose(false)
+    }
   }
 
   return (
