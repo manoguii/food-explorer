@@ -3,16 +3,12 @@ import { BadgePlus, ChefHat, ListOrdered, Star } from "lucide-react"
 export const routesConfig = {
   mainNav: [
     {
-      title: "Meus favoritos",
+      title: "Favoritos",
       href: "/food/favorites",
     },
     {
-      title: "Histórico de pedidos",
+      title: "Histórico",
       href: "/food/orders",
-    },
-    {
-      title: "Novo prato",
-      href: "/food/dish/create",
     },
   ],
   sidebarNav: [

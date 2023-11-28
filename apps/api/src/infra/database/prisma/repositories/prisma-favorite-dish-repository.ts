@@ -4,19 +4,24 @@ import { FavoriteDishRepository } from '@/domain/restaurant/application/reposito
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { FavoriteDish } from '@/domain/restaurant/enterprise/entities/favorite-dish'
 import { PrismaFavoriteDishMapper } from '../mappers/prisma-favorite-dish-mapper'
-import { DishWithAttachments } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-attachments'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Attachment } from '@/domain/restaurant/enterprise/entities/attachment'
+import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
+import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
+import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
+import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
 
 @Injectable()
 export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private dishAttachmentsRepository: DishAttachmentsRepository,
+    private dishIngredientsRepository: DishIngredientsRepository,
+  ) {}
 
   async findManyByClientId(
     clientId: string,
     params: PaginationParams,
   ): Promise<{
-    favorites: DishWithAttachments[]
+    favorites: DishWithDetails[]
     totalPages: number
   }> {
     const perPage = 10
@@ -27,57 +32,32 @@ export class PrismaFavoriteDishRepository implements FavoriteDishRepository {
       },
     })
 
-    const favoriteDishes = await this.prisma.user.findUnique({
+    const favoriteDishes = await this.prisma.favoriteDishes.findMany({
       where: {
-        id: clientId,
+        userId: clientId,
       },
-      select: {
-        favoriteDishes: {
+      include: {
+        dish: {
           include: {
-            dish: {
-              include: {
-                attachments: true,
-              },
-            },
+            attachments: true,
+            category: true,
+            ingredients: true,
           },
-          orderBy: {
-            createdAt: 'desc',
-          },
-          take: perPage,
-          skip: (params.page - 1) * perPage,
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: perPage,
+      skip: (params.page - 1) * perPage,
     })
 
-    const favorites = favoriteDishes?.favoriteDishes.map((raw) => {
-      return DishWithAttachments.create({
-        dishId: new UniqueEntityID(raw.dish.id),
-        name: raw.dish.name,
-        description: raw.dish.description,
-        price: raw.dish.price,
-        slug: raw.dish.slug,
-        attachments: raw.dish.attachments.map((attachment) =>
-          Attachment.create({
-            title: attachment.title,
-            url: attachment.url,
-          }),
-        ),
-        createdAt: raw.dish.createdAt,
-        updatedAt: raw.dish.updatedAt,
-      })
-    })
-
-    if (!favorites) {
-      return {
-        favorites: [],
-        totalPages: 0,
-      }
-    }
+    const dishes = favoriteDishes.map((favoriteDish) => favoriteDish.dish)
 
     const totalPages = Math.ceil(totalFavoriteDishes / perPage)
 
     return {
-      favorites,
+      favorites: dishes.map(PrismaDishWithDetailsMapper.toDomain),
       totalPages,
     }
   }

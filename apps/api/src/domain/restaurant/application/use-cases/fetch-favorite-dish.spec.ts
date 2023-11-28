@@ -9,6 +9,7 @@ import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attac
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { makeCategory } from 'test/factories/make-category'
 
 let inMemoryFavoriteDishRepository: InMemoryFavoriteDishRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -31,6 +32,8 @@ describe('Fetch favorite dishes', () => {
       inMemoryAttachmentsRepository,
     )
     inMemoryFavoriteDishRepository = new InMemoryFavoriteDishRepository(
+      inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
@@ -40,7 +43,18 @@ describe('Fetch favorite dishes', () => {
 
   it('should be able to fetch favorite dishes', async () => {
     const client = makeClient({}, new UniqueEntityID('1'))
-    const dish = makeDish({}, new UniqueEntityID('dish-1'))
+    const category = makeCategory({
+      name: 'Bebidas',
+    })
+
+    await inMemoryCategoryRepository.create(category)
+
+    const dish = makeDish(
+      {
+        categoryId: category.id,
+      },
+      new UniqueEntityID('dish-1'),
+    )
 
     await inMemoryDishRepository.create(dish)
 
@@ -58,5 +72,12 @@ describe('Fetch favorite dishes', () => {
 
     expect(result.isRight()).toBe(true)
     expect(result.value?.favoriteDishes).toHaveLength(1)
+    expect(result.value?.favoriteDishes[0]).toEqual(
+      expect.objectContaining({
+        dishId: dish.id,
+        ingredients: [],
+        attachments: [],
+      }),
+    )
   })
 })

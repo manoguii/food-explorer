@@ -19,11 +19,7 @@ export function AddToCart({ dish }: { dish: Dish }) {
   }
 
   return (
-    <Button
-      variant="destructive"
-      className="w-full gap-2"
-      onClick={handleAddToCart}
-    >
+    <Button className="gap-2" onClick={handleAddToCart}>
       {loading ? (
         <RotateCw className="h-4 w-4 animate-spin" />
       ) : (

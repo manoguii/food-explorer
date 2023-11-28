@@ -33,7 +33,7 @@ export default async function FavoriteDishes({
                 className="relative h-full w-full"
                 href={`/food/dish/${dish.slug}`}
               >
-                <DishCard dish={{ ...dish, isFavorite: true }} />
+                <DishCard dish={{ ...dish, isFavorite: true }} favoriteCard />
               </Link>
             </Grid.Item>
           )

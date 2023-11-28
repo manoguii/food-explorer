@@ -1,30 +1,21 @@
 import React from "react"
-import { notFound } from "next/navigation"
-import { auth } from "@/auth"
 
+import { Footer } from "@/components/footer"
 import { SiteHeader } from "@/components/navigation/site-header"
-import { SiteSidebar } from "@/components/navigation/site-sidebar"
 
 export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
-
-  if (!session) {
-    return notFound()
-  }
-
-  const { user } = session
-
   return (
-    <div className="grid flex-1 space-y-6 md:container md:grid-cols-[200px_1fr] md:gap-4">
+    <div className="grid grid-cols-1 grid-rows-[max-content_1fr_max-content]">
       <SiteHeader />
-      <SiteSidebar user={user} />
-      <main className="flex w-full flex-1 flex-col overflow-hidden px-6 md:px-2">
+
+      <div className="mx-auto min-h-[calc(100vh-72px-40px)] w-full max-w-7xl space-y-12 px-4 py-6">
         {children}
-      </main>
+      </div>
+      <Footer />
     </div>
   )
 }

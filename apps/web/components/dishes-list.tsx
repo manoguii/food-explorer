@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 import { fetchDishes, fetchDishesByCategory } from "@/lib/data"
 import { Dish } from "@/lib/types/definitions"
 import { DishCard } from "@/components/cards"
@@ -57,12 +55,7 @@ export default async function DishesList({
       <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.dishes.map((dish) => (
           <Grid.Item key={dish.id} className="animate-fadeIn">
-            <Link
-              className="relative h-full w-full"
-              href={`/food/dish/${dish.slug}`}
-            >
-              <DishCard dish={dish} />
-            </Link>
+            <DishCard dish={dish} />
           </Grid.Item>
         ))}
       </Grid>

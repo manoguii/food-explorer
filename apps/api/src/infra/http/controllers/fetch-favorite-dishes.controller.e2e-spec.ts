@@ -134,6 +134,7 @@ describe('Fetch favorite dishes (E2E)', () => {
           description: dish01.description,
           price: dish01.price,
           slug: dish01.slug.value,
+          ingredients: expect.arrayContaining([]),
           attachments: expect.arrayContaining([
             expect.objectContaining({
               title: attachment1.title,
@@ -147,6 +148,7 @@ describe('Fetch favorite dishes (E2E)', () => {
           description: dish02.description,
           price: dish02.price,
           slug: dish02.slug.value,
+          ingredients: expect.arrayContaining([]),
           attachments: expect.arrayContaining([
             expect.objectContaining({
               title: attachment2.title,

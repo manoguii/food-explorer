@@ -3,12 +3,14 @@
 import * as React from "react"
 import Link, { LinkProps } from "next/link"
 import { useRouter } from "next/navigation"
+import { Menu } from "lucide-react"
 
 import { routesConfig } from "@/config/navigation"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 
-import { ScrollArea } from "../ui/scroll-area"
+import { SearchInput } from "../search-input"
+import { Button } from "../ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
 
 export function MobileNav() {
@@ -16,37 +18,39 @@ export function MobileNav() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger className="flex items-center">
-        <Icons.logo className="mr-2 h-4 w-4" />
-        <span className="font-bold">Food Explorer</span>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="icon" className="md:hidden">
+          <Menu className="h-5 w-5" />
+          <span className="sr-only">Toggle Menu</span>
+        </Button>
       </SheetTrigger>
 
-      <SheetContent side="top">
+      <SheetContent side="left" className="w-full space-y-4">
         <MobileLink
-          href="/"
-          className="flex items-center"
+          href="/food"
+          className="flex shrink-0 items-center justify-center space-x-2"
           onOpenChange={setOpen}
         >
-          <Icons.logo className="mr-2 h-4 w-4" />
-          <span className="font-bold">Food Explorer</span>
+          <Icons.logo className="h-6 w-6" />
+          <span className="inline-block font-bold">Food explorer</span>
         </MobileLink>
 
-        <ScrollArea className="my-4 h-[50vh] pb-10">
-          <div className="flex flex-col space-y-3">
-            {routesConfig.mainNav?.map(
-              (item) =>
-                item.href && (
-                  <MobileLink
-                    key={item.href}
-                    href={item.href}
-                    onOpenChange={setOpen}
-                  >
-                    {item.title}
-                  </MobileLink>
-                )
-            )}
-          </div>
-        </ScrollArea>
+        <SearchInput />
+
+        <div className="flex flex-col space-y-3">
+          {routesConfig.mainNav?.map(
+            (item) =>
+              item.href && (
+                <MobileLink
+                  key={item.href}
+                  href={item.href}
+                  onOpenChange={setOpen}
+                >
+                  {item.title}
+                </MobileLink>
+              )
+          )}
+        </div>
       </SheetContent>
     </Sheet>
   )

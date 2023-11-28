@@ -4,8 +4,8 @@ import { z } from 'zod'
 import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-favorite-dishes'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { DishWithAttachmentsPresenter } from '../presenters/dish-with-attachments-presenter'
 import { ApiTags } from '@nestjs/swagger'
+import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -41,7 +41,7 @@ export class FetchFavoriteDishesController {
     const totalPages = result.value.totalPages
 
     return {
-      favoriteDishes: favoriteDishes.map(DishWithAttachmentsPresenter.toHTTP),
+      favoriteDishes: favoriteDishes.map(DishWithDetailsPresenter.toHTTP),
       totalPages,
     }
   }

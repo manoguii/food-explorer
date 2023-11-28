@@ -1,15 +1,19 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { FavoriteDishRepository } from '@/domain/restaurant/application/repositories/favorite-dish-repository'
 import { FavoriteDish } from '@/domain/restaurant/enterprise/entities/favorite-dish'
-import { DishWithAttachments } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-attachments'
 import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
 import { InMemoryDishRepository } from './in-memory-dish-repository'
+import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
+import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
+import { InMemoryCategoryRepository } from './in-memory-category-repository'
 
 export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
   public items: FavoriteDish[] = []
 
   constructor(
+    private dishIngredientsRepository: InMemoryDishIngredientsRepository,
+    private categoriesRepository: InMemoryCategoryRepository,
     private dishAttachmentsRepository: InMemoryDishAttachmentsRepository,
     private attachmentsRepository: InMemoryAttachmentsRepository,
     private dishRepository: InMemoryDishRepository,
@@ -18,7 +22,7 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
   async findManyByClientId(
     clientId: string,
     params: PaginationParams,
-  ): Promise<{ favorites: DishWithAttachments[]; totalPages: number }> {
+  ): Promise<{ favorites: DishWithDetails[]; totalPages: number }> {
     const perPage = 10
 
     const totalFavoriteDishes = this.items.filter(
@@ -40,6 +44,19 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
 
     const items = await Promise.all(
       dishes.map(async (dish) => {
+        const category = await this.categoriesRepository.findById(
+          dish.categoryId.toString(),
+        )
+
+        if (!category) {
+          throw new Error('A dish cannot be created without a category !')
+        }
+
+        const ingredients =
+          await this.dishIngredientsRepository.findManyByDishId(
+            dish.id.toString(),
+          )
+
         const dishAttachments =
           await this.dishAttachmentsRepository.findManyByDishId(
             dish.id.toString(),
@@ -61,13 +78,21 @@ export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
           }),
         )
 
-        return DishWithAttachments.create({
+        return DishWithDetails.create({
           dishId: dish.id,
           name: dish.name,
           description: dish.description,
           price: dish.price,
           slug: dish.slug.value,
-          attachments,
+          category: category.name,
+          ingredients: ingredients.map(
+            (ingredient) => ingredient.ingredientName,
+          ),
+          attachments: attachments.map((attachment) => ({
+            id: attachment.id.toString(),
+            title: attachment.title,
+            url: attachment.url,
+          })),
           createdAt: dish.createdAt,
           updatedAt: dish.updatedAt,
         })

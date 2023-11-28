@@ -37,7 +37,7 @@ export function SearchInput() {
         </div>
 
         <Input
-          placeholder="Busque por pratos ou ingredientes"
+          placeholder="Busque por pratos"
           className="pl-10"
           id="search"
           onChange={(e) => {

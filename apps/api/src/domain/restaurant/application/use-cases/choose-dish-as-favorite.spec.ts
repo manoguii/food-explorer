@@ -10,6 +10,7 @@ import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { makeCategory } from 'test/factories/make-category'
 
 describe('ChooseDishAsFavoriteUseCase', () => {
   let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -32,6 +33,8 @@ describe('ChooseDishAsFavoriteUseCase', () => {
       inMemoryAttachmentsRepository,
     )
     favoriteDishRepository = new InMemoryFavoriteDishRepository(
+      inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
@@ -40,8 +43,20 @@ describe('ChooseDishAsFavoriteUseCase', () => {
   })
 
   it('should be able to choose dish as favorite', async () => {
-    const dish = makeDish({}, new UniqueEntityID('dish-id'))
     const client = makeClient({}, new UniqueEntityID('client-id'))
+
+    const category = makeCategory({
+      name: 'Bebidas',
+    })
+
+    await inMemoryCategoryRepository.create(category)
+
+    const dish = makeDish(
+      {
+        categoryId: category.id,
+      },
+      new UniqueEntityID('dish-id'),
+    )
 
     await inMemoryDishRepository.create(dish)
 
@@ -56,8 +71,20 @@ describe('ChooseDishAsFavoriteUseCase', () => {
   })
 
   it('should not be able to choose dish as favorite if it is already a favorite', async () => {
-    const dish = makeDish({}, new UniqueEntityID('dish-id'))
     const client = makeClient({}, new UniqueEntityID('client-id'))
+
+    const category = makeCategory({
+      name: 'Bebidas',
+    })
+
+    await inMemoryCategoryRepository.create(category)
+
+    const dish = makeDish(
+      {
+        categoryId: category.id,
+      },
+      new UniqueEntityID('dish-id'),
+    )
 
     await inMemoryDishRepository.create(dish)
 

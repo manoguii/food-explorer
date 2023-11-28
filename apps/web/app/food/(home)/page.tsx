@@ -4,7 +4,6 @@ import { MixerHorizontalIcon } from "@radix-ui/react-icons"
 import { fetchCategories } from "@/lib/data"
 import { Button } from "@/components/ui/button"
 import { CategoriesNav } from "@/components/categories-nav"
-import { OrdersModal } from "@/components/orders-modal"
 import { SearchInput } from "@/components/search-input"
 import { CardsSkeleton } from "@/components/skeletons"
 import { getAuthToken, getCurrentUser } from "@/app/actions"
@@ -39,14 +38,10 @@ export default async function Home({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="truncate text-xl font-semibold text-primary">
-          Ola,{" "}
-          <span className="font-bold">{user.name.split(" ").slice(0, 1)}</span>
-        </h1>
-
-        <OrdersModal />
-      </div>
+      <h1 className="truncate text-xl font-semibold text-primary">
+        Ola,{" "}
+        <span className="font-bold">{user.name.split(" ").slice(0, 1)}</span>
+      </h1>
 
       <SearchInput />
 

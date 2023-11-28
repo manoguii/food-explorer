@@ -19,7 +19,7 @@ import {
 } from "../ui/sheet"
 import { CreateOrderButton } from "./create-order"
 import { DeleteItemButton } from "./delete-item"
-import { EditItemQuantityButton } from "./edit-quantity-button"
+import { DishQuantityCounter } from "./dish-quantity-counter"
 import { OrdersModalEmpty } from "./order-modal-empty"
 
 export function OrdersModal() {
@@ -50,21 +50,17 @@ export function OrdersModal() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="destructive"
-          size={"icon"}
-          className="relative flex items-center gap-2"
-        >
+        <Button variant="ghost" className="flex w-max items-center gap-2">
           <ShoppingCart className="h-4 w-4" />
-          <span className="absolute -right-2 -top-2 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 p-1 text-xs">
-            {cart.length}
+          <span className="hidden sm:inline-block">
+            Pedidos ({cart.length})
           </span>
         </Button>
       </SheetTrigger>
 
       <SheetContent
         side={side}
-        className="max-h-[calc(100vh-20%)] overflow-y-auto sm:max-h-screen sm:max-w-xl"
+        className="max-h-[calc(100vh-20%)] overflow-y-auto p-4 sm:max-h-screen sm:max-w-xl sm:p-6"
       >
         <SheetHeader>
           <SheetTitle className="mb-6 text-2xl">Meus pedidos</SheetTitle>
@@ -73,62 +69,50 @@ export function OrdersModal() {
         {cart.length === 0 ? (
           <OrdersModalEmpty />
         ) : (
-          <div className="flex h-full flex-col justify-between overflow-hidden p-1">
+          <div className="flex h-[90%] flex-col justify-between overflow-hidden p-1">
             <ScrollArea>
-              <ul className="grow overflow-auto py-4">
+              <ul className="grow overflow-auto py-4 pr-3">
                 {cart.map((item, i) => {
                   return (
-                    <li key={i} className="flex w-full flex-col">
-                      <div className="relative flex w-full flex-row justify-between px-1 py-4">
-                        <div className="absolute z-40 -mt-2 ml-[55px]">
-                          <DeleteItemButton dishId={item.id} />
-                        </div>
-                        <Link
-                          href={`/food/dish/${item.slug}`}
-                          onClick={closeCart}
-                          className="z-30 flex flex-row space-x-4"
-                        >
-                          <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800">
-                            <Image
-                              className="h-full w-full object-cover"
-                              width={64}
-                              height={64}
-                              alt={item.name}
-                              src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${item.attachments[0].url}`}
-                            />
-                          </div>
+                    <li
+                      key={i}
+                      className="relative flex w-full flex-row justify-between px-1 py-4"
+                    >
+                      <div className="absolute z-40 -mt-2 ml-[55px]">
+                        <DeleteItemButton dishId={item.id} />
+                      </div>
 
-                          <div className="flex flex-1 flex-col text-base">
-                            <span className="leading-tight">{item.name}</span>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              {item.description}
-                            </p>
-                          </div>
-                        </Link>
-                        <div className="flex h-16 flex-col justify-between">
-                          <Price
-                            className="flex justify-end space-y-2 text-right text-sm"
-                            amount={item.price.toString()}
-                            currencyCode={"BRL"}
+                      <Link
+                        href={`/food/dish/${item.slug}`}
+                        onClick={closeCart}
+                        className="z-30 flex flex-row space-x-4"
+                      >
+                        <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800">
+                          <Image
+                            className="h-full w-full object-cover"
+                            width={64}
+                            height={64}
+                            alt={item.name}
+                            src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${item.attachments[0].url}`}
                           />
-                          <div className="ml-auto flex flex-row items-center rounded-lg border border-gray-200 p-1 dark:border-gray-800">
-                            <EditItemQuantityButton
-                              dishId={item.id}
-                              type="minus"
-                              quantity={item.quantity || 1}
-                            />
-                            <p className="w-6 text-center">
-                              <span className="w-full text-sm">
-                                {item.quantity}
-                              </span>
-                            </p>
-                            <EditItemQuantityButton
-                              dishId={item.id}
-                              type="plus"
-                              quantity={item.quantity || 1}
-                            />
-                          </div>
                         </div>
+
+                        <div className="flex flex-1 flex-col text-base">
+                          <span className="leading-tight">{item.name}</span>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {item.description}
+                          </p>
+                        </div>
+                      </Link>
+
+                      <div className="flex h-16 flex-col justify-between">
+                        <Price
+                          className="flex justify-end space-y-2 text-right text-sm"
+                          amount={item.price.toString()}
+                          currencyCode={"BRL"}
+                        />
+
+                        <DishQuantityCounter dishId={item.id} />
                       </div>
                     </li>
                   )
@@ -136,8 +120,12 @@ export function OrdersModal() {
               </ul>
             </ScrollArea>
 
-            <div className="py-4 text-sm text-gray-500 dark:text-gray-400">
-              <div className="mb-3 flex items-center justify-between border-gray-200 pb-1">
+            <div className="space-y-1 py-4 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex items-center justify-between border-gray-200">
+                <p>Entrega</p>
+                <p className="text-right">Entrega gratis</p>
+              </div>
+              <div className="flex items-center justify-between border-gray-200">
                 <p>Taxas</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"
@@ -145,11 +133,7 @@ export function OrdersModal() {
                   currencyCode={"BRL"}
                 />
               </div>
-              <div className="mb-3 flex items-center justify-between border-gray-200 py-1">
-                <p>Entrega</p>
-                <p className="text-right">Entrega gratis</p>
-              </div>
-              <div className="mb-3 flex items-center justify-between border-gray-200 py-1">
+              <div className="flex items-center justify-between border-gray-200">
                 <p>Total</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"
@@ -157,8 +141,9 @@ export function OrdersModal() {
                   currencyCode={"BRL"}
                 />
               </div>
-              <CreateOrderButton />
             </div>
+
+            <CreateOrderButton />
           </div>
         )}
       </SheetContent>

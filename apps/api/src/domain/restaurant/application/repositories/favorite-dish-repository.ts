@@ -1,6 +1,6 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
-import { DishWithAttachments } from '../../enterprise/entities/value-objects/dish-with-attachments'
+import { DishWithDetails } from '../../enterprise/entities/value-objects/dish-with-details'
 
 export abstract class FavoriteDishRepository {
   abstract findOneByDishIdAndClientId(
@@ -12,7 +12,7 @@ export abstract class FavoriteDishRepository {
     clientId: string,
     params: PaginationParams,
   ): Promise<{
-    favorites: DishWithAttachments[]
+    favorites: DishWithDetails[]
     totalPages: number
   }>
 
