@@ -15,10 +15,10 @@ export function MainNav() {
     <div className="mr-4 hidden md:flex">
       <Link href="/food" className="mr-4 flex items-center space-x-2">
         <Icons.logo className="h-6 w-6" />
-        <span className="font-bold">Food explorer</span>
+        <span className="hidden font-bold lg:inline-block">Food explorer</span>
       </Link>
 
-      <nav className="hidden items-center space-x-6 text-sm font-medium lg:flex">
+      <nav className="flex items-center space-x-6 text-sm font-medium">
         {routesConfig.mainNav.map((route) => {
           return (
             <Link

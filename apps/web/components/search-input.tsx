@@ -1,32 +1,43 @@
 "use client"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Search } from "lucide-react"
-import { useDebouncedCallback } from "use-debounce"
+import { useForm } from "react-hook-form"
+
+import { searchDishFormSchema, SearchDishFormValues } from "@/lib/schemas"
+import { createUrl } from "@/lib/utils"
 
 import { Input } from "./ui/input"
 
+const defaultValues: Partial<SearchDishFormValues> = {
+  search: "",
+}
+
 export function SearchInput() {
   const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const { replace } = useRouter()
+  const router = useRouter()
 
-  const handleSearch = useDebouncedCallback((term) => {
-    const params = new URLSearchParams(searchParams)
+  const { register, handleSubmit } = useForm<SearchDishFormValues>({
+    resolver: zodResolver(searchDishFormSchema),
+    defaultValues,
+  })
 
-    params.delete("page")
+  function handleSearch(data: SearchDishFormValues) {
+    const search = data.search
+    const newParams = new URLSearchParams(searchParams.toString())
 
-    if (term) {
-      params.delete("category")
-      params.set("query", term)
+    if (search) {
+      newParams.set("query", search)
     } else {
-      params.delete("query")
+      newParams.delete("query")
     }
-    replace(`${pathname}?${params.toString()}`, { scroll: false })
-  }, 300)
+
+    router.push(createUrl("/food/search", newParams))
+  }
 
   return (
-    <form className="flex items-center">
+    <form className="flex items-center" onSubmit={handleSubmit(handleSearch)}>
       <label htmlFor="search" className="sr-only">
         Search
       </label>
@@ -39,11 +50,7 @@ export function SearchInput() {
         <Input
           placeholder="Busque por pratos"
           className="pl-10"
-          id="search"
-          onChange={(e) => {
-            handleSearch(e.target.value)
-          }}
-          defaultValue={searchParams.get("query")?.toString()}
+          {...register("search")}
         />
       </div>
     </form>

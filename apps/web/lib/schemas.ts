@@ -113,9 +113,14 @@ export const userAuthFormSchema = z.object({
   }),
 })
 
+export const searchDishFormSchema = z.object({
+  search: z.string(),
+})
+
 export type Task = z.infer<typeof taskSchema>
 export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type CreateDishFormValues = z.infer<typeof createDishFormSchema>
 export type UpdateDishFormValues = z.infer<typeof updateDishFormSchema>
 export type NewCategoryFormSchema = z.infer<typeof newCategoryFormSchema>
+export type SearchDishFormValues = z.infer<typeof searchDishFormSchema>

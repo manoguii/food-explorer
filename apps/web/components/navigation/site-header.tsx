@@ -1,30 +1,16 @@
 import Link from "next/link"
-import { notFound } from "next/navigation"
-import { auth } from "@/auth"
 
 import { Icons } from "../icons"
 import { OrdersModal } from "../orders-modal"
 import { SearchInput } from "../search-input"
-import { Separator } from "../ui/separator"
 import { MainNav } from "./main-nav"
 import { MobileNav } from "./mobile-nav"
-import { ModeToggle } from "./mode-toggle"
-import { UserAccountNav } from "./user-nav"
 
 export async function SiteHeader() {
-  const session = await auth()
-
-  if (!session) {
-    return notFound()
-  }
-
-  const { user } = session
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex justify-between px-6 py-3 md:hidden">
         <MobileNav />
-
         <Link
           href="/food"
           className="flex shrink-0 items-center justify-center space-x-2"
@@ -32,21 +18,13 @@ export async function SiteHeader() {
           <Icons.logo className="h-6 w-6" />
           <span className="inline-block font-bold">Food explorer</span>
         </Link>
-
         <OrdersModal />
       </div>
 
       <div className="hidden grid-cols-3 px-6 py-3 md:grid">
         <MainNav />
-
         <SearchInput />
-
-        <div className="flex items-center gap-1 place-self-end">
-          <ModeToggle />
-          <Separator orientation="vertical" className="h-4" />
-          <OrdersModal />
-          <UserAccountNav user={user} />
-        </div>
+        <OrdersModal />
       </div>
     </header>
   )

@@ -50,11 +50,8 @@ export function OrdersModal() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" className="flex w-max items-center gap-2">
+        <Button variant="outline" size="icon" className="place-self-end">
           <ShoppingCart className="h-4 w-4" />
-          <span className="hidden sm:inline-block">
-            Pedidos ({cart.length})
-          </span>
         </Button>
       </SheetTrigger>
 
