@@ -58,3 +58,40 @@ export function CardsSkeleton({
     </Grid>
   )
 }
+
+export function FeaturedCategoriesSkeleton() {
+  const skeletonDishesQuantity = Array.from({ length: 4 })
+
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <Skeleton className="h-6 w-48" />
+
+        <div className="flex gap-2">
+          <Skeleton className="ml-auto h-10 w-10" />
+          <Skeleton className="ml-auto h-10 w-10" />
+        </div>
+      </div>
+      <div className="react-multi-carousel-list">
+        {skeletonDishesQuantity.map((_, i) => (
+          <div
+            key={i}
+            className="react-multi-carousel-item react-multi-carousel-item--active px-3"
+          >
+            <CardSkeleton />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function FeaturedCategoriesWrapper() {
+  return (
+    <div className="space-y-12">
+      <FeaturedCategoriesSkeleton />
+      <FeaturedCategoriesSkeleton />
+      <FeaturedCategoriesSkeleton />
+    </div>
+  )
+}

@@ -96,27 +96,27 @@ const responsive: ResponsiveType = {
   desktop: {
     breakpoint: {
       max: 3000,
-      min: 1024,
+      min: 1124,
     },
     items: 4,
   },
   laptop: {
     breakpoint: {
-      max: 1024,
-      min: 890,
+      max: 1124,
+      min: 868,
     },
     items: 3,
   },
   tablet: {
     breakpoint: {
-      max: 890,
-      min: 564,
+      max: 868,
+      min: 640,
     },
     items: 2,
   },
   mobile: {
     breakpoint: {
-      max: 564,
+      max: 640,
       min: 0,
     },
     items: 1,
