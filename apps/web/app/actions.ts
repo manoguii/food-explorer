@@ -1,5 +1,7 @@
 'use server'
 
+import { revalidateTag } from 'next/cache'
+
 import {
   CreateDishParams,
   UpdateDishParams,
@@ -132,6 +134,8 @@ export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
       method,
     },
   )
+
+  revalidateTag('all-dishes')
 
   if (!response.ok) {
     const data = await response.json()

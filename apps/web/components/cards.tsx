@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Dish } from '@/lib/types/definitions'
 
 import { AddToCart } from './buttons/add-to-cart'
+import { FavoriteButton } from './buttons/favorite-button'
 import Price from './price'
 import { Badge } from './ui/badge'
 
@@ -15,7 +16,7 @@ export function DishCard({
   favoriteCard?: boolean
 }) {
   return (
-    <div className="group flex h-full w-full flex-col justify-between">
+    <div className=" group relative flex h-full w-full flex-col justify-between">
       <Link
         href={`/food/dish/${dish.slug}`}
         className="relative mb-4 flex aspect-video items-center justify-center overflow-hidden rounded-lg border bg-white hover:!border-gray-700 dark:bg-gray-950"
@@ -62,6 +63,12 @@ export function DishCard({
           <AddToCart dish={dish} />
         </div>
       )}
+
+      <FavoriteButton
+        dishId={dish.id}
+        favorite={dish.isFavorite}
+        className="absolute right-3 top-3"
+      />
     </div>
   )
 }

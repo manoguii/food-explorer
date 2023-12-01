@@ -140,7 +140,7 @@ export function OrdersModal() {
               </div>
             </div>
 
-            <CreateOrderButton />
+            <CreateOrderButton closeCart={closeCart} />
           </div>
         )}
       </SheetContent>

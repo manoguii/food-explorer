@@ -22,6 +22,11 @@ export async function fetchFavoriteDishes(page: number): Promise<{
 }> {
   const response = await fetchWithToken(
     `http://localhost:3333/dish/favorites?page=${page}`,
+    {
+      next: {
+        tags: ['favorite-dishes'],
+      },
+    },
   )
 
   const favoriteDishes = await response.json()
@@ -56,6 +61,11 @@ export async function fetchDishesByCategory(
 }> {
   const response = await fetchWithToken(
     `http://localhost:3333/dish/${category}?page=${page}`,
+    {
+      next: {
+        tags: ['dishes-by-category'],
+      },
+    },
   )
   const dishes = await response.json()
 
@@ -74,6 +84,11 @@ export async function fetchDishes({
 }> {
   const response = await fetchWithToken(
     `http://localhost:3333/dishes?page=${page}&query=${query}`,
+    {
+      next: {
+        tags: ['all-dishes'],
+      },
+    },
   )
   const dishes = await response.json()
 

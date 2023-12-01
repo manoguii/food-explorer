@@ -1,4 +1,5 @@
 import { fetchOrders } from '@/lib/data'
+import { FoodLayout } from '@/components/food-layout'
 import { columns } from '@/app/food/orders/table/columns'
 import { DataTable } from '@/app/food/orders/table/data-table'
 
@@ -13,10 +14,10 @@ export default async function Orders() {
   }))
 
   return (
-    <div className="space-y-5">
-      <h1 className="text-2xl font-semibold">Pedidos</h1>
+    <FoodLayout>
+      <FoodLayout.Title>Pedidos</FoodLayout.Title>
 
       <DataTable data={data} columns={columns} />
-    </div>
+    </FoodLayout>
   )
 }

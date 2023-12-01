@@ -11,6 +11,7 @@ export async function fetchWithToken(input: RequestInfo, init?: RequestInit) {
     init = {
       ...init,
       headers: {
+        'Content-Type': 'application/json',
         ...init?.headers,
         Authorization: `Bearer ${token}`,
       },

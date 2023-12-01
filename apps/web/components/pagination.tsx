@@ -19,7 +19,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
   }
 
   return (
-    <div className="mx-auto mt-auto inline-flex self-center">
+    <div className="mx-auto inline-flex">
       <PaginationArrow
         direction="left"
         href={createPageURL(currentPage - 1)}

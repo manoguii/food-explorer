@@ -22,7 +22,7 @@ export function SearchInput({ onClose }: SearchInputProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const { register, handleSubmit } = useForm<SearchDishFormValues>({
+  const { register, handleSubmit, reset } = useForm<SearchDishFormValues>({
     resolver: zodResolver(searchDishFormSchema),
     defaultValues,
   })
@@ -40,6 +40,8 @@ export function SearchInput({ onClose }: SearchInputProps) {
     }
 
     router.push(createUrl('/food/search', newParams))
+
+    reset()
 
     if (onClose) {
       onClose(false)

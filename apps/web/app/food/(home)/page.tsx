@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { FeaturedCategoriesList } from '@/components/featured-categories-list'
+import { FoodLayout } from '@/components/food-layout'
 import { Icons } from '@/components/icons'
 import { FeaturedCategoriesWrapper } from '@/components/skeletons'
 
@@ -12,8 +13,8 @@ import { HeroHeader, HeroHeaderDescription, HeroHeaderHeading } from './hero'
 
 export default async function Home() {
   return (
-    <div>
-      <div className="mb-4 grid grid-cols-1 sm:grid-cols-[60%_1fr]">
+    <FoodLayout>
+      <div className="grid grid-cols-1 sm:grid-cols-[60%_1fr]">
         <HeroHeader>
           <HeroHeaderHeading>Food explorer</HeroHeaderHeading>
           <HeroHeaderDescription>
@@ -50,6 +51,6 @@ export default async function Home() {
       <Suspense key={'hero'} fallback={<FeaturedCategoriesWrapper />}>
         <FeaturedCategoriesList />
       </Suspense>
-    </div>
+    </FoodLayout>
   )
 }

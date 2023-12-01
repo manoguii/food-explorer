@@ -3,7 +3,7 @@ import { DishCard } from '@/components/cards'
 import Grid from '@/components/grid'
 import { Pagination } from '@/components/pagination'
 
-export default async function FavoritesDishesList({
+export async function FavoritesDishesList({
   currentPage,
 }: {
   currentPage: number
@@ -11,7 +11,7 @@ export default async function FavoritesDishesList({
   const { favoriteDishes, totalPages } = await fetchFavoriteDishes(currentPage)
 
   return (
-    <>
+    <div className="flex flex-1 flex-col justify-between gap-4">
       <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {favoriteDishes.map((dish) => {
           return (
@@ -23,6 +23,6 @@ export default async function FavoritesDishesList({
       </Grid>
 
       <Pagination totalPages={totalPages} />
-    </>
+    </div>
   )
 }

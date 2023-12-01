@@ -1,9 +1,8 @@
 import { Suspense } from 'react'
-import { MixerHorizontalIcon } from '@radix-ui/react-icons'
 
 import { fetchCategories } from '@/lib/data'
-import { Button } from '@/components/ui/button'
 import { CategoriesNav } from '@/components/categories-nav'
+import { FoodLayout } from '@/components/food-layout'
 import { CardsSkeleton } from '@/components/skeletons'
 
 import DishesList from '../../../components/dishes-list'
@@ -34,19 +33,15 @@ export default async function SearchPage({
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-72px-40px)] w-full flex-col">
-      {query && (
-        <p className="mb-4 font-medium">
-          Resultados para <span>{`"${query}"`}</span>
-        </p>
-      )}
+    <FoodLayout>
+      <div className="flex flex-col gap-1">
+        {query && (
+          <p className="font-medium text-secondary-foreground">
+            Resultados para <span>{`"${query}"`}</span>
+          </p>
+        )}
 
-      <div className="mb-4 flex items-center gap-2">
         <CategoriesNav categories={categories} />
-        <Button variant="outline" size="sm" className="ml-auto lg:flex">
-          <MixerHorizontalIcon className="mr-2 h-4 w-4" />
-          View
-        </Button>
       </div>
 
       <Suspense
@@ -60,6 +55,6 @@ export default async function SearchPage({
           currentPage={currentPage}
         />
       </Suspense>
-    </div>
+    </FoodLayout>
   )
 }

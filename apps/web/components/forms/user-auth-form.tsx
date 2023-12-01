@@ -38,7 +38,6 @@ export function UserAuthForm({
     try {
       const result = await authenticate(data)
 
-      console.log(result)
       if (result?.includes('CredentialSignin')) {
         toast({
           title: 'Error ao fazer login.',

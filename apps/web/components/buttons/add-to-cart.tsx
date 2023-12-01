@@ -19,9 +19,9 @@ export function AddToCart({ dish }: { dish: Dish }) {
   }
 
   return (
-    <Button className="gap-2" onClick={handleAddToCart}>
+    <Button variant="destructive" className="gap-1" onClick={handleAddToCart}>
       {loading && <RotateCw className="h-4 w-4 animate-spin" />}
-      Adicionar aos pedidos
+      Adicionar
     </Button>
   )
 }

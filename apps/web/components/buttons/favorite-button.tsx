@@ -52,8 +52,7 @@ export function FavoriteButton({
       variant="ghost"
       size="icon"
       className={cn(
-        'group rounded-lg border bg-white/70 backdrop-blur-md dark:border-neutral-800 dark:bg-black/70',
-        isLoading === 'loading' && 'animate-pulse cursor-not-allowed',
+        'group rounded-lg border bg-white/70 backdrop-blur-md dark:border-gray-800 dark:bg-black/70',
         className,
       )}
       disabled={isLoading === 'loading'}
@@ -61,9 +60,13 @@ export function FavoriteButton({
       {...rest}
     >
       <Heart
-        className={cn('h-4 w-4 fill-gray-50 text-gray-50', {
-          'fill-red-500 text-red-500': favorite,
-        })}
+        className={cn(
+          'h-4 w-4 fill-gray-50 text-gray-50',
+          isLoading === 'loading' && 'animate-pulse',
+          {
+            'fill-red-500 text-red-500': favorite,
+          },
+        )}
       />
     </Button>
   )
