@@ -1,41 +1,24 @@
 "use server"
 
-import { revalidateTag } from "next/cache"
-import { redirect } from "next/navigation"
-
 import {
   CreateDishParams,
   UpdateDishParams,
   UploadFileResponse,
 } from "@/lib/types/definitions"
+import { fetchWithToken } from "@/lib/utils"
 
-import { auth, signIn, signOut } from "../auth"
+import { signIn, signOut } from "../auth"
 
-export async function getAuthToken() {
-  const session = await auth()
-
-  if (!session) return redirect("/auth/sign-in")
-
-  const token = session.user.access_token
-
-  return token
-}
-
-export async function getCurrentUser() {
-  const session = await auth()
-
-  if (!session) return redirect("/auth/sign-in")
-
-  const user = session.user
-
-  return user
-}
-
-export async function authenticate(user: { email: string; password: string }) {
+export async function authenticate(user: {
+  email: string
+  password: string
+}) {
   try {
     await signIn("credentials", user)
   } catch (error) {
-    if ((error as Error).message.includes("CredentialsSignin")) {
+    if (
+      (error as Error).message.includes("CredentialsSignin")
+    ) {
       return "CredentialSignin"
     }
     throw error
@@ -47,16 +30,13 @@ export async function logout() {
 }
 
 export async function createCategory(category: string) {
-  const token = await getAuthToken()
-
-  const response = await fetch("http://localhost:3333/categories", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ name: category }),
-  })
+  const response = await fetchWithToken(
+    "http://localhost:3333/categories",
+    {
+      method: "POST",
+      body: JSON.stringify({ name: category }),
+    }
+  )
 
   if (!response.ok) {
     const data = await response.json()
@@ -65,8 +45,6 @@ export async function createCategory(category: string) {
       message: data.message as string,
     }
   }
-
-  revalidateTag("categories-tag")
 
   return {
     success: true,
@@ -75,16 +53,13 @@ export async function createCategory(category: string) {
 }
 
 export async function createDish(dish: CreateDishParams) {
-  const token = await getAuthToken()
-
-  const response = await fetch("http://localhost:3333/dishes", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(dish),
-  })
+  const response = await fetchWithToken(
+    "http://localhost:3333/dishes",
+    {
+      method: "POST",
+      body: JSON.stringify(dish),
+    }
+  )
 
   if (!response.ok) {
     const data = await response.json()
@@ -93,8 +68,6 @@ export async function createDish(dish: CreateDishParams) {
       message: data.message as string,
     }
   }
-
-  revalidateTag("featured-dishes")
 
   return {
     success: true,
@@ -103,16 +76,13 @@ export async function createDish(dish: CreateDishParams) {
 }
 
 export async function updateDish(dish: UpdateDishParams) {
-  const token = await getAuthToken()
-
-  const response = await fetch(`http://localhost:3333/dishes/${dish.id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(dish),
-  })
+  const response = await fetchWithToken(
+    `http://localhost:3333/dishes/${dish.id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(dish),
+    }
+  )
 
   if (!response.ok) {
     const data = await response.json()
@@ -121,9 +91,6 @@ export async function updateDish(dish: UpdateDishParams) {
       message: data.message as string,
     }
   }
-
-  revalidateTag("featured-dishes")
-  revalidateTag(`dish-${dish.slug}`)
 
   return {
     success: true,
@@ -134,15 +101,13 @@ export async function updateDish(dish: UpdateDishParams) {
 export async function uploadFile(
   formData: FormData
 ): Promise<UploadFileResponse> {
-  const token = await getAuthToken()
-
-  const response = await fetch("http://localhost:3333/attachments", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  })
+  const response = await fetchWithToken(
+    "http://localhost:3333/attachments",
+    {
+      method: "POST",
+      body: formData,
+    }
+  )
 
   const data = await response.json()
 
@@ -163,26 +128,27 @@ export async function uploadFile(
   }
 }
 
-export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
-  const token = await getAuthToken()
+export async function toggleFavoriteDish(
+  dishId: string,
+  isFavorite: boolean
+) {
   let successMessage: string
   let method: "PATCH" | "DELETE"
 
   if (isFavorite) {
-    successMessage = "Prato removido dos favoritos com sucesso."
+    successMessage =
+      "Prato removido dos favoritos com sucesso."
     method = "DELETE"
   } else {
-    successMessage = "Prato adicionado aos favoritos com sucesso."
+    successMessage =
+      "Prato adicionado aos favoritos com sucesso."
     method = "PATCH"
   }
 
-  const response = await fetch(
+  const response = await fetchWithToken(
     `http://localhost:3333/dishes/${dishId}/favorite`,
     {
       method,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     }
   )
 
@@ -193,8 +159,6 @@ export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
       message: data.message as string,
     }
   }
-
-  revalidateTag("favorite-dishes")
 
   return {
     success: true,
@@ -208,16 +172,13 @@ export async function createOrder(
     quantity: number
   }[]
 ) {
-  const token = await getAuthToken()
-
-  const response = await fetch(`http://localhost:3333/orders`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ items }),
-  })
+  const response = await fetchWithToken(
+    `http://localhost:3333/orders`,
+    {
+      method: "POST",
+      body: JSON.stringify({ items }),
+    }
+  )
 
   if (!response.ok) {
     const data = await response.json()

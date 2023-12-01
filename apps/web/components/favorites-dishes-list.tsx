@@ -2,18 +2,13 @@ import { fetchFavoriteDishes } from "@/lib/data"
 import { DishCard } from "@/components/cards"
 import Grid from "@/components/grid"
 import { Pagination } from "@/components/pagination"
-import { getAuthToken } from "@/app/actions"
 
 export default async function FavoritesDishesList({
   currentPage,
 }: {
   currentPage: number
 }) {
-  const token = await getAuthToken()
-  const { favoriteDishes, totalPages } = await fetchFavoriteDishes(
-    token,
-    currentPage
-  )
+  const { favoriteDishes, totalPages } = await fetchFavoriteDishes(currentPage)
 
   return (
     <>

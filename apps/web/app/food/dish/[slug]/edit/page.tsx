@@ -1,18 +1,15 @@
 import { fetchCategories, getDishBySlug } from "@/lib/data"
 import { CreateCategory } from "@/components/forms/dialog/create-category"
 import { UpdateDishForm } from "@/components/forms/update-dish"
-import { getAuthToken } from "@/app/actions"
 
 export default async function SettingsProfilePage({
   params,
 }: {
   params: { slug: string }
 }) {
-  const token = await getAuthToken()
-
   const [{ categories }, dish] = await Promise.all([
-    fetchCategories(token),
-    getDishBySlug(params.slug, token),
+    fetchCategories(),
+    getDishBySlug(params.slug),
   ])
 
   return (

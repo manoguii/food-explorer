@@ -3,7 +3,6 @@ import { Dish } from "@/lib/types/definitions"
 import { DishCard } from "@/components/cards"
 import Grid from "@/components/grid"
 import { Pagination } from "@/components/pagination"
-import { getAuthToken } from "@/app/actions"
 
 export default async function DishesList({
   mode,
@@ -16,8 +15,6 @@ export default async function DishesList({
   query: string
   category: string
 }) {
-  const token = await getAuthToken()
-
   let decodedCategoryParam: string
   let items: {
     dishes: Dish[]
@@ -26,14 +23,14 @@ export default async function DishesList({
 
   switch (mode) {
     case "start":
-      items = await fetchDishes(token, {
+      items = await fetchDishes({
         page: currentPage,
         query: "",
       })
 
       break
     case "search":
-      items = await fetchDishes(token, {
+      items = await fetchDishes({
         page: currentPage,
         query,
       })
@@ -42,17 +39,13 @@ export default async function DishesList({
     case "category":
       decodedCategoryParam = decodeURIComponent(category)
 
-      items = await fetchDishesByCategory(
-        token,
-        decodedCategoryParam,
-        currentPage
-      )
+      items = await fetchDishesByCategory(decodedCategoryParam, currentPage)
       break
   }
 
   return (
     <>
-      <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <Grid className="mb-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {items.dishes.map((dish) => (
           <Grid.Item key={dish.id} className="animate-fadeIn">
             <DishCard dish={dish} />

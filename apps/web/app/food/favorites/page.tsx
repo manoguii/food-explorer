@@ -13,8 +13,8 @@ export default async function FavoriteDishes({
   const currentPage = Number(searchParams?.page) || 1
 
   return (
-    <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-semibold">Meus favoritos</h1>
+    <div className="flex min-h-[calc(100vh-72px-40px)] w-full flex-col">
+      <h1 className="mb-4 text-2xl font-semibold">Meus favoritos</h1>
 
       <Suspense key={currentPage} fallback={<CardsSkeleton favoriteCard />}>
         <FavoritesDishesList currentPage={currentPage} />

@@ -35,12 +35,26 @@ export function UserAuthForm({
   async function onSubmit(data: UserAuthFormValues) {
     setIsLoading(true)
 
-    authenticate(data)
+    try {
+      const result = await authenticate(data)
 
-    toast({
-      title: "Seja Bem vindo!",
-      description: "Você está logado.",
-    })
+      console.log(result)
+      if (result?.includes("CredentialSignin")) {
+        toast({
+          title: "Error ao fazer login.",
+          description:
+            "Não foi possível fazer login, tente novamente mais tarde.",
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Seja Bem vindo!",
+          description: "Você está logado.",
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
 
     return setIsLoading(false)
   }

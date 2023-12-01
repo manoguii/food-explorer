@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { getDishBySlug } from "@/lib/data"
 import { Gallery } from "@/components/gallery"
 import { DishDescription } from "@/components/product-description"
-import { getAuthToken } from "@/app/actions"
 
 export const runtime = "edge"
 
@@ -12,9 +11,7 @@ export default async function DishPage({
 }: {
   params: { slug: string }
 }) {
-  const token = await getAuthToken()
-
-  const dish = await getDishBySlug(params.slug, token)
+  const dish = await getDishBySlug(params.slug)
 
   if (!dish) return notFound()
 

@@ -17,12 +17,9 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const user = await getUserSession(parsedCredentials.data)
 
-          if (!user) return null
-
-          return user
+          if (user) return user
         }
 
-        console.log("Invalid credentials")
         return null
       },
     }),

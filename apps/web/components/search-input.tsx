@@ -31,6 +31,8 @@ export function SearchInput({ onClose }: SearchInputProps) {
     const search = data.search
     const newParams = new URLSearchParams(searchParams.toString())
 
+    newParams.set("page", "1")
+
     if (search) {
       newParams.set("query", search)
     } else {
