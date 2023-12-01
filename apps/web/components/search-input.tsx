@@ -1,17 +1,17 @@
-"use client"
+'use client'
 
-import { useRouter, useSearchParams } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Search } from "lucide-react"
-import { useForm } from "react-hook-form"
+import { useRouter, useSearchParams } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Search } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 
-import { searchDishFormSchema, SearchDishFormValues } from "@/lib/schemas"
-import { createUrl } from "@/lib/utils"
+import { searchDishFormSchema, SearchDishFormValues } from '@/lib/schemas'
+import { createUrl } from '@/lib/utils'
 
-import { Input } from "./ui/input"
+import { Input } from './ui/input'
 
 const defaultValues: Partial<SearchDishFormValues> = {
-  search: "",
+  search: '',
 }
 
 interface SearchInputProps {
@@ -31,15 +31,15 @@ export function SearchInput({ onClose }: SearchInputProps) {
     const search = data.search
     const newParams = new URLSearchParams(searchParams.toString())
 
-    newParams.set("page", "1")
+    newParams.set('page', '1')
 
     if (search) {
-      newParams.set("query", search)
+      newParams.set('query', search)
     } else {
-      newParams.delete("query")
+      newParams.delete('query')
     }
 
-    router.push(createUrl("/food/search", newParams))
+    router.push(createUrl('/food/search', newParams))
 
     if (onClose) {
       onClose(false)
@@ -60,7 +60,7 @@ export function SearchInput({ onClose }: SearchInputProps) {
         <Input
           placeholder="Busque por pratos"
           className="pl-10"
-          {...register("search")}
+          {...register('search')}
         />
       </div>
     </form>

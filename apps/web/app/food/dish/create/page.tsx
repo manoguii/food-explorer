@@ -1,6 +1,6 @@
-import { fetchCategories } from "@/lib/data"
-import { CreateDishForm } from "@/components/forms/create-dish"
-import { CreateCategory } from "@/components/forms/dialog/create-category"
+import { fetchCategories } from '@/lib/data'
+import { CreateDishForm } from '@/components/forms/create-dish'
+import { CreateCategory } from '@/components/forms/dialog/create-category'
 
 export default async function SettingsProfilePage() {
   const { categories } = await fetchCategories()

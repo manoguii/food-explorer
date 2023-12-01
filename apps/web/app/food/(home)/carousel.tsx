@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import "react-multi-carousel/lib/styles.css"
+import 'react-multi-carousel/lib/styles.css'
 
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import Carousel, { ResponsiveType } from "react-multi-carousel"
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Carousel, { ResponsiveType } from 'react-multi-carousel'
 
-import { Dish } from "@/lib/types/definitions"
-import { Button } from "@/components/ui/button"
-import { DishCard } from "@/components/cards"
+import { Dish } from '@/lib/types/definitions'
+import { Button } from '@/components/ui/button'
+import { DishCard } from '@/components/cards'
 
 export function CarouselList({
   dishes,
@@ -20,7 +20,7 @@ export function CarouselList({
     <div className="relative mx-auto flex flex-col-reverse">
       <Carousel
         itemClass="px-3"
-        customButtonGroup={<ButtonGroup category={category || ""} />}
+        customButtonGroup={<ButtonGroup category={category || ''} />}
         arrows={false}
         renderButtonGroupOutside={true}
         additionalTransfrom={0}

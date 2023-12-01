@@ -1,17 +1,17 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import Link, { LinkProps } from "next/link"
-import { useRouter } from "next/navigation"
-import { Menu } from "lucide-react"
+import * as React from 'react'
+import Link, { LinkProps } from 'next/link'
+import { useRouter } from 'next/navigation'
+import { Menu } from 'lucide-react'
 
-import { routesConfig } from "@/config/navigation"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
+import { routesConfig } from '@/config/navigation'
+import { cn } from '@/lib/utils'
+import { Icons } from '@/components/icons'
 
-import { SearchInput } from "../search-input"
-import { Button } from "../ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet"
+import { SearchInput } from '../search-input'
+import { Button } from '../ui/button'
+import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -48,7 +48,7 @@ export function MobileNav() {
                 >
                   {item.title}
                 </MobileLink>
-              )
+              ),
           )}
         </div>
       </SheetContent>

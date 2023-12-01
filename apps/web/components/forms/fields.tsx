@@ -1,22 +1,22 @@
-import React from "react"
-import { PlusCircledIcon } from "@radix-ui/react-icons"
-import { AlertCircle, Check, Loader2, X } from "lucide-react"
-import { useFieldArray, useFormContext } from "react-hook-form"
+import React from 'react'
+import { PlusCircledIcon } from '@radix-ui/react-icons'
+import { AlertCircle, Check, Loader2, X } from 'lucide-react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { CreateDishFormValues, UpdateDishFormValues } from "@/lib/schemas"
-import { Category as CategoryType } from "@/lib/types/definitions"
-import { Dialog } from "@/components/ui/dialog"
-import * as Form from "@/components/ui/form"
-import * as Select from "@/components/ui/select"
+import { CreateDishFormValues, UpdateDishFormValues } from '@/lib/schemas'
+import { Category as CategoryType } from '@/lib/types/definitions'
+import { Dialog } from '@/components/ui/dialog'
+import * as Form from '@/components/ui/form'
+import * as Select from '@/components/ui/select'
 
-import { Badge } from "../ui/badge"
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-import { Textarea } from "../ui/textarea"
-import { CreateIngredients } from "./dialog/create-ingredients"
+import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+import { Textarea } from '../ui/textarea'
+import { CreateIngredients } from './dialog/create-ingredients'
 
 export function Name({
-  placeholder = "John doe",
+  placeholder = 'John doe',
   description,
 }: {
   placeholder?: string
@@ -191,7 +191,7 @@ export function Category({
 export function File({
   state,
 }: {
-  state: "idle" | "uploading" | "success" | "error"
+  state: 'idle' | 'uploading' | 'success' | 'error'
 }) {
   const form = useFormContext()
 
@@ -204,13 +204,13 @@ export function File({
           <Form.FormItem className="flex basis-2/6 flex-col gap-1">
             <Form.FormLabel className="flex items-center">
               Arquivo
-              {state === "uploading" && (
+              {state === 'uploading' && (
                 <Loader2 className="ml-2 h-3 w-3 animate-spin" />
               )}
-              {state === "success" && (
+              {state === 'success' && (
                 <Check className="ml-2 h-3 w-3 text-green-600" />
               )}
-              {state === "error" && (
+              {state === 'error' && (
                 <AlertCircle className="ml-2 h-3 w-3 text-red-400" />
               )}
             </Form.FormLabel>
@@ -224,20 +224,20 @@ export function File({
                 }}
               />
             </Form.FormControl>
-            {state === "idle" && (
+            {state === 'idle' && (
               <Form.FormDescription>Selecione um arquivo</Form.FormDescription>
             )}
-            {state === "uploading" && (
+            {state === 'uploading' && (
               <Form.FormDescription>
                 Fazendo upload das imagens ...
               </Form.FormDescription>
             )}
-            {state === "success" && (
+            {state === 'success' && (
               <Form.FormDescription>
                 Imagens enviadas com sucesso !
               </Form.FormDescription>
             )}
-            {state === "error" && (
+            {state === 'error' && (
               <Form.FormDescription className="text-red-400">
                 Ocorreu um erro ao fazer upload das imagens
               </Form.FormDescription>
@@ -250,14 +250,14 @@ export function File({
   )
 }
 
-export function Ingredients({ type }: { type: "create" | "update" }) {
+export function Ingredients({ type }: { type: 'create' | 'update' }) {
   const [ingredientsDialogOpen, setIngredientsDialogOpen] =
     React.useState(false)
 
   const form = useFormContext<UpdateDishFormValues | CreateDishFormValues>()
 
   const { remove } = useFieldArray({
-    name: "ingredients",
+    name: 'ingredients',
     control: form.control,
   })
 

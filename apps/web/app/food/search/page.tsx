@@ -1,12 +1,12 @@
-import { Suspense } from "react"
-import { MixerHorizontalIcon } from "@radix-ui/react-icons"
+import { Suspense } from 'react'
+import { MixerHorizontalIcon } from '@radix-ui/react-icons'
 
-import { fetchCategories } from "@/lib/data"
-import { Button } from "@/components/ui/button"
-import { CategoriesNav } from "@/components/categories-nav"
-import { CardsSkeleton } from "@/components/skeletons"
+import { fetchCategories } from '@/lib/data'
+import { Button } from '@/components/ui/button'
+import { CategoriesNav } from '@/components/categories-nav'
+import { CardsSkeleton } from '@/components/skeletons'
 
-import DishesList from "../../../components/dishes-list"
+import DishesList from '../../../components/dishes-list'
 
 export default async function SearchPage({
   searchParams,
@@ -19,18 +19,18 @@ export default async function SearchPage({
 }) {
   const { categories } = await fetchCategories()
 
-  const query = searchParams?.query || ""
-  const category = searchParams?.category || ""
+  const query = searchParams?.query || ''
+  const category = searchParams?.category || ''
   const currentPage = Number(searchParams?.page) || 1
 
-  let mode: "start" | "search" | "category"
+  let mode: 'start' | 'search' | 'category'
 
   if (query) {
-    mode = "search"
+    mode = 'search'
   } else if (category) {
-    mode = "category"
+    mode = 'category'
   } else {
-    mode = "start"
+    mode = 'start'
   }
 
   return (

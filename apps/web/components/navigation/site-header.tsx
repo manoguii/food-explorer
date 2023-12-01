@@ -1,10 +1,10 @@
-import Link from "next/link"
+import Link from 'next/link'
 
-import { Icons } from "../icons"
-import { OrdersModal } from "../orders-modal"
-import { SearchInput } from "../search-input"
-import { MainNav } from "./main-nav"
-import { MobileNav } from "./mobile-nav"
+import { Icons } from '../icons'
+import { OrdersModal } from '../orders-modal'
+import { SearchInput } from '../search-input'
+import { MainNav } from './main-nav'
+import { MobileNav } from './mobile-nav'
 
 export async function SiteHeader() {
   return (

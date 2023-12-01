@@ -7,7 +7,7 @@ export const Icons = {
   }: IconProps & {
     isFooter?: boolean
   }) => {
-    const fill = isFooter ? "fill-[#71717a]" : "fill-[#065E7C]"
+    const fill = isFooter ? 'fill-[#71717a]' : 'fill-[#065E7C]'
 
     return (
       <svg

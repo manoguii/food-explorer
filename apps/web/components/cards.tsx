@@ -1,11 +1,11 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { Dish } from "@/lib/types/definitions"
+import { Dish } from '@/lib/types/definitions'
 
-import { AddToCart } from "./buttons/add-to-cart"
-import Price from "./price"
-import { Badge } from "./ui/badge"
+import { AddToCart } from './buttons/add-to-cart'
+import Price from './price'
+import { Badge } from './ui/badge'
 
 export function DishCard({
   dish,

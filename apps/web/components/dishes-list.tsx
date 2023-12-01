@@ -1,8 +1,8 @@
-import { fetchDishes, fetchDishesByCategory } from "@/lib/data"
-import { Dish } from "@/lib/types/definitions"
-import { DishCard } from "@/components/cards"
-import Grid from "@/components/grid"
-import { Pagination } from "@/components/pagination"
+import { fetchDishes, fetchDishesByCategory } from '@/lib/data'
+import { Dish } from '@/lib/types/definitions'
+import { DishCard } from '@/components/cards'
+import Grid from '@/components/grid'
+import { Pagination } from '@/components/pagination'
 
 export default async function DishesList({
   mode,
@@ -10,7 +10,7 @@ export default async function DishesList({
   query,
   category,
 }: {
-  mode: "start" | "search" | "category"
+  mode: 'start' | 'search' | 'category'
   currentPage: number
   query: string
   category: string
@@ -22,21 +22,21 @@ export default async function DishesList({
   }
 
   switch (mode) {
-    case "start":
+    case 'start':
       items = await fetchDishes({
         page: currentPage,
-        query: "",
+        query: '',
       })
 
       break
-    case "search":
+    case 'search':
       items = await fetchDishes({
         page: currentPage,
         query,
       })
 
       break
-    case "category":
+    case 'category':
       decodedCategoryParam = decodeURIComponent(category)
 
       items = await fetchDishesByCategory(decodedCategoryParam, currentPage)

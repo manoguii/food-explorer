@@ -1,6 +1,6 @@
-import Balance from "react-wrap-balancer"
+import Balance from 'react-wrap-balancer'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 function HeroHeader({
   className,
@@ -10,8 +10,8 @@ function HeroHeader({
   return (
     <section
       className={cn(
-        "flex max-w-[980px] flex-col items-start gap-2 px-4",
-        className
+        'flex max-w-[980px] flex-col items-start gap-2 px-4',
+        className,
       )}
       {...props}
     >
@@ -27,8 +27,8 @@ function HeroHeaderHeading({
   return (
     <h1
       className={cn(
-        "text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]",
-        className
+        'text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]',
+        className,
       )}
       {...props}
     />
@@ -42,8 +42,8 @@ function HeroHeaderDescription({
   return (
     <Balance
       className={cn(
-        "max-w-[750px] text-lg text-muted-foreground sm:text-xl",
-        className
+        'max-w-[750px] text-lg text-muted-foreground sm:text-xl',
+        className,
       )}
       {...props}
     />

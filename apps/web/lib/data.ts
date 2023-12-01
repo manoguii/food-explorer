@@ -1,15 +1,15 @@
-import type { User } from "@/lib/types/definitions"
-import { Category, Dish } from "@/lib/types/definitions"
-import { fetchWithToken } from "@/lib/utils"
+import type { User } from '@/lib/types/definitions'
+import { Category, Dish } from '@/lib/types/definitions'
+import { fetchWithToken } from '@/lib/utils'
 
 interface FetchOrdersResponse {
   orders: {
     id: string
     details: string
     code: string
-    status: "PENDING" | "PREPARING" | "DELIVERED" | "CANCELED"
-    label: "TABLE" | "DELIVERY" | "TAKEOUT"
-    priority: "LOW" | "MEDIUM" | "HIGH"
+    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+    label: 'TABLE' | 'DELIVERY' | 'TAKEOUT'
+    priority: 'LOW' | 'MEDIUM' | 'HIGH'
     createdAt: Date
     updatedAt: Date | null
   }[]
@@ -21,7 +21,7 @@ export async function fetchFavoriteDishes(page: number): Promise<{
   totalPages: number
 }> {
   const response = await fetchWithToken(
-    `http://localhost:3333/dish/favorites?page=${page}`
+    `http://localhost:3333/dish/favorites?page=${page}`,
   )
 
   const favoriteDishes = await response.json()
@@ -33,7 +33,7 @@ export async function fetchCategories(): Promise<{
   categories: Category[]
   totalPages: number
 }> {
-  const response = await fetchWithToken("http://localhost:3333/categories")
+  const response = await fetchWithToken('http://localhost:3333/categories')
 
   const categories = await response.json()
 
@@ -49,13 +49,13 @@ export async function getDishBySlug(slug: string): Promise<Dish> {
 
 export async function fetchDishesByCategory(
   category: string,
-  page: number
+  page: number,
 ): Promise<{
   dishes: Dish[]
   totalPages: number
 }> {
   const response = await fetchWithToken(
-    `http://localhost:3333/dish/${category}?page=${page}`
+    `http://localhost:3333/dish/${category}?page=${page}`,
   )
   const dishes = await response.json()
 
@@ -73,7 +73,7 @@ export async function fetchDishes({
   totalPages: number
 }> {
   const response = await fetchWithToken(
-    `http://localhost:3333/dishes?page=${page}&query=${query}`
+    `http://localhost:3333/dishes?page=${page}&query=${query}`,
   )
   const dishes = await response.json()
 
@@ -81,7 +81,7 @@ export async function fetchDishes({
 }
 
 export async function fetchOrders(): Promise<FetchOrdersResponse> {
-  const response = await fetchWithToken("http://localhost:3333/orders")
+  const response = await fetchWithToken('http://localhost:3333/orders')
 
   const orders = await response.json()
 
@@ -92,11 +92,11 @@ export async function getUserSession(credentials: {
   email: string
   password: string
 }): Promise<User | null> {
-  const response = await fetchWithToken("http://localhost:3333/sessions", {
-    method: "POST",
+  const response = await fetchWithToken('http://localhost:3333/sessions', {
+    method: 'POST',
     body: JSON.stringify(credentials),
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
 

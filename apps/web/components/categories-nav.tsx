@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-import { cn } from "@/lib/utils"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { cn } from '@/lib/utils'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 type CategoriesNavProps = React.HTMLAttributes<HTMLDivElement> & {
   categories: {
@@ -24,19 +24,19 @@ export function CategoriesNav({
 
   return (
     <ScrollArea className="max-w-[600px] lg:max-w-none">
-      <div className={cn("my-2 -ml-4 flex items-center", className)} {...props}>
+      <div className={cn('my-2 -ml-4 flex items-center', className)} {...props}>
         <button
           onClick={() => {
-            params.delete("category")
-            params.delete("query")
-            params.set("page", "1")
+            params.delete('category')
+            params.delete('query')
+            params.set('page', '1')
             replace(`${pathname}?${params.toString()}`, { scroll: false })
           }}
           className={cn(
-            "flex items-center px-4",
-            !params.get("category") && !params.get("query")
-              ? "font-bold text-primary"
-              : "font-medium text-muted-foreground"
+            'flex items-center px-4',
+            !params.get('category') && !params.get('query')
+              ? 'font-bold text-primary'
+              : 'font-medium text-muted-foreground',
           )}
         >
           Todas
@@ -46,16 +46,16 @@ export function CategoriesNav({
           <button
             key={category.id}
             onClick={() => {
-              params.set("category", category.name.toLocaleLowerCase())
-              params.delete("query")
-              params.set("page", "1")
+              params.set('category', category.name.toLocaleLowerCase())
+              params.delete('query')
+              params.set('page', '1')
               replace(`${pathname}?${params.toString()}`, { scroll: false })
             }}
             className={cn(
-              "flex items-center px-4",
-              params.get("category") === category.name.toLocaleLowerCase()
-                ? "font-bold text-primary"
-                : "font-medium text-muted-foreground"
+              'flex items-center px-4',
+              params.get('category') === category.name.toLocaleLowerCase()
+                ? 'font-bold text-primary'
+                : 'font-medium text-muted-foreground',
             )}
           >
             {category.name}

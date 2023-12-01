@@ -1,25 +1,20 @@
-"use server"
+'use server'
 
 import {
   CreateDishParams,
   UpdateDishParams,
   UploadFileResponse,
-} from "@/lib/types/definitions"
-import { fetchWithToken } from "@/lib/utils"
+} from '@/lib/types/definitions'
+import { fetchWithToken } from '@/lib/utils'
 
-import { signIn, signOut } from "../auth"
+import { signIn, signOut } from '../auth'
 
-export async function authenticate(user: {
-  email: string
-  password: string
-}) {
+export async function authenticate(user: { email: string; password: string }) {
   try {
-    await signIn("credentials", user)
+    await signIn('credentials', user)
   } catch (error) {
-    if (
-      (error as Error).message.includes("CredentialsSignin")
-    ) {
-      return "CredentialSignin"
+    if ((error as Error).message.includes('CredentialsSignin')) {
+      return 'CredentialSignin'
     }
     throw error
   }
@@ -30,13 +25,10 @@ export async function logout() {
 }
 
 export async function createCategory(category: string) {
-  const response = await fetchWithToken(
-    "http://localhost:3333/categories",
-    {
-      method: "POST",
-      body: JSON.stringify({ name: category }),
-    }
-  )
+  const response = await fetchWithToken('http://localhost:3333/categories', {
+    method: 'POST',
+    body: JSON.stringify({ name: category }),
+  })
 
   if (!response.ok) {
     const data = await response.json()
@@ -53,13 +45,10 @@ export async function createCategory(category: string) {
 }
 
 export async function createDish(dish: CreateDishParams) {
-  const response = await fetchWithToken(
-    "http://localhost:3333/dishes",
-    {
-      method: "POST",
-      body: JSON.stringify(dish),
-    }
-  )
+  const response = await fetchWithToken('http://localhost:3333/dishes', {
+    method: 'POST',
+    body: JSON.stringify(dish),
+  })
 
   if (!response.ok) {
     const data = await response.json()
@@ -79,9 +68,9 @@ export async function updateDish(dish: UpdateDishParams) {
   const response = await fetchWithToken(
     `http://localhost:3333/dishes/${dish.id}`,
     {
-      method: "PUT",
+      method: 'PUT',
       body: JSON.stringify(dish),
-    }
+    },
   )
 
   if (!response.ok) {
@@ -99,15 +88,12 @@ export async function updateDish(dish: UpdateDishParams) {
 }
 
 export async function uploadFile(
-  formData: FormData
+  formData: FormData,
 ): Promise<UploadFileResponse> {
-  const response = await fetchWithToken(
-    "http://localhost:3333/attachments",
-    {
-      method: "POST",
-      body: formData,
-    }
-  )
+  const response = await fetchWithToken('http://localhost:3333/attachments', {
+    method: 'POST',
+    body: formData,
+  })
 
   const data = await response.json()
 
@@ -128,28 +114,23 @@ export async function uploadFile(
   }
 }
 
-export async function toggleFavoriteDish(
-  dishId: string,
-  isFavorite: boolean
-) {
+export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
   let successMessage: string
-  let method: "PATCH" | "DELETE"
+  let method: 'PATCH' | 'DELETE'
 
   if (isFavorite) {
-    successMessage =
-      "Prato removido dos favoritos com sucesso."
-    method = "DELETE"
+    successMessage = 'Prato removido dos favoritos com sucesso.'
+    method = 'DELETE'
   } else {
-    successMessage =
-      "Prato adicionado aos favoritos com sucesso."
-    method = "PATCH"
+    successMessage = 'Prato adicionado aos favoritos com sucesso.'
+    method = 'PATCH'
   }
 
   const response = await fetchWithToken(
     `http://localhost:3333/dishes/${dishId}/favorite`,
     {
       method,
-    }
+    },
   )
 
   if (!response.ok) {
@@ -170,15 +151,12 @@ export async function createOrder(
   items: {
     dishId: string
     quantity: number
-  }[]
+  }[],
 ) {
-  const response = await fetchWithToken(
-    `http://localhost:3333/orders`,
-    {
-      method: "POST",
-      body: JSON.stringify({ items }),
-    }
-  )
+  const response = await fetchWithToken(`http://localhost:3333/orders`, {
+    method: 'POST',
+    body: JSON.stringify({ items }),
+  })
 
   if (!response.ok) {
     const data = await response.json()

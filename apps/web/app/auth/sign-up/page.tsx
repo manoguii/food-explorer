@@ -1,11 +1,11 @@
-import { Metadata } from "next"
+import { Metadata } from 'next'
 
-import { CreateAccountForm } from "../../../components/forms/create-account"
+import { CreateAccountForm } from '../../../components/forms/create-account'
 
 export const metadata: Metadata = {
-  title: "Criar conta",
+  title: 'Criar conta',
   description:
-    "Crie sua conta para ter acesso a todos os recursos do Food Explorer.",
+    'Crie sua conta para ter acesso a todos os recursos do Food Explorer.',
 }
 
 export default function SignUp() {

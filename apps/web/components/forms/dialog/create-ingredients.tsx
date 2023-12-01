@@ -1,17 +1,17 @@
-import React from "react"
-import { AlertCircle, Stars, X } from "lucide-react"
-import { useFieldArray, useFormContext } from "react-hook-form"
+import React from 'react'
+import { AlertCircle, Stars, X } from 'lucide-react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { CreateDishFormValues } from "@/lib/schemas"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import * as D from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { toast } from "@/components/ui/use-toast"
+import { CreateDishFormValues } from '@/lib/schemas'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import * as D from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { toast } from '@/components/ui/use-toast'
 
 interface CreateIngredientsProps {
-  type: "create" | "update"
+  type: 'create' | 'update'
   onRequestClose: () => void
   fields: {
     value: string
@@ -23,19 +23,19 @@ export function CreateIngredients({
   fields,
   type,
 }: CreateIngredientsProps) {
-  const message = type === "create" ? messages.create : messages.update
+  const message = type === 'create' ? messages.create : messages.update
 
-  const [ingredient, setIngredient] = React.useState("")
+  const [ingredient, setIngredient] = React.useState('')
 
   const form = useFormContext<CreateDishFormValues>()
 
   const { remove, insert } = useFieldArray({
-    name: "ingredients",
+    name: 'ingredients',
     control: form.control,
   })
 
   function handleCreateIngredient(ingredient: string) {
-    const ingredientArray = ingredient.split(",")
+    const ingredientArray = ingredient.split(',')
 
     const ingredientExists = ingredientArray.some((ingredient) => {
       const ingredientAlreadyExists = fields.some((item) => {
@@ -46,7 +46,7 @@ export function CreateIngredients({
         return toast({
           title: `Ingrediente ${ingredient} já adicionado`,
           description: `O ingrediente ${ingredient} já foi adicionado ao prato`,
-          variant: "destructive",
+          variant: 'destructive',
         })
       }
 
@@ -72,7 +72,7 @@ export function CreateIngredients({
         <div className="space-y-3">
           <D.DialogDescription>
             Lembre que um prato obrigatoriamente precisa estar associado a pelo
-            menos tres{" "}
+            menos tres{' '}
             <span className="font-semibold text-accent-foreground">
               ingredientes
             </span>
@@ -81,12 +81,12 @@ export function CreateIngredients({
           <D.DialogDescription className="flex items-center text-start">
             <Stars className="mr-2 hidden h-4 w-4 sm:inline" />
             <span>
-              Para criar vários{" "}
+              Para criar vários{' '}
               <span className="font-semibold text-accent-foreground">
                 ingredientes
-              </span>{" "}
+              </span>{' '}
               ao mesmo tempo, separe-os por vírgula. <br />
-              Exemplo:{" "}
+              Exemplo:{' '}
               <span className="font-semibold text-accent-foreground">
                 Batata, Cenoura, Alface
               </span>
@@ -96,10 +96,10 @@ export function CreateIngredients({
           <D.DialogDescription className="flex items-center text-start">
             <AlertCircle className="mr-2 hidden h-4 w-4 sm:inline" />
             <span>
-              Os{" "}
+              Os{' '}
               <span className="font-semibold text-accent-foreground">
                 ingredientes
-              </span>{" "}
+              </span>{' '}
               adicionados ao prato são:
             </span>
           </D.DialogDescription>
@@ -163,9 +163,9 @@ export function CreateIngredients({
 
 const messages = {
   create: {
-    title: "Criar ingredientes !",
+    title: 'Criar ingredientes !',
   },
   update: {
-    title: "Atualizar ingredientes !",
+    title: 'Atualizar ingredientes !',
   },
 }

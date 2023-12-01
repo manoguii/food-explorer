@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import * as React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-import { routesConfig } from "@/config/navigation"
-import { cn } from "@/lib/utils"
-import { Icons } from "@/components/icons"
+import { routesConfig } from '@/config/navigation'
+import { cn } from '@/lib/utils'
+import { Icons } from '@/components/icons'
 
 export function MainNav() {
   const pathname = usePathname()
@@ -25,10 +25,10 @@ export function MainNav() {
               href={route.href}
               key={route.href}
               className={cn(
-                "transition-colors hover:text-foreground/80",
+                'transition-colors hover:text-foreground/80',
                 pathname === route.href
-                  ? "text-foreground"
-                  : "text-foreground/60"
+                  ? 'text-foreground'
+                  : 'text-foreground/60',
               )}
             >
               {route.title}

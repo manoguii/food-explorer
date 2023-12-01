@@ -1,7 +1,7 @@
-import { fetchFavoriteDishes } from "@/lib/data"
-import { DishCard } from "@/components/cards"
-import Grid from "@/components/grid"
-import { Pagination } from "@/components/pagination"
+import { fetchFavoriteDishes } from '@/lib/data'
+import { DishCard } from '@/components/cards'
+import Grid from '@/components/grid'
+import { Pagination } from '@/components/pagination'
 
 export default async function FavoritesDishesList({
   currentPage,

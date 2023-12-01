@@ -1,6 +1,6 @@
-import { fetchOrders } from "@/lib/data"
-import { columns } from "@/app/food/orders/table/columns"
-import { DataTable } from "@/app/food/orders/table/data-table"
+import { fetchOrders } from '@/lib/data'
+import { columns } from '@/app/food/orders/table/columns'
+import { DataTable } from '@/app/food/orders/table/data-table'
 
 export default async function Orders() {
   const tasks = await fetchOrders()

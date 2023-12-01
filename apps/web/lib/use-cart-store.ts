@@ -1,6 +1,6 @@
-import { create } from "zustand"
+import { create } from 'zustand'
 
-import { CartItem } from "./types/definitions"
+import { CartItem } from './types/definitions'
 
 interface CartStore {
   cart: CartItem[]
@@ -82,7 +82,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   setCartItemQuantity: (productId, quantity) => {
     set((state) => {
       const updatedCart = state.cart.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === productId ? { ...item, quantity } : item,
       )
       return {
         ...state,
@@ -105,11 +105,11 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
   persistCart: () => {
     const { cart } = get()
-    localStorage.setItem("cart", JSON.stringify(cart))
+    localStorage.setItem('cart', JSON.stringify(cart))
   },
 
   initializeCart: () => {
-    const savedCart = localStorage.getItem("cart")
+    const savedCart = localStorage.getItem('cart')
     set({ cart: savedCart ? JSON.parse(savedCart) : [] })
   },
 
@@ -128,7 +128,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
 
     set((state) => {
       const updatedCart = state.cart.map((item) =>
-        item.id === productId ? { ...item, quantity } : item
+        item.id === productId ? { ...item, quantity } : item,
       )
       return {
         ...state,

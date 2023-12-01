@@ -1,8 +1,8 @@
-import { MinusIcon, PlusIcon } from "lucide-react"
+import { MinusIcon, PlusIcon } from 'lucide-react'
 
-import { useCartStore } from "@/lib/use-cart-store"
+import { useCartStore } from '@/lib/use-cart-store'
 
-import { Button } from "../ui/button"
+import { Button } from '../ui/button'
 
 export function DishQuantityCounter({ dishId }: { dishId: string }) {
   const { cart } = useCartStore()
@@ -49,7 +49,7 @@ DishQuantityCounter.IncrementButton = function IncrementButton({
       }}
       aria-label="Increment dish quantity"
       className="h-7 rounded-md px-2"
-      variant={"ghost"}
+      variant={'ghost'}
     >
       <PlusIcon className="h-4 w-4 dark:text-gray-500" />
     </Button>
@@ -75,7 +75,7 @@ DishQuantityCounter.DecrementButton = function DecrementButton({
       aria-label="Decrement dish quantity"
       disabled={quantity === 1}
       className="h-7 rounded-md px-2"
-      variant={"ghost"}
+      variant={'ghost'}
     >
       <MinusIcon className="h-4 w-4 dark:text-gray-500" />
     </Button>

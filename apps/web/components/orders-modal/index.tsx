@@ -1,49 +1,49 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { ShoppingCart } from "lucide-react"
+import * as React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ShoppingCart } from 'lucide-react'
 
-import { useCartStore } from "@/lib/use-cart-store"
+import { useCartStore } from '@/lib/use-cart-store'
 
-import Price from "../price"
-import { Button } from "../ui/button"
-import { ScrollArea } from "../ui/scroll-area"
+import Price from '../price'
+import { Button } from '../ui/button'
+import { ScrollArea } from '../ui/scroll-area'
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../ui/sheet"
-import { CreateOrderButton } from "./create-order"
-import { DeleteItemButton } from "./delete-item"
-import { DishQuantityCounter } from "./dish-quantity-counter"
-import { OrdersModalEmpty } from "./order-modal-empty"
+} from '../ui/sheet'
+import { CreateOrderButton } from './create-order'
+import { DeleteItemButton } from './delete-item'
+import { DishQuantityCounter } from './dish-quantity-counter'
+import { OrdersModalEmpty } from './order-modal-empty'
 
 export function OrdersModal() {
   const { cart, getTotal } = useCartStore()
   const [open, setOpen] = React.useState(false)
-  const [side, setSide] = React.useState<"right" | "bottom">("right")
+  const [side, setSide] = React.useState<'right' | 'bottom'>('right')
 
   const closeCart = () => setOpen(false)
 
   React.useEffect(() => {
     const verifySide = () => {
       if (window.innerWidth <= 640) {
-        setSide("bottom")
+        setSide('bottom')
       } else {
-        setSide("right")
+        setSide('right')
       }
     }
 
     verifySide()
 
-    window.addEventListener("resize", verifySide)
+    window.addEventListener('resize', verifySide)
 
     return () => {
-      window.removeEventListener("resize", verifySide)
+      window.removeEventListener('resize', verifySide)
     }
   }, [])
 
@@ -106,7 +106,7 @@ export function OrdersModal() {
                         <Price
                           className="flex justify-end space-y-2 text-right text-sm"
                           amount={item.price.toString()}
-                          currencyCode={"BRL"}
+                          currencyCode={'BRL'}
                         />
 
                         <DishQuantityCounter dishId={item.id} />
@@ -126,8 +126,8 @@ export function OrdersModal() {
                 <p>Taxas</p>
                 <Price
                   className="text-right text-base text-black dark:text-white"
-                  amount={"0"}
-                  currencyCode={"BRL"}
+                  amount={'0'}
+                  currencyCode={'BRL'}
                 />
               </div>
               <div className="flex items-center justify-between border-gray-200">
@@ -135,7 +135,7 @@ export function OrdersModal() {
                 <Price
                   className="text-right text-base text-black dark:text-white"
                   amount={getTotal().toString()}
-                  currencyCode={"BRL"}
+                  currencyCode={'BRL'}
                 />
               </div>
             </div>

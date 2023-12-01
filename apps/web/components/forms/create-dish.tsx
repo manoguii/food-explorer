@@ -1,33 +1,33 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ReloadIcon } from "@radix-ui/react-icons"
-import { useForm } from "react-hook-form"
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ReloadIcon } from '@radix-ui/react-icons'
+import { useForm } from 'react-hook-form'
 
-import { createDishFormSchema, CreateDishFormValues } from "@/lib/schemas"
-import { Category } from "@/lib/types/definitions"
-import { Button } from "@/components/ui/button"
-import * as Form from "@/components/ui/form"
-import { toast } from "@/components/ui/use-toast"
-import { createDish, uploadFile } from "@/app/actions"
+import { createDishFormSchema, CreateDishFormValues } from '@/lib/schemas'
+import { Category } from '@/lib/types/definitions'
+import { Button } from '@/components/ui/button'
+import * as Form from '@/components/ui/form'
+import { toast } from '@/components/ui/use-toast'
+import { createDish, uploadFile } from '@/app/actions'
 
-import * as Field from "./fields"
+import * as Field from './fields'
 
 const defaultValues: Partial<CreateDishFormValues> = {
-  description: "",
-  name: "",
-  price: "",
-  category: "",
-  ingredients: [{ value: "Batata" }, { value: "Arroz" }, { value: "Feijão" }],
+  description: '',
+  name: '',
+  price: '',
+  category: '',
+  ingredients: [{ value: 'Batata' }, { value: 'Arroz' }, { value: 'Feijão' }],
 }
 
 export function CreateDishForm({ categories }: { categories: Category[] }) {
   const [uploadingFile, setUploadingFile] = React.useState<{
-    state: "idle" | "uploading" | "success" | "error"
+    state: 'idle' | 'uploading' | 'success' | 'error'
   }>({
-    state: "idle",
+    state: 'idle',
   })
 
   const router = useRouter()
@@ -35,53 +35,53 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
   const form = useForm<CreateDishFormValues>({
     resolver: zodResolver(createDishFormSchema),
     defaultValues,
-    mode: "onChange",
+    mode: 'onChange',
   })
 
   async function handleCreateDish(data: CreateDishFormValues) {
     const formData = new FormData()
-    formData.append("file", data.file)
+    formData.append('file', data.file)
 
     setUploadingFile({
-      state: "uploading",
+      state: 'uploading',
     })
 
     const result = await uploadFile(formData)
 
     if (!result.success) {
       setUploadingFile({
-        state: "error",
+        state: 'error',
       })
 
       return toast({
-        title: "Erro ao criar as imagens do prato !",
+        title: 'Erro ao criar as imagens do prato !',
         description: result.message,
-        variant: "destructive",
+        variant: 'destructive',
       })
     }
 
     setUploadingFile({
-      state: "success",
+      state: 'success',
     })
 
     const attachmentId = result.attachmentId
 
     const categoryId = categories.find(
-      (category) => category.name === data.category
+      (category) => category.name === data.category,
     )?.id
 
     if (!categoryId) {
       return toast({
-        title: "Categoria não encontrada !",
+        title: 'Categoria não encontrada !',
         description: `A categoria ${data.category} não foi encontrada !`,
-        variant: "destructive",
+        variant: 'destructive',
       })
     }
 
     const dish = {
       name: data.name,
       description: data.description,
-      price: Number(data.price.replace(",", "")),
+      price: Number(data.price.replace(',', '')),
       ingredients: data.ingredients.map((ingredient) => ingredient.value),
       categoryId,
       attachmentsIds: [attachmentId],
@@ -93,14 +93,14 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
 
     if (dishResult.success) {
       toast({
-        title: "Prato criado com sucesso !",
+        title: 'Prato criado com sucesso !',
         description: dishResult.message,
       })
     } else {
       toast({
-        title: "Erro ao criar prato !",
+        title: 'Erro ao criar prato !',
         description: dishResult.message,
-        variant: "destructive",
+        variant: 'destructive',
       })
     }
 

@@ -1,11 +1,11 @@
-import { Metadata } from "next"
+import { Metadata } from 'next'
 
-import { UserAuthForm } from "../../../components/forms/user-auth-form"
+import { UserAuthForm } from '../../../components/forms/user-auth-form'
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: 'Login',
   description:
-    "Faça login para acessar sua conta no Food Explorer e acessar todos os recursos.",
+    'Faça login para acessar sua conta no Food Explorer e acessar todos os recursos.',
 }
 
 export default function SignIn() {

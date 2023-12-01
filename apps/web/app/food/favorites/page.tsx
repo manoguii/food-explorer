@@ -1,7 +1,7 @@
-import { Suspense } from "react"
+import { Suspense } from 'react'
 
-import FavoritesDishesList from "@/components/favorites-dishes-list"
-import { CardsSkeleton } from "@/components/skeletons"
+import FavoritesDishesList from '@/components/favorites-dishes-list'
+import { CardsSkeleton } from '@/components/skeletons'
 
 export default async function FavoriteDishes({
   searchParams,

@@ -1,18 +1,18 @@
-"use client"
+'use client'
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { AlertCircle, Loader2, Plus } from "lucide-react"
-import { useForm } from "react-hook-form"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { AlertCircle, Loader2, Plus } from 'lucide-react'
+import { useForm } from 'react-hook-form'
 
-import { NewCategoryFormSchema, newCategoryFormSchema } from "@/lib/schemas"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import * as D from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { createCategory } from "@/app/actions"
+import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import * as D from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { createCategory } from '@/app/actions'
 
-import { toast } from "../../ui/use-toast"
+import { toast } from '../../ui/use-toast'
 
 export function CreateCategory() {
   const {
@@ -23,7 +23,7 @@ export function CreateCategory() {
   } = useForm<NewCategoryFormSchema>({
     resolver: zodResolver(newCategoryFormSchema),
     defaultValues: {
-      category: "",
+      category: '',
     },
   })
 
@@ -32,14 +32,14 @@ export function CreateCategory() {
 
     if (data.success) {
       toast({
-        title: "Categoria criada com sucesso !",
+        title: 'Categoria criada com sucesso !',
         description: data.message,
       })
     } else {
       toast({
-        title: "Erro ao criar categoria",
+        title: 'Erro ao criar categoria',
         description: data.message,
-        variant: "destructive",
+        variant: 'destructive',
       })
     }
 
@@ -59,7 +59,7 @@ export function CreateCategory() {
           <D.DialogTitle>Criar nova categoria</D.DialogTitle>
           <div className="space-y-3">
             <D.DialogDescription>
-              Lembre que um prato obrigatoriamente precisa estar associado a uma{" "}
+              Lembre que um prato obrigatoriamente precisa estar associado a uma{' '}
               <span className="font-semibold text-accent-foreground">
                 categoria
               </span>
@@ -68,10 +68,10 @@ export function CreateCategory() {
             <D.DialogDescription className="flex items-center text-start">
               <AlertCircle className="mr-2 inline h-4 w-4" />
               <span>
-                Exemplos de{" "}
+                Exemplos de{' '}
                 <span className="font-semibold text-accent-foreground">
                   categorias:
-                </span>{" "}
+                </span>{' '}
               </span>
             </D.DialogDescription>
             <ol className="space-y-2">
@@ -105,7 +105,7 @@ export function CreateCategory() {
                   id="category"
                   placeholder="Sua nova categoria"
                   disabled={isSubmitting}
-                  {...register("category")}
+                  {...register('category')}
                 />
                 {errors.category && (
                   <p className="text-sm font-medium text-red-500 dark:text-red-400">
@@ -125,7 +125,7 @@ export function CreateCategory() {
               {isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Criar"
+                'Criar'
               )}
             </Button>
           </D.DialogFooter>
