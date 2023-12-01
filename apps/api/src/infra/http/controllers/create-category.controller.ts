@@ -5,6 +5,8 @@ import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases
 import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
 import { ApiTags } from '@nestjs/swagger'
 import { CategoryPresenter } from '../presenters/category-presenter'
+import { Role } from '@/infra/auth/roles-enum'
+import { Roles } from '@/infra/auth/roles-decorator'
 
 const createCategoryBodySchema = z.object({
   name: z.string(),
@@ -19,6 +21,7 @@ type CreateCategoryBodySchema = z.infer<typeof createCategoryBodySchema>
 export class CreateCategoryController {
   constructor(private createCategory: CreateCategoryUseCase) {}
 
+  @Roles(Role.ADMIN)
   @Post()
   async handle(@Body(bodyValidationPipe) body: CreateCategoryBodySchema) {
     const { name } = body

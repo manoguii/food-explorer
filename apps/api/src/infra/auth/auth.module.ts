@@ -6,13 +6,15 @@ import { APP_GUARD } from '@nestjs/core'
 import { JwtAuthGuard } from './jwt-auth.guard'
 import { EnvService } from '../env/env.service'
 import { EnvModule } from '../env/env.module'
+import { PrismaService } from '../database/prisma/prisma.service'
+import { RolesGuard } from './roles.guard'
 
 @Module({
   imports: [
     PassportModule,
     JwtModule.registerAsync({
       imports: [EnvModule],
-      inject: [EnvService],
+      inject: [EnvService, PrismaService],
       global: true,
       useFactory(env: EnvService) {
         const privateKey = env.get('JWT_PRIVATE_KEY')
@@ -24,14 +26,20 @@ import { EnvModule } from '../env/env.module'
           publicKey: Buffer.from(publicKey, 'base64'),
         }
       },
+      extraProviders: [PrismaService],
     }),
   ],
   providers: [
     JwtStrategy,
     EnvService,
+    PrismaService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

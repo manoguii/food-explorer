@@ -47,7 +47,9 @@ describe('Edit dish status (E2E)', () => {
   })
 
   test('[PATCH] /orders/:orderId/status', async () => {
-    const user = await clientFactory.makePrismaClient()
+    const user = await clientFactory.makePrismaClient({
+      role: 'ADMIN',
+    })
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 

@@ -1,18 +1,24 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { z } from 'zod'
 import { EnvService } from '../env/env.service'
+import { PrismaService } from '../database/prisma/prisma.service'
+import { Role } from './roles-enum'
 
 const tokenPayloadSchema = z.object({
   sub: z.string().uuid(),
+  roles: z.array(z.enum(['ADMIN', 'CLIENT'])),
 })
 
 export type UserPayload = z.infer<typeof tokenPayloadSchema>
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(config: EnvService) {
+  constructor(
+    config: EnvService,
+    private prismaService: PrismaService,
+  ) {
     const publicKey = config.get('JWT_PUBLIC_KEY')
 
     super({
@@ -23,6 +29,28 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: UserPayload) {
-    return tokenPayloadSchema.parse(payload)
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id: payload.sub,
+      },
+    })
+
+    if (!user) {
+      throw new UnauthorizedException('Credentials incorrect')
+    }
+
+    const userIsAdmin = user.role.includes(Role.ADMIN)
+    const userISManager = user.role.includes(Role.MANAGER)
+
+    let userRole = Role.CLIENT
+    if (userIsAdmin) userRole = Role.ADMIN
+    if (userISManager) userRole = Role.MANAGER
+
+    const userPayload = {
+      sub: user.id,
+      roles: [userRole],
+    }
+
+    return tokenPayloadSchema.parse(userPayload)
   }
 }

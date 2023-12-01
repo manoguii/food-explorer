@@ -11,6 +11,8 @@ import { z } from 'zod'
 import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order-dishes'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
+import { Role } from '@/infra/auth/roles-enum'
+import { Roles } from '@/infra/auth/roles-decorator'
 
 const editOrderBodySchema = z.object({
   items: z.array(
@@ -30,6 +32,7 @@ type EditOrderBodySchema = z.infer<typeof editOrderBodySchema>
 export class EditOrderController {
   constructor(private editOrder: EditOrderUseCase) {}
 
+  @Roles(Role.ADMIN)
   @Put()
   async handle(
     @Body(bodyValidationPipe) body: EditOrderBodySchema,

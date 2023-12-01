@@ -26,7 +26,9 @@ describe('Create category (E2E)', () => {
   })
 
   test('[POST] /categories', async () => {
-    const user = await clientFactory.makePrismaClient()
+    const user = await clientFactory.makePrismaClient({
+      role: 'ADMIN',
+    })
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 

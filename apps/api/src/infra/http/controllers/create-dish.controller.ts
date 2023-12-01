@@ -3,6 +3,8 @@ import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
 import { CreateDishUseCase } from '@/domain/restaurant/application/use-cases/create-dish'
 import { ApiTags } from '@nestjs/swagger'
+import { Role } from '@/infra/auth/roles-enum'
+import { Roles } from '@/infra/auth/roles-decorator'
 
 const createDishBodySchema = z.object({
   name: z.string(),
@@ -22,6 +24,7 @@ type CreateDishBodySchema = z.infer<typeof createDishBodySchema>
 export class CreateDishController {
   constructor(private createDish: CreateDishUseCase) {}
 
+  @Roles(Role.ADMIN)
   @Post()
   async handle(@Body(bodyValidationPipe) body: CreateDishBodySchema) {
     const {
