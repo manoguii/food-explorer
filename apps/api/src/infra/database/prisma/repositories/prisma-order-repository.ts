@@ -1,4 +1,3 @@
-import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
@@ -27,21 +26,9 @@ export class PrismaOrderRepository implements OrderRepository {
     return PrismaOrderMapper.toDomain(order)
   }
 
-  async findManyByClientId(
-    clientId: string,
-    params: PaginationParams,
-  ): Promise<{
+  async findManyByClientId(clientId: string): Promise<{
     orders: Order[]
-    totalPages: number
   }> {
-    const perPage = 10
-
-    const totalOrders = await this.prisma.order.count({
-      where: {
-        userId: clientId,
-      },
-    })
-
     const orders = await this.prisma.order.findMany({
       where: {
         userId: clientId,
@@ -49,15 +36,10 @@ export class PrismaOrderRepository implements OrderRepository {
       orderBy: {
         createdAt: 'desc',
       },
-      take: perPage,
-      skip: (params.page - 1) * perPage,
     })
-
-    const totalPages = Math.ceil(totalOrders / perPage)
 
     return {
       orders: orders.map(PrismaOrderMapper.toDomain),
-      totalPages,
     }
   }
 

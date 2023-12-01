@@ -121,7 +121,6 @@ describe('Fetch recent orders (E2E)', () => {
           priority: 'LOW',
         }),
       ]),
-      totalPages: expect.any(Number),
     })
   })
 })

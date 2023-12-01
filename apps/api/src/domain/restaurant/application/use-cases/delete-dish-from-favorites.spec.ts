@@ -32,6 +32,8 @@ describe('Delete Dish From Favorites UseCase', () => {
       inMemoryAttachmentsRepository,
     )
     favoriteDishRepository = new InMemoryFavoriteDishRepository(
+      inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,

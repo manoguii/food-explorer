@@ -1,7 +1,6 @@
 import { OrderRepository } from '@/domain/restaurant/application/repositories/order-repository'
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { InMemoryOrderItemsRepository } from './in-memory-order-item-repository'
-import { PaginationParams } from '@/core/repositories/pagination-params'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
@@ -18,28 +17,15 @@ export class InMemoryOrderRepository implements OrderRepository {
     return order
   }
 
-  async findManyByClientId(
-    clientId: string,
-    { page }: PaginationParams,
-  ): Promise<{
+  async findManyByClientId(clientId: string): Promise<{
     orders: Order[]
-    totalPages: number
   }> {
-    const perPage = 10
-
-    const totalOrders = this.items.filter(
+    const orders = this.items.filter(
       (item) => item.clientId.toString() === clientId,
-    ).length
-
-    const orders = this.items
-      .filter((item) => item.clientId.toString() === clientId)
-      .slice((page - 1) * perPage, page * perPage)
-
-    const totalPages = Math.ceil(totalOrders / perPage)
+    )
 
     return {
       orders,
-      totalPages,
     }
   }
 

@@ -1,14 +1,9 @@
-import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
 
 export abstract class OrderRepository {
   abstract findById(id: string): Promise<Order | null>
-  abstract findManyByClientId(
-    clientId: string,
-    params: PaginationParams,
-  ): Promise<{
+  abstract findManyByClientId(clientId: string): Promise<{
     orders: Order[]
-    totalPages: number
   }>
 
   abstract save(order: Order): Promise<void>

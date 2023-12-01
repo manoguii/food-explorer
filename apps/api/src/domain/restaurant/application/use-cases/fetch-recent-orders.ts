@@ -5,14 +5,12 @@ import { Injectable } from '@nestjs/common'
 
 interface FetchRecentOrderUseCaseRequest {
   clientId: string
-  page: number
 }
 
 type FetchRecentOrderUseCaseResponse = Either<
   null,
   {
     order: Order[]
-    totalPages
   }
 >
 
@@ -22,16 +20,11 @@ export class FetchRecentOrderUseCase {
 
   async execute({
     clientId,
-    page,
   }: FetchRecentOrderUseCaseRequest): Promise<FetchRecentOrderUseCaseResponse> {
-    const { orders, totalPages } =
-      await this.orderRepository.findManyByClientId(clientId, {
-        page,
-      })
+    const { orders } = await this.orderRepository.findManyByClientId(clientId)
 
     return right({
       order: orders,
-      totalPages,
     })
   }
 }

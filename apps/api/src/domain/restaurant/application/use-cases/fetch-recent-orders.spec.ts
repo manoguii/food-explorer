@@ -42,7 +42,6 @@ describe('Fetch recent order', () => {
     ])
 
     const result = await sut.execute({
-      page: 1,
       clientId: client.id.toString(),
     })
 
@@ -55,24 +54,5 @@ describe('Fetch recent order', () => {
         clientId: client.id,
       }),
     ])
-  })
-
-  it('should be able to fetch paginated recent order', async () => {
-    const client = makeClient()
-
-    for (let i = 1; i <= 22; i++) {
-      await inMemoryOrderRepository.create(
-        makeOrder({
-          clientId: client.id,
-        }),
-      )
-    }
-
-    const result = await sut.execute({
-      page: 3,
-      clientId: client.id.toString(),
-    })
-
-    expect(result.value?.order).toHaveLength(2)
   })
 })

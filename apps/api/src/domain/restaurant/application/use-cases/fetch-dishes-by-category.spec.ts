@@ -32,6 +32,8 @@ describe('Fetch dishes by category', () => {
       inMemoryAttachmentsRepository,
     )
     inMemoryFavoriteDishRepository = new InMemoryFavoriteDishRepository(
+      inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
       inMemoryDishAttachmentRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,

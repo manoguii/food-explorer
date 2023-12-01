@@ -4,9 +4,9 @@ import { columns } from '@/app/food/orders/table/columns'
 import { DataTable } from '@/app/food/orders/table/data-table'
 
 export default async function Orders() {
-  const tasks = await fetchOrders()
+  const { orders } = await fetchOrders()
 
-  const data = tasks.orders.map((order) => ({
+  const data = orders.map((order) => ({
     ...order,
     title: order.details,
     id: order.code,
