@@ -1,5 +1,6 @@
 import { Dish } from '@/lib/types/definitions'
-import { Badge } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
+import { Badge, badgeVariants } from '@/components/ui/badge'
 import { AddToCart } from '@/components/buttons/add-to-cart'
 import Price from '@/components/price'
 
@@ -10,10 +11,18 @@ export function DishDescription({ dish }: { dish: Dish }) {
         <h1 className="mb-2 text-2xl font-medium text-primary sm:text-4xl">
           {dish.name}
         </h1>
-        <div className="w-auto rounded-lg bg-blue-600 p-2 text-sm text-white">
+        <div
+          className={cn(
+            badgeVariants({
+              variant: 'default',
+            }),
+            'rounded-md px-2 py-1 text-base sm:px-3 sm:py-2',
+          )}
+        >
           <Price
             amount={dish.price.toString()}
             currencyCode="BRL"
+            className="text-sm sm:text-base"
             currencyCodeClassName="hidden @[275px]/label:inline"
           />
         </div>

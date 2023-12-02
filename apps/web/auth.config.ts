@@ -8,7 +8,9 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
-      const isOnApp = nextUrl.pathname.startsWith('/food')
+      const isOnApp =
+        nextUrl.pathname.startsWith('/food') ||
+        nextUrl.pathname.startsWith('/dashboard')
 
       if (isOnApp) {
         if (isLoggedIn) return true

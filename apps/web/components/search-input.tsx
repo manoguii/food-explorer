@@ -6,7 +6,7 @@ import { Search } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { searchDishFormSchema, SearchDishFormValues } from '@/lib/schemas'
-import { createUrl } from '@/lib/utils'
+import { cn, createUrl } from '@/lib/utils'
 
 import { Input } from './ui/input'
 
@@ -14,11 +14,11 @@ const defaultValues: Partial<SearchDishFormValues> = {
   search: '',
 }
 
-interface SearchInputProps {
+interface SearchInputProps extends React.HTMLAttributes<HTMLFormElement> {
   onClose?: (open: boolean) => void
 }
 
-export function SearchInput({ onClose }: SearchInputProps) {
+export function SearchInput({ onClose, className, ...rest }: SearchInputProps) {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -49,7 +49,11 @@ export function SearchInput({ onClose }: SearchInputProps) {
   }
 
   return (
-    <form className="flex items-center" onSubmit={handleSubmit(handleSearch)}>
+    <form
+      className={cn('flex items-center', className)}
+      onSubmit={handleSubmit(handleSearch)}
+      {...rest}
+    >
       <label htmlFor="search" className="sr-only">
         Search
       </label>

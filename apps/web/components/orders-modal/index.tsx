@@ -26,6 +26,7 @@ export function OrdersModal() {
   const { cart, getTotal } = useCartStore()
   const [open, setOpen] = React.useState(false)
   const [side, setSide] = React.useState<'right' | 'bottom'>('right')
+  const [size, setSize] = React.useState<'default' | 'icon'>('default')
 
   const closeCart = () => setOpen(false)
 
@@ -33,8 +34,10 @@ export function OrdersModal() {
     const verifySide = () => {
       if (window.innerWidth <= 640) {
         setSide('bottom')
+        setSize('icon')
       } else {
         setSide('right')
+        setSize('default')
       }
     }
 
@@ -50,8 +53,11 @@ export function OrdersModal() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="place-self-end">
+        <Button variant="destructive" size={size} className="gap-2">
           <ShoppingCart className="h-4 w-4" />
+          <span className="hidden lg:inline-block">
+            Pedidos ({cart.length})
+          </span>
         </Button>
       </SheetTrigger>
 

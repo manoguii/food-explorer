@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
+import { ChefHatIcon, ListOrdered } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
@@ -14,7 +15,7 @@ import { HeroHeader, HeroHeaderDescription, HeroHeaderHeading } from './hero'
 export default async function Home() {
   return (
     <FoodLayout>
-      <div className="grid grid-cols-1 sm:grid-cols-[60%_1fr]">
+      <div className="relative grid grid-cols-1 sm:grid-cols-[60%_1fr]">
         <HeroHeader>
           <HeroHeaderHeading>Food explorer</HeroHeaderHeading>
           <HeroHeaderDescription>
@@ -33,16 +34,19 @@ export default async function Home() {
           </span>
           <div className="flex w-full items-center space-x-4 pb-8 pt-4 md:pb-10">
             <Link href="/food/search" className={cn(buttonVariants())}>
+              <ChefHatIcon className="mr-2 h-4 w-4" />
               Ver menu
             </Link>
             <Link
-              target="_blank"
-              rel="noreferrer"
-              href="https://github.com/manoguii/food-explorer"
-              className={cn(buttonVariants({ variant: 'outline' }))}
+              href="/food/orders"
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                }),
+              )}
             >
-              <Icons.gitHub className="mr-2 h-4 w-4" />
-              GitHub
+              <ListOrdered className="mr-2 h-4 w-4" />
+              Meus pedidos
             </Link>
           </div>
         </HeroHeader>
