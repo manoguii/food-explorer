@@ -49,7 +49,7 @@ export function CreateCategory() {
   return (
     <D.Dialog>
       <D.DialogTrigger asChild>
-        <Button variant="ghost">
+        <Button>
           <Plus className="mr-2 h-4 w-4" />
           Criar categoria
         </Button>
@@ -115,7 +115,7 @@ export function CreateCategory() {
               </div>
             </div>
           </div>
-          <D.DialogFooter>
+          <D.DialogFooter className="gap-2 sm:gap-0">
             <D.DialogTrigger asChild>
               <Button type="button" variant="ghost">
                 Cancelar

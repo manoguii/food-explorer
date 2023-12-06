@@ -1,18 +1,18 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Dish } from '@/lib/types/definitions'
+import { Category, Dish } from '@/lib/types/definitions'
 import { formatDate } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
-import { DishOperations } from '@/components/dish-operations'
+import { Operations } from '@/components/operations'
 
 import { AddToCart } from './buttons/add-to-cart'
 import { FavoriteButton } from './buttons/favorite-button'
 import Price from './price'
 import { Badge } from './ui/badge'
 
-interface DishItemProps {
-  dish: Dish
+interface CategoryItemProps {
+  category: Category
 }
 
 export function DishCard({
@@ -80,28 +80,31 @@ export function DishCard({
   )
 }
 
-export function DishItem({ dish }: DishItemProps) {
+export function CategoryItem({ category }: CategoryItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${dish.id}`}
+          href={`/editor/${category.id}`}
           className="font-semibold hover:underline"
         >
-          {dish.name}
+          {category.name}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {formatDate(dish.createdAt)}
+            {formatDate(category.createdAt)}
           </p>
         </div>
       </div>
-      <DishOperations dish={{ id: dish.id, title: dish.name }} />
+      <Operations
+        item={{ id: category.id, name: category.name }}
+        entity="category"
+      />
     </div>
   )
 }
 
-DishItem.Skeleton = function DishItemSkeleton() {
+CategoryItem.Skeleton = function DishItemSkeleton() {
   return (
     <div className="p-4">
       <div className="space-y-3">

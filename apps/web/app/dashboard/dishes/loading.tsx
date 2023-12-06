@@ -1,19 +1,17 @@
 import { DishCreateButton } from '@/components/buttons/dish-create-button'
-import { DishItem } from '@/components/cards'
 import { DashboardHeader, DashboardShell } from '@/components/dashboard-layout'
 
-export default function DashboardLoading() {
+export default function DishesLoading() {
   return (
     <DashboardShell>
-      <DashboardHeader heading="Pratos" text="Crie e gerencie seus pratos.">
+      <DashboardHeader
+        heading="Pratos"
+        text="Crie e gerencie os pratos do restaurante."
+      >
         <DishCreateButton />
       </DashboardHeader>
       <div className="divide-border-200 divide-y rounded-md border">
-        <DishItem.Skeleton />
-        <DishItem.Skeleton />
-        <DishItem.Skeleton />
-        <DishItem.Skeleton />
-        <DishItem.Skeleton />
+        <p>Carregando pratos...</p>
       </div>
     </DashboardShell>
   )

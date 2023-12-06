@@ -21,8 +21,13 @@ export const routesConfig: RoutesConfig = {
   ],
   dashboardNav: [
     {
-      title: 'Pratos',
+      title: 'Inicio',
       href: '/dashboard',
+      icon: 'home',
+    },
+    {
+      title: 'Pratos',
+      href: '/dashboard/dishes',
       icon: 'dishes',
     },
     {

@@ -22,37 +22,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { toast } from '@/components/ui/use-toast'
 
 import { buttonVariants } from './ui/button'
 
-async function deleteDish(dishId: string) {
-  const response = await fetch(`/api/dishes/${dishId}`, {
-    method: 'DELETE',
-  })
-
-  if (!response?.ok) {
-    toast({
-      title: 'Something went wrong.',
-      description: 'Your dish was not deleted. Please try again.',
-      variant: 'destructive',
-    })
-  }
-
-  return true
-}
-
-interface DishOperationsProps {
-  dish: {
+interface OperationsProps {
+  item: {
     id: string
-    title: string
+    name: string
   }
+  entity: 'dish' | 'category'
 }
 
-export function DishOperations({ dish }: DishOperationsProps) {
+export function Operations({ item, entity }: OperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
+
+  async function handleDelete(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault()
+    setIsDeleteLoading(true)
+
+    // TODO: implement delete
+    const deleted = ''
+
+    if (deleted) {
+      setIsDeleteLoading(false)
+      setShowDeleteAlert(false)
+      router.refresh()
+    }
+  }
+
+  const message =
+    entity === 'dish'
+      ? `Tem certeza de que deseja excluir o prato ${item.name}?`
+      : `Tem certeza de que deseja excluir a categoria ${item.name}?`
 
   return (
     <>
@@ -63,7 +66,7 @@ export function DishOperations({ dish }: DishOperationsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/editor/${dish.id}`} className="flex w-full">
+            <Link href={`/editor/${item.name}`} className="flex w-full">
               Editar
             </Link>
           </DropdownMenuItem>
@@ -79,9 +82,7 @@ export function DishOperations({ dish }: DishOperationsProps) {
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Tem certeza de que deseja excluir este prato?
-            </AlertDialogTitle>
+            <AlertDialogTitle>{message}</AlertDialogTitle>
             <AlertDialogDescription>
               Esta ação não pode ser desfeita.
             </AlertDialogDescription>
@@ -89,18 +90,7 @@ export function DishOperations({ dish }: DishOperationsProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              onClick={async (event) => {
-                event.preventDefault()
-                setIsDeleteLoading(true)
-
-                const deleted = await deleteDish(dish.id)
-
-                if (deleted) {
-                  setIsDeleteLoading(false)
-                  setShowDeleteAlert(false)
-                  router.refresh()
-                }
-              }}
+              onClick={handleDelete}
               className={buttonVariants({ variant: 'destructive' })}
             >
               {isDeleteLoading ? (
