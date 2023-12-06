@@ -1,10 +1,10 @@
-type IconProps = React.HTMLAttributes<SVGElement>
+import { ChefHat, LucideProps, MenuSquare, Network } from 'lucide-react'
 
 export const Icons = {
   logo: ({
     isFooter = false,
     ...props
-  }: IconProps & {
+  }: LucideProps & {
     isFooter?: boolean
   }) => {
     const fill = isFooter ? 'fill-[#71717a]' : 'fill-[#065E7C]'
@@ -26,7 +26,7 @@ export const Icons = {
       </svg>
     )
   },
-  gitHub: (props: IconProps) => (
+  gitHub: (props: LucideProps) => (
     <svg viewBox="0 0 438.549 438.549" {...props}>
       <path
         fill="currentColor"
@@ -34,7 +34,7 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  pix: (props: IconProps) => (
+  pix: (props: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -58,27 +58,7 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  receipt: (props: IconProps) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="26"
-      height="22"
-      fill="none"
-      viewBox="0 0 26 22"
-      {...props}
-    >
-      <path
-        fill="#fff"
-        fillRule="evenodd"
-        d="M5.5 8a1 1 0 011-1h13a1 1 0 110 2h-13a1 1 0 01-1-1zM5.5 12a1 1 0 011-1h13a1 1 0 110 2h-13a1 1 0 01-1-1z"
-        clipRule="evenodd"
-      ></path>
-      <path
-        fill="#fff"
-        fillRule="evenodd"
-        d="M.586.586A2 2 0 012 0h22a2 2 0 012 2v19a1 1 0 01-1.447.895L21 20.118l-3.553 1.777a1 1 0 01-.894 0L13 20.118l-3.553 1.777a1 1 0 01-.894 0L5 20.118l-3.553 1.777A1 1 0 010 21V2A2 2 0 01.586.586zM24 2H2v17.382l2.553-1.276a1 1 0 01.894 0L9 19.882l3.553-1.776a1 1 0 01.894 0L17 19.882l3.553-1.776a1 1 0 01.894 0L24 19.382V2z"
-        clipRule="evenodd"
-      ></path>
-    </svg>
-  ),
+  dishes: ChefHat,
+  orders: MenuSquare,
+  categories: Network,
 }

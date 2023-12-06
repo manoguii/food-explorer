@@ -2,11 +2,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { Dish } from '@/lib/types/definitions'
+import { formatDate } from '@/lib/utils'
+import { Skeleton } from '@/components/ui/skeleton'
+import { DishOperations } from '@/components/dish-operations'
 
 import { AddToCart } from './buttons/add-to-cart'
 import { FavoriteButton } from './buttons/favorite-button'
 import Price from './price'
 import { Badge } from './ui/badge'
+
+interface DishItemProps {
+  dish: Dish
+}
 
 export function DishCard({
   dish,
@@ -69,6 +76,38 @@ export function DishCard({
         favorite={dish.isFavorite}
         className="absolute right-3 top-3"
       />
+    </div>
+  )
+}
+
+export function DishItem({ dish }: DishItemProps) {
+  return (
+    <div className="flex items-center justify-between p-4">
+      <div className="grid gap-1">
+        <Link
+          href={`/editor/${dish.id}`}
+          className="font-semibold hover:underline"
+        >
+          {dish.name}
+        </Link>
+        <div>
+          <p className="text-sm text-muted-foreground">
+            {formatDate(dish.createdAt)}
+          </p>
+        </div>
+      </div>
+      <DishOperations dish={{ id: dish.id, title: dish.name }} />
+    </div>
+  )
+}
+
+DishItem.Skeleton = function DishItemSkeleton() {
+  return (
+    <div className="p-4">
+      <div className="space-y-3">
+        <Skeleton className="h-5 w-2/5" />
+        <Skeleton className="h-4 w-4/5" />
+      </div>
     </div>
   )
 }

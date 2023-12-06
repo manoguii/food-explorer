@@ -1,3 +1,5 @@
+import { Icons } from '@/components/icons'
+
 export type User = {
   id: string
   name: string
@@ -25,8 +27,8 @@ export type Dish = {
   ingredients: string[]
   category: string
   isFavorite: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
 export type UploadFileResponse =
@@ -62,4 +64,10 @@ export interface UpdateDishParams {
 
 export interface CartItem extends Dish {
   quantity?: number
+}
+
+export type SidebarNavItem = {
+  title: string
+  href: string
+  icon?: keyof typeof Icons
 }
