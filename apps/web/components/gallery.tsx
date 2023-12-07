@@ -7,7 +7,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 
 import { createUrl } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
-import { GridTileImage } from '@/components/grid/tile'
+import { GridTileImage } from '@/components/grid'
 
 export function Gallery({
   images,

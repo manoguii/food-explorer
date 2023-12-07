@@ -6,10 +6,9 @@ import { Heart } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { toggleFavoriteDish } from '@/app/actions'
 
-import { Button, ButtonProps } from '../ui/button'
 import { toast } from '../ui/use-toast'
 
-interface FavoriteButtonProps extends ButtonProps {
+interface FavoriteButtonProps {
   dishId: string
   favorite: boolean
 }
@@ -17,7 +16,6 @@ interface FavoriteButtonProps extends ButtonProps {
 export function FavoriteButton({
   dishId,
   favorite,
-  className,
   ...rest
 }: FavoriteButtonProps) {
   const [isLoading, setIsLoading] = React.useState<'idle' | 'loading'>('idle')
@@ -48,26 +46,20 @@ export function FavoriteButton({
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className={cn(
-        'group rounded-lg border bg-white/70 backdrop-blur-md dark:border-gray-800 dark:bg-black/70',
-        className,
-      )}
+    <button
+      className="w-max rounded-full p-2"
       disabled={isLoading === 'loading'}
       onClick={handleAddFavorite}
       {...rest}
     >
       <Heart
         className={cn(
-          'h-4 w-4 fill-gray-50 text-gray-50',
-          isLoading === 'loading' && 'animate-pulse',
+          'h-5 w-5 text-gray-50 transition-colors hover:text-red-500',
           {
             'fill-red-500 text-red-500': favorite,
           },
         )}
       />
-    </Button>
+    </button>
   )
 }

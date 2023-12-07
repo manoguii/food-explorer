@@ -1,5 +1,5 @@
 import { fetchCategories } from '@/lib/data'
-import { CategoryItem } from '@/components/cards'
+import { CategoryCard } from '@/components/cards'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { Layout } from '@/components/layout'
@@ -22,7 +22,7 @@ export default async function CategoriesPage() {
           <div className="grid gap-4">
             <div className="divide-y divide-border rounded-md border">
               {categories.map((category) => (
-                <CategoryItem key={category.id} category={category} />
+                <CategoryCard key={category.id} category={category} />
               ))}
             </div>
 

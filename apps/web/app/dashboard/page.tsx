@@ -2,9 +2,11 @@ import { Suspense } from 'react'
 
 import { CreateButton } from '@/components/buttons/create'
 import { Layout } from '@/components/layout'
-import ListManageDishes from '@/components/list-manage-dishes'
-import { SearchInput } from '@/components/search-input'
-import { CardsSkeleton } from '@/components/skeletons'
+import { DashboardSearchInput } from '@/components/search-input'
+import {
+  ListToManageDishes,
+  ListToManageDishesSkeleton,
+} from '@/app/dashboard/list-to-manage-dishes'
 
 export const metadata = {
   title: 'Dashboard',
@@ -32,12 +34,19 @@ export default async function DashboardPage({
   return (
     <Layout>
       <div className="flex w-full items-center gap-2">
-        <SearchInput />
+        <DashboardSearchInput />
         <CreateButton />
       </div>
 
-      <Suspense key={query + currentPage} fallback={<CardsSkeleton />}>
-        <ListManageDishes mode={mode} query={query} currentPage={currentPage} />
+      <Suspense
+        key={query + currentPage}
+        fallback={<ListToManageDishesSkeleton />}
+      >
+        <ListToManageDishes
+          mode={mode}
+          query={query}
+          currentPage={currentPage}
+        />
       </Suspense>
     </Layout>
   )

@@ -3,9 +3,11 @@ import { Suspense } from 'react'
 import { fetchCategories } from '@/lib/data'
 import { CategoriesNav } from '@/components/categories-nav'
 import { Layout } from '@/components/layout'
-import { CardsSkeleton } from '@/components/skeletons'
 
-import DishesList from '../../../components/dishes-list'
+import {
+  ListSearchedDishes,
+  PrimaryCardListSkeleton,
+} from './list-searched-dishes'
 
 export default async function SearchPage({
   searchParams,
@@ -46,9 +48,9 @@ export default async function SearchPage({
 
       <Suspense
         key={query + currentPage + category}
-        fallback={<CardsSkeleton />}
+        fallback={<PrimaryCardListSkeleton />}
       >
-        <DishesList
+        <ListSearchedDishes
           mode={mode}
           query={query}
           category={category}

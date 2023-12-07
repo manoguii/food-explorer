@@ -1,6 +1,6 @@
 import { fetchFavoriteDishes } from '@/lib/data'
-import { DishCard } from '@/components/cards'
-import Grid from '@/components/grid'
+import { PrimaryCard } from '@/components/cards'
+import { Grid } from '@/components/grid'
 import { Pagination } from '@/components/pagination'
 
 export async function FavoritesDishesList({
@@ -16,7 +16,7 @@ export async function FavoritesDishesList({
         {favoriteDishes.map((dish) => {
           return (
             <Grid.Item key={dish.id} className="animate-fadeIn">
-              <DishCard dish={{ ...dish, isFavorite: true }} favoriteCard />
+              <PrimaryCard dish={{ ...dish, isFavorite: true }} withoutFooter />
             </Grid.Item>
           )
         })}

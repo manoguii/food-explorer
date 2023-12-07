@@ -1,6 +1,7 @@
-import { CategoryItem } from '@/components/cards'
+import { CategoryCard } from '@/components/cards'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { Layout } from '@/components/layout'
+import { PaginationSkeleton } from '@/components/skeletons'
 
 export default function CategoriesLoading() {
   return (
@@ -13,12 +14,12 @@ export default function CategoriesLoading() {
       </Layout.Header>
 
       <div className="divide-border-200 divide-y rounded-md border">
-        <CategoryItem.Skeleton />
-        <CategoryItem.Skeleton />
-        <CategoryItem.Skeleton />
-        <CategoryItem.Skeleton />
-        <CategoryItem.Skeleton />
+        <CategoryCard.Skeleton />
+        <CategoryCard.Skeleton />
+        <CategoryCard.Skeleton />
       </div>
+
+      <PaginationSkeleton />
     </Layout>
   )
 }

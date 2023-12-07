@@ -5,12 +5,11 @@ import { ChefHatIcon, ListOrdered } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { FeaturedCategoriesList } from '@/components/featured-categories-list'
 import { Icons } from '@/components/icons'
 import { Layout } from '@/components/layout'
-import { FeaturedCategoriesWrapper } from '@/components/skeletons'
 
 import { HeroHeader, HeroHeaderDescription, HeroHeaderHeading } from './hero'
+import { SlideOfCards, SlideOfCardsSkeleton } from './slide-of-cards'
 
 export default async function Home() {
   return (
@@ -52,8 +51,17 @@ export default async function Home() {
         </HeroHeader>
       </div>
 
-      <Suspense key={'hero'} fallback={<FeaturedCategoriesWrapper />}>
-        <FeaturedCategoriesList />
+      <Suspense
+        key={'hero'}
+        fallback={
+          <div className="space-y-12">
+            <SlideOfCardsSkeleton />
+            <SlideOfCardsSkeleton />
+            <SlideOfCardsSkeleton />
+          </div>
+        }
+      >
+        <SlideOfCards />
       </Suspense>
     </Layout>
   )

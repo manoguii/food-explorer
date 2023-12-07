@@ -29,6 +29,7 @@ interface OperationsProps {
   item: {
     id: string
     name: string
+    slug: string
   }
   entity: 'dish' | 'category'
 }
@@ -66,7 +67,10 @@ export function Operations({ item, entity }: OperationsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/editor/${item.name}`} className="flex w-full">
+            <Link
+              href={`/dashboard/${entity}/${item.slug}/edit`}
+              className="flex w-full"
+            >
               Editar
             </Link>
           </DropdownMenuItem>
