@@ -26,11 +26,6 @@ export const routesConfig: RoutesConfig = {
       icon: 'home',
     },
     {
-      title: 'Pratos',
-      href: '/dashboard/dishes',
-      icon: 'dishes',
-    },
-    {
       title: 'Pedidos',
       href: '/dashboard/orders',
       icon: 'orders',

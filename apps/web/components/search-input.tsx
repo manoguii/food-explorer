@@ -31,7 +31,7 @@ export function SearchInput({ onClose, className, ...rest }: SearchInputProps) {
     const search = data.search
     const newParams = new URLSearchParams(searchParams.toString())
 
-    newParams.set('page', '1')
+    newParams.delete('page')
 
     if (search) {
       newParams.set('query', search)
@@ -50,7 +50,7 @@ export function SearchInput({ onClose, className, ...rest }: SearchInputProps) {
 
   return (
     <form
-      className={cn('flex items-center', className)}
+      className={cn('flex flex-1 items-center', className)}
       onSubmit={handleSubmit(handleSearch)}
       {...rest}
     >

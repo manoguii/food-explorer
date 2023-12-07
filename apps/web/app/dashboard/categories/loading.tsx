@@ -1,16 +1,17 @@
 import { CategoryItem } from '@/components/cards'
-import { DashboardHeader, DashboardShell } from '@/components/dashboard-layout'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
+import { Layout } from '@/components/layout'
 
 export default function CategoriesLoading() {
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <Layout>
+      <Layout.Header
         heading="Categorias"
         text="Crie e gerencie as categorias associadas aos pratos."
       >
         <CreateCategory />
-      </DashboardHeader>
+      </Layout.Header>
+
       <div className="divide-border-200 divide-y rounded-md border">
         <CategoryItem.Skeleton />
         <CategoryItem.Skeleton />
@@ -18,6 +19,6 @@ export default function CategoriesLoading() {
         <CategoryItem.Skeleton />
         <CategoryItem.Skeleton />
       </div>
-    </DashboardShell>
+    </Layout>
   )
 }

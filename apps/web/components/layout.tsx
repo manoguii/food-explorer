@@ -8,9 +8,27 @@ interface DashboardHeaderProps {
   children?: React.ReactNode
 }
 
-type DashboardShellProps = React.HTMLAttributes<HTMLDivElement>
+export function Layout({ children }: { children: React.ReactNode }) {
+  return <div className="flex h-full flex-col gap-6">{children}</div>
+}
 
-export function DashboardHeader({
+interface TitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  children: React.ReactNode
+}
+
+Layout.Title = function LayoutTitle({
+  children,
+  className,
+  ...rest
+}: TitleProps) {
+  return (
+    <h1 className={cn('text-2xl font-semibold', className)} {...rest}>
+      {children}
+    </h1>
+  )
+}
+
+Layout.Header = function DashboardHeader({
   heading,
   text,
   children,
@@ -23,18 +41,6 @@ export function DashboardHeader({
         </h1>
         {text && <p className="text-muted-foreground">{text}</p>}
       </div>
-      {children}
-    </div>
-  )
-}
-
-export function DashboardShell({
-  children,
-  className,
-  ...props
-}: DashboardShellProps) {
-  return (
-    <div className={cn('grid items-start gap-8', className)} {...props}>
       {children}
     </div>
   )

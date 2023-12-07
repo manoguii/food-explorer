@@ -60,7 +60,7 @@ export function Operations({ item, entity }: OperationsProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
+        <DropdownMenuTrigger className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border transition-colors hover:bg-muted">
           <MoreVertical className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>

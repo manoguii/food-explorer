@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 
 import { fetchCategories } from '@/lib/data'
 import { CategoriesNav } from '@/components/categories-nav'
-import { FoodLayout } from '@/components/food-layout'
+import { Layout } from '@/components/layout'
 import { CardsSkeleton } from '@/components/skeletons'
 
 import DishesList from '../../../components/dishes-list'
@@ -33,7 +33,7 @@ export default async function SearchPage({
   }
 
   return (
-    <FoodLayout>
+    <Layout>
       <div className="flex flex-col gap-1">
         {query && (
           <p className="font-medium text-secondary-foreground">
@@ -55,6 +55,6 @@ export default async function SearchPage({
           currentPage={currentPage}
         />
       </Suspense>
-    </FoodLayout>
+    </Layout>
   )
 }

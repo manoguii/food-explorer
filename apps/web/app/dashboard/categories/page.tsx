@@ -1,21 +1,22 @@
 import { fetchCategories } from '@/lib/data'
 import { CategoryItem } from '@/components/cards'
-import { DashboardHeader, DashboardShell } from '@/components/dashboard-layout'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
+import { Layout } from '@/components/layout'
 import { Pagination } from '@/components/pagination'
 
 export default async function CategoriesPage() {
   const { categories, totalPages } = await fetchCategories()
 
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <Layout>
+      <Layout.Header
         heading="Categorias"
         text="Crie e gerencie as categorias associadas aos pratos."
       >
         <CreateCategory />
-      </DashboardHeader>
+      </Layout.Header>
+
       <div>
         {categories?.length ? (
           <div className="grid gap-4">
@@ -39,6 +40,6 @@ export default async function CategoriesPage() {
           </EmptyPlaceholder>
         )}
       </div>
-    </DashboardShell>
+    </Layout>
   )
 }

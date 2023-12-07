@@ -1,5 +1,5 @@
 import { fetchOrders } from '@/lib/data'
-import { FoodLayout } from '@/components/food-layout'
+import { Layout } from '@/components/layout'
 import { columns } from '@/app/food/orders/table/columns'
 import { DataTable } from '@/app/food/orders/table/data-table'
 
@@ -14,10 +14,10 @@ export default async function Orders() {
   }))
 
   return (
-    <FoodLayout>
-      <FoodLayout.Title>Pedidos</FoodLayout.Title>
+    <Layout>
+      <Layout.Title>Pedidos</Layout.Title>
 
       <DataTable data={data} columns={columns} />
-    </FoodLayout>
+    </Layout>
   )
 }

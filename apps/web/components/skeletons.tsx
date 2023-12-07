@@ -13,30 +13,30 @@ export function CardSkeleton({ favoriteCard }: { favoriteCard?: boolean }) {
         className={`${shimmer} relative mb-4 flex aspect-video min-h-full flex-col justify-between overflow-hidden rounded-lg border bg-card shadow-sm`}
       ></div>
 
-      {/* Title */}
-      <div className="flex items-center gap-2">
+      <div className="mt-auto px-2 pb-2">
+        {/* Title */}
         <Skeleton className="h-5 w-56" />
-        <Skeleton className="ml-auto h-5 w-10" />
-      </div>
 
-      {/* Description */}
-      <Skeleton className="mt-2 h-3 w-72" />
+        {/* Description */}
+        <Skeleton className="mt-2 h-3 w-72" />
 
-      {/* Ingredients */}
-      <div className="my-4 flex flex-wrap items-center gap-1">
-        <Skeleton className="h-[19px] w-16 rounded-full" />
-        <Skeleton className="h-[19px] w-20 rounded-full" />
-        <Skeleton className="h-[19px] w-14 rounded-full" />
-        <Skeleton className="h-[19px] w-14 rounded-full" />
-        <Skeleton className="h-[19px] w-20 rounded-full" />
-      </div>
-
-      {/* Add to cart */}
-      {!favoriteCard && (
-        <div className="mt-auto flex">
-          <Skeleton className="h-10 w-48" />
+        {/* Ingredients */}
+        <div className="mb-4 mt-2 flex flex-wrap items-center gap-1">
+          <Skeleton className="h-[19px] w-16 rounded-full" />
+          <Skeleton className="h-[19px] w-20 rounded-full" />
+          <Skeleton className="h-[19px] w-14 rounded-full" />
+          <Skeleton className="h-[19px] w-14 rounded-full" />
+          <Skeleton className="h-[19px] w-20 rounded-full" />
         </div>
-      )}
+
+        {/* Add to cart */}
+        {!favoriteCard && (
+          <div className="mt-auto flex items-center justify-between">
+            <Skeleton className="h-5 w-16" />
+            <Skeleton className="h-10 w-24" />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

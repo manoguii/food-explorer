@@ -23,10 +23,10 @@ export function DishCard({
   favoriteCard?: boolean
 }) {
   return (
-    <div className=" group relative flex h-full w-full flex-col justify-between">
+    <div className="group flex h-full flex-col gap-3">
       <Link
         href={`/food/dish/${dish.slug}`}
-        className="relative mb-4 flex aspect-video items-center justify-center overflow-hidden rounded-lg border bg-white hover:!border-gray-700 dark:bg-gray-950"
+        className="relative flex aspect-video items-center justify-center overflow-hidden rounded-lg border bg-white dark:bg-gray-950"
       >
         <Image
           className="aspect-video h-full w-full object-cover transition duration-300 ease-in-out group-hover:scale-105 group-hover:opacity-80"
@@ -38,35 +38,35 @@ export function DishCard({
         />
       </Link>
 
-      <div>
-        <Link href={`/food/dish/${dish.slug}`} className="flex gap-2">
+      <div className="px-2">
+        <Link href={`/food/dish/${dish.slug}`}>
           <h4 className="text-lg font-semibold leading-tight">{dish.name}</h4>
-
-          <Price
-            className="ml-auto font-normal text-secondary-foreground"
-            amount={dish.price.toString()}
-            currencyCode="BRL"
-            currencyCodeClassName="hidden @[275px]/label:inline"
-          />
         </Link>
 
         <p className="w-full truncate text-sm text-muted-foreground">
           {dish.description}
         </p>
-      </div>
 
-      <div className="mb-4 mt-2 flex flex-wrap items-center gap-1">
-        {dish.ingredients.map((item) => {
-          return (
-            <Badge key={item} variant="secondary">
-              {item}
-            </Badge>
-          )
-        })}
+        <div className="mt-2 flex flex-wrap items-center gap-1">
+          {dish.ingredients.map((item) => {
+            return (
+              <Badge key={item} variant="secondary">
+                {item}
+              </Badge>
+            )
+          })}
+        </div>
       </div>
 
       {!favoriteCard && (
-        <div className="mt-auto flex">
+        <div className="flex flex-1 items-end justify-between gap-2 px-2 pb-2">
+          <Price
+            className="text-xl font-semibold text-secondary-foreground"
+            amount={dish.price.toString()}
+            currencyCode="BRL"
+            currencyCodeClassName="hidden @[275px]/label:inline"
+          />
+
           <AddToCart dish={dish} />
         </div>
       )}
@@ -74,7 +74,7 @@ export function DishCard({
       <FavoriteButton
         dishId={dish.id}
         favorite={dish.isFavorite}
-        className="absolute right-3 top-3"
+        className="absolute right-6 top-3"
       />
     </div>
   )

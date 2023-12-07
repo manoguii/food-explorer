@@ -1,9 +1,9 @@
-import { DashboardHeader, DashboardShell } from '@/components/dashboard-layout'
+import { Layout } from '@/components/layout'
 
 export default function OrdersLoading() {
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <Layout>
+      <Layout.Header
         heading="Pedidos"
         text="Crie e gerencie os pedidos do restaurante."
       />
@@ -11,6 +11,6 @@ export default function OrdersLoading() {
       <div className="divide-border-200 divide-y rounded-md border">
         <p>Carregando pedidos...</p>
       </div>
-    </DashboardShell>
+    </Layout>
   )
 }
