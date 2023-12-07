@@ -1,4 +1,5 @@
 import { Layout } from '@/components/layout'
+import { DataTableSkeleton } from '@/components/skeletons'
 
 export default function OrdersLoading() {
   return (
@@ -8,9 +9,7 @@ export default function OrdersLoading() {
         text="Crie e gerencie os pedidos do restaurante."
       />
 
-      <div className="divide-border-200 divide-y rounded-md border">
-        <p>Carregando pedidos...</p>
-      </div>
+      <DataTableSkeleton />
     </Layout>
   )
 }

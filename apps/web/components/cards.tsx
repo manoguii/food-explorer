@@ -9,6 +9,7 @@ import { AddToCart } from './buttons/add-to-cart'
 import { FavoriteButton } from './buttons/favorite-button'
 import { Operations } from './operations'
 import Price from './price'
+import { shimmer } from './skeletons'
 import { Badge } from './ui/badge'
 import {
   Card,
@@ -17,11 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card'
-
-// Loading animation
-
-const shimmer =
-  'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-900/80 before:to-transparent'
 
 //  Components
 
@@ -216,7 +212,7 @@ SecondaryCard.Skeleton = function SecondaryCardSkeleton() {
           {/* Description */}
           <Skeleton className="mt-3 h-3 w-64" />
         </div>
-        <Skeleton className="h-8 w-8" />
+        <div className="h-8 w-8 rounded-md border" />
       </CardHeader>
       <CardContent>
         {/* Ingredients */}
@@ -240,7 +236,7 @@ CategoryCard.Skeleton = function CategoryCardSkeleton() {
         <Skeleton className="h-4 w-40" />
       </div>
 
-      <Skeleton className="h-8 w-8" />
+      <div className="h-8 w-8 rounded-md border" />
     </div>
   )
 }

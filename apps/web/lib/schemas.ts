@@ -1,11 +1,15 @@
 import { z } from 'zod'
 
+// valid orders schema
 export const taskSchema = z.object({
   id: z.string(),
-  title: z.string(),
-  status: z.string(),
-  label: z.string(),
-  priority: z.string(),
+  details: z.string(),
+  code: z.string(),
+  status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
+  label: z.enum(['TABLE', 'DELIVERY', 'TAKEOUT']),
+  priority: z.enum(['LOW', 'MEDIUM', 'HIGH']),
+  createdAt: z.string(),
+  updatedAt: z.string().nullable(),
 })
 
 export const createDishFormSchema = z.object({

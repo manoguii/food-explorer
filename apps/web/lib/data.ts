@@ -10,8 +10,8 @@ interface FetchOrdersResponse {
     status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
     label: 'TABLE' | 'DELIVERY' | 'TAKEOUT'
     priority: 'LOW' | 'MEDIUM' | 'HIGH'
-    createdAt: Date
-    updatedAt: Date | null
+    createdAt: string
+    updatedAt: string | null
   }[]
   totalPages: number
 }

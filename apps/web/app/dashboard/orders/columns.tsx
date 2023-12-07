@@ -6,9 +6,8 @@ import { labels, priorities, statuses } from '@/config/table'
 import { Task } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-
-import { DataTableColumnHeader } from './data-table-column-header'
-import { DataTableRowActions } from './data-table-row-actions'
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
+import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -33,18 +32,18 @@ export const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'id',
+    accessorKey: 'code',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Task" />
+      <DataTableColumnHeader column={column} title="Código" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue('code')}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'details',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Detalhes do pedido" />
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label)
@@ -53,7 +52,7 @@ export const columns: ColumnDef<Task>[] = [
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('title')}
+            {row.getValue('details')}
           </span>
         </div>
       )
@@ -65,9 +64,10 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status = statuses.find(
-        (status) => status.value === row.getValue('status'),
-      )
+      const status = statuses.find((status) => {
+        const value = row.getValue('status') as string
+        return status.value.toLowerCase() === value.toLowerCase()
+      })
 
       if (!status) {
         return null
@@ -89,12 +89,13 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'priority',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Priority" />
+      <DataTableColumnHeader column={column} title="Prioridade" />
     ),
     cell: ({ row }) => {
-      const priority = priorities.find(
-        (priority) => priority.value === row.getValue('priority'),
-      )
+      const priority = priorities.find((priority) => {
+        const value = row.getValue('priority') as string
+        return priority.value.toLowerCase() === value.toLowerCase()
+      })
 
       if (!priority) {
         return null
