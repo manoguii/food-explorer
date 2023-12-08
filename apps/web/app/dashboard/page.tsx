@@ -1,42 +1,16 @@
-import { Suspense } from 'react'
-
 import { CreateButton } from '@/components/buttons/create'
 import { Layout } from '@/components/layout'
 import { DashboardSearchInput } from '@/components/search-input'
-import { SearchInputSkeleton } from '@/components/skeletons'
 
 export const metadata = {
   title: 'Dashboard',
 }
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams?: {
-    query?: string
-    page?: string
-  }
-}) {
-  const query = searchParams?.query || ''
-  const currentPage = Number(searchParams?.page) || 1
-
-  let mode: 'all' | 'search'
-
-  if (query) {
-    mode = 'search'
-  } else {
-    mode = 'all'
-  }
-
+export default async function DashboardPage() {
   return (
     <Layout>
       <div className="flex w-full items-center gap-2">
-        <Suspense
-          key={mode + query + currentPage}
-          fallback={<SearchInputSkeleton />}
-        >
-          <DashboardSearchInput />
-        </Suspense>
+        <DashboardSearchInput />
         <CreateButton />
       </div>
 

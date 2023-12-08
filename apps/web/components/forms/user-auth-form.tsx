@@ -3,17 +3,16 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 
 import { userAuthFormSchema, UserAuthFormValues } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
-import { Icons } from '@/components/icons'
 import { authenticate } from '@/app/actions'
 
+import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
 
 const defaultValues: Partial<UserAuthFormValues> = {
@@ -25,16 +24,12 @@ export function UserAuthForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
-
   const form = useForm<UserAuthFormValues>({
     resolver: zodResolver(userAuthFormSchema),
     defaultValues,
   })
 
   async function onSubmit(data: UserAuthFormValues) {
-    setIsLoading(true)
-
     try {
       const result = await authenticate(data)
 
@@ -54,8 +49,6 @@ export function UserAuthForm({
     } catch (error) {
       console.error(error)
     }
-
-    return setIsLoading(false)
   }
 
   return (
@@ -65,10 +58,13 @@ export function UserAuthForm({
           <Field.Email />
           <Field.Password />
 
-          <Button disabled={isLoading} variant="destructive">
-            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+          <ButtonWithLoading
+            type="submit"
+            variant="destructive"
+            isLoading={form.formState.isSubmitting}
+          >
             Entrar
-          </Button>
+          </ButtonWithLoading>
         </form>
       </Form>
 
@@ -83,14 +79,14 @@ export function UserAuthForm({
         </div>
       </div>
 
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{' '}
-        Github
-      </Button>
+      <ButtonWithLoading
+        type="button"
+        variant="outline"
+        icon="gitHub"
+        isLoading={form.formState.isSubmitting}
+      >
+        GitHub
+      </ButtonWithLoading>
 
       <Link
         href="/auth/sign-up"

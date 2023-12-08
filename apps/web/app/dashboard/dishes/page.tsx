@@ -3,7 +3,6 @@ import { Suspense } from 'react'
 import { CreateButton } from '@/components/buttons/create'
 import { Layout } from '@/components/layout'
 import { DashboardSearchInput } from '@/components/search-input'
-import { SearchInputSkeleton } from '@/components/skeletons'
 import {
   ListToManageDishes,
   ListToManageDishesSkeleton,
@@ -35,12 +34,7 @@ export default async function DishesPage({
   return (
     <Layout>
       <div className="flex w-full items-center gap-2">
-        <Suspense
-          key={mode + query + currentPage}
-          fallback={<SearchInputSkeleton />}
-        >
-          <DashboardSearchInput />
-        </Suspense>
+        <DashboardSearchInput />
         <CreateButton />
       </div>
 

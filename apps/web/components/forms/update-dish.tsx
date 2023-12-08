@@ -3,16 +3,15 @@
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 
 import { updateDishFormSchema, UpdateDishFormValues } from '@/lib/schemas'
 import { Category, Dish } from '@/lib/types/definitions'
-import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 import { updateDish, uploadFile } from '@/app/actions'
 
+import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
 
 export function UpdateDishForm({
@@ -153,12 +152,13 @@ export function UpdateDishForm({
         <Field.File state={uploadingFile.state} />
 
         <div className="flex items-end justify-end">
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting && (
-              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-            )}
+          <ButtonWithLoading
+            type="submit"
+            icon="save"
+            isLoading={form.formState.isSubmitting}
+          >
             Salvar
-          </Button>
+          </ButtonWithLoading>
         </div>
       </form>
     </Form>

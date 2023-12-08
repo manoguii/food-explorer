@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { AlertCircle, Loader2, Plus } from 'lucide-react'
+import { AlertCircle, Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
 import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import * as D from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
 import { createCategory } from '@/app/actions'
 
 import { toast } from '../../ui/use-toast'
@@ -121,13 +122,9 @@ export function CreateCategory() {
                 Cancelar
               </Button>
             </D.DialogTrigger>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                'Criar'
-              )}
-            </Button>
+            <ButtonWithLoading type="submit" isLoading={isSubmitting}>
+              Criar categoria
+            </ButtonWithLoading>
           </D.DialogFooter>
         </form>
       </D.DialogContent>

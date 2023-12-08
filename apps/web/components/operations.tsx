@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FileEdit, Loader, MoreVertical, Trash, Trash2 } from 'lucide-react'
+import { FileEdit, MoreVertical, Trash } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
+import { ButtonWithLoading } from './buttons/button-with-loading'
 import { buttonVariants } from './ui/button'
 
 interface OperationsProps {
@@ -50,6 +51,8 @@ export function Operations({ item, entity }: OperationsProps) {
       setShowDeleteAlert(false)
       router.refresh()
     }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    setIsDeleteLoading(false)
   }
 
   const message =
@@ -99,15 +102,16 @@ export function Operations({ item, entity }: OperationsProps) {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              onClick={handleDelete}
               className={buttonVariants({ variant: 'destructive' })}
+              asChild
             >
-              {isDeleteLoading ? (
-                <Loader className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Trash2 className="mr-2 h-4 w-4" />
-              )}
-              <span>Excluir</span>
+              <ButtonWithLoading
+                icon="trash"
+                isLoading={isDeleteLoading}
+                onClick={handleDelete}
+              >
+                Excluir
+              </ButtonWithLoading>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

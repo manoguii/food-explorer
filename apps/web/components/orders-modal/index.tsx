@@ -3,10 +3,13 @@
 import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ShoppingCart } from 'lucide-react'
 
 import { useCartStore } from '@/lib/use-cart-store'
+import { createOrder } from '@/app/actions'
 
+import { ButtonWithLoading } from '../buttons/button-with-loading'
 import { EmptyPlaceholder } from '../empty-placeholder'
 import Price from '../price'
 import { Button } from '../ui/button'
@@ -18,17 +21,49 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../ui/sheet'
-import { CreateOrderButton } from './create-order'
+import { toast } from '../ui/use-toast'
 import { DeleteItemButton } from './delete-item'
 import { DishQuantityCounter } from './dish-quantity-counter'
 
 export function OrdersModal() {
-  const { cart, getTotal } = useCartStore()
+  const { cart, getTotal, clearCart } = useCartStore()
+  const { push } = useRouter()
+  const [loading, setLoading] = React.useState(false)
   const [open, setOpen] = React.useState(false)
   const [side, setSide] = React.useState<'right' | 'bottom'>('right')
   const [size, setSize] = React.useState<'default' | 'icon'>('default')
 
   const closeCart = () => setOpen(false)
+
+  async function handleCreateOrder() {
+    setLoading(true)
+
+    const items = cart.map((item) => ({
+      dishId: item.id,
+      quantity: item.quantity || 1,
+    }))
+
+    const result = await createOrder(items)
+
+    if (result.success) {
+      toast({
+        title: 'Pedido criado !',
+        description:
+          'Seu pedido foi criado com sucesso, acompanhe o status na página de pedidos.',
+      })
+    } else {
+      toast({
+        title: 'Erro ao criar pedido',
+        description: 'Ocorreu um erro ao criar seu pedido, tente novamente.',
+        variant: 'destructive',
+      })
+    }
+
+    clearCart()
+    closeCart()
+    push('/food/orders')
+    setLoading(false)
+  }
 
   React.useEffect(() => {
     const verifySide = () => {
@@ -154,7 +189,13 @@ export function OrdersModal() {
               </div>
             </div>
 
-            <CreateOrderButton closeCart={closeCart} />
+            <ButtonWithLoading
+              className="ml-auto w-max"
+              isLoading={loading}
+              onClick={handleCreateOrder}
+            >
+              Finalizar pedido
+            </ButtonWithLoading>
           </div>
         )}
       </SheetContent>

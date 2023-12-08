@@ -1,4 +1,13 @@
-import { ChefHat, Home, LucideProps, MenuSquare, Network } from 'lucide-react'
+import {
+  BadgePlus,
+  ChefHat,
+  Home,
+  LucideProps,
+  MenuSquare,
+  Network,
+  Save,
+  Trash2,
+} from 'lucide-react'
 
 export const Icons = {
   logo: ({
@@ -62,4 +71,7 @@ export const Icons = {
   orders: MenuSquare,
   categories: Network,
   home: Home,
+  trash: Trash2,
+  save: Save,
+  create: BadgePlus,
 }

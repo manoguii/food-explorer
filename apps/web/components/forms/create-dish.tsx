@@ -3,16 +3,15 @@
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { useForm } from 'react-hook-form'
 
 import { createDishFormSchema, CreateDishFormValues } from '@/lib/schemas'
 import { Category } from '@/lib/types/definitions'
-import { Button } from '@/components/ui/button'
 import * as Form from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 import { createDish, uploadFile } from '@/app/actions'
 
+import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
 
 const defaultValues: Partial<CreateDishFormValues> = {
@@ -128,12 +127,13 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
         <Field.File state={uploadingFile.state} />
 
         <div className="flex items-end justify-end">
-          <Button type="submit" disabled={form.formState.isSubmitting}>
-            {form.formState.isSubmitting && (
-              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-            )}
+          <ButtonWithLoading
+            type="submit"
+            icon="create"
+            isLoading={form.formState.isSubmitting}
+          >
             Criar prato
-          </Button>
+          </ButtonWithLoading>
         </div>
       </form>
     </Form.Form>
