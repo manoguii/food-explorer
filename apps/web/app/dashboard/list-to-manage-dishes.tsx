@@ -40,17 +40,19 @@ export async function ListToManageDishes({
 
   return (
     <div className="flex flex-1 flex-col justify-between gap-4">
-      <Grid className="mb-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
-        {items.dishes.map((dish) => (
-          <Grid.Item key={dish.id} className="animate-fadeIn">
-            <SecondaryCard dish={dish} />
-          </Grid.Item>
-        ))}
-      </Grid>
+      {items.dishes.length > 0 ? (
+        <>
+          <Grid className="mb-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            {items.dishes.map((dish) => (
+              <Grid.Item key={dish.id} className="animate-fadeIn">
+                <SecondaryCard dish={dish} />
+              </Grid.Item>
+            ))}
+          </Grid>
 
-      {items.dishes.length > 0 && <Pagination totalPages={items.totalPages} />}
-
-      {items.dishes.length <= 0 && (
+          <Pagination totalPages={items.totalPages} />
+        </>
+      ) : (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="logo" />
           <EmptyPlaceholder.Title>

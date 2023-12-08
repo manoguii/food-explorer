@@ -1,6 +1,7 @@
 import { fetchDishes, fetchDishesByCategory } from '@/lib/data'
 import { Dish } from '@/lib/types/definitions'
 import { PrimaryCard } from '@/components/cards'
+import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { Grid } from '@/components/grid'
 import { Pagination } from '@/components/pagination'
 import { PaginationSkeleton } from '@/components/skeletons'
@@ -46,15 +47,29 @@ export async function ListSearchedDishes({
 
   return (
     <div className="flex flex-1 flex-col justify-between gap-4">
-      <Grid className="mb-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {items.dishes.map((dish) => (
-          <Grid.Item key={dish.id} className="animate-fadeIn">
-            <PrimaryCard dish={dish} />
-          </Grid.Item>
-        ))}
-      </Grid>
+      {items.dishes.length > 0 ? (
+        <>
+          <Grid className="mb-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {items.dishes.map((dish) => (
+              <Grid.Item key={dish.id} className="animate-fadeIn">
+                <PrimaryCard dish={dish} />
+              </Grid.Item>
+            ))}
+          </Grid>
 
-      <Pagination totalPages={items.totalPages} />
+          <Pagination totalPages={items.totalPages} />
+        </>
+      ) : (
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="logo" />
+          <EmptyPlaceholder.Title>
+            Nenhuma prato encontrado
+          </EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
+            Nenhum resultado encontrado para {`"${query}"`}.
+          </EmptyPlaceholder.Description>
+        </EmptyPlaceholder>
+      )}
     </div>
   )
 }

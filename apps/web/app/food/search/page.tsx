@@ -1,8 +1,9 @@
 import { Suspense } from 'react'
 
 import { fetchCategories } from '@/lib/data'
-import { CategoriesNav } from '@/components/categories-nav'
+import { FacetedFilter } from '@/components/faceted-filter'
 import { Layout } from '@/components/layout'
+import { DashboardSearchInput } from '@/components/search-input'
 
 import {
   ListSearchedDishes,
@@ -36,15 +37,16 @@ export default async function SearchPage({
 
   return (
     <Layout>
-      <div className="flex flex-col gap-1">
-        {query && (
-          <p className="font-medium text-secondary-foreground">
-            Resultados para <span>{`"${query}"`}</span>
-          </p>
-        )}
-
-        <CategoriesNav categories={categories} />
+      <div className="flex items-center gap-4">
+        <DashboardSearchInput />
+        <FacetedFilter title="Categorias" options={categories} />
       </div>
+
+      {query && (
+        <p className="font-medium text-muted-foreground">
+          Resultados para <span className="text-primary">{`"${query}"`}</span>
+        </p>
+      )}
 
       <Suspense
         key={query + currentPage + category}
