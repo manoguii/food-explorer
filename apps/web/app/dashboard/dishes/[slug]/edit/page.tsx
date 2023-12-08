@@ -1,6 +1,7 @@
 import { fetchCategories, getDishBySlug } from '@/lib/data'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { UpdateDishForm } from '@/components/forms/update-dish'
+import { Layout } from '@/components/layout'
 
 export default async function SettingsProfilePage({
   params,
@@ -13,19 +14,15 @@ export default async function SettingsProfilePage({
   ])
 
   return (
-    <div className="space-y-5">
-      <div className="flex justify-between">
-        <div>
-          <h3 className="text-lg font-medium">Editar prato</h3>
-          <p className="text-sm text-muted-foreground">
-            Editar informações do prato
-          </p>
-        </div>
-
+    <Layout>
+      <Layout.Header
+        heading="Editar prato"
+        text={`Editar informações do prato ${dish.name}`}
+      >
         <CreateCategory />
-      </div>
+      </Layout.Header>
 
       <UpdateDishForm categories={categories} currentDish={dish} />
-    </div>
+    </Layout>
   )
 }

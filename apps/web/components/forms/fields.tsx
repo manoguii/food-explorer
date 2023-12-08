@@ -29,7 +29,7 @@ export function Name({
       control={form.control}
       name="name"
       render={({ field }) => (
-        <Form.FormItem className="flex basis-3/6 flex-col gap-1">
+        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
           <Form.FormLabel>Nome</Form.FormLabel>
           <Form.FormControl>
             <Input placeholder={placeholder} {...field} />
@@ -99,7 +99,7 @@ export function Description() {
       control={form.control}
       name="description"
       render={({ field }) => (
-        <Form.FormItem>
+        <Form.FormItem className="rounded-md border p-6">
           <Form.FormLabel>Descrição</Form.FormLabel>
           <Form.FormControl>
             <Textarea
@@ -126,7 +126,7 @@ export function Price() {
       control={form.control}
       name="price"
       render={({ field }) => (
-        <Form.FormItem className="flex basis-2/6 flex-col gap-1">
+        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
           <Form.FormLabel>Preço</Form.FormLabel>
           <Form.FormControl>
             <Input placeholder="R$ 12,00" {...field} />
@@ -153,7 +153,7 @@ export function Category({
       control={form.control}
       name="category"
       render={({ field }) => (
-        <Form.FormItem className="flex basis-2/6 flex-col gap-1">
+        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
           <Form.FormLabel>Categoria</Form.FormLabel>
           <Select.Select
             defaultValue={currentCategory}
@@ -201,7 +201,7 @@ export function File({
       name="file"
       render={({ field: { onChange } }) => {
         return (
-          <Form.FormItem className="flex basis-2/6 flex-col gap-1">
+          <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
             <Form.FormLabel className="flex items-center">
               Arquivo
               {state === 'uploading' && (
@@ -271,7 +271,7 @@ export function Ingredients({ type }: { type: 'create' | 'update' }) {
             open={ingredientsDialogOpen}
             onOpenChange={setIngredientsDialogOpen}
           >
-            <Form.FormItem className="flex basis-4/6 flex-col gap-1">
+            <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
               <Form.FormLabel>Ingredientes</Form.FormLabel>
               <Form.FormControl>
                 <div className="flex flex-col items-start gap-4 md:flex-row">

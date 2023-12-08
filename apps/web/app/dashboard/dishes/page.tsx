@@ -4,12 +4,16 @@ import { CreateButton } from '@/components/buttons/create'
 import { Layout } from '@/components/layout'
 import { DashboardSearchInput } from '@/components/search-input'
 import { SearchInputSkeleton } from '@/components/skeletons'
+import {
+  ListToManageDishes,
+  ListToManageDishesSkeleton,
+} from '@/app/dashboard/list-to-manage-dishes'
 
 export const metadata = {
   title: 'Dashboard',
 }
 
-export default async function DashboardPage({
+export default async function DishesPage({
   searchParams,
 }: {
   searchParams?: {
@@ -40,7 +44,16 @@ export default async function DashboardPage({
         <CreateButton />
       </div>
 
-      <div></div>
+      <Suspense
+        key={query + currentPage}
+        fallback={<ListToManageDishesSkeleton />}
+      >
+        <ListToManageDishes
+          mode={mode}
+          query={query}
+          currentPage={currentPage}
+        />
+      </Suspense>
     </Layout>
   )
 }

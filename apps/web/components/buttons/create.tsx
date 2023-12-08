@@ -20,7 +20,7 @@ export function CreateButton() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="grid p-2">
         <DropdownMenuItem asChild className="cursor-pointer px-3 py-2">
-          <Link href={`/dashboard/dish/create`}>Prato</Link>
+          <Link href={`/dashboard/dishes/create`}>Prato</Link>
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild className="cursor-pointer px-3 py-2">

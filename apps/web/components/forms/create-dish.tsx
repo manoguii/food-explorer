@@ -113,21 +113,20 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
         onSubmit={form.handleSubmit(handleCreateDish)}
         className="space-y-8"
       >
-        <div className="flex flex-col gap-8 lg:flex-row">
-          <Field.Name
-            placeholder="Salada de frutas"
-            description="Digite o nome do prato."
-          />
-          <Field.File state={uploadingFile.state} />
-          <Field.Category categories={categories} />
-        </div>
+        <Field.Name
+          placeholder="Salada de frutas"
+          description="Digite o nome do prato."
+        />
 
-        <div className="flex flex-col gap-8 lg:flex-row">
-          <Field.Ingredients type="create" />
-          <Field.Price />
-        </div>
+        <Field.Category categories={categories} />
+
+        <Field.Ingredients type="create" />
+        <Field.Price />
 
         <Field.Description />
+
+        <Field.File state={uploadingFile.state} />
+
         <div className="flex items-end justify-end">
           <Button type="submit" disabled={form.formState.isSubmitting}>
             {form.formState.isSubmitting && (

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Loader, MoreVertical, Trash2 } from 'lucide-react'
+import { FileEdit, Loader, MoreVertical, Trash, Trash2 } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -19,7 +19,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
@@ -65,21 +64,27 @@ export function Operations({ item, entity }: OperationsProps) {
           <MoreVertical className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem>
+        <DropdownMenuContent align="end" className="p-2">
+          <DropdownMenuItem className="px-3 py-2">
             <Link
-              href={`/dashboard/${entity}/${item.slug}/edit`}
+              href={
+                entity === 'dish'
+                  ? `/dashboard/dishes/${item.slug}/edit`
+                  : `/dashboard/categories/${item.slug}/edit`
+              }
               className="flex w-full"
             >
               Editar
+              <FileEdit className="ml-auto h-4 w-4" />
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
+
           <DropdownMenuItem
-            className="flex cursor-pointer items-center text-destructive focus:text-destructive"
+            className="flex cursor-pointer items-center px-3 py-2 text-red-500 focus:text-red-500"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            Excluir
+            Remover
+            <Trash className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
