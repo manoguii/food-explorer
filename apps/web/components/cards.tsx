@@ -63,7 +63,7 @@ export function PrimaryCard({
 
         <div
           className={cn('my-2 flex flex-wrap items-center gap-1', {
-            'pb-3': !dish.isFavorite,
+            'pb-3': withoutFooter,
           })}
         >
           {dish.ingredients.map((item) => {
@@ -167,10 +167,10 @@ PrimaryCard.Skeleton = function CardSkeleton({
   favoriteCard?: boolean
 }) {
   return (
-    <div>
+    <div className="overflow-hidden rounded-lg border">
       {/* Image */}
       <div
-        className={`${shimmer} relative mb-4 flex aspect-video min-h-full flex-col justify-between overflow-hidden rounded-lg border bg-card shadow-sm`}
+        className={`${shimmer} relative mb-4 flex aspect-video min-h-full flex-col justify-between overflow-hidden rounded-t border-b bg-card shadow-sm`}
       ></div>
 
       <div className="mt-auto px-2 pb-2">
@@ -178,10 +178,10 @@ PrimaryCard.Skeleton = function CardSkeleton({
         <Skeleton className="h-5 w-56" />
 
         {/* Description */}
-        <Skeleton className="mt-2 h-3 w-72" />
+        <Skeleton className="mt-3 h-2.5 w-64" />
 
         {/* Ingredients */}
-        <div className="mb-4 mt-2 flex flex-wrap items-center gap-1">
+        <div className="my-4 flex flex-wrap items-center gap-1">
           <Skeleton className="h-[19px] w-16 rounded-full" />
           <Skeleton className="h-[19px] w-20 rounded-full" />
           <Skeleton className="h-[19px] w-14 rounded-full" />
@@ -192,7 +192,7 @@ PrimaryCard.Skeleton = function CardSkeleton({
         {/* Add to cart */}
         {!favoriteCard && (
           <div className="mt-auto flex items-center justify-between">
-            <Skeleton className="h-5 w-16" />
+            <Skeleton className="h-6 w-16" />
             <Skeleton className="h-10 w-24" />
           </div>
         )}

@@ -49,13 +49,6 @@ export async function ListSearchedDishes({
     <div className="flex flex-1 flex-col justify-between gap-4">
       {items.dishes.length > 0 ? (
         <>
-          {query && (
-            <p className="font-medium text-muted-foreground">
-              Resultados para{' '}
-              <span className="text-primary">{`"${query}"`}</span>
-            </p>
-          )}
-
           <Grid className="mb-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {items.dishes.map((dish) => (
               <Grid.Item key={dish.id} className="animate-fadeIn">

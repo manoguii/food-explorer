@@ -88,11 +88,9 @@ export function OrdersModal() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="destructive" size={size} className="gap-2">
-          <ShoppingCart className="h-4 w-4" />
-          <span className="hidden lg:inline-block">
-            Pedidos ({cart.length})
-          </span>
+        <Button variant="ghost" size={size} className="gap-2">
+          <ShoppingCart className="h-5 w-5" />
+          <span className="hidden lg:inline-block">({cart.length})</span>
         </Button>
       </SheetTrigger>
 
