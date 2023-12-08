@@ -53,12 +53,9 @@ export function FavoriteButton({
       {...rest}
     >
       <Heart
-        className={cn(
-          'h-5 w-5 text-gray-50 transition-colors hover:text-red-500',
-          {
-            'fill-red-500 text-red-500': favorite,
-          },
-        )}
+        className={cn('h-5 w-5 transition-colors hover:text-red-500', {
+          'fill-red-500 text-red-500': favorite,
+        })}
       />
     </button>
   )

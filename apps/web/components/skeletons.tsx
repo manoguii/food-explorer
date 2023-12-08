@@ -11,7 +11,7 @@ import {
 } from './ui/table'
 
 export const shimmer =
-  'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-900/80 before:to-transparent'
+  'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray-200/80 dark:before:via-gray-900/80 before:to-transparent'
 
 export function PaginationSkeleton() {
   return (

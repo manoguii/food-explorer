@@ -56,12 +56,6 @@ export default async function SearchPage({
         </Suspense>
       </div>
 
-      {query && (
-        <p className="font-medium text-muted-foreground">
-          Resultados para <span className="text-primary">{`"${query}"`}</span>
-        </p>
-      )}
-
       <Suspense
         key={query + currentPage + category}
         fallback={<PrimaryCardListSkeleton />}
