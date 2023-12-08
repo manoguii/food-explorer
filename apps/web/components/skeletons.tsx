@@ -1,3 +1,5 @@
+import { Search } from 'lucide-react'
+
 import { Skeleton } from './ui/skeleton'
 import {
   Table,
@@ -35,10 +37,8 @@ function DataTableToolbarSkeleton({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-3">
         <div className="h-8 w-[150px] rounded-md border lg:w-[250px]" />
-        <div className="h-8 w-[98px] rounded-md border border-dashed" />
-        {!isUserTable && (
-          <div className="h-8 w-[98px] rounded-md border border-dashed" />
-        )}
+        <FacetedFilterSkeleton />
+        {!isUserTable && <FacetedFilterSkeleton />}
       </div>
       <Skeleton className="h-8 w-20" />
     </div>
@@ -142,6 +142,46 @@ export function FoodDataTableSkeleton() {
           </TableBody>
         </Table>
       </div>
+    </div>
+  )
+}
+
+export function SearchInputSkeleton() {
+  return (
+    <div className="flex flex-1 items-center">
+      <div className="relative w-full">
+        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <Search className="h-4 w-4" />
+        </div>
+
+        <div className="h-10 animate-pulse rounded-md border bg-background" />
+      </div>
+    </div>
+  )
+}
+
+export function FacetedFilterSkeleton() {
+  return <div className="h-8 w-[98px] rounded-md border border-dashed" />
+}
+
+export function GallerySkeleton() {
+  return (
+    <div className="flex flex-col items-start justify-center gap-4 sm:flex-row">
+      <div className="relative aspect-square h-full max-h-[450px] w-full max-w-[450px] overflow-hidden">
+        <div className="aspect-square h-full w-full animate-pulse rounded-lg bg-gray-200 dark:bg-gray-800"></div>
+      </div>
+
+      <ul className="flex flex-row items-center justify-center gap-2 py-1 sm:flex-col lg:mb-0">
+        <li className="h-20 w-20">
+          <div className="h-full w-full animate-pulse rounded-lg bg-gray-200 dark:bg-gray-800"></div>
+        </li>
+        <li className="h-20 w-20">
+          <div className="h-full w-full animate-pulse rounded-lg bg-gray-200 dark:bg-gray-800"></div>
+        </li>
+        <li className="h-20 w-20">
+          <div className="h-full w-full animate-pulse rounded-lg bg-gray-200 dark:bg-gray-800"></div>
+        </li>
+      </ul>
     </div>
   )
 }

@@ -4,6 +4,10 @@ import { fetchCategories } from '@/lib/data'
 import { FacetedFilter } from '@/components/faceted-filter'
 import { Layout } from '@/components/layout'
 import { DashboardSearchInput } from '@/components/search-input'
+import {
+  FacetedFilterSkeleton,
+  SearchInputSkeleton,
+} from '@/components/skeletons'
 
 import {
   ListSearchedDishes,
@@ -38,8 +42,18 @@ export default async function SearchPage({
   return (
     <Layout>
       <div className="flex items-center gap-4">
-        <DashboardSearchInput />
-        <FacetedFilter title="Categorias" options={categories} />
+        <Suspense
+          key={mode + query + currentPage + category}
+          fallback={<SearchInputSkeleton />}
+        >
+          <DashboardSearchInput />
+        </Suspense>
+        <Suspense
+          key={query + currentPage + category}
+          fallback={<FacetedFilterSkeleton />}
+        >
+          <FacetedFilter title="Categorias" options={categories} />
+        </Suspense>
       </div>
 
       {query && (

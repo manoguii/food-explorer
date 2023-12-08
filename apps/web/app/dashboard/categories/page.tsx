@@ -1,9 +1,12 @@
+import { Suspense } from 'react'
+
 import { fetchCategories } from '@/lib/data'
 import { CategoryCard } from '@/components/cards'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { Layout } from '@/components/layout'
 import { Pagination } from '@/components/pagination'
+import { PaginationSkeleton } from '@/components/skeletons'
 
 export default async function CategoriesPage() {
   const { categories, totalPages } = await fetchCategories()
@@ -25,8 +28,12 @@ export default async function CategoriesPage() {
                 <CategoryCard key={category.id} category={category} />
               ))}
             </div>
-
-            <Pagination totalPages={totalPages} />
+            <Suspense
+              key={'categories-pagination'}
+              fallback={<PaginationSkeleton />}
+            >
+              <Pagination totalPages={totalPages} />
+            </Suspense>
           </div>
         ) : (
           <EmptyPlaceholder>

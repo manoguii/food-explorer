@@ -1,18 +1,19 @@
 'use client'
 
-import * as React from 'react'
+import { Suspense, useState } from 'react'
 import { Menu } from 'lucide-react'
 
 import { routesConfig } from '@/config/navigation'
 
 import { Logo } from '../logo'
 import { SearchInput } from '../search-input'
+import { SearchInputSkeleton } from '../skeletons'
 import { Button } from '../ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet'
 import { NavigationItem } from './navigation-item'
 
 export function MobileNav() {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -31,7 +32,12 @@ export function MobileNav() {
           }}
         />
 
-        <SearchInput onClose={setOpen} />
+        <Suspense
+          key={'mobile-nav-search-input'}
+          fallback={<SearchInputSkeleton />}
+        >
+          <SearchInput onClose={setOpen} />
+        </Suspense>
 
         <nav className="flex flex-col space-y-3">
           {routesConfig.mainNav?.map((item) => (

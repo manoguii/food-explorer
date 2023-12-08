@@ -7,6 +7,7 @@ import { ShoppingCart } from 'lucide-react'
 
 import { useCartStore } from '@/lib/use-cart-store'
 
+import { EmptyPlaceholder } from '../empty-placeholder'
 import Price from '../price'
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
@@ -20,7 +21,6 @@ import {
 import { CreateOrderButton } from './create-order'
 import { DeleteItemButton } from './delete-item'
 import { DishQuantityCounter } from './dish-quantity-counter'
-import { OrdersModalEmpty } from './order-modal-empty'
 
 export function OrdersModal() {
   const { cart, getTotal } = useCartStore()
@@ -70,7 +70,15 @@ export function OrdersModal() {
         </SheetHeader>
 
         {cart.length === 0 ? (
-          <OrdersModalEmpty />
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="logo" />
+            <EmptyPlaceholder.Title>
+              Nenhuma prato foi adicionado ao carrinho
+            </EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              Adicione pratos ao carrinho e faça seu pedido.
+            </EmptyPlaceholder.Description>
+          </EmptyPlaceholder>
         ) : (
           <div className="flex h-[90%] flex-col justify-between overflow-hidden p-1">
             <ScrollArea>
