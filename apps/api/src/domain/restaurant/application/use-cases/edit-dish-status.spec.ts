@@ -6,6 +6,17 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeOrderItem } from 'test/factories/make-order-item'
 import { InMemoryOrderItemsRepository } from 'test/repositories/in-memory-order-item-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+
+let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
+let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryOrderItemsRepository: InMemoryOrderItemsRepository
@@ -15,8 +26,21 @@ let sut: EditDishStatusUseCase
 describe('Edit dish status', () => {
   beforeEach(() => {
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
+    inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
+    inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryCategoryRepository = new InMemoryCategoryRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+    inMemoryDishRepository = new InMemoryDishRepository(
+      inMemoryDishAttachmentsRepository,
+      inMemoryDishIngredientsRepository,
+      inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
+    )
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
+      inMemoryDishAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishRepository,
     )
 
     sut = new EditDishStatusUseCase(

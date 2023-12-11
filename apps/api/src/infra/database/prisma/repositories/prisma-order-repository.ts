@@ -4,6 +4,8 @@ import { PrismaService } from '../prisma.service'
 import { OrderRepository } from '@/domain/restaurant/application/repositories/order-repository'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 import { OrderItemsRepository } from '@/domain/restaurant/application/repositories/order-item-repository'
+import { OrderWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/order-with-details'
+import { PrismaOrderWithDetailsMapper } from '../mappers/prisma-order-with-details-mapper'
 
 @Injectable()
 export class PrismaOrderRepository implements OrderRepository {
@@ -51,6 +53,31 @@ export class PrismaOrderRepository implements OrderRepository {
     })
 
     this.orderItemsRepository.createMany(order.items.getItems())
+  }
+
+  async findByIdWithDetails(id: string): Promise<OrderWithDetails | null> {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        orderItems: {
+          include: {
+            dish: {
+              include: {
+                attachments: true,
+              },
+            },
+          },
+        },
+      },
+    })
+
+    if (!order) {
+      return null
+    }
+
+    return PrismaOrderWithDetailsMapper.toDomain(order)
   }
 
   async save(order: Order): Promise<void> {

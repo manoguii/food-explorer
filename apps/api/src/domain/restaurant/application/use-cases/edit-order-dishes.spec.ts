@@ -34,6 +34,9 @@ describe('Edit Order', () => {
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
+      inMemoryDishAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishRepository,
     )
 
     sut = new EditOrderUseCase(

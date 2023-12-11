@@ -35,6 +35,9 @@ describe('Create Order', () => {
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
+      inMemoryDishAttachmentsRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishRepository,
     )
     sut = new CreateOrderUseCase(
       inMemoryOrderRepository,

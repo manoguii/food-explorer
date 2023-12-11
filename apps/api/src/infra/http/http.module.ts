@@ -42,6 +42,8 @@ import { FetchDishesByCategoryController } from './controllers/fetch-dishes-by-c
 import { FetchDishesByCategoryUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-category'
 import { DeleteDishFromFavoritesUseCase } from '@/domain/restaurant/application/use-cases/delete-dish-from-favorites'
 import { DeleteDishFromFavoritesController } from './controllers/delete-dish-from-favorites.controller'
+import { GetOrderByIdController } from './controllers/get-order-by-id.controller'
+import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/get-order-by-id'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -66,6 +68,7 @@ import { DeleteDishFromFavoritesController } from './controllers/delete-dish-fro
     FetchCategoriesController,
     FetchFilteredDishesController,
     DeleteDishFromFavoritesController,
+    GetOrderByIdController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -88,6 +91,7 @@ import { DeleteDishFromFavoritesController } from './controllers/delete-dish-fro
     FetchCategoriesUseCase,
     FetchFilteredDishesUseCase,
     DeleteDishFromFavoritesUseCase,
+    GetOrderByIdUseCase,
   ],
 })
 export class HttpModule {}
