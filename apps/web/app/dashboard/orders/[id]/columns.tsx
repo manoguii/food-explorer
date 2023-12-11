@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 
 import { labels, priorities, statuses } from '@/config/table'
@@ -52,12 +51,9 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          <Link
-            href={`/dashboard/orders/${row.original.id}`}
-            className="max-w-[500px] truncate font-medium underline-offset-4 hover:underline"
-          >
+          <span className="max-w-[500px] truncate font-medium">
             {row.getValue('details')}
-          </Link>
+          </span>
         </div>
       )
     },

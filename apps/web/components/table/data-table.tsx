@@ -31,11 +31,15 @@ import { DataTableToolbar } from './data-table-toolbar'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  whitPagination?: boolean
+  whitToolbar?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  whitPagination = true,
+  whitToolbar = true,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -69,7 +73,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      {whitToolbar && <DataTableToolbar table={table} />}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -120,7 +124,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {whitPagination && <DataTablePagination table={table} />}
     </div>
   )
 }
