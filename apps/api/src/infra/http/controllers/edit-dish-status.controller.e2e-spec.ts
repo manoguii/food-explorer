@@ -81,15 +81,25 @@ describe('Edit dish status (E2E)', () => {
       status: 'PENDING',
     })
 
-    const response = await request(app.getHttpServer())
-      .patch(`/orders/${order.id.toString()}/status`)
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        dishId: dish.id.toString(),
-        status: 'PREPARING',
-      })
+    const [response, response2] = await Promise.all([
+      request(app.getHttpServer())
+        .patch(`/orders/${order.id.toString()}/status`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          dishId: dish.id.toString(),
+          status: 'PREPARING',
+        }),
+      request(app.getHttpServer())
+        .patch(`/orders/${order.id.toString()}/status`)
+        .set('Authorization', `Bearer ${accessToken}`)
+        .send({
+          dishId: dish2.id.toString(),
+          status: 'DELIVERED',
+        }),
+    ])
 
     expect(response.statusCode).toBe(200)
+    expect(response2.statusCode).toBe(200)
 
     const orderItemsOnDatabase = await prisma.orderItem.findMany({
       where: {
@@ -97,7 +107,12 @@ describe('Edit dish status (E2E)', () => {
       },
     })
 
-    expect(orderItemsOnDatabase).toHaveLength(2)
+    const orderOnDatabase = await prisma.order.findUnique({
+      where: {
+        id: order.id.toString(),
+      },
+    })
+
     expect(orderItemsOnDatabase).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -105,7 +120,32 @@ describe('Edit dish status (E2E)', () => {
           dishId: dish.id.toString(),
           status: 'PREPARING',
         }),
+        expect.objectContaining({
+          orderId: order.id.toString(),
+          dishId: dish2.id.toString(),
+          status: 'DELIVERED',
+        }),
       ]),
     )
+
+    expect(orderOnDatabase?.status).toBe('PREPARING')
+
+    const response3 = await request(app.getHttpServer())
+      .patch(`/orders/${order.id.toString()}/status`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        dishId: dish.id.toString(),
+        status: 'DELIVERED',
+      })
+
+    expect(response3.statusCode).toBe(200)
+
+    const orderOnDatabase2 = await prisma.order.findUnique({
+      where: {
+        id: order.id.toString(),
+      },
+    })
+
+    expect(orderOnDatabase2?.status).toBe('DELIVERED')
   })
 })

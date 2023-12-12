@@ -62,10 +62,12 @@ describe('Edit dish status', () => {
       makeOrderItem({
         orderId: newOrder.id,
         dishId: new UniqueEntityID('initial-dish'),
+        status: 'PENDING',
       }),
       makeOrderItem({
         orderId: newOrder.id,
         dishId: new UniqueEntityID('edited-dish'),
+        status: 'PENDING',
       }),
     )
 
@@ -88,6 +90,104 @@ describe('Edit dish status', () => {
     expect(inMemoryOrderItemsRepository.items).toHaveLength(2)
     expect(editedItem?.status).toBe('PREPARING')
     expect(initialItem?.status).toBe('PENDING')
+
+    expect(newOrder.status).toBe('PREPARING')
+  })
+
+  it('should be able to edit a dish status and change the order status to delivered', async () => {
+    const newOrder = makeOrder({}, new UniqueEntityID('order-1'))
+
+    await inMemoryOrderRepository.create(newOrder)
+
+    inMemoryOrderItemsRepository.items.push(
+      makeOrderItem({
+        orderId: newOrder.id,
+        dishId: new UniqueEntityID('dish-1'),
+        status: 'PENDING',
+      }),
+      makeOrderItem({
+        orderId: newOrder.id,
+        dishId: new UniqueEntityID('dish-2'),
+        status: 'PENDING',
+      }),
+    )
+
+    const [result] = await Promise.all([
+      sut.execute({
+        orderId: newOrder.id.toString(),
+        dishId: 'dish-1',
+        status: 'DELIVERED',
+      }),
+      sut.execute({
+        orderId: newOrder.id.toString(),
+        dishId: 'dish-2',
+        status: 'DELIVERED',
+      }),
+    ])
+
+    const editedItem = inMemoryOrderItemsRepository.items.find(
+      (item) => item.dishId.toString() === 'dish-2',
+    )
+
+    const initialItem = inMemoryOrderItemsRepository.items.find(
+      (item) => item.dishId.toString() === 'dish-1',
+    )
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryOrderRepository.items).toHaveLength(1)
+    expect(inMemoryOrderItemsRepository.items).toHaveLength(2)
+    expect(editedItem?.status).toBe('DELIVERED')
+    expect(initialItem?.status).toBe('DELIVERED')
+
+    expect(newOrder.status).toBe('DELIVERED')
+  })
+
+  it('should be able to edit a dish status and change the order status to canceled', async () => {
+    const newOrder = makeOrder({}, new UniqueEntityID('order-1'))
+
+    await inMemoryOrderRepository.create(newOrder)
+
+    inMemoryOrderItemsRepository.items.push(
+      makeOrderItem({
+        orderId: newOrder.id,
+        dishId: new UniqueEntityID('dish-1'),
+        status: 'PENDING',
+      }),
+      makeOrderItem({
+        orderId: newOrder.id,
+        dishId: new UniqueEntityID('dish-2'),
+        status: 'PENDING',
+      }),
+    )
+
+    const [result] = await Promise.all([
+      sut.execute({
+        orderId: newOrder.id.toString(),
+        dishId: 'dish-1',
+        status: 'CANCELED',
+      }),
+      sut.execute({
+        orderId: newOrder.id.toString(),
+        dishId: 'dish-2',
+        status: 'CANCELED',
+      }),
+    ])
+
+    const editedItem = inMemoryOrderItemsRepository.items.find(
+      (item) => item.dishId.toString() === 'dish-2',
+    )
+
+    const initialItem = inMemoryOrderItemsRepository.items.find(
+      (item) => item.dishId.toString() === 'dish-1',
+    )
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryOrderRepository.items).toHaveLength(1)
+    expect(inMemoryOrderItemsRepository.items).toHaveLength(2)
+    expect(editedItem?.status).toBe('CANCELED')
+    expect(initialItem?.status).toBe('CANCELED')
+
+    expect(newOrder.status).toBe('CANCELED')
   })
 
   it('should not be able to edit a dish status when the order does not exist', async () => {

@@ -51,7 +51,21 @@ export class EditDishStatusUseCase {
 
     await this.orderItemsRepository.save(currentOrderItems[dishIndex])
 
-    order.updateStatusBasedOnItems()
+    const allItemsDelivered = currentOrderItems.every((item) =>
+      item.isDelivered(),
+    )
+
+    const allItemsCanceled = currentOrderItems.every((item) =>
+      item.isCanceled(),
+    )
+
+    if (allItemsCanceled) {
+      order.status = 'CANCELED'
+    } else if (allItemsDelivered) {
+      order.status = 'DELIVERED'
+    } else {
+      order.status = 'PREPARING'
+    }
 
     await this.orderRepository.save(order)
 

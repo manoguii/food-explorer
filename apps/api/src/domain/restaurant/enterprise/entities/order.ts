@@ -76,18 +76,8 @@ export class Order extends AggregateRoot<OrderProps> {
     return this.props.status
   }
 
-  updateStatusBasedOnItems() {
-    const allItemsDelivered = this.props.items.allItemsDelivered()
-    const allItemsCanceled = this.props.items.allItemsCanceled()
-
-    if (allItemsCanceled) {
-      this.props.status = 'CANCELED'
-    } else if (allItemsDelivered) {
-      this.props.status = 'DELIVERED'
-    } else {
-      this.props.status = 'PREPARING'
-    }
-
+  set status(status: OrderStatus) {
+    this.props.status = status
     this.touch()
   }
 
