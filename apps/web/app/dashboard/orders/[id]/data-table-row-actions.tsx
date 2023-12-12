@@ -5,6 +5,7 @@ import { Row } from '@tanstack/react-table'
 
 import { statuses } from '@/config/table'
 import { detailsSchema } from '@/lib/schemas'
+import { OrderStatus } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -19,6 +20,8 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { toast } from '@/components/ui/use-toast'
+import { updateDishStatus } from '@/app/actions'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -28,6 +31,28 @@ export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const task = detailsSchema.parse(row.original)
+
+  async function handleUpdateStatus(status: string) {
+    const data = status as OrderStatus
+
+    const result = await updateDishStatus(task.orderId, {
+      status: data,
+      dishId: task.id,
+    })
+
+    if (result.success) {
+      toast({
+        title: 'Status atualizado com sucesso !',
+        description: result.message,
+      })
+    } else {
+      toast({
+        title: 'Erro ao atualizar status',
+        description: result.message,
+        variant: 'destructive',
+      })
+    }
+  }
 
   return (
     <DropdownMenu>
@@ -48,7 +73,10 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.status}>
+            <DropdownMenuRadioGroup
+              value={task.status}
+              onValueChange={(value) => handleUpdateStatus(value)}
+            >
               {statuses.map((status) => (
                 <DropdownMenuRadioItem key={status.value} value={status.value}>
                   {status.label}

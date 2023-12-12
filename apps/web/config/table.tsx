@@ -1,3 +1,4 @@
+import { ForwardRefExoticComponent, RefAttributes } from 'react'
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -7,6 +8,9 @@ import {
   CrossCircledIcon,
   StopwatchIcon,
 } from '@radix-ui/react-icons'
+import { IconProps } from '@radix-ui/react-icons/dist/types'
+
+import { OrderStatus } from '@/lib/types/definitions'
 
 export const labels = [
   {
@@ -23,7 +27,11 @@ export const labels = [
   },
 ]
 
-export const statuses = [
+export const statuses: {
+  value: OrderStatus
+  label: string
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>
+}[] = [
   {
     value: 'PENDING',
     label: 'Pendente',

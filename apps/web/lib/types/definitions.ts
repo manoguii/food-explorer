@@ -1,5 +1,9 @@
 import { Icons } from '@/components/icons'
 
+export type OrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+export type Label = 'TABLE' | 'DELIVERY' | 'TAKEOUT'
+export type Priority = 'LOW' | 'MEDIUM' | 'HIGH'
+
 export type User = {
   id: string
   name: string

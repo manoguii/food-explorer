@@ -27,6 +27,7 @@ export const detailsSchema = z.object({
   ),
   quantity: z.number(),
   status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
+  orderId: z.string(),
 })
 
 export const createDishFormSchema = z.object({

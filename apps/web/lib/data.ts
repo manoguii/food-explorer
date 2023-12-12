@@ -36,6 +36,12 @@ interface GetOrderResponse {
     quantity: number
     status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
   }[]
+
+  client: {
+    id: string
+    name: string
+    email: string
+  }
 }
 
 export async function fetchFavoriteDishes(page: number): Promise<{

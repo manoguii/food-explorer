@@ -38,8 +38,6 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  whitPagination = true,
-  whitToolbar = true,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -73,7 +71,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      {whitToolbar && <DataTableToolbar table={table} />}
+      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -124,7 +122,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      {whitPagination && <DataTablePagination table={table} />}
+      <DataTablePagination table={table} />
     </div>
   )
 }

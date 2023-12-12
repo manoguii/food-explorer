@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 
 import { getOrderById } from '@/lib/data'
 import { formatDate } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Card,
@@ -27,7 +28,10 @@ export default async function OrderDetails({
 }) {
   const order = await getOrderById(params.id)
 
-  const dishes = order.dishes
+  const dishes = order.dishes.map((dish) => ({
+    ...dish,
+    orderId: order.id,
+  }))
 
   const subTotal = dishes.reduce((acc, dish) => {
     return acc + dish.price * dish.quantity
@@ -51,7 +55,7 @@ export default async function OrderDetails({
         <h1 className="flex items-center gap-1 text-lg font-semibold md:text-xl">
           #{order.code} <Dot />{' '}
           <span className="font-normal text-gray-500 dark:text-gray-400">
-            Sophia Anderson{' '}
+            {order.client.name}{' '}
           </span>
           <Dot />
           <span className="font-normal text-gray-500 dark:text-gray-400">
@@ -72,12 +76,7 @@ export default async function OrderDetails({
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
           <CardTitle>Detalhes do pedido</CardTitle>
-          <DataTable
-            data={dishes}
-            columns={columns}
-            whitPagination={false}
-            whitToolbar={false}
-          />
+          <DataTable data={dishes} columns={columns} />
         </div>
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           <Card>
@@ -90,7 +89,7 @@ export default async function OrderDetails({
               </CardHeader>
               <CardContent className="text-sm">
                 <div className="grid gap-1">
-                  <strong>Sophia Anderson</strong>
+                  <strong>{order.client.name}</strong>
                   <span>Total de pedidos (23)</span>
                 </div>
               </CardContent>
@@ -102,9 +101,7 @@ export default async function OrderDetails({
               </CardHeader>
               <CardContent className="text-sm">
                 <div className="grid gap-1">
-                  <Link className="text-blue-600" href="#">
-                    sophia@example.com
-                  </Link>
+                  <p>{order.client.email}</p>
                   <div className="text-gray-500 dark:text-gray-400">
                     +1 888 8888 8888
                   </div>
@@ -162,10 +159,9 @@ export default async function OrderDetails({
               </div>
             </CardContent>
             <CardFooter className="justify-end gap-2">
-              <Button size="sm">Action (1)</Button>
-              <Button size="sm" variant="outline">
-                Action (2)
-              </Button>
+              <Badge variant="secondary" className="rounded-lg px-3 py-2">
+                Pago
+              </Badge>
             </CardFooter>
           </Card>
         </div>

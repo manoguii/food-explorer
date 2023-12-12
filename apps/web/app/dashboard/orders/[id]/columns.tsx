@@ -87,10 +87,19 @@ export const columns: ColumnDef<Details>[] = [
         return null
       }
 
+      const iconColor = {
+        PENDING: 'text-blue-500',
+        PREPARING: 'text-yellow-500',
+        DELIVERED: 'text-green-500',
+        CANCELED: 'text-red-500',
+      }
+
       return (
         <div className="flex w-[100px] items-center">
           {status.icon && (
-            <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
+            <status.icon
+              className={`mr-2 h-4 w-4 ${iconColor[status.value]}`}
+            />
           )}
           <span>{status.label}</span>
         </div>
