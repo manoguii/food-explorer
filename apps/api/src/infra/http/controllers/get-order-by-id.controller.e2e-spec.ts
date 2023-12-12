@@ -114,6 +114,12 @@ describe('Get order by id (E2E)', () => {
             quantity: 1,
           }),
         ]),
+
+        client: expect.objectContaining({
+          id: user.id.toString(),
+          name: user.name,
+          email: user.email,
+        }),
       }),
     })
   })

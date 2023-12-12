@@ -8,6 +8,8 @@ interface OrderWithDetailsProps {
   status: OrderStatus
   label: Label
   priority: Priority
+  createdAt: Date
+  updatedAt?: Date | null
 
   dishes: {
     id: string
@@ -25,8 +27,12 @@ interface OrderWithDetailsProps {
     status: OrderStatus
     updatedAt?: Date | null
   }[]
-  createdAt: Date
-  updatedAt?: Date | null
+
+  client: {
+    id: string
+    name: string
+    email: string
+  }
 }
 
 export class OrderWithDetails extends ValueObject<OrderWithDetailsProps> {
@@ -52,6 +58,10 @@ export class OrderWithDetails extends ValueObject<OrderWithDetailsProps> {
 
   get dishes() {
     return this.props.dishes
+  }
+
+  get client() {
+    return this.props.client
   }
 
   get createdAt() {

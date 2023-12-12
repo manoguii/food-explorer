@@ -5,6 +5,7 @@ import { OrderWithDetails } from '@/domain/restaurant/enterprise/entities/value-
 import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
 import { InMemoryDishRepository } from './in-memory-dish-repository'
+import { InMemoryClientsRepository } from './in-memory-clients-repository'
 
 export class InMemoryOrderRepository implements OrderRepository {
   public items: Order[] = []
@@ -14,6 +15,7 @@ export class InMemoryOrderRepository implements OrderRepository {
     private dishAttachmentsRepository: InMemoryDishAttachmentsRepository,
     private attachmentsRepository: InMemoryAttachmentsRepository,
     private dishRepository: InMemoryDishRepository,
+    private clientsRepository: InMemoryClientsRepository,
   ) {}
 
   async findById(id: string) {
@@ -102,6 +104,14 @@ export class InMemoryOrderRepository implements OrderRepository {
       }),
     )
 
+    const client = await this.clientsRepository.findById(
+      order.clientId.toString(),
+    )
+
+    if (!client) {
+      throw new Error('Client not found !')
+    }
+
     return OrderWithDetails.create({
       orderId: order.id,
       code: order.code.value,
@@ -109,6 +119,11 @@ export class InMemoryOrderRepository implements OrderRepository {
       label: order.label,
       priority: order.priority,
       dishes: dishesWithDetails,
+      client: {
+        id: client.id.toString(),
+        name: client.name,
+        email: client.email,
+      },
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     })

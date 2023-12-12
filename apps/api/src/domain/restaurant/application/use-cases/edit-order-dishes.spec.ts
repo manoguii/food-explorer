@@ -12,7 +12,9 @@ import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-d
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeDish } from 'test/factories/make-dish'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 
+let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -25,18 +27,26 @@ let sut: EditOrderUseCase
 
 describe('Edit Order', () => {
   beforeEach(() => {
+    inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+    inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
+    inMemoryCategoryRepository = new InMemoryCategoryRepository()
+
     inMemoryDishRepository = new InMemoryDishRepository(
       inMemoryDishAttachmentsRepository,
       inMemoryDishIngredientsRepository,
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
+
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
+    inMemoryClientsRepository = new InMemoryClientsRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
+      inMemoryClientsRepository,
     )
 
     sut = new EditOrderUseCase(

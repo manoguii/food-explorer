@@ -22,6 +22,11 @@ export class OrderWithDetailsPresenter {
         quantity: dish.quantity,
         status: dish.status,
       })),
+      client: {
+        id: order.client.id.toString(),
+        name: order.client.name,
+        email: order.client.email,
+      },
     }
   }
 }

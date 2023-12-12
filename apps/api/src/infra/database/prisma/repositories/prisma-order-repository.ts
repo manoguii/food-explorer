@@ -70,6 +70,7 @@ export class PrismaOrderRepository implements OrderRepository {
             },
           },
         },
+        user: true,
       },
     })
 

@@ -10,7 +10,9 @@ import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeDish } from 'test/factories/make-dish'
 import { makeClient } from 'test/factories/make-client'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 
+let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -32,12 +34,14 @@ describe('Create Order', () => {
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
+    inMemoryClientsRepository = new InMemoryClientsRepository()
     inMemoryOrderItemsRepository = new InMemoryOrderItemsRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
+      inMemoryClientsRepository,
     )
     sut = new CreateOrderUseCase(
       inMemoryOrderRepository,

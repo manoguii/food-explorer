@@ -5,6 +5,7 @@ import {
   OrderItem,
   Dish,
   Attachment as PrismaAttachment,
+  User,
 } from '@prisma/client'
 
 type OrderWithDetailsProps = PrismaOrder & {
@@ -13,6 +14,7 @@ type OrderWithDetailsProps = PrismaOrder & {
       attachments: PrismaAttachment[]
     }
   })[]
+  user: User
 }
 
 export class PrismaOrderWithDetailsMapper {
@@ -39,6 +41,11 @@ export class PrismaOrderWithDetailsMapper {
           status: orderItem.status,
         }
       }),
+      client: {
+        id: raw.user.id,
+        name: raw.user.name,
+        email: raw.user.email,
+      },
       priority: raw.priority,
       label: raw.label,
       createdAt: raw.createdAt,

@@ -8,7 +8,9 @@ import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 
+let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryDishRepository: InMemoryDishRepository
@@ -35,11 +37,14 @@ describe('Fetch recent order', () => {
       inMemoryAttachmentsRepository,
     )
 
+    inMemoryClientsRepository = new InMemoryClientsRepository()
+
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
+      inMemoryClientsRepository,
     )
     sut = new FetchRecentOrderUseCase(inMemoryOrderRepository)
   })

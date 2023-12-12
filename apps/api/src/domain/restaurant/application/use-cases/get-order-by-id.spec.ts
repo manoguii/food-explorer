@@ -14,7 +14,10 @@ import { makeOrder } from 'test/factories/make-order'
 import { makeOrderItem } from 'test/factories/make-order-item'
 import { makeDishAttachment } from 'test/factories/make-dish-attachment'
 import { makeAttachment } from 'test/factories/make-attachment'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+import { makeClient } from 'test/factories/make-client'
 
+let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryOrderRepository: InMemoryOrderRepository
 let inMemoryOrderItemsRepository: InMemoryOrderItemsRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
@@ -38,11 +41,15 @@ describe('Get Order By Id', () => {
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
+
+    inMemoryClientsRepository = new InMemoryClientsRepository()
+
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
+      inMemoryClientsRepository,
     )
 
     sut = new GetOrderByIdUseCase(inMemoryOrderRepository)
@@ -75,7 +82,13 @@ describe('Get Order By Id', () => {
       }),
     ])
 
-    const order = makeOrder()
+    const client = makeClient()
+
+    await inMemoryClientsRepository.create(client)
+
+    const order = makeOrder({
+      clientId: client.id,
+    })
 
     await inMemoryOrderRepository.create(order)
 
@@ -115,6 +128,11 @@ describe('Get Order By Id', () => {
             quantity: 1,
           }),
         ]),
+        client: expect.objectContaining({
+          id: client.id.toString(),
+          name: client.name,
+          email: client.email,
+        }),
       }),
     })
   })

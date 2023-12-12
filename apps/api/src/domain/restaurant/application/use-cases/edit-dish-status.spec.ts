@@ -11,7 +11,9 @@ import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-d
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 
+let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryDishRepository: InMemoryDishRepository
@@ -36,11 +38,13 @@ describe('Edit dish status', () => {
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
+    inMemoryClientsRepository = new InMemoryClientsRepository()
     inMemoryOrderRepository = new InMemoryOrderRepository(
       inMemoryOrderItemsRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
+      inMemoryClientsRepository,
     )
 
     sut = new EditDishStatusUseCase(
