@@ -186,10 +186,18 @@ export class PrismaDishRepository implements DishRepository {
   async delete(dish: Dish): Promise<void> {
     const data = PrismaDishMapper.toPrisma(dish)
 
-    await this.prisma.dish.delete({
-      where: {
-        id: data.id,
-      },
-    })
+    await Promise.all([
+      await this.dishAttachmentsRepository.deleteManyByDishId(
+        dish.id.toString(),
+      ),
+      await this.dishIngredientsRepository.deleteManyByDishId(
+        dish.id.toString(),
+      ),
+      await this.prisma.dish.delete({
+        where: {
+          id: data.id,
+        },
+      }),
+    ])
   }
 }

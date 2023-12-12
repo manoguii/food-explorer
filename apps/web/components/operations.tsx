@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FileEdit, MoreVertical, Trash } from 'lucide-react'
+import { AlertTriangle, MoreVertical } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -21,9 +21,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { deleteCategory, deleteDish } from '@/app/actions'
 
 import { ButtonWithLoading } from './buttons/button-with-loading'
+import { Alert, AlertDescription, AlertTitle } from './ui/alert'
+import { Badge } from './ui/badge'
 import { buttonVariants } from './ui/button'
+import { toast } from './ui/use-toast'
 
 interface OperationsProps {
   item: {
@@ -43,22 +47,62 @@ export function Operations({ item, entity }: OperationsProps) {
     event.preventDefault()
     setIsDeleteLoading(true)
 
-    // TODO: implement delete
-    const deleted = ''
+    if (entity === 'dish') {
+      const result = await deleteDish(item.id)
 
-    if (deleted) {
-      setIsDeleteLoading(false)
-      setShowDeleteAlert(false)
-      router.refresh()
+      if (result.success) {
+        toast({
+          title: 'Prato removido com sucesso !',
+          description: result.message,
+        })
+      } else {
+        toast({
+          title: 'Erro ao remover o prato',
+          description: result.message,
+          variant: 'destructive',
+        })
+      }
     }
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    if (entity === 'category') {
+      const result = await deleteCategory(item.id)
+
+      if (result.success) {
+        toast({
+          title: 'Categoria removida com sucesso !',
+          description: result.message,
+        })
+      } else {
+        toast({
+          title: 'Erro ao remover a categoria',
+          description: result.message,
+          variant: 'destructive',
+        })
+      }
+    }
+
     setIsDeleteLoading(false)
+    setShowDeleteAlert(false)
+    router.refresh()
   }
 
   const message =
     entity === 'dish'
-      ? `Tem certeza de que deseja excluir o prato ${item.name}?`
-      : `Tem certeza de que deseja excluir a categoria ${item.name}?`
+      ? `Tem certeza de que deseja excluir o prato `
+      : `Tem certeza de que deseja excluir a categoria `
+
+  const alertMessage = {
+    dish: {
+      title: 'Atenção !',
+      description:
+        'Um prato so pode ser excluído se não estiver em nenhum pedido. Tem certeza de que deseja excluir o prato.',
+    },
+    category: {
+      title: 'Atenção !',
+      description:
+        'Para excluir uma categoria, ela não pode esta associada a nenhum prato.',
+    },
+  }
 
   return (
     <>
@@ -78,7 +122,6 @@ export function Operations({ item, entity }: OperationsProps) {
               className="flex w-full"
             >
               Editar
-              <FileEdit className="ml-auto h-4 w-4" />
             </Link>
           </DropdownMenuItem>
 
@@ -87,18 +130,27 @@ export function Operations({ item, entity }: OperationsProps) {
             onSelect={() => setShowDeleteAlert(true)}
           >
             Remover
-            <Trash className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-2xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>{message}</AlertDialogTitle>
+            <AlertDialogTitle>
+              {message} <Badge className="w-max">{item.name}</Badge> ?
+            </AlertDialogTitle>
+
             <AlertDialogDescription>
               Esta ação não pode ser desfeita.
             </AlertDialogDescription>
           </AlertDialogHeader>
+          <Alert className="!pl-6">
+            <AlertTriangle />
+            <AlertTitle>{alertMessage[entity].title}</AlertTitle>
+            <AlertDescription>
+              {alertMessage[entity].description}
+            </AlertDescription>
+          </Alert>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction

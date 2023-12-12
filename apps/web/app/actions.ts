@@ -237,3 +237,49 @@ export async function updateOrder(
     message: `Pedido atualizado com sucesso !`,
   }
 }
+
+export async function deleteCategory(categoryId: string) {
+  const response = await fetchWithToken(
+    `http://localhost:3333/categories/${categoryId}`,
+    {
+      method: 'DELETE',
+    },
+  )
+
+  if (!response.ok) {
+    const data = await response.json()
+
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
+  return {
+    success: true,
+    message: `Categoria removida com sucesso !`,
+  }
+}
+
+export async function deleteDish(dishId: string) {
+  const response = await fetchWithToken(
+    `http://localhost:3333/dishes/${dishId}`,
+    {
+      method: 'DELETE',
+    },
+  )
+
+  if (!response.ok) {
+    const data = await response.json()
+
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
+  return {
+    success: true,
+    message: `Prato removido com sucesso !`,
+  }
+}
