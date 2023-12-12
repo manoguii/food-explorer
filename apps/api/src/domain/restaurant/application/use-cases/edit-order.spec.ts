@@ -1,7 +1,6 @@
-import { EditOrderUseCase } from './edit-order-dishes'
+import { EditOrderUseCase } from './edit-order'
 import { InMemoryOrderRepository } from 'test/repositories/in-memory-order-repository'
 import { makeOrder } from 'test/factories/make-order'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 import { makeOrderItem } from 'test/factories/make-order-item'
 import { InMemoryOrderItemsRepository } from 'test/repositories/in-memory-order-item-repository'
@@ -49,20 +48,14 @@ describe('Edit Order', () => {
       inMemoryClientsRepository,
     )
 
-    sut = new EditOrderUseCase(
-      inMemoryOrderRepository,
-      inMemoryOrderItemsRepository,
-      inMemoryDishRepository,
-    )
+    sut = new EditOrderUseCase(inMemoryOrderRepository)
   })
 
   it('should be able to edit a order', async () => {
-    const newOrder = makeOrder(
-      {
-        clientId: new UniqueEntityID('client-1'),
-      },
-      new UniqueEntityID('order-1'),
-    )
+    const newOrder = makeOrder({
+      priority: 'LOW',
+      label: 'TABLE',
+    })
 
     await inMemoryOrderRepository.create(newOrder)
 
@@ -89,58 +82,26 @@ describe('Edit Order', () => {
       }),
     )
 
-    const newDish = makeDish({
-      name: 'Chá de Canela',
-    })
-
-    inMemoryDishRepository.items.push(newDish)
-
-    const newItems = [
-      {
-        dishId: dish.id.toString(),
-        quantity: 5,
-      },
-      {
-        dishId: newDish.id.toString(),
-        quantity: 3,
-      },
-    ]
-
     const result = await sut.execute({
       orderId: newOrder.id.toString(),
-      dishes: newItems,
+      priority: 'HIGH',
     })
 
     expect(result.isRight()).toBe(true)
-    expect(inMemoryOrderRepository.items[0].items.currentItems).toHaveLength(2)
-    expect(inMemoryOrderRepository.items[0].orderDetails).toEqual(
-      '5 x Salada Radish, 3 x Chá de Canela',
+
+    expect(inMemoryOrderRepository.items[0]).toEqual(
+      expect.objectContaining({
+        label: 'TABLE',
+        priority: 'HIGH',
+      }),
     )
-    expect(inMemoryOrderRepository.items[0].items.currentItems).toEqual([
-      expect.objectContaining({
-        dishId: dish.id,
-        quantity: 5,
-      }),
-      expect.objectContaining({
-        dishId: newDish.id,
-        quantity: 3,
-      }),
-    ])
   })
 
   it('should not be able to edit a order when it does not exist', async () => {
     const result = await sut.execute({
       orderId: 'invalid-order-id',
-      dishes: [
-        {
-          dishId: 'new-dish-10',
-          quantity: 1,
-        },
-        {
-          dishId: 'new-dish-20',
-          quantity: 3,
-        },
-      ],
+      label: 'DELIVERY',
+      priority: 'HIGH',
     })
 
     expect(result.isLeft()).toBe(true)

@@ -8,19 +8,15 @@ import {
 } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
-import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order-dishes'
+import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
 import { Role } from '@/infra/auth/roles-enum'
 import { Roles } from '@/infra/auth/roles-decorator'
 
 const editOrderBodySchema = z.object({
-  items: z.array(
-    z.object({
-      dishId: z.string(),
-      quantity: z.number(),
-    }),
-  ),
+  label: z.enum(['TABLE', 'DELIVERY', 'TAKEOUT']).optional(),
+  priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).optional(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(editOrderBodySchema)
@@ -38,11 +34,12 @@ export class EditOrderController {
     @Body(bodyValidationPipe) body: EditOrderBodySchema,
     @Param('orderId') orderId: string,
   ) {
-    const { items } = body
+    const { label, priority } = body
 
     const result = await this.editOrder.execute({
-      dishes: items,
       orderId,
+      label,
+      priority,
     })
 
     if (result.isLeft()) {

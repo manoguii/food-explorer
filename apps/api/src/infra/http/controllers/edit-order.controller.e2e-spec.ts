@@ -60,13 +60,10 @@ describe('Edit order (E2E)', () => {
       categoryId: category.id,
     })
 
-    const dish2 = await dishFactory.makePrismaDish({
-      name: 'Macarrão',
-      categoryId: category.id,
-    })
-
     const order = await orderFactory.makePrismaOrder({
       clientId: user.id,
+      label: 'TABLE',
+      priority: 'LOW',
     })
 
     await orderItemFactory.makePrismaOrderItem({
@@ -75,22 +72,12 @@ describe('Edit order (E2E)', () => {
       quantity: 3,
     })
 
-    await orderItemFactory.makePrismaOrderItem({
-      orderId: order.id,
-      dishId: dish2.id,
-      quantity: 1,
-    })
-
     const response = await request(app.getHttpServer())
       .put(`/orders/${order.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        items: [
-          {
-            dishId: dish.id.toString(),
-            quantity: 2,
-          },
-        ],
+        label: 'DELIVERY',
+        priority: 'HIGH',
       })
 
     expect(response.statusCode).toBe(200)
@@ -98,23 +85,7 @@ describe('Edit order (E2E)', () => {
     const ordersOnDatabase = await prisma.order.findMany()
 
     expect(ordersOnDatabase).toHaveLength(1)
-    expect(ordersOnDatabase[0].orderDetails).toEqual('2 x Batata frita')
-
-    const orderItemsOnDatabase = await prisma.orderItem.findMany({
-      where: {
-        orderId: order.id.toString(),
-      },
-    })
-
-    expect(orderItemsOnDatabase).toHaveLength(1)
-    expect(orderItemsOnDatabase).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          orderId: order.id.toString(),
-          dishId: dish.id.toString(),
-          quantity: 2,
-        }),
-      ]),
-    )
+    expect(ordersOnDatabase[0].label).toEqual('DELIVERY')
+    expect(ordersOnDatabase[0].priority).toEqual('HIGH')
   })
 })

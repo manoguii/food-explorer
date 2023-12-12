@@ -12,10 +12,10 @@ export interface OrderProps {
   clientId: UniqueEntityID
   items: OrderItemList
   code: Code
-  status: OrderStatus
   orderDetails: string
   label: Label
   priority: Priority
+  status: OrderStatus
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -64,14 +64,6 @@ export class Order extends AggregateRoot<OrderProps> {
     this.touch()
   }
 
-  get createdAt() {
-    return this.props.createdAt
-  }
-
-  get updatedAt() {
-    return this.props.updatedAt
-  }
-
   get status() {
     return this.props.status
   }
@@ -79,6 +71,14 @@ export class Order extends AggregateRoot<OrderProps> {
   set status(status: OrderStatus) {
     this.props.status = status
     this.touch()
+  }
+
+  get createdAt() {
+    return this.props.createdAt
+  }
+
+  get updatedAt() {
+    return this.props.updatedAt
   }
 
   private touch() {

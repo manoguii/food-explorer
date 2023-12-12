@@ -29,7 +29,7 @@ import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-
 import { CreateOrderController } from './controllers/create-order.controller'
 import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/create-order'
 import { EditOrderController } from './controllers/edit-order.controller'
-import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order-dishes'
+import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order'
 import { EditDishStatusController } from './controllers/edit-dish-status.controller'
 import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases/edit-dish-status'
 import { FetchRecentOrderController } from './controllers/fetch-recent-orders.controller'
