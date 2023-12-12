@@ -98,7 +98,7 @@ export function SecondaryCard({ dish }: { dish: Dish }) {
       <CardHeader className="flex flex-row justify-between gap-2">
         <div>
           <Link
-            href={`/editor/${dish.slug}`}
+            href={`/dashboard/dishes/${dish.slug}/edit`}
             className="font-semibold hover:underline"
           >
             <CardTitle className="text-lg">{dish.name}</CardTitle>

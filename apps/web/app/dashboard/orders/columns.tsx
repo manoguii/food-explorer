@@ -8,7 +8,7 @@ import { Task } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-import { DataTableRowActions } from '@/components/table/data-table-row-actions'
+import { DataTableRowActions } from '@/app/dashboard/orders/data-table-row-actions'
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -123,8 +123,8 @@ export const columns: ColumnDef<Task>[] = [
         </div>
       )
     },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+    filterFn: (row, id, value: string[]) => {
+      return value.map((v) => v.toUpperCase()).includes(row.getValue(id))
     },
   },
   {

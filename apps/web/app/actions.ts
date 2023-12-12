@@ -4,7 +4,9 @@ import { revalidateTag } from 'next/cache'
 
 import {
   CreateDishParams,
+  Label,
   OrderStatus,
+  Priority,
   UpdateDishParams,
   UploadFileResponse,
 } from '@/lib/types/definitions'
@@ -203,5 +205,35 @@ export async function updateDishStatus(
   return {
     success: true,
     message: `Status do pedido atualizado com sucesso !`,
+  }
+}
+
+export async function updateOrder(
+  orderId: string,
+  data: {
+    label?: Label
+    priority?: Priority
+  },
+) {
+  const response = await fetchWithToken(
+    `http://localhost:3333/orders/${orderId}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    },
+  )
+
+  if (!response.ok) {
+    const data = await response.json()
+
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
+  return {
+    success: true,
+    message: `Pedido atualizado com sucesso !`,
   }
 }
