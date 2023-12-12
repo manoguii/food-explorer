@@ -12,6 +12,23 @@ export const taskSchema = z.object({
   updatedAt: z.string().nullable(),
 })
 
+export const detailsSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  slug: z.string(),
+  attachments: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      url: z.string(),
+    }),
+  ),
+  quantity: z.number(),
+  status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
+})
+
 export const createDishFormSchema = z.object({
   name: z
     .string()
@@ -122,6 +139,7 @@ export const searchDishFormSchema = z.object({
 })
 
 export type Task = z.infer<typeof taskSchema>
+export type Details = z.infer<typeof detailsSchema>
 export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type CreateDishFormValues = z.infer<typeof createDishFormSchema>

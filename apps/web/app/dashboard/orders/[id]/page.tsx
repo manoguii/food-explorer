@@ -1,8 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
-import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 
-import { fetchOrders } from '@/lib/data'
+import { getOrderById } from '@/lib/data'
+import { formatDate } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Card,
@@ -12,12 +13,27 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import Price from '@/components/price'
 import { DataTable } from '@/components/table/data-table'
 
 import { columns } from './columns'
 
-export default async function OrderDetails() {
-  const { orders } = await fetchOrders()
+export default async function OrderDetails({
+  params,
+}: {
+  params: {
+    id: string
+  }
+}) {
+  const order = await getOrderById(params.id)
+
+  const dishes = order.dishes
+
+  const subTotal = dishes.reduce((acc, dish) => {
+    return acc + dish.price * dish.quantity
+  }, 0)
+
+  const total = subTotal + 2.8
 
   return (
     <main className="flex flex-1 flex-col gap-4 md:gap-8">
@@ -32,16 +48,17 @@ export default async function OrderDetails() {
           <ArrowLeft className="h-4 w-4" />
           <span className="sr-only">Back</span>
         </Link>
-        <h1 className="text-lg font-semibold md:text-xl">
-          #3102 -{' '}
+        <h1 className="flex items-center gap-1 text-lg font-semibold md:text-xl">
+          #{order.code} <Dot />{' '}
           <span className="font-normal text-gray-500 dark:text-gray-400">
-            Sophia Anderson
+            Sophia Anderson{' '}
           </span>
+          <Dot />
           <span className="font-normal text-gray-500 dark:text-gray-400">
-            on June 23, 2022
+            {formatDate(order.createdAt)}
           </span>
         </h1>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto hidden items-center gap-2 lg:flex">
           <Button size="icon" variant="outline">
             <ChevronLeft className="h-4 w-4" />
             <span className="sr-only">Previous</span>
@@ -56,7 +73,7 @@ export default async function OrderDetails() {
         <div className="flex flex-col gap-4">
           <CardTitle>Detalhes do pedido</CardTitle>
           <DataTable
-            data={orders.slice(0, 3)}
+            data={dishes}
             columns={columns}
             whitPagination={false}
             whitToolbar={false}
@@ -117,19 +134,34 @@ export default async function OrderDetails() {
             <CardContent className="grid gap-4">
               <div className="flex items-center">
                 <div>Subtotal</div>
-                <div className="ml-auto">$35.00</div>
+                <Price
+                  amount={subTotal.toString()}
+                  currencyCode="BRL"
+                  className="ml-auto"
+                  currencyCodeClassName="hidden @[275px]/label:inline"
+                />
               </div>
               <div className="flex items-center">
                 <div>Taxas</div>
-                <div className="ml-auto">$2.80</div>
+                <Price
+                  amount={(2.8).toString()}
+                  currencyCode="BRL"
+                  className="ml-auto"
+                  currencyCodeClassName="hidden @[275px]/label:inline"
+                />
               </div>
               <Separator />
               <div className="flex items-center font-medium">
                 <div>Total</div>
-                <div className="ml-auto">$37.80</div>
+                <Price
+                  amount={total.toString()}
+                  currencyCode="BRL"
+                  className="ml-auto"
+                  currencyCodeClassName="hidden @[275px]/label:inline"
+                />
               </div>
             </CardContent>
-            <CardFooter className="flex justify-end gap-2">
+            <CardFooter className="justify-end gap-2">
               <Button size="sm">Action (1)</Button>
               <Button size="sm" variant="outline">
                 Action (2)

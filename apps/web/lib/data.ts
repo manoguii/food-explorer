@@ -16,6 +16,28 @@ interface FetchOrdersResponse {
   totalPages: number
 }
 
+interface GetOrderResponse {
+  id: string
+  status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+  code: string
+  createdAt: string
+  updatedAt: string
+  dishes: {
+    id: string
+    name: string
+    description: string
+    price: number
+    slug: string
+    attachments: {
+      id: string
+      title: string
+      url: string
+    }[]
+    quantity: number
+    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+  }[]
+}
+
 export async function fetchFavoriteDishes(page: number): Promise<{
   favoriteDishes: Dish[]
   totalPages: number
@@ -101,6 +123,16 @@ export async function fetchOrders(): Promise<FetchOrdersResponse> {
   const orders = await response.json()
 
   return orders
+}
+
+export async function getOrderById(orderId: string): Promise<GetOrderResponse> {
+  const response = await fetchWithToken(
+    `http://localhost:3333/orders/${orderId}`,
+  )
+
+  const { order } = await response.json()
+
+  return order
 }
 
 export async function getUserSession(credentials: {

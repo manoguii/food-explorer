@@ -1,61 +1,75 @@
 'use client'
 
+import Image from 'next/image'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { labels, priorities, statuses } from '@/config/table'
-import { Task } from '@/lib/schemas'
-import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
+import { statuses } from '@/config/table'
+import { Details } from '@/lib/schemas'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-import { DataTableRowActions } from '@/components/table/data-table-row-actions'
 
-export const columns: ColumnDef<Task>[] = [
+import { DataTableRowActions } from './data-table-row-actions'
+
+export const columns: ColumnDef<Details>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'code',
+    accessorKey: 'attachments',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Código" />
-    ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue('code')}</div>,
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'details',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Detalhes do pedido" />
+      <DataTableColumnHeader column={column} title="Imagem" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label)
+      const attachments = row.getValue('attachments') as {
+        id: string
+        url: string
+        title: string
+      }[]
 
       return (
-        <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('details')}
+        <div>
+          <Image
+            alt={attachments[0].title}
+            src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`}
+            width={50}
+            height={50}
+            className="aspect-square rounded-md"
+          />
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'name',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nome do prato" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="w-[500px]">
+          <span className="max-w-md truncate font-medium">
+            {row.getValue('name')}
           </span>
         </div>
       )
+    },
+  },
+  {
+    accessorKey: 'quantity',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Quantidade" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <span>
+            {row.getValue('quantity') === 1
+              ? '1 unidade'
+              : `${row.getValue('quantity')} unidades`}
+          </span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
@@ -79,34 +93,6 @@ export const columns: ColumnDef<Task>[] = [
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
           <span>{status.label}</span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-  },
-  {
-    accessorKey: 'priority',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Prioridade" />
-    ),
-    cell: ({ row }) => {
-      const priority = priorities.find((priority) => {
-        const value = row.getValue('priority') as string
-        return priority.value.toLowerCase() === value.toLowerCase()
-      })
-
-      if (!priority) {
-        return null
-      }
-
-      return (
-        <div className="flex items-center">
-          {priority.icon && (
-            <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-          )}
-          <span>{priority.label}</span>
         </div>
       )
     },
