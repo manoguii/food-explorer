@@ -3,7 +3,7 @@ import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { UpdateDishForm } from '@/components/forms/update-dish'
 import { Layout } from '@/components/layout'
 
-export default async function SettingsProfilePage({
+export default async function UpdateDishPage({
   params,
 }: {
   params: { slug: string }

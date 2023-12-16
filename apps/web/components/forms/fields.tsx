@@ -45,6 +45,36 @@ export function Name({
   )
 }
 
+export function CategoryName({
+  placeholder = 'Bebidas',
+  description,
+}: {
+  placeholder?: string
+  description?: string
+}) {
+  const form = useFormContext()
+
+  return (
+    <Form.FormField
+      control={form.control}
+      name="category"
+      render={({ field }) => (
+        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
+          <Form.FormLabel>Categoria</Form.FormLabel>
+          <Form.FormControl>
+            <Input placeholder={placeholder} {...field} />
+          </Form.FormControl>
+          {description && (
+            <Form.FormDescription>{description}</Form.FormDescription>
+          )}
+
+          <Form.FormMessage />
+        </Form.FormItem>
+      )}
+    />
+  )
+}
+
 export function Email() {
   const form = useFormContext()
 

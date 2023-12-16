@@ -136,7 +136,7 @@ export function CategoryCard({ category }: { category: Category }) {
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${category.id}`}
+          href={`/dashboard/categories/${category.id}/edit?name=${category.name}`}
           className="font-semibold hover:underline"
         >
           {category.name}

@@ -76,22 +76,22 @@ export function DataTableSkeleton() {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell colSpan={4} className="h-16"></TableCell>
+              <TableCell colSpan={6} className="h-16"></TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} className="h-16"></TableCell>
+              <TableCell colSpan={6} className="h-16"></TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} className="h-16"></TableCell>
+              <TableCell colSpan={6} className="h-16"></TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} className="h-16"></TableCell>
+              <TableCell colSpan={6} className="h-16"></TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} className="h-16"></TableCell>
+              <TableCell colSpan={6} className="h-16"></TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={4} className="h-16"></TableCell>
+              <TableCell colSpan={6} className="h-16"></TableCell>
             </TableRow>
           </TableBody>
         </Table>

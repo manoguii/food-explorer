@@ -238,6 +238,35 @@ export async function updateOrder(
   }
 }
 
+export async function updateCategory(
+  categoryId: string,
+  data: {
+    name: string
+  },
+) {
+  const response = await fetchWithToken(
+    `http://localhost:3333/categories/${categoryId}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    },
+  )
+
+  if (!response.ok) {
+    const data = await response.json()
+
+    return {
+      success: false,
+      message: data.message as string,
+    }
+  }
+
+  return {
+    success: true,
+    message: `Categoria atualizada com sucesso !`,
+  }
+}
+
 export async function deleteCategory(categoryId: string) {
   const response = await fetchWithToken(
     `http://localhost:3333/categories/${categoryId}`,
