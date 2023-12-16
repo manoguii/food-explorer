@@ -5,6 +5,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import { CreateDishFormValues, UpdateDishFormValues } from '@/lib/schemas'
 import { Category as CategoryType } from '@/lib/types/definitions'
+import { cn } from '@/lib/utils'
 import { Dialog } from '@/components/ui/dialog'
 import * as Form from '@/components/ui/form'
 import * as Select from '@/components/ui/select'
@@ -15,13 +16,17 @@ import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import { CreateIngredients } from './dialog/create-ingredients'
 
+interface NameProps extends React.HTMLAttributes<HTMLDivElement> {
+  placeholder?: string
+  description?: string
+}
+
 export function Name({
   placeholder = 'John doe',
   description,
-}: {
-  placeholder?: string
-  description?: string
-}) {
+  className,
+  ...rest
+}: NameProps) {
   const form = useFormContext()
 
   return (
@@ -29,7 +34,10 @@ export function Name({
       control={form.control}
       name="name"
       render={({ field }) => (
-        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
+        <Form.FormItem
+          className={cn('flex flex-col gap-1', className)}
+          {...rest}
+        >
           <Form.FormLabel>Nome</Form.FormLabel>
           <Form.FormControl>
             <Input placeholder={placeholder} {...field} />

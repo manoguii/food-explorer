@@ -21,7 +21,7 @@ const defaultValues: Partial<CreateAccountFormValues> = {
   password: '',
 }
 
-export async function CreateAccountForm({
+export function CreateAccountForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
