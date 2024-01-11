@@ -11,17 +11,10 @@ import { Operations } from './operations'
 import Price from './price'
 import { shimmer } from './skeletons'
 import { Badge } from './ui/badge'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from './ui/card'
 
 //  Components
 
-export function PrimaryCard({
+export function DishCard({
   dish,
   withoutFooter = false,
 }: {
@@ -92,45 +85,6 @@ export function PrimaryCard({
   )
 }
 
-export function SecondaryCard({ dish }: { dish: Dish }) {
-  return (
-    <Card className="h-full">
-      <CardHeader className="flex flex-row justify-between gap-2">
-        <div>
-          <Link
-            href={`/dashboard/dishes/${dish.slug}/edit`}
-            className="font-semibold hover:underline"
-          >
-            <CardTitle className="text-lg">{dish.name}</CardTitle>
-          </Link>
-          <CardDescription className="!mt-0">
-            {dish.description}
-          </CardDescription>
-        </div>
-        <Operations
-          item={{
-            id: dish.id,
-            name: dish.name,
-            slug: dish.slug,
-          }}
-          entity="dish"
-        />
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap items-center gap-1">
-          {dish.ingredients.map((item) => {
-            return (
-              <Badge key={item} variant="secondary">
-                {item}
-              </Badge>
-            )
-          })}
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
 export function CategoryCard({ category }: { category: Category }) {
   return (
     <div className="flex items-center justify-between p-4">
@@ -161,7 +115,7 @@ export function CategoryCard({ category }: { category: Category }) {
 
 // Skeletons
 
-PrimaryCard.Skeleton = function CardSkeleton({
+DishCard.Skeleton = function CardSkeleton({
   favoriteCard,
 }: {
   favoriteCard?: boolean
@@ -198,33 +152,6 @@ PrimaryCard.Skeleton = function CardSkeleton({
         )}
       </div>
     </div>
-  )
-}
-
-SecondaryCard.Skeleton = function SecondaryCardSkeleton() {
-  return (
-    <Card>
-      <CardHeader className="flex flex-row justify-between gap-2">
-        <div>
-          {/* Title */}
-          <Skeleton className="h-5 w-48" />
-
-          {/* Description */}
-          <Skeleton className="mt-3 h-3 w-64" />
-        </div>
-        <div className="h-8 w-8 rounded-md border" />
-      </CardHeader>
-      <CardContent>
-        {/* Ingredients */}
-        <div className="mb-1 mt-1 flex flex-wrap items-center gap-1">
-          <Skeleton className="h-[19px] w-16 rounded-full" />
-          <Skeleton className="h-[19px] w-20 rounded-full" />
-          <Skeleton className="h-[19px] w-14 rounded-full" />
-          <Skeleton className="h-[19px] w-14 rounded-full" />
-          <Skeleton className="h-[19px] w-20 rounded-full" />
-        </div>
-      </CardContent>
-    </Card>
   )
 }
 

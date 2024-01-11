@@ -1,7 +1,7 @@
 import { fetchDishesByCategory } from '@/lib/data'
 import { CarouselList } from '@/app/food/(home)/carousel'
 
-import { PrimaryCard } from '../../../components/cards'
+import { DishCard } from '../../../components/cards'
 import { Skeleton } from '../../../components/ui/skeleton'
 
 export async function SlideOfCards() {
@@ -46,7 +46,7 @@ export function SlideOfCardsSkeleton() {
             key={i}
             className="react-multi-carousel-item react-multi-carousel-item--active px-3"
           >
-            <PrimaryCard.Skeleton />
+            <DishCard.Skeleton />
           </div>
         ))}
       </div>

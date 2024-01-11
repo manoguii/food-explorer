@@ -1,12 +1,10 @@
-import { Suspense } from 'react'
-
+import { fetchDishes } from '@/lib/data'
 import { CreateButton } from '@/components/buttons/create'
-import {
-  ListToManageDishes,
-  ListToManageDishesSkeleton,
-} from '@/components/dashboard/list-to-manage-dishes'
 import { Layout } from '@/components/layout'
 import { DashboardSearchInput } from '@/components/search-input'
+import { DataTable } from '@/components/table/data-table'
+
+import { columns } from './columns'
 
 export const metadata = {
   title: 'Dashboard',
@@ -23,13 +21,10 @@ export default async function DishesPage({
   const query = searchParams?.query || ''
   const currentPage = Number(searchParams?.page) || 1
 
-  let mode: 'all' | 'search'
-
-  if (query) {
-    mode = 'search'
-  } else {
-    mode = 'all'
-  }
+  const { dishes, totalPages } = await fetchDishes({
+    page: currentPage,
+    query,
+  })
 
   return (
     <Layout>
@@ -38,16 +33,7 @@ export default async function DishesPage({
         <CreateButton />
       </div>
 
-      <Suspense
-        key={query + currentPage}
-        fallback={<ListToManageDishesSkeleton />}
-      >
-        <ListToManageDishes
-          mode={mode}
-          query={query}
-          currentPage={currentPage}
-        />
-      </Suspense>
+      <DataTable totalPages={totalPages} data={dishes} columns={columns} />
     </Layout>
   )
 }

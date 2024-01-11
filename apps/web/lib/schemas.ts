@@ -12,6 +12,23 @@ export const taskSchema = z.object({
   updatedAt: z.string().nullable(),
 })
 
+export const dishSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  slug: z.string(),
+  attachments: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      url: z.string(),
+    }),
+  ),
+  category: z.string(),
+  ingredients: z.array(z.string()),
+})
+
 export const detailsSchema = z.object({
   id: z.string(),
   name: z.string(),

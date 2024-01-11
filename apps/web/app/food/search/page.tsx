@@ -8,7 +8,7 @@ import { FacetedFilterSkeleton } from '@/components/skeletons'
 
 import {
   ListSearchedDishes,
-  PrimaryCardListSkeleton,
+  DishCardListSkeleton,
 } from './list-searched-dishes'
 
 export default async function SearchPage({
@@ -51,7 +51,7 @@ export default async function SearchPage({
 
       <Suspense
         key={query + currentPage + category}
-        fallback={<PrimaryCardListSkeleton />}
+        fallback={<DishCardListSkeleton />}
       >
         <ListSearchedDishes
           mode={mode}

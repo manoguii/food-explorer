@@ -1,12 +1,22 @@
 'use client'
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import clsx from 'clsx'
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { generatePagination } from '@/lib/utils'
+import {
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Pagination as PaginationRoot,
+} from '@/components/ui/pagination'
 
-export function Pagination({ totalPages }: { totalPages: number }) {
+interface PaginationProps {
+  totalPages: number
+}
+
+export function Pagination({ totalPages }: PaginationProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const currentPage = Number(searchParams.get('page')) || 1
@@ -19,14 +29,13 @@ export function Pagination({ totalPages }: { totalPages: number }) {
   }
 
   return (
-    <div className="mx-auto inline-flex">
-      <PaginationArrow
-        direction="left"
-        href={createPageURL(currentPage - 1)}
-        isDisabled={currentPage <= 1}
-      />
+    <PaginationRoot>
+      <PaginationContent>
+        <PaginationPrevious
+          href={createPageURL(currentPage - 1)}
+          isDisabled={currentPage <= 1}
+        />
 
-      <div className="flex -space-x-px">
         {allPages.map((page, index) => {
           let position: 'first' | 'last' | 'single' | 'middle' | undefined
 
@@ -35,102 +44,25 @@ export function Pagination({ totalPages }: { totalPages: number }) {
           if (allPages.length === 1) position = 'single'
           if (page === '...') position = 'middle'
 
-          return (
-            <PaginationNumber
+          return position === 'middle' ? (
+            <PaginationEllipsis key={page} />
+          ) : (
+            <PaginationLink
               key={page}
               href={createPageURL(page)}
-              page={page}
-              position={position}
               isActive={currentPage === page}
-            />
+              isDisabled={page === '...'}
+            >
+              {page}
+            </PaginationLink>
           )
         })}
-      </div>
 
-      <PaginationArrow
-        direction="right"
-        href={createPageURL(currentPage + 1)}
-        isDisabled={currentPage >= totalPages}
-      />
-    </div>
-  )
-}
-
-function PaginationNumber({
-  page,
-  href,
-  isActive,
-  position,
-}: {
-  page: number | string
-  href: string
-  position?: 'first' | 'last' | 'middle' | 'single'
-  isActive: boolean
-}) {
-  const { replace } = useRouter()
-  const className = clsx(
-    'flex h-10 w-10 items-center justify-center border text-sm',
-    {
-      'rounded-l-md': position === 'first' || position === 'single',
-      'rounded-r-md': position === 'last' || position === 'single',
-      'z-10 bg-blue-600 border-blue-600 text-white': isActive,
-      'border border-input bg-background hover:bg-accent hover:text-accent-foreground':
-        !isActive && position !== 'middle',
-      'text-gray-300': position === 'middle',
-    },
-  )
-
-  return isActive || position === 'middle' ? (
-    <div className={className}>{page}</div>
-  ) : (
-    <button
-      className={className}
-      onClick={() => {
-        replace(href, { scroll: false })
-      }}
-    >
-      {page}
-    </button>
-  )
-}
-
-function PaginationArrow({
-  href,
-  direction,
-  isDisabled,
-}: {
-  href: string
-  direction: 'left' | 'right'
-  isDisabled?: boolean
-}) {
-  const { replace } = useRouter()
-  const className = clsx(
-    'flex h-10 w-10 items-center justify-center rounded-md border',
-    {
-      'pointer-events-none text-gray-300 dark:text-gray-700': isDisabled,
-      'bg-primary text-primary-foreground hover:bg-primary/90': !isDisabled,
-      'mr-2 md:mr-4': direction === 'left',
-      'ml-2 md:ml-4': direction === 'right',
-    },
-  )
-
-  const icon =
-    direction === 'left' ? (
-      <ArrowLeftIcon className="w-4" />
-    ) : (
-      <ArrowRightIcon className="w-4" />
-    )
-
-  return isDisabled ? (
-    <div className={className}>{icon}</div>
-  ) : (
-    <button
-      className={className}
-      onClick={() => {
-        replace(href, { scroll: false })
-      }}
-    >
-      {icon}
-    </button>
+        <PaginationNext
+          href={createPageURL(currentPage + 1)}
+          isDisabled={currentPage >= totalPages}
+        />
+      </PaginationContent>
+    </PaginationRoot>
   )
 }

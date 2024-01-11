@@ -5,13 +5,13 @@ import { DataTable } from '@/components/table/data-table'
 import { columns } from './columns'
 
 export default async function Orders() {
-  const { orders } = await fetchOrders()
+  const { orders, totalPages } = await fetchOrders()
 
   return (
     <Layout>
       <Layout.Title>Pedidos</Layout.Title>
 
-      <DataTable data={orders} columns={columns} />
+      <DataTable totalPages={totalPages} data={orders} columns={columns} />
     </Layout>
   )
 }

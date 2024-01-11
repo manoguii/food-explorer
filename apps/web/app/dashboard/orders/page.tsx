@@ -5,7 +5,7 @@ import { DataTable } from '@/components/table/data-table'
 import { columns } from './columns'
 
 export default async function OrdersPage() {
-  const { orders } = await fetchOrders()
+  const { orders, totalPages } = await fetchOrders()
 
   return (
     <Layout>
@@ -14,7 +14,7 @@ export default async function OrdersPage() {
         text="Crie e gerencie os pedidos do restaurante."
       />
 
-      <DataTable data={orders} columns={columns} />
+      <DataTable totalPages={totalPages} data={orders} columns={columns} />
     </Layout>
   )
 }

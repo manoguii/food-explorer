@@ -1,34 +1,30 @@
 'use client'
 
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { Trigger } from '@radix-ui/react-select'
 import { Row } from '@tanstack/react-table'
+import { TrendingUp } from 'lucide-react'
 
 import { statuses } from '@/config/table'
 import { detailsSchema } from '@/lib/schemas'
 import { OrderStatus } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+} from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
 import { updateDishStatus } from '@/app/actions'
 
-interface DataTableRowActionsProps<TData> {
+interface SelectStatusActionProps<TData> {
   row: Row<TData>
 }
 
-export function DataTableRowActions<TData>({
+export function SelectStatusAction<TData>({
   row,
-}: DataTableRowActionsProps<TData>) {
+}: SelectStatusActionProps<TData>) {
   const task = detailsSchema.parse(row.original)
 
   async function handleUpdateStatus(status: string) {
@@ -52,44 +48,31 @@ export function DataTableRowActions<TData>({
       })
     }
   }
-
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
-          <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Open menu</span>
+    <Select
+      defaultValue={task.status}
+      onValueChange={(value) => handleUpdateStatus(value)}
+    >
+      <Trigger asChild>
+        <Button variant={'ghost'} size={'icon-xs'}>
+          <TrendingUp className="h-4 w-4" />
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuLabel>Atualizar</DropdownMenuLabel>
+      </Trigger>
 
-        <DropdownMenuSeparator />
-
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup
-              value={task.status}
-              onValueChange={(value) => handleUpdateStatus(value)}
+      <SelectContent align="end">
+        <SelectGroup>
+          <SelectLabel>Status</SelectLabel>
+          {statuses.map((status) => (
+            <SelectItem
+              key={status.value}
+              value={status.value}
+              className="flex items-center gap-2"
             >
-              {statuses.map((status) => (
-                <DropdownMenuRadioItem
-                  key={status.value}
-                  value={status.value}
-                  className="flex items-center gap-2"
-                >
-                  {status.label}
-                  <status.icon className="ml-auto h-4 w-4" />
-                </DropdownMenuRadioItem>
-              ))}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
-      </DropdownMenuContent>
-    </DropdownMenu>
+              {status.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }

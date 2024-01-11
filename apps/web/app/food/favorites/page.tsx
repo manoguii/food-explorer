@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 
 import { Layout } from '@/components/layout'
 
-import { PrimaryCardListSkeleton } from '../search/list-searched-dishes'
+import { DishCardListSkeleton } from '../search/list-searched-dishes'
 import { FavoritesDishesList } from './favorites-dishes-list'
 
 export default async function FavoriteDishes({
@@ -20,7 +20,7 @@ export default async function FavoriteDishes({
 
       <Suspense
         key={currentPage}
-        fallback={<PrimaryCardListSkeleton favoriteCard />}
+        fallback={<DishCardListSkeleton favoriteCard />}
       >
         <FavoritesDishesList currentPage={currentPage} />
       </Suspense>

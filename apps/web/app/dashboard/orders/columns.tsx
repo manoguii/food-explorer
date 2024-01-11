@@ -2,13 +2,19 @@
 
 import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
+import { Eye } from 'lucide-react'
 
 import { labels, priorities, statuses } from '@/config/table'
 import { Task } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
+import { buttonVariants } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-import { DataTableRowActions } from '@/app/dashboard/orders/data-table-row-actions'
+
+import {
+  SelectLabelAction,
+  SelectPriorityAction,
+} from './data-table-row-actions'
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -129,6 +135,22 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-3">
+          <Link
+            href={`/dashboard/orders/${row.original.id}`}
+            className={buttonVariants({
+              variant: 'ghost',
+              size: 'icon-xs',
+            })}
+          >
+            <Eye className="h-4 w-4" />
+          </Link>
+          <SelectPriorityAction row={row} />
+          <SelectLabelAction row={row} />
+        </div>
+      )
+    },
   },
 ]

@@ -7,7 +7,7 @@ import Carousel, { ResponsiveType } from 'react-multi-carousel'
 
 import { Dish } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
-import { PrimaryCard } from '@/components/cards'
+import { DishCard } from '@/components/cards'
 
 export function CarouselList({
   dishes,
@@ -44,7 +44,7 @@ export function CarouselList({
         swipeable
       >
         {dishes.map((dish) => (
-          <PrimaryCard key={dish.id} dish={dish} />
+          <DishCard key={dish.id} dish={dish} />
         ))}
       </Carousel>
     </div>
