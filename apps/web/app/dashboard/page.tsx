@@ -5,9 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { CreateButton } from '@/components/buttons/create'
-import { Layout } from '@/components/layout'
-import { DashboardSearchInput } from '@/components/search-input'
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
 
 import { Overview } from '../../components/dashboard/overview'
 import { RecentSales } from '../../components/dashboard/recent-sales'
@@ -18,12 +16,7 @@ export const metadata = {
 
 export default async function DashboardPage() {
   return (
-    <Layout>
-      <div className="flex w-full items-center gap-2">
-        <DashboardSearchInput />
-        <CreateButton />
-      </div>
-
+    <Dashboard.Content>
       <div className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
@@ -146,6 +139,6 @@ export default async function DashboardPage() {
           </Card>
         </div>
       </div>
-    </Layout>
+    </Dashboard.Content>
   )
 }

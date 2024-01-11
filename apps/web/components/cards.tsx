@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import { AddToCart } from './buttons/add-to-cart'
 import { FavoriteButton } from './buttons/favorite-button'
-import { Operations } from './operations'
+import { DeleteCategory } from './delete-category'
 import Price from './price'
 import { shimmer } from './skeletons'
 import { Badge } from './ui/badge'
@@ -101,14 +101,7 @@ export function CategoryCard({ category }: { category: Category }) {
           </p>
         </div>
       </div>
-      <Operations
-        item={{
-          id: category.id,
-          name: category.name,
-          slug: category.name.toLowerCase(),
-        }}
-        entity="category"
-      />
+      <DeleteCategory category={category} />
     </div>
   )
 }

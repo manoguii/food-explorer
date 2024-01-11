@@ -1,7 +1,7 @@
 import { fetchCategories, getDishBySlug } from '@/lib/data'
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { UpdateDishForm } from '@/components/forms/update-dish'
-import { Layout } from '@/components/layout'
 
 export default async function UpdateDishPage({
   params,
@@ -14,15 +14,17 @@ export default async function UpdateDishPage({
   ])
 
   return (
-    <Layout>
-      <Layout.Header
+    <Dashboard>
+      <Dashboard.Header
         heading="Editar prato"
         text={`Editar informações do prato ${dish.name}`}
       >
         <CreateCategory />
-      </Layout.Header>
+      </Dashboard.Header>
 
-      <UpdateDishForm categories={categories} currentDish={dish} />
-    </Layout>
+      <Dashboard.Content>
+        <UpdateDishForm categories={categories} currentDish={dish} />
+      </Dashboard.Content>
+    </Dashboard>
   )
 }

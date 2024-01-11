@@ -1,6 +1,6 @@
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { UpdateCategoryForm } from '@/components/forms/update-category'
-import { Layout } from '@/components/layout'
 
 export default async function UpdateCategoryPage({
   params,
@@ -10,20 +10,21 @@ export default async function UpdateCategoryPage({
   searchParams: { name: string }
 }) {
   return (
-    <Layout>
-      <Layout.Header
+    <Dashboard>
+      <Dashboard.Header
         heading="Editar categoria"
         text={`Editar categoria ${searchParams.name}`}
       >
         <CreateCategory />
-      </Layout.Header>
-
-      <UpdateCategoryForm
-        category={{
-          id: params.category,
-          name: searchParams.name,
-        }}
-      />
-    </Layout>
+      </Dashboard.Header>
+      <Dashboard.Content>
+        <UpdateCategoryForm
+          category={{
+            id: params.category,
+            name: searchParams.name,
+          }}
+        />
+      </Dashboard.Content>
+    </Dashboard>
   )
 }

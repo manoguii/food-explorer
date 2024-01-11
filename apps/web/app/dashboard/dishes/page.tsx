@@ -1,7 +1,10 @@
+import { Suspense } from 'react'
+
 import { fetchDishes } from '@/lib/data'
 import { CreateButton } from '@/components/buttons/create'
-import { Layout } from '@/components/layout'
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DashboardSearchInput } from '@/components/search-input'
+import { TableSkeleton } from '@/components/skeletons'
 import { DataTable } from '@/components/table/data-table'
 
 import { columns } from './columns'
@@ -10,7 +13,7 @@ export const metadata = {
   title: 'Dashboard',
 }
 
-export default async function DishesPage({
+export default function DishesPage({
   searchParams,
 }: {
   searchParams?: {
@@ -21,19 +24,37 @@ export default async function DishesPage({
   const query = searchParams?.query || ''
   const currentPage = Number(searchParams?.page) || 1
 
+  return (
+    <Dashboard.Content>
+      <div className="mb-6 flex w-full items-center gap-2">
+        <DashboardSearchInput />
+        <CreateButton />
+      </div>
+      <Suspense fallback={<TableSkeleton />}>
+        <DataTableWrapper query={query} currentPage={currentPage} />
+      </Suspense>
+    </Dashboard.Content>
+  )
+}
+
+async function DataTableWrapper({
+  currentPage,
+  query,
+}: {
+  query: string
+  currentPage: number
+}) {
   const { dishes, totalPages } = await fetchDishes({
     page: currentPage,
     query,
   })
 
   return (
-    <Layout>
-      <div className="flex w-full items-center gap-2">
-        <DashboardSearchInput />
-        <CreateButton />
-      </div>
-
-      <DataTable totalPages={totalPages} data={dishes} columns={columns} />
-    </Layout>
+    <DataTable
+      withoutToolbar
+      totalPages={totalPages}
+      data={dishes}
+      columns={columns}
+    />
   )
 }

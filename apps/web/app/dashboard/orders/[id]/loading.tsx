@@ -3,11 +3,12 @@ import { Dot } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DataTableSkeleton } from '@/components/skeletons'
 
 export default function OrderDetailsLoading() {
   return (
-    <main className="flex flex-1 flex-col gap-4 md:gap-8">
+    <Dashboard.Content className="flex flex-1 flex-col gap-4 md:gap-8">
       <div className="flex items-center gap-4">
         <Skeleton className="h-10 w-10" />
 
@@ -74,6 +75,6 @@ export default function OrderDetailsLoading() {
           </Card>
         </div>
       </div>
-    </main>
+    </Dashboard.Content>
   )
 }

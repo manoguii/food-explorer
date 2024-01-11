@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import Price from '@/components/price'
 import { DataTable } from '@/components/table/data-table'
 
@@ -40,7 +41,7 @@ export default async function OrderDetails({
   const total = subTotal + 2.8
 
   return (
-    <main className="flex flex-1 flex-col gap-4 md:gap-8">
+    <Dashboard.Content className="flex flex-1 flex-col gap-4 md:gap-8">
       <div className="flex items-center gap-4">
         <Link
           className={buttonVariants({
@@ -166,6 +167,6 @@ export default async function OrderDetails({
           </Card>
         </div>
       </div>
-    </main>
+    </Dashboard.Content>
   )
 }

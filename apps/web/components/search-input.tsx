@@ -108,6 +108,7 @@ export function DashboardSearchInput() {
           placeholder="Busque por pratos ou ingredientes"
           className="pl-10"
           id="search"
+          type="search"
           onChange={(e) => {
             handleSearch(e.target.value)
           }}

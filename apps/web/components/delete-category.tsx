@@ -1,10 +1,9 @@
 'use client'
 
-import React from 'react'
-import { Row } from '@tanstack/react-table'
+import * as React from 'react'
 import { Trash } from 'lucide-react'
 
-import { dishSchema } from '@/lib/schemas'
+import { Category } from '@/lib/types/definitions'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,31 +15,30 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { buttonVariants } from '@/components/ui/button'
-import { toast } from '@/components/ui/use-toast'
-import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
-import { deleteDish } from '@/app/actions'
+import { deleteCategory } from '@/app/actions'
 
-export function DeleteRowAction<TData>({ row }: { row: Row<TData> }) {
+import { ButtonWithLoading } from './buttons/button-with-loading'
+import { buttonVariants } from './ui/button'
+import { toast } from './ui/use-toast'
+
+export function DeleteCategory({ category }: { category: Category }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
-
-  const dish = dishSchema.parse(row.original)
 
   async function handleDelete(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault()
     setIsDeleteLoading(true)
 
-    const result = await deleteDish(dish.id)
+    const result = await deleteCategory(category.id)
 
     if (result.success) {
       toast({
-        title: 'Prato removido com sucesso !',
+        title: 'Categoria removida com sucesso !',
         description: result.message,
       })
     } else {
       toast({
-        title: 'Erro ao remover o prato',
+        title: 'Erro ao remover a categoria',
         description: result.message,
         variant: 'destructive',
       })
@@ -59,17 +57,15 @@ export function DeleteRowAction<TData>({ row }: { row: Row<TData> }) {
       </AlertDialogTrigger>
       <AlertDialogContent className="max-w-2xl">
         <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center">
-            Excluir prato
-          </AlertDialogTitle>
+          <AlertDialogTitle>Excluir categoria</AlertDialogTitle>
+
           <AlertDialogDescription>
-            Você tem certeza que deseja excluir o prato{' '}
+            Tem certeza que deseja excluir a categoria{' '}
             <span className="font-semibold text-primary">
-              &quot;{dish.name}&quot;
-            </span>{' '}
-            ?
-            <br />
-            Um prato so pode ser excluído se não estiver em nenhum pedido.
+              &quot;{category.name}
+            </span>
+            &quot; ? <br /> Para excluir uma categoria, ela não pode esta
+            associada a nenhum prato.
           </AlertDialogDescription>
         </AlertDialogHeader>
 

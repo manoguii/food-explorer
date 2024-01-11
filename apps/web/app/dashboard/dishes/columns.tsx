@@ -126,12 +126,19 @@ export const columns: ColumnDef<Dish>[] = [
       const ingredients = row.original.ingredients
 
       return (
-        <div className="flex items-center gap-2">
-          {ingredients.map((ingredient) => (
+        <div className="flex items-center gap-1">
+          {ingredients.slice(0, 3).map((ingredient) => (
             <Badge key={ingredient} variant="outline">
-              {ingredient}
+              <span className="max-w-[120px] truncate">{ingredient}</span>
             </Badge>
           ))}
+          {ingredients.length > 3 && (
+            <Badge variant="outline">
+              <span className="max-w-[120px] truncate">
+                +{ingredients.length - 3}
+              </span>
+            </Badge>
+          )}
         </div>
       )
     },
