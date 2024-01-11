@@ -3,7 +3,7 @@ import { ModeToggle } from '../mode-toggle'
 import { OrdersModal } from '../orders-modal'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
-import { UserNav } from './user-nav'
+import { UserNav } from '../user-nav'
 
 export async function SiteHeader() {
   return (

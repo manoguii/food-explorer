@@ -34,7 +34,7 @@ Layout.Header = function DashboardHeader({
   children,
 }: DashboardHeaderProps) {
   return (
-    <div className="flex flex-col justify-between gap-4 px-2 sm:flex-row sm:items-center">
+    <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
       <div className="grid">
         <h1 className="text-2xl font-medium leading-tight md:text-3xl">
           {heading}

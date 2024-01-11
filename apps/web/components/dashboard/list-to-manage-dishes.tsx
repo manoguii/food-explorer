@@ -5,7 +5,7 @@ import { Grid } from '@/components/grid'
 import { Pagination } from '@/components/pagination'
 import { PaginationSkeleton } from '@/components/skeletons'
 
-import { SecondaryCard } from '../../components/cards'
+import { SecondaryCard } from '../cards'
 
 export async function ListToManageDishes({
   mode,

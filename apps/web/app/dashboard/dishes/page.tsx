@@ -1,12 +1,12 @@
 import { Suspense } from 'react'
 
 import { CreateButton } from '@/components/buttons/create'
-import { Layout } from '@/components/layout'
-import { DashboardSearchInput } from '@/components/search-input'
 import {
   ListToManageDishes,
   ListToManageDishesSkeleton,
-} from '@/app/dashboard/list-to-manage-dishes'
+} from '@/components/dashboard/list-to-manage-dishes'
+import { Layout } from '@/components/layout'
+import { DashboardSearchInput } from '@/components/search-input'
 
 export const metadata = {
   title: 'Dashboard',

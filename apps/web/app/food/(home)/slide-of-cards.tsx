@@ -7,15 +7,15 @@ import { Skeleton } from '../../../components/ui/skeleton'
 export async function SlideOfCards() {
   const [{ dishes: salads }, { dishes: meals }, { dishes: desserts }] =
     await Promise.all([
-      fetchDishesByCategory('Massas', 1),
-      fetchDishesByCategory('Bebidas', 1),
+      fetchDishesByCategory('Saladas', 1),
+      fetchDishesByCategory('Refeições', 1),
       fetchDishesByCategory('Sobremesas', 1),
     ])
 
   const dishes = [
+    { dishes: meals, category: 'Saladas' },
+    { dishes: salads, category: 'Refeições' },
     { dishes: desserts, category: 'Sobremesas' },
-    { dishes: salads, category: 'Massas' },
-    { dishes: meals, category: 'Bebidas' },
   ]
 
   return (

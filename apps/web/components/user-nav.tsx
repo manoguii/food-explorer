@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
-import { LogoutButton } from '../buttons/logout'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Button } from '../ui/button'
+import { LogoutButton } from './buttons/logout'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Button } from './ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,14 +11,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+} from './ui/dropdown-menu'
 
 export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative  rounded-full">
-          <Avatar className="">
+        <Button
+          variant="outline"
+          size="icon"
+          className="relative  rounded-full"
+        >
+          <Avatar className="h-9 w-9">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
             <AvatarFallback>SC</AvatarFallback>
           </Avatar>
