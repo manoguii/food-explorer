@@ -1,4 +1,5 @@
-import { fetchOrders } from '@/lib/data'
+import { fetchOrders } from '@/db/fetch'
+
 import { Layout } from '@/components/layout'
 import { DataTable } from '@/components/table/data-table'
 

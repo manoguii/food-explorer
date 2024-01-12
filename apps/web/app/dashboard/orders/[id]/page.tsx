@@ -1,8 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { getOrderById } from '@/db/fetch'
 import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 
-import { getOrderById } from '@/lib/data'
 import { formatDate } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -28,6 +29,10 @@ export default async function OrderDetails({
   }
 }) {
   const order = await getOrderById(params.id)
+
+  if (!order) {
+    notFound()
+  }
 
   const dishes = order.dishes.map((dish) => ({
     ...dish,

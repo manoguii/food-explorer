@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
+import { getDishBySlug } from '@/db/fetch'
 
-import { getDishBySlug } from '@/lib/data'
 import { Gallery } from '@/components/gallery'
 import { DishDescription } from '@/components/product-description'
 import { GallerySkeleton } from '@/components/skeletons'

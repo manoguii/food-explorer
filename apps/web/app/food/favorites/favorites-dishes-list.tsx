@@ -1,4 +1,5 @@
-import { fetchFavoriteDishes } from '@/lib/data'
+import { fetchFavoriteDishes } from '@/db/fetch'
+
 import { DishCard } from '@/components/cards'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { Grid } from '@/components/grid'

@@ -17,6 +17,34 @@ export type Category = {
   createdAt: string
 }
 
+export type Order = {
+  id: string
+  status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+  code: string
+  createdAt: string
+  updatedAt: string
+  dishes: {
+    id: string
+    name: string
+    description: string
+    price: number
+    slug: string
+    attachments: {
+      id: string
+      title: string
+      url: string
+    }[]
+    quantity: number
+    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+  }[]
+
+  client: {
+    id: string
+    name: string
+    email: string
+  }
+}
+
 export type Dish = {
   id: string
   name: string
@@ -34,17 +62,6 @@ export type Dish = {
   createdAt: string
   updatedAt: string
 }
-
-export type UploadFileResponse =
-  | {
-      success: true
-      message: string
-      attachmentId: string
-    }
-  | {
-      success: false
-      message: string
-    }
 
 export interface CreateDishParams {
   name: string
@@ -64,6 +81,51 @@ export interface UpdateDishParams {
   ingredients: string[]
   categoryId: string
   attachmentsIds: string[]
+}
+
+export type FetchOrdersResponse = {
+  orders: {
+    id: string
+    details: string
+    code: string
+    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
+    label: 'TABLE' | 'DELIVERY' | 'TAKEOUT'
+    priority: 'LOW' | 'MEDIUM' | 'HIGH'
+    createdAt: string
+    updatedAt: string | null
+  }[]
+  totalPages: number
+}
+
+export type FetchFavoriteDishesResponse = {
+  favoriteDishes: Dish[]
+  totalPages: number
+}
+
+export type FetchCategoriesResponse = {
+  categories: Category[]
+  totalPages: number
+}
+
+export type FetchDishesResponse = {
+  dishes: Dish[]
+  totalPages: number
+}
+
+export type GetOrderByIdResponse = {
+  order: Order
+}
+
+export type GetUserSessionResponse = {
+  user: User
+}
+
+export type GetDishBySlugResponse = {
+  dish: Dish
+}
+
+export type UploadFileResponse = {
+  attachmentId: string
 }
 
 export interface CartItem extends Dish {

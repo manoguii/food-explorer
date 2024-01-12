@@ -1,9 +1,8 @@
 'use client'
 
 import React from 'react'
+import { logout } from '@/db/actions'
 import { RotateCw } from 'lucide-react'
-
-import { logout } from '@/app/actions'
 
 import { DropdownMenuItem } from '../ui/dropdown-menu'
 

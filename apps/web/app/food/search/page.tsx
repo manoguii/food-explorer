@@ -1,14 +1,14 @@
 import { Suspense } from 'react'
+import { fetchCategories } from '@/db/fetch'
 
-import { fetchCategories } from '@/lib/data'
 import { FacetedFilter } from '@/components/faceted-filter'
 import { Layout } from '@/components/layout'
 import { DashboardSearchInput } from '@/components/search-input'
 import { FacetedFilterSkeleton } from '@/components/skeletons'
 
 import {
-  ListSearchedDishes,
   DishCardListSkeleton,
+  ListSearchedDishes,
 } from './list-searched-dishes'
 
 export default async function SearchPage({

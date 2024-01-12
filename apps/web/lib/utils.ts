@@ -1,25 +1,6 @@
 import { ReadonlyURLSearchParams } from 'next/navigation'
-import { auth } from '@/auth'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-
-export async function fetchWithToken(input: RequestInfo, init?: RequestInit) {
-  const session = await auth()
-  const token = session?.user?.access_token
-
-  if (token) {
-    init = {
-      ...init,
-      headers: {
-        'Content-Type': 'application/json',
-        ...init?.headers,
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  }
-
-  return fetch(input, init)
-}
 
 export function formatDate(input: string | number): string {
   const date = new Date(input)

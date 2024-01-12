@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
+import { updateDish, uploadFile } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -9,7 +10,6 @@ import { updateDishFormSchema, UpdateDishFormValues } from '@/lib/schemas'
 import { Category, Dish } from '@/lib/types/definitions'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
-import { updateDish, uploadFile } from '@/app/actions'
 
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
@@ -51,6 +51,8 @@ export function UpdateDishForm({
     )
 
     if (data.file) {
+      let attachmentId = ''
+
       const formData = new FormData()
       formData.append('file', data.file)
 
@@ -58,25 +60,25 @@ export function UpdateDishForm({
         state: 'uploading',
       })
 
-      const result = await uploadFile(formData)
+      try {
+        attachmentId = await uploadFile(formData)
+      } catch (error) {
+        if (error instanceof Error) {
+          setUploadingFile({
+            state: 'error',
+          })
 
-      if (!result.success) {
-        setUploadingFile({
-          state: 'error',
-        })
-
-        return toast({
-          title: `Error ao fazer upload das imagens !`,
-          description: result.message,
-          variant: 'destructive',
-        })
+          toast({
+            title: 'Erro ao fazer upload da imagem',
+            description: error.message,
+            variant: 'destructive',
+          })
+        }
       }
 
       setUploadingFile({
         state: 'success',
       })
-
-      const attachmentId = result.attachmentId
 
       attachmentsIds = [...attachmentsIds, attachmentId]
     }
@@ -104,28 +106,20 @@ export function UpdateDishForm({
       attachmentsIds,
     }
 
-    const result = await updateDish(dish)
+    try {
+      await updateDish(dish)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error !',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    }
 
     form.reset()
-
-    if (result.success) {
-      toast({
-        title: 'Prato atualizado com sucesso !',
-        description: result.message,
-      })
-    } else {
-      toast({
-        title: `Error ao atualizar o prato ${dish.name} !`,
-        description: result.message,
-        variant: 'destructive',
-      })
-    }
-
-    if (currentDish.name !== data.name) {
-      router.replace(`/app`)
-    } else {
-      router.replace(`/dish/${currentDish.slug}`)
-    }
+    router.replace(`/dashboard/dishes`)
   }
 
   return (

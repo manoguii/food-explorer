@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
+import { fetchCategories } from '@/db/fetch'
 
-import { fetchCategories } from '@/lib/data'
 import { CategoryCard } from '@/components/cards'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'

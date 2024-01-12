@@ -1,4 +1,5 @@
-import { fetchDishesByCategory } from '@/lib/data'
+import { fetchDishesByCategory } from '@/db/fetch'
+
 import { CarouselList } from '@/app/food/(home)/carousel'
 
 import { DishCard } from '../../../components/cards'

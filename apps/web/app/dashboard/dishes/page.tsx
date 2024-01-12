@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
+import { fetchDishes } from '@/db/fetch'
 
-import { fetchDishes } from '@/lib/data'
 import { CreateButton } from '@/components/buttons/create'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DashboardSearchInput } from '@/components/search-input'

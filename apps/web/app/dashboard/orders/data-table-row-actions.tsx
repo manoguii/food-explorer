@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { updateOrder } from '@/db/mutations'
 import { Trigger } from '@radix-ui/react-select'
 import { Row } from '@tanstack/react-table'
 import { ArrowLeftRight, Tag } from 'lucide-react'
@@ -17,7 +18,6 @@ import {
   SelectLabel,
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
-import { updateOrder } from '@/app/actions'
 
 interface SelectPriorityActionProps<TData> {
   row: Row<TData>
@@ -35,21 +35,18 @@ export function SelectPriorityAction<TData>({
   async function handleUpdatePriority(priority: string) {
     const data = priority.toLocaleUpperCase() as Priority
 
-    const result = await updateOrder(task.id, {
-      priority: data,
-    })
-
-    if (result.success) {
-      toast({
-        title: 'Pedido atualizado com sucesso !',
-        description: result.message,
+    try {
+      await updateOrder(task.id, {
+        priority: data,
       })
-    } else {
-      toast({
-        title: 'Erro ao atualizar o pedido !',
-        description: result.message,
-        variant: 'destructive',
-      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao atualizar prioridade',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
     }
   }
 
@@ -85,21 +82,18 @@ export function SelectLabelAction<TData>({
   async function handleUpdateLabel(label: string) {
     const data = label.toLocaleUpperCase() as Label
 
-    const result = await updateOrder(task.id, {
-      label: data,
-    })
-
-    if (result.success) {
-      toast({
-        title: 'Pedido atualizado com sucesso !',
-        description: result.message,
+    try {
+      await updateOrder(task.id, {
+        label: data,
       })
-    } else {
-      toast({
-        title: 'Erro ao atualizar o pedido !',
-        description: result.message,
-        variant: 'destructive',
-      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao atualizar label',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
     }
   }
 

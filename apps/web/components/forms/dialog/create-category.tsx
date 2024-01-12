@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import { createCategory } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -7,15 +9,23 @@ import { useForm } from 'react-hook-form'
 import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import * as D from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
-import { createCategory } from '@/app/actions'
 
 import { toast } from '../../ui/use-toast'
 
 export function CreateCategory() {
+  const [dialogOpen, setDialogOpen] = useState(false)
   const {
     register,
     handleSubmit,
@@ -29,44 +39,42 @@ export function CreateCategory() {
   })
 
   async function handleCreateCategory({ category }: NewCategoryFormSchema) {
-    const data = await createCategory(category)
-
-    if (data.success) {
-      toast({
-        title: 'Categoria criada com sucesso !',
-        description: data.message,
-      })
-    } else {
-      toast({
-        title: 'Erro ao criar categoria',
-        description: data.message,
-        variant: 'destructive',
-      })
+    try {
+      await createCategory(category)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error !',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      setDialogOpen(false)
+      reset()
     }
-
-    reset()
   }
 
   return (
-    <D.Dialog>
-      <D.DialogTrigger asChild>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
           Criar categoria
         </Button>
-      </D.DialogTrigger>
-      <D.DialogContent className="outline-none sm:max-w-[600px]">
-        <D.DialogHeader>
-          <D.DialogTitle>Criar nova categoria</D.DialogTitle>
+      </DialogTrigger>
+      <DialogContent className="outline-none sm:max-w-[600px]">
+        <DialogHeader>
+          <DialogTitle>Criar nova categoria</DialogTitle>
           <div className="space-y-3">
-            <D.DialogDescription>
+            <DialogDescription>
               Lembre que um prato obrigatoriamente precisa estar associado a uma{' '}
               <span className="font-semibold text-accent-foreground">
                 categoria
               </span>
               .
-            </D.DialogDescription>
-            <D.DialogDescription className="flex items-center text-start">
+            </DialogDescription>
+            <DialogDescription className="flex items-center text-start">
               <AlertCircle className="mr-2 inline h-4 w-4" />
               <span>
                 Exemplos de{' '}
@@ -74,7 +82,7 @@ export function CreateCategory() {
                   categorias:
                 </span>{' '}
               </span>
-            </D.DialogDescription>
+            </DialogDescription>
             <ol className="space-y-2">
               <li className="text-start text-sm text-muted-foreground">
                 <Badge variant="outline">Bebidas</Badge> - refrigerantes, cafés,
@@ -90,7 +98,7 @@ export function CreateCategory() {
               </li>
             </ol>
           </div>
-        </D.DialogHeader>
+        </DialogHeader>
 
         <form onSubmit={handleSubmit(handleCreateCategory)} className="w-full">
           <div className="grid gap-4 py-4">
@@ -116,18 +124,18 @@ export function CreateCategory() {
               </div>
             </div>
           </div>
-          <D.DialogFooter className="gap-2 sm:gap-0">
-            <D.DialogTrigger asChild>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <DialogTrigger asChild>
               <Button type="button" variant="ghost">
                 Cancelar
               </Button>
-            </D.DialogTrigger>
+            </DialogTrigger>
             <ButtonWithLoading type="submit" isLoading={isSubmitting}>
               Criar categoria
             </ButtonWithLoading>
-          </D.DialogFooter>
+          </DialogFooter>
         </form>
-      </D.DialogContent>
-    </D.Dialog>
+      </DialogContent>
+    </Dialog>
   )
 }

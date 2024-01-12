@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
+import { toggleFavoriteDish } from '@/db/mutations'
 import { Heart } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { toggleFavoriteDish } from '@/app/actions'
 
 import { toast } from '../ui/use-toast'
 
@@ -24,25 +24,20 @@ export function FavoriteButton({
     e.preventDefault()
 
     setIsLoading('loading')
-    const result = await toggleFavoriteDish(dishId, favorite)
 
-    if (result.success) {
-      toast({
-        title: favorite
-          ? 'Prato removido dos favoritos !'
-          : 'Prato adicionado aos favoritos !',
-        description: result.message,
-      })
-    } else {
-      toast({
-        title: favorite
-          ? 'Erro ao remover prato dos favoritos !'
-          : 'Erro ao adicionar prato aos favoritos !',
-        description: result.message,
-        variant: 'destructive',
-      })
+    try {
+      await toggleFavoriteDish(dishId, favorite)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao favoritar prato',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      setIsLoading('idle')
     }
-    setIsLoading('idle')
   }
 
   return (

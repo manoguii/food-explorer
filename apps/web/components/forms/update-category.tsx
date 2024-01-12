@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
+import { updateCategory } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -11,7 +12,6 @@ import {
 } from '@/lib/schemas'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
-import { updateCategory } from '@/app/actions'
 
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
@@ -36,26 +36,22 @@ export function UpdateCategoryForm({
   })
 
   async function handleUpdateCategory(data: UpdateCategoryFormValues) {
-    const result = await updateCategory(category.id, {
-      name: data.category,
-    })
-
-    form.reset()
-
-    if (result.success) {
-      toast({
-        title: 'Categoria atualizada com sucesso!',
-        description: result.message,
+    try {
+      await updateCategory(category.id, {
+        name: data.category,
       })
-    } else {
-      toast({
-        title: `Erro ao atualizar categoria ${category.name}!`,
-        description: result.message,
-        variant: 'destructive',
-      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao atualizar categoria',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      form.reset()
+      router.push('/dashboard/categories')
     }
-
-    router.push('/dashboard/categories')
   }
 
   return (

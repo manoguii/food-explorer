@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
+import { authenticate } from '@/db/actions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -10,7 +11,6 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
-import { authenticate } from '@/app/actions'
 
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'

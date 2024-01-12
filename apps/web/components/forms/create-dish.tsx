@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
+import { createDish, uploadFile } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -9,7 +10,6 @@ import { createDishFormSchema, CreateDishFormValues } from '@/lib/schemas'
 import { Category } from '@/lib/types/definitions'
 import * as Form from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
-import { createDish, uploadFile } from '@/app/actions'
 
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
@@ -45,25 +45,29 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
       state: 'uploading',
     })
 
-    const result = await uploadFile(formData)
+    let attachmentId = ''
 
-    if (!result.success) {
-      setUploadingFile({
-        state: 'error',
-      })
+    try {
+      attachmentId = await uploadFile(formData)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error !',
+          description: error.message,
+          variant: 'destructive',
+        })
 
-      return toast({
-        title: 'Erro ao criar as imagens do prato !',
-        description: result.message,
-        variant: 'destructive',
-      })
+        setUploadingFile({
+          state: 'error',
+        })
+
+        return
+      }
     }
 
     setUploadingFile({
       state: 'success',
     })
-
-    const attachmentId = result.attachmentId
 
     const categoryId = categories.find(
       (category) => category.name === data.category,
@@ -86,24 +90,20 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
       attachmentsIds: [attachmentId],
     }
 
-    const dishResult = await createDish(dish)
-
-    form.reset()
-
-    if (dishResult.success) {
-      toast({
-        title: 'Prato criado com sucesso !',
-        description: dishResult.message,
-      })
-    } else {
-      toast({
-        title: 'Erro ao criar prato !',
-        description: dishResult.message,
-        variant: 'destructive',
-      })
+    try {
+      await createDish(dish)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Error !',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      form.reset()
+      router.replace(`/dashboard/dishes`)
     }
-
-    router.replace(`/app`)
   }
 
   return (

@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { deleteDish } from '@/db/mutations'
 import { Row } from '@tanstack/react-table'
 import { Trash } from 'lucide-react'
 
@@ -19,7 +20,6 @@ import {
 import { buttonVariants } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
-import { deleteDish } from '@/app/actions'
 
 export function DeleteRowAction<TData>({ row }: { row: Row<TData> }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
@@ -31,23 +31,20 @@ export function DeleteRowAction<TData>({ row }: { row: Row<TData> }) {
     event.preventDefault()
     setIsDeleteLoading(true)
 
-    const result = await deleteDish(dish.id)
-
-    if (result.success) {
-      toast({
-        title: 'Prato removido com sucesso !',
-        description: result.message,
-      })
-    } else {
-      toast({
-        title: 'Erro ao remover o prato',
-        description: result.message,
-        variant: 'destructive',
-      })
+    try {
+      await deleteDish(dish.id)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao remover o prato',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      setIsDeleteLoading(false)
+      setShowDeleteAlert(false)
     }
-
-    setIsDeleteLoading(false)
-    setShowDeleteAlert(false)
   }
 
   return (

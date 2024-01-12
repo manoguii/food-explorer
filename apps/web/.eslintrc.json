@@ -4,6 +4,7 @@
     "@rocketseat/eslint-config/next"
   ],
   "rules": {
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-throw-literal": "off"
   }
 }

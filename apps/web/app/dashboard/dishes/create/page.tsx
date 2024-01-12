@@ -1,4 +1,5 @@
-import { fetchCategories } from '@/lib/data'
+import { fetchCategories } from '@/db/fetch'
+
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateDishForm } from '@/components/forms/create-dish'
 import { CreateCategory } from '@/components/forms/dialog/create-category'

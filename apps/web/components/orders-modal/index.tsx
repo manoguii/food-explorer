@@ -4,10 +4,10 @@ import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { createOrder } from '@/db/mutations'
 import { ShoppingCart } from 'lucide-react'
 
 import { useCartStore } from '@/lib/use-cart-store'
-import { createOrder } from '@/app/actions'
 
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import { EmptyPlaceholder } from '../empty-placeholder'
@@ -43,26 +43,23 @@ export function OrdersModal() {
       quantity: item.quantity || 1,
     }))
 
-    const result = await createOrder(items)
-
-    if (result.success) {
-      toast({
-        title: 'Pedido criado !',
-        description:
-          'Seu pedido foi criado com sucesso, acompanhe o status na página de pedidos.',
-      })
-    } else {
-      toast({
-        title: 'Erro ao criar pedido',
-        description: 'Ocorreu um erro ao criar seu pedido, tente novamente.',
-        variant: 'destructive',
-      })
+    try {
+      await createOrder(items)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao criar pedido',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      setLoading(false)
     }
 
     clearCart()
     closeCart()
     push('/food/orders')
-    setLoading(false)
   }
 
   React.useEffect(() => {

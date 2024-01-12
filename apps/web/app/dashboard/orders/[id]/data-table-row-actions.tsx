@@ -1,5 +1,6 @@
 'use client'
 
+import { updateDishStatus } from '@/db/mutations'
 import { Trigger } from '@radix-ui/react-select'
 import { Row } from '@tanstack/react-table'
 import { TrendingUp } from 'lucide-react'
@@ -16,7 +17,6 @@ import {
   SelectLabel,
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
-import { updateDishStatus } from '@/app/actions'
 
 interface SelectStatusActionProps<TData> {
   row: Row<TData>
@@ -30,22 +30,19 @@ export function SelectStatusAction<TData>({
   async function handleUpdateStatus(status: string) {
     const data = status as OrderStatus
 
-    const result = await updateDishStatus(task.orderId, {
-      status: data,
-      dishId: task.id,
-    })
-
-    if (result.success) {
-      toast({
-        title: 'Status atualizado com sucesso !',
-        description: result.message,
+    try {
+      await updateDishStatus(task.orderId, {
+        status: data,
+        dishId: task.id,
       })
-    } else {
-      toast({
-        title: 'Erro ao atualizar status',
-        description: result.message,
-        variant: 'destructive',
-      })
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao atualizar status',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
     }
   }
   return (

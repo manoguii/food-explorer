@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { deleteCategory } from '@/db/mutations'
 import { Trash } from 'lucide-react'
 
 import { Category } from '@/lib/types/definitions'
@@ -15,7 +16,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { deleteCategory } from '@/app/actions'
 
 import { ButtonWithLoading } from './buttons/button-with-loading'
 import { buttonVariants } from './ui/button'
@@ -29,23 +29,20 @@ export function DeleteCategory({ category }: { category: Category }) {
     event.preventDefault()
     setIsDeleteLoading(true)
 
-    const result = await deleteCategory(category.id)
-
-    if (result.success) {
-      toast({
-        title: 'Categoria removida com sucesso !',
-        description: result.message,
-      })
-    } else {
-      toast({
-        title: 'Erro ao remover a categoria',
-        description: result.message,
-        variant: 'destructive',
-      })
+    try {
+      await deleteCategory(category.id)
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: 'Erro ao excluir categoria',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    } finally {
+      setIsDeleteLoading(false)
+      setShowDeleteAlert(false)
     }
-
-    setIsDeleteLoading(false)
-    setShowDeleteAlert(false)
   }
 
   return (

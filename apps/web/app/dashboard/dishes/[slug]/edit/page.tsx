@@ -1,4 +1,6 @@
-import { fetchCategories, getDishBySlug } from '@/lib/data'
+import { notFound } from 'next/navigation'
+import { fetchCategories, getDishBySlug } from '@/db/fetch'
+
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateCategory } from '@/components/forms/dialog/create-category'
 import { UpdateDishForm } from '@/components/forms/update-dish'
@@ -12,6 +14,10 @@ export default async function UpdateDishPage({
     fetchCategories(),
     getDishBySlug(params.slug),
   ])
+
+  if (!dish) {
+    notFound()
+  }
 
   return (
     <Dashboard>
