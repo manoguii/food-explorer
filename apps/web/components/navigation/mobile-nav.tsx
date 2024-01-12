@@ -40,7 +40,7 @@ export function MobileNav() {
         </Suspense>
 
         <nav className="flex flex-col space-y-3">
-          {routesConfig.mainNav?.map((item) => (
+          {routesConfig.foodNav?.map((item) => (
             <NavigationItem
               key={item.href}
               href={item.href}

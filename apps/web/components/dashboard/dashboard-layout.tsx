@@ -17,12 +17,14 @@ Dashboard.Header = function DashboardHeader({
 }) {
   return (
     <div className="border-b py-10">
-      <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-4 sm:flex-row sm:items-center">
+      <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-4 px-4 sm:flex-row sm:items-center">
         <div className="grid">
-          <h1 className="text-2xl font-medium leading-tight md:text-3xl">
+          <h1 className="text-2xl font-bold leading-tight sm:text-3xl">
             {heading}
           </h1>
-          {text && <p className="text-muted-foreground">{text}</p>}
+          {text && (
+            <p className="text-sm text-muted-foreground sm:text-base">{text}</p>
+          )}
         </div>
         {children}
       </div>

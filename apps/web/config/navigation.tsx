@@ -1,15 +1,5 @@
-import { SidebarNavItem } from '@/lib/types/definitions'
-
-interface RoutesConfig {
-  mainNav: {
-    title: string
-    href: string
-  }[]
-  dashboardNav: SidebarNavItem[]
-}
-
-export const routesConfig: RoutesConfig = {
-  mainNav: [
+export const routesConfig = {
+  foodNav: [
     {
       title: 'Meus favoritos',
       href: '/food/favorites',
@@ -23,22 +13,18 @@ export const routesConfig: RoutesConfig = {
     {
       title: 'Inicio',
       href: '/dashboard',
-      icon: 'home',
     },
     {
       title: 'Pratos',
       href: '/dashboard/dishes',
-      icon: 'dishes',
     },
     {
       title: 'Pedidos',
       href: '/dashboard/orders',
-      icon: 'orders',
     },
     {
       title: 'Categorias',
       href: '/dashboard/categories',
-      icon: 'categories',
     },
   ],
 }

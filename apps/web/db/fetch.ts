@@ -16,14 +16,7 @@ export async function fetchFavoriteDishes(page: number) {
   try {
     const endpoint = `/dish/favorites?page=${page}`
 
-    const favoriteDishes = await fetcher<FetchFavoriteDishesResponse>(
-      endpoint,
-      {
-        next: {
-          tags: ['favorite-dishes'],
-        },
-      },
-    )
+    const favoriteDishes = await fetcher<FetchFavoriteDishesResponse>(endpoint)
 
     return favoriteDishes
   } catch (error) {
@@ -65,11 +58,7 @@ export async function getDishBySlug(slug: string) {
 export async function fetchDishesByCategory(category: string, page: number) {
   try {
     const endpoint = `/dish/${category}?page=${page}`
-    const dishes = await fetcher<FetchDishesResponse>(endpoint, {
-      next: {
-        tags: ['dishes-by-category'],
-      },
-    })
+    const dishes = await fetcher<FetchDishesResponse>(endpoint, {})
 
     return dishes
   } catch (error) {
@@ -90,11 +79,7 @@ export async function fetchDishes({
 }): Promise<FetchDishesResponse> {
   try {
     const endpoint = `/dishes?page=${page}&query=${query}`
-    const dishes = await fetcher<FetchDishesResponse>(endpoint, {
-      next: {
-        tags: ['all-dishes'],
-      },
-    })
+    const dishes = await fetcher<FetchDishesResponse>(endpoint)
 
     return dishes
   } catch (error) {

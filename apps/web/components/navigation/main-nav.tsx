@@ -13,7 +13,7 @@ export function MainNav() {
       <Logo href="/food" responsive />
 
       <nav className="flex items-center space-x-6 text-sm font-medium">
-        {routesConfig.mainNav.map((route) => {
+        {routesConfig.foodNav.map((route) => {
           return (
             <NavigationItem
               key={route.href}

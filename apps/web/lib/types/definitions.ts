@@ -1,5 +1,3 @@
-import { Icons } from '@/components/icons'
-
 export type OrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
 export type Label = 'TABLE' | 'DELIVERY' | 'TAKEOUT'
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH'
@@ -130,10 +128,4 @@ export type UploadFileResponse = {
 
 export interface CartItem extends Dish {
   quantity?: number
-}
-
-export type SidebarNavItem = {
-  title: string
-  href: string
-  icon?: keyof typeof Icons
 }

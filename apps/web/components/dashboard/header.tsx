@@ -67,8 +67,8 @@ export function DashboardHeader() {
 
   return (
     <>
-      <header className="z-50 flex h-14 items-end justify-between gap-4 px-14">
-        <div>
+      <header className="z-50 flex h-14 items-end justify-between gap-4 pl-14 pr-5">
+        <Link href="/dashboard">
           <svg
             style={{
               transform: `scale(${logoScale})`,
@@ -91,7 +91,7 @@ export function DashboardHeader() {
           <div className="flex h-10 items-center">
             <strong className="text-xl">Food Explorer</strong>
           </div>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-2">
           <ModeToggle variant="outline" className="rounded-full" />
