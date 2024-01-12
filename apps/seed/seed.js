@@ -5,28 +5,15 @@ const fs = require('fs')
 const path = require('path')
 const restaurantData = require('./data.js')
 
-const baseUrl = 'http://localhost:3333'
-
-async function createUser() {
-  try {
-    const response = await axios.post(`${baseUrl}/accounts`, {
-      name: 'Guilherme David',
-      email: 'guilhermedavid@gmail.com',
-      password: '123456',
-    })
-
-    return response.data.user
-  } catch (error) {
-    console.error('Erro ao criar usuário:', error)
-    throw error
-  }
-}
+const API_BASE_URL = 'http://localhost:3333'
+const ADMIN_USER_EMAIL = 'guilhermedavidrk@gmail.com'
+const ADMIN_USER_PASSWORD = '123456'
 
 async function createSession() {
   try {
-    const response = await axios.post(`${baseUrl}/sessions`, {
-      email: 'guilhermedavid@gmail.com',
-      password: '123456',
+    const response = await axios.post(`${API_BASE_URL}/sessions`, {
+      email: ADMIN_USER_EMAIL,
+      password: ADMIN_USER_PASSWORD,
     })
 
     return response.data.user.access_token
@@ -44,7 +31,7 @@ async function uploadImage(imagePath, token) {
     path.basename(imagePath),
   )
 
-  const result = await axios.post(`${baseUrl}/attachments`, formData, {
+  const result = await axios.post(`${API_BASE_URL}/attachments`, formData, {
     headers: {
       ...formData.getHeaders(),
       Authorization: `Bearer ${token}`,
@@ -57,7 +44,7 @@ async function uploadImage(imagePath, token) {
 async function createCategory(name, token) {
   try {
     const response = await axios.post(
-      `${baseUrl}/categories`,
+      `${API_BASE_URL}/categories`,
       { name },
       {
         headers: {
@@ -82,7 +69,7 @@ async function createDish(categoryId, attachmentId, dishData, token) {
       attachmentsIds: [attachmentId],
     }
 
-    await axios.post(`${baseUrl}/dishes`, dishBody, {
+    await axios.post(`${API_BASE_URL}/dishes`, dishBody, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -95,9 +82,10 @@ async function createDish(categoryId, attachmentId, dishData, token) {
     throw error
   }
 }
+
 async function seedDatabase() {
-  await createUser()
   const token = await createSession()
+
   try {
     const categories = restaurantData.categories.map(
       (category) => category.name,
@@ -110,7 +98,7 @@ async function seedDatabase() {
     }
 
     for (let i = 0; i < restaurantData.dishes.length; i++) {
-      const imagePath = path.resolve(__dirname, `images/dish-${i + 1}.png`)
+      const imagePath = restaurantData.dishes[i].imagePath
       const attachmentId = await uploadImage(imagePath, token)
 
       // Seleciona aleatoriamente uma categoria para cada prato
@@ -130,3 +118,4 @@ async function seedDatabase() {
 }
 
 seedDatabase()
+
