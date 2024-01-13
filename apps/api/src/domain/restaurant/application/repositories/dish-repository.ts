@@ -24,6 +24,8 @@ export abstract class DishRepository {
     totalPages: number
   }>
 
+  abstract findManyByIds(ids: string[]): Promise<Dish[]>
+
   abstract save(dish: Dish): Promise<void>
   abstract create(dish: Dish): Promise<void>
   abstract delete(dish: Dish): Promise<void>

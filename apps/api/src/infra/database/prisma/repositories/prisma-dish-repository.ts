@@ -149,6 +149,18 @@ export class PrismaDishRepository implements DishRepository {
     }
   }
 
+  async findManyByIds(ids: string[]): Promise<Dish[]> {
+    const dishes = await this.prisma.dish.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    })
+
+    return dishes.map(PrismaDishMapper.toDomain)
+  }
+
   async create(dish: Dish): Promise<void> {
     const data = PrismaDishMapper.toPrisma(dish)
 

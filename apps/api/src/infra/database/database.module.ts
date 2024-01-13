@@ -17,10 +17,10 @@ import { PrismaDishIngredientsRepository } from './prisma/repositories/prisma-di
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
 import { FavoriteDishRepository } from '@/domain/restaurant/application/repositories/favorite-dish-repository'
 import { PrismaFavoriteDishRepository } from './prisma/repositories/prisma-favorite-dish-repository'
-import { OrderRepository } from '@/domain/restaurant/application/repositories/order-repository'
-import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository'
-import { OrderItemsRepository } from '@/domain/restaurant/application/repositories/order-item-repository'
-import { PrismaOrderItemsRepository } from './prisma/repositories/prisma-order-item-repository'
+import { CartRepository } from '@/domain/restaurant/application/repositories/cart-repository'
+import { PrismaCartRepository } from './prisma/repositories/prisma-cart-repository'
+import { CartItemsRepository } from '@/domain/restaurant/application/repositories/cart-item-repository'
+import { PrismaCartItemsRepository } from './prisma/repositories/prisma-cart-item-repository'
 
 @Module({
   imports: [EnvModule],
@@ -55,12 +55,12 @@ import { PrismaOrderItemsRepository } from './prisma/repositories/prisma-order-i
       useClass: PrismaFavoriteDishRepository,
     },
     {
-      provide: OrderRepository,
-      useClass: PrismaOrderRepository,
+      provide: CartRepository,
+      useClass: PrismaCartRepository,
     },
     {
-      provide: OrderItemsRepository,
-      useClass: PrismaOrderItemsRepository,
+      provide: CartItemsRepository,
+      useClass: PrismaCartItemsRepository,
     },
     {
       provide: Uploader,
@@ -77,8 +77,8 @@ import { PrismaOrderItemsRepository } from './prisma/repositories/prisma-order-i
     DishAttachmentsRepository,
     DishIngredientsRepository,
     FavoriteDishRepository,
-    OrderRepository,
-    OrderItemsRepository,
+    CartRepository,
+    CartItemsRepository,
   ],
 })
 export class DatabaseModule {}

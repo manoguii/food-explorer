@@ -26,14 +26,10 @@ import { EditCategoryController } from './controllers/edit-category.controller'
 import { EditCategoryUseCase } from '@/domain/restaurant/application/use-cases/edit-category'
 import { FetchFavoriteDishesController } from './controllers/fetch-favorite-dishes.controller'
 import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-favorite-dishes'
-import { CreateOrderController } from './controllers/create-order.controller'
-import { CreateOrderUseCase } from '@/domain/restaurant/application/use-cases/create-order'
-import { EditOrderController } from './controllers/edit-order.controller'
-import { EditOrderUseCase } from '@/domain/restaurant/application/use-cases/edit-order'
-import { EditDishStatusController } from './controllers/edit-dish-status.controller'
-import { EditDishStatusUseCase } from '@/domain/restaurant/application/use-cases/edit-dish-status'
-import { FetchRecentOrderController } from './controllers/fetch-recent-orders.controller'
-import { FetchRecentOrderUseCase } from '@/domain/restaurant/application/use-cases/fetch-recent-orders'
+import { CreateCartController } from './controllers/create-cart.controller'
+import { CreateCartUseCase } from '@/domain/restaurant/application/use-cases/create-cart'
+import { EditCartController } from './controllers/edit-cart.controller'
+
 import { FetchCategoriesController } from './controllers/fetch-categories.controller'
 import { FetchCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-categories'
 import { FetchFilteredDishesController } from './controllers/fetch-filtered-dishes.controller'
@@ -42,8 +38,11 @@ import { FetchDishesByCategoryController } from './controllers/fetch-dishes-by-c
 import { FetchDishesByCategoryUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-category'
 import { DeleteDishFromFavoritesUseCase } from '@/domain/restaurant/application/use-cases/delete-dish-from-favorites'
 import { DeleteDishFromFavoritesController } from './controllers/delete-dish-from-favorites.controller'
-import { GetOrderByIdController } from './controllers/get-order-by-id.controller'
-import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/get-order-by-id'
+import { GetCartByIdController } from './controllers/get-cart-by-id.controller'
+import { GetCartByIdUseCase } from '@/domain/restaurant/application/use-cases/get-cart-by-id'
+import { EditCartUseCase } from '@/domain/restaurant/application/use-cases/edit-cart'
+import { DeleteCartController } from './controllers/delete-cart.controller'
+import { DeleteCartUseCase } from '@/domain/restaurant/application/use-cases/delete-cart'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -60,15 +59,14 @@ import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/g
     DeleteDishController,
     EditCategoryController,
     FetchFavoriteDishesController,
-    CreateOrderController,
-    EditOrderController,
-    EditDishStatusController,
+    CreateCartController,
+    EditCartController,
+    DeleteCartController,
     FetchDishesByCategoryController,
-    FetchRecentOrderController,
     FetchCategoriesController,
     FetchFilteredDishesController,
     DeleteDishFromFavoritesController,
-    GetOrderByIdController,
+    GetCartByIdController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -83,15 +81,14 @@ import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/g
     DeleteDishUseCase,
     EditCategoryUseCase,
     FetchFavoriteDishesUseCase,
-    CreateOrderUseCase,
-    EditOrderUseCase,
-    EditDishStatusUseCase,
+    CreateCartUseCase,
+    EditCartUseCase,
+    DeleteCartUseCase,
     FetchDishesByCategoryUseCase,
-    FetchRecentOrderUseCase,
     FetchCategoriesUseCase,
     FetchFilteredDishesUseCase,
     DeleteDishFromFavoritesUseCase,
-    GetOrderByIdUseCase,
+    GetCartByIdUseCase,
   ],
 })
 export class HttpModule {}

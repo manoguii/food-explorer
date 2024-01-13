@@ -6,6 +6,18 @@ class NumberWatchedList extends WatchedList<number> {
   }
 }
 
+class ItemsWatchedList extends WatchedList<{
+  dishId: string
+  quantity: number
+}> {
+  compareItems(
+    a: { dishId: string; quantity: number },
+    b: { dishId: string; quantity: number },
+  ): boolean {
+    return a.dishId === b.dishId && a.quantity === b.quantity
+  }
+}
+
 describe('watched list', () => {
   it('should be able to create a watched list with initial items', () => {
     const list = new NumberWatchedList([1, 2, 3])
@@ -71,5 +83,25 @@ describe('watched list', () => {
 
     expect(list.exists(item1.id)).toBe(true)
     expect(list.exists(item2.id)).toBe(true)
+  })
+
+  it('test list', () => {
+    const receivedItems = [
+      { dishId: 'id-1', quantity: 3 },
+      { dishId: 'id-2', quantity: 2 },
+      { dishId: 'id-3', quantity: 1 },
+    ]
+
+    const currentItems = [
+      { dishId: 'id-1', quantity: 1 },
+      { dishId: 'id-2', quantity: 2 },
+    ]
+
+    const list = new ItemsWatchedList(currentItems)
+
+    list.update(receivedItems)
+
+    expect(list.currentItems).toHaveLength(3)
+    expect(list.currentItems).toEqual(receivedItems)
   })
 })

@@ -21,7 +21,7 @@ model User {
   role     UserRole @default(CLIENT)
 
   favoriteDishes FavoriteDishes[]
-  orders         Order[]
+  carts          Cart[]
 
   @@map("users")
 }
@@ -53,7 +53,7 @@ model Dish {
 
   attachments Attachment[]
   ingredients Ingredient[]
-  orderItems  OrderItem[]
+  cartItems   CartItem[]
   favoriteOf  FavoriteDishes[]
 
   @@map("dishes")
@@ -70,55 +70,36 @@ model Category {
   @@map("categories")
 }
 
-enum OrderStatus {
-  PENDING
-  PREPARING
-  DELIVERED
-  CANCELED
-}
+model Cart {
+  id          String  @id @default(uuid())
+  totalAmount Int
+  checkoutUrl String? @map("checkout_url")
 
-enum Label {
-  TABLE
-  DELIVERY
-  TAKEOUT
-}
-
-enum Priority {
-  LOW
-  MEDIUM
-  HIGH
-}
-
-model Order {
-  id           String      @id @default(uuid())
-  code         String
-  status       OrderStatus @default(PENDING)
-  label        Label       @default(TABLE)
-  priority     Priority    @default(LOW)
-  orderDetails String
-  createdAt    DateTime    @default(now()) @map("created_at")
-  updatedAt    DateTime?   @updatedAt @map("updated_at")
-  userId       String      @map("user_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  userId    String    @map("user_id")
 
   user User @relation(fields: [userId], references: [id])
 
-  orderItems OrderItem[]
+  cartItems CartItem[]
 
-  @@map("orders")
+  @@map("carts")
 }
 
-model OrderItem {
-  id        String      @id @default(uuid())
+model CartItem {
+  id        String    @id @default(uuid())
   quantity  Int
-  status    OrderStatus @default(PENDING)
-  updatedAt DateTime?   @updatedAt @map("updated_at")
-  orderId   String      @map("order_id")
-  dishId    String      @map("dish_id")
+  cost      Int
+  dishPrice Int       @map("dish_cost")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
-  order Order @relation(fields: [orderId], references: [id])
-  dish  Dish  @relation(fields: [dishId], references: [id])
+  cartId String @map("cart_id")
+  dishId String @map("dish_id")
 
-  @@map("order_items")
+  cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  dish Dish @relation(fields: [dishId], references: [id])
+
+  @@map("cart_items")
 }
 
 model Ingredient {

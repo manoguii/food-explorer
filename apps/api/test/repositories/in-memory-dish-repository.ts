@@ -251,6 +251,12 @@ export class InMemoryDishRepository implements DishRepository {
     }
   }
 
+  async findManyByIds(ids: string[]): Promise<Dish[]> {
+    const dishes = this.items.filter((item) => ids.includes(item.id.toString()))
+
+    return dishes
+  }
+
   async create(dish: Dish) {
     this.items.push(dish)
 
