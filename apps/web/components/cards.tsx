@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Category, Dish } from '@/lib/types/definitions'
+import { Category, DishWithDetails } from '@/lib/types/definitions'
 import { cn, formatDate } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { AddToCart } from './buttons/add-to-cart'
 import { FavoriteButton } from './buttons/favorite-button'
+import { AddToCart } from './cart/add-to-cart'
 import { DeleteCategory } from './delete-category'
 import Price from './price'
 import { shimmer } from './skeletons'
@@ -18,7 +18,7 @@ export function DishCard({
   dish,
   withoutFooter = false,
 }: {
-  dish: Dish
+  dish: DishWithDetails
   withoutFooter?: boolean
 }) {
   return (

@@ -1,10 +1,11 @@
-import { Dish } from '@/lib/types/definitions'
+import { DishWithDetails } from '@/lib/types/definitions'
 import { cn } from '@/lib/utils'
 import { Badge, badgeVariants } from '@/components/ui/badge'
-import { AddToCart } from '@/components/buttons/add-to-cart'
 import Price from '@/components/price'
 
-export function DishDescription({ dish }: { dish: Dish }) {
+import { AddToCart } from './cart/add-to-cart'
+
+export function DishDescription({ dish }: { dish: DishWithDetails }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">

@@ -1,7 +1,7 @@
-import { EditCartUseCase } from './edit-cart'
+import { DeleteDishToCartUseCase } from './delete-dish-to-cart'
 import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
 import { makeCart } from 'test/factories/make-cart'
-import { makeCartItem } from 'test/factories/make-cart-item'
+
 import { InMemoryCartItemsRepository } from 'test/repositories/in-memory-cart-item-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
@@ -11,6 +11,7 @@ import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 import { makeDish } from 'test/factories/make-dish'
+import { makeCartItem } from 'test/factories/make-cart-item'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -22,9 +23,9 @@ let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryCartRepository: InMemoryCartRepository
 let inMemoryCartItemsRepository: InMemoryCartItemsRepository
 
-let sut: EditCartUseCase
+let sut: DeleteDishToCartUseCase
 
-describe('Edit dish status', () => {
+describe('Delete dish to cart', () => {
   beforeEach(() => {
     inMemoryCartItemsRepository = new InMemoryCartItemsRepository()
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
@@ -46,56 +47,115 @@ describe('Edit dish status', () => {
       inMemoryClientsRepository,
     )
 
-    sut = new EditCartUseCase(
+    sut = new DeleteDishToCartUseCase(
       inMemoryCartRepository,
       inMemoryCartItemsRepository,
     )
   })
 
-  it('should be able to update dish quantity in the cart', async () => {
-    const cart = makeCart()
+  it('should be able to delete dish to cart', async () => {
+    const newCart = makeCart()
 
-    await inMemoryCartRepository.create(cart)
+    await inMemoryCartRepository.create(newCart)
 
-    const dish = makeDish()
+    const [batata, salada] = await Promise.all([makeDish(), makeDish()])
 
-    await inMemoryDishRepository.create(dish)
+    await Promise.all([
+      inMemoryDishRepository.create(batata),
+      inMemoryDishRepository.create(salada),
+    ])
 
     inMemoryCartItemsRepository.items.push(
       makeCartItem({
-        cartId: cart.id,
-        dishId: dish.id,
+        cartId: newCart.id,
+        dishId: batata.id,
         quantity: 1,
-        dishPrice: dish.price,
+        dishPrice: batata.price,
+      }),
+      makeCartItem({
+        cartId: newCart.id,
+        dishId: salada.id,
+        quantity: 1,
+        dishPrice: salada.price,
       }),
     )
 
     const result = await sut.execute({
-      cartId: cart.id.toString(),
-      dish: { dishId: dish.id.toString(), quantity: 10 },
+      cartId: newCart.id.toString(),
+      dishId: batata.id.toString(),
     })
-
-    expect(result.isRight()).toBe(true)
 
     const cartItemsOnDb = inMemoryCartItemsRepository.items
     const cartsOnDb = inMemoryCartRepository.items
 
+    expect(result.isRight()).toBe(true)
+
     expect(cartsOnDb).toHaveLength(1)
     expect(cartItemsOnDb).toHaveLength(1)
 
-    expect(cartItemsOnDb[0].quantity).toBe(10)
+    expect(cartItemsOnDb[0].cost).toBe(1 * salada.price)
 
-    expect(cartItemsOnDb[0].cost).toBe(dish.price * 10)
-    expect(cartsOnDb[0].totalAmount).toBe(dish.price * 10)
+    const totalAmount = cartItemsOnDb.reduce((acc, item) => {
+      return acc + item.cost
+    }, 0)
+
+    expect(cartsOnDb[0].totalAmount).toBe(totalAmount)
   })
 
-  it('should not be able to edit a dish quantity when the cart does not exist', async () => {
+  it('should be able to delete cart when the cart is empty', async () => {
+    const newCart = makeCart()
+
+    await inMemoryCartRepository.create(newCart)
+
+    const [batata, salada] = await Promise.all([makeDish(), makeDish()])
+
+    await Promise.all([
+      inMemoryDishRepository.create(batata),
+      inMemoryDishRepository.create(salada),
+    ])
+
+    inMemoryCartItemsRepository.items.push(
+      makeCartItem({
+        cartId: newCart.id,
+        dishId: batata.id,
+        quantity: 1,
+        dishPrice: batata.price,
+      }),
+      makeCartItem({
+        cartId: newCart.id,
+        dishId: salada.id,
+        quantity: 1,
+        dishPrice: salada.price,
+      }),
+    )
+
+    const result = await sut.execute({
+      cartId: newCart.id.toString(),
+      dishId: batata.id.toString(),
+    })
+
+    expect(result.isRight()).toBe(true)
+
+    expect(inMemoryCartRepository.items).toHaveLength(1)
+    expect(inMemoryCartItemsRepository.items).toHaveLength(1)
+
+    await sut.execute({
+      cartId: newCart.id.toString(),
+      dishId: salada.id.toString(),
+    })
+
+    expect(inMemoryCartItemsRepository.items).toHaveLength(0)
+    expect(inMemoryCartRepository.items).toHaveLength(0)
+  })
+
+  it('should not be able delete dish to cart when the cart does not exist', async () => {
     const result = await sut.execute({
       cartId: 'invalid-cart-id',
-      dish: { dishId: 'edited-dish', quantity: 2 },
+      dishId: 'edited-dish',
     })
 
     expect(result.isLeft()).toBe(true)
+
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

@@ -6,6 +6,8 @@ export abstract class CartRepository {
 
   abstract findByIdWithDetails(id: string): Promise<CartWithDetails | null>
 
+  abstract findEmptyCartByClientId(clientId: string): Promise<Cart | null>
+
   abstract save(cart: Cart): Promise<void>
   abstract create(cart: Cart): Promise<void>
   abstract delete(cartId: Cart): Promise<void>

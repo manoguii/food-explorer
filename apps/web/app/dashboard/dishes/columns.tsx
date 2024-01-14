@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { Pencil } from 'lucide-react'
 
-import { Dish } from '@/lib/types/definitions'
+import { DishWithDetails } from '@/lib/types/definitions'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -14,7 +14,7 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 
 import { DeleteRowAction } from './data-table-row-actions'
 
-export const columns: ColumnDef<Dish>[] = [
+export const columns: ColumnDef<DishWithDetails>[] = [
   {
     id: 'select',
     header: ({ table }) => (

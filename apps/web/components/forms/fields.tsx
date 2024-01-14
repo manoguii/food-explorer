@@ -3,7 +3,7 @@ import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { AlertCircle, Check, Loader2, X } from 'lucide-react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { CreateDishFormValues, UpdateDishFormValues } from '@/lib/schemas'
+import { DishFormValues } from '@/lib/schemas'
 import { Category as CategoryType } from '@/lib/types/definitions'
 import { cn } from '@/lib/utils'
 import { Dialog } from '@/components/ui/dialog'
@@ -292,7 +292,7 @@ export function Ingredients({ type }: { type: 'create' | 'update' }) {
   const [ingredientsDialogOpen, setIngredientsDialogOpen] =
     React.useState(false)
 
-  const form = useFormContext<UpdateDishFormValues | CreateDishFormValues>()
+  const form = useFormContext<DishFormValues>()
 
   const { remove } = useFieldArray({
     name: 'ingredients',

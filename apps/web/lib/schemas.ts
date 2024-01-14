@@ -1,6 +1,70 @@
 import { z } from 'zod'
 
-// valid orders schema
+export const dishFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: 'O nome deve ter pelo menos 2 caracteres.',
+    })
+    .max(30, {
+      message: 'O nome deve ter no máximo 30 caracteres.',
+    }),
+  file: z.instanceof(File, {
+    message: 'Selecione uma imagem para o prato.',
+  }),
+  price: z.string().min(1, {
+    message: 'Digite um preço válido.',
+  }),
+  category: z.string().min(1, {
+    message: 'Selecione uma categoria.',
+  }),
+  description: z.string().max(160).min(4),
+  ingredients: z
+    .array(
+      z.object({
+        value: z
+          .string()
+          .min(3, { message: 'Adicione um ingrediente valido !' }),
+      }),
+    )
+    .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
+})
+
+export const categoryFormSchema = z.object({
+  category: z
+    .string()
+    .min(3, {
+      message: 'A categoria deve ter pelo menos 3 caractere.',
+    })
+    .max(20, {
+      message: 'A categoria deve ter no máximo 20 caracteres.',
+    }),
+})
+
+export const userAuthFormSchema = z.object({
+  email: z.string().email({
+    message: 'O email deve ser válido.',
+  }),
+  password: z.string().min(6, {
+    message: 'A senha deve ter pelo menos 6 caracteres.',
+  }),
+})
+
+export const createAccountFormSchema = userAuthFormSchema.extend({
+  name: z
+    .string()
+    .min(2, {
+      message: 'O nome deve ter pelo menos 2 caracteres.',
+    })
+    .max(30, {
+      message: 'O nome deve ter no máximo 30 caracteres.',
+    }),
+})
+
+export const searchDishFormSchema = z.object({
+  search: z.string(),
+})
+
 export const taskSchema = z.object({
   id: z.string(),
   details: z.string(),
@@ -10,23 +74,6 @@ export const taskSchema = z.object({
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']),
   createdAt: z.string(),
   updatedAt: z.string().nullable(),
-})
-
-export const dishSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  price: z.number(),
-  slug: z.string(),
-  attachments: z.array(
-    z.object({
-      id: z.string(),
-      title: z.string(),
-      url: z.string(),
-    }),
-  ),
-  category: z.string(),
-  ingredients: z.array(z.string()),
 })
 
 export const detailsSchema = z.object({
@@ -47,132 +94,12 @@ export const detailsSchema = z.object({
   orderId: z.string(),
 })
 
-export const createDishFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: 'O nome deve ter pelo menos 2 caracteres.',
-    })
-    .max(30, {
-      message: 'O nome deve ter no máximo 30 caracteres.',
-    }),
-  file: z.instanceof(File, {
-    message: 'Selecione uma imagem para o prato.',
-  }),
-  price: z.string().min(2, {
-    message: 'Digite um preço válido.',
-  }),
-  category: z.string().min(1, {
-    message: 'Selecione uma categoria.',
-  }),
-  description: z.string().max(160).min(4),
-  ingredients: z
-    .array(
-      z.object({
-        value: z
-          .string()
-          .min(3, { message: 'Adicione um ingrediente valido !' }),
-      }),
-    )
-    .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
-})
-
-export const updateDishFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: 'Para atualizar o nome, ele deve ter pelo menos 2 caracteres.',
-    })
-    .max(30, {
-      message: 'O nome deve ter no máximo 30 caracteres.',
-    }),
-  file: z
-    .instanceof(File, {
-      message: 'Selecione uma imagem para o prato.',
-    })
-    .optional(),
-  price: z.string().min(2, {
-    message: 'Digite um preço válido.',
-  }),
-  category: z.string().min(1, {
-    message: 'Selecione uma categoria.',
-  }),
-  description: z
-    .string()
-    .min(4, {
-      message: 'A descrição deve ter pelo menos 4 caracteres.',
-    })
-    .max(160, {
-      message: 'A descrição deve ter no máximo 160 caracteres.',
-    }),
-  ingredients: z
-    .array(
-      z.object({
-        value: z
-          .string()
-          .min(3, { message: 'Adicione um ingrediente valido !' }),
-      }),
-    )
-    .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
-})
-
-export const updateCategoryFormSchema = z.object({
-  category: z
-    .string()
-    .min(3, {
-      message: 'A categoria deve ter pelo menos 3 caractere.',
-    })
-    .max(20, {
-      message: 'A categoria deve ter no máximo 20 caracteres.',
-    }),
-})
-
-export const newCategoryFormSchema = z.object({
-  category: z
-    .string({
-      required_error: 'O nome da categoria é obrigatório.',
-    })
-    .regex(/^[a-zA-Z]+(-[a-zA-Z]+)*$/, {
-      message: 'Digite um nome de categoria válido.',
-    }),
-})
-
-export const createAccountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: 'O nome deve ter pelo menos 2 caracteres.',
-    })
-    .max(30, {
-      message: 'O nome deve ter no máximo 30 caracteres.',
-    }),
-  email: z.string().email({
-    message: 'O email deve ser válido.',
-  }),
-  password: z.string().min(6, {
-    message: 'A senha deve ter pelo menos 6 caracteres.',
-  }),
-})
-
-export const userAuthFormSchema = z.object({
-  email: z.string().email({
-    message: 'O email deve ser válido.',
-  }),
-  password: z.string().min(6, {
-    message: 'A senha deve ter pelo menos 6 caracteres.',
-  }),
-})
-
-export const searchDishFormSchema = z.object({
-  search: z.string(),
-})
-
 export type Task = z.infer<typeof taskSchema>
 export type Details = z.infer<typeof detailsSchema>
-export type UserAuthFormValues = z.infer<typeof userAuthFormSchema>
-export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
-export type CreateDishFormValues = z.infer<typeof createDishFormSchema>
-export type UpdateDishFormValues = z.infer<typeof updateDishFormSchema>
-export type UpdateCategoryFormValues = z.infer<typeof updateCategoryFormSchema>
-export type NewCategoryFormSchema = z.infer<typeof newCategoryFormSchema>
+
+export type CategoryFormSchema = z.infer<typeof categoryFormSchema>
 export type SearchDishFormValues = z.infer<typeof searchDishFormSchema>
+export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
+export type AuthFormValues = z.infer<typeof userAuthFormSchema>
+export type CategoryFormValues = z.infer<typeof categoryFormSchema>
+export type DishFormValues = z.infer<typeof dishFormSchema>

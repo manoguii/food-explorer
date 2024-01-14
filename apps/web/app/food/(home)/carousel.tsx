@@ -5,7 +5,7 @@ import 'react-multi-carousel/lib/styles.css'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Carousel, { ResponsiveType } from 'react-multi-carousel'
 
-import { Dish } from '@/lib/types/definitions'
+import { DishWithDetails } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
 import { DishCard } from '@/components/cards'
 
@@ -13,7 +13,7 @@ export function CarouselList({
   dishes,
   category,
 }: {
-  dishes: Dish[]
+  dishes: DishWithDetails[]
   category?: string
 }) {
   return (

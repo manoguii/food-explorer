@@ -28,13 +28,13 @@ describe('Create cart (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /carts', async () => {
+  test('[POST] /cart', async () => {
     const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const response = await request(app.getHttpServer())
-      .post('/carts')
+      .post('/cart')
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
 

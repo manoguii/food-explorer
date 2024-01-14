@@ -38,6 +38,23 @@ export class PrismaCartRepository implements CartRepository {
     this.cartItemsRepository.createMany(cart.items.getItems())
   }
 
+  async findEmptyCartByClientId(clientId: string): Promise<Cart | null> {
+    const cart = await this.prisma.cart.findFirst({
+      where: {
+        userId: clientId,
+        cartItems: {
+          none: {},
+        },
+      },
+    })
+
+    if (!cart) {
+      return null
+    }
+
+    return PrismaCartMapper.toDomain(cart)
+  }
+
   async findByIdWithDetails(id: string): Promise<CartWithDetails | null> {
     const cart = await this.prisma.cart.findUnique({
       where: {

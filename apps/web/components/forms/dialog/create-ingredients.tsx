@@ -2,7 +2,7 @@ import React from 'react'
 import { AlertCircle, Stars, X } from 'lucide-react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { CreateDishFormValues } from '@/lib/schemas'
+import { DishFormValues } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import * as D from '@/components/ui/dialog'
@@ -27,7 +27,7 @@ export function CreateIngredients({
 
   const [ingredient, setIngredient] = React.useState('')
 
-  const form = useFormContext<CreateDishFormValues>()
+  const form = useFormContext<DishFormValues>()
 
   const { remove, insert } = useFieldArray({
     name: 'ingredients',

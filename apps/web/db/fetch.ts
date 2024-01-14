@@ -4,9 +4,7 @@ import {
   FetchCategoriesResponse,
   FetchDishesResponse,
   FetchFavoriteDishesResponse,
-  FetchOrdersResponse,
   GetDishBySlugResponse,
-  GetOrderByIdResponse,
   GetUserSessionResponse,
 } from '@/lib/types/definitions'
 
@@ -88,33 +86,6 @@ export async function fetchDishes({
       dishes: [],
       totalPages: 0,
     }
-  }
-}
-
-export async function fetchOrders(): Promise<FetchOrdersResponse> {
-  try {
-    const endpoint = '/orders'
-    const orders = await fetcher<FetchOrdersResponse>(endpoint)
-
-    return orders
-  } catch (error) {
-    console.error(error)
-    return {
-      orders: [],
-      totalPages: 0,
-    }
-  }
-}
-
-export async function getOrderById(orderId: string) {
-  try {
-    const endpoint = `/orders/${orderId}`
-    const { order } = await fetcher<GetOrderByIdResponse>(endpoint)
-
-    return order
-  } catch (error) {
-    console.error(error)
-    return null
   }
 }
 

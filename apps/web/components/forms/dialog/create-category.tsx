@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { AlertCircle, Plus } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 
-import { NewCategoryFormSchema, newCategoryFormSchema } from '@/lib/schemas'
+import { CategoryFormSchema, categoryFormSchema } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -31,14 +31,14 @@ export function CreateCategory() {
     handleSubmit,
     formState: { isSubmitting, errors },
     reset,
-  } = useForm<NewCategoryFormSchema>({
-    resolver: zodResolver(newCategoryFormSchema),
+  } = useForm<CategoryFormSchema>({
+    resolver: zodResolver(categoryFormSchema),
     defaultValues: {
       category: '',
     },
   })
 
-  async function handleCreateCategory({ category }: NewCategoryFormSchema) {
+  async function handleCreateCategory({ category }: CategoryFormSchema) {
     try {
       await createCategory(category)
     } catch (error) {

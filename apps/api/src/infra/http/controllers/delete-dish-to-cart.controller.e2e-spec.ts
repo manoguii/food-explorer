@@ -1,7 +1,6 @@
-import { CreateCartUseCase } from '@/domain/restaurant/application/use-cases/create-cart'
-import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -9,17 +8,17 @@ import request from 'supertest'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
+import { CartFactory } from 'test/factories/make-cart'
 import { CartItemFactory } from 'test/factories/make-cart-item'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
-describe('Fetch recent carts (E2E)', () => {
+describe('Delete dish to cart (E2E)', () => {
   let app: INestApplication
-  let jwt: JwtService
   let prisma: PrismaService
+  let jwt: JwtService
   let clientFactory: ClientFactory
-  let createCartUseCase: CreateCartUseCase
-  let categoryFactory: CategoryFactory
   let dishFactory: DishFactory
+  let categoryFactory: CategoryFactory
+  let cartFactory: CartFactory
   let cartItemFactory: CartItemFactory
 
   beforeAll(async () => {
@@ -27,33 +26,28 @@ describe('Fetch recent carts (E2E)', () => {
       imports: [AppModule, DatabaseModule],
       providers: [
         ClientFactory,
-        CreateCartUseCase,
-        PrismaService,
-        CategoryFactory,
         DishFactory,
+        CategoryFactory,
+        CartFactory,
         CartItemFactory,
       ],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
+    prisma = moduleRef.get(PrismaService)
     jwt = moduleRef.get(JwtService)
     clientFactory = moduleRef.get(ClientFactory)
-    categoryFactory = moduleRef.get(CategoryFactory)
     dishFactory = moduleRef.get(DishFactory)
-    prisma = moduleRef.get(PrismaService)
+    categoryFactory = moduleRef.get(CategoryFactory)
+    cartFactory = moduleRef.get(CartFactory)
     cartItemFactory = moduleRef.get(CartItemFactory)
-    createCartUseCase = moduleRef.get(CreateCartUseCase)
 
     await app.init()
   })
 
-  test('[DELETE] /cart', async () => {
-    const user = await clientFactory.makePrismaClient({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: '123456',
-    })
+  test('[DELETE] /cart/:cartId', async () => {
+    const user = await clientFactory.makePrismaClient()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
@@ -65,37 +59,61 @@ describe('Fetch recent carts (E2E)', () => {
         categoryId: category.id,
       }),
       dishFactory.makePrismaDish({
-        name: 'Macarrão',
+        name: 'Salada',
         categoryId: category.id,
       }),
     ])
 
-    const cart = await createCartUseCase.execute({
-      clientId: user.id.toString(),
+    const cart = await cartFactory.makePrismaCart({
+      clientId: user.id,
     })
-
-    const result = cart.value as { cart: Cart }
 
     await Promise.all([
       cartItemFactory.makePrismaCartItem({
-        cartId: result.cart.id,
+        cartId: cart.id,
         dishId: dish.id,
+        dishPrice: dish.price,
+        quantity: 10,
       }),
       cartItemFactory.makePrismaCartItem({
-        cartId: result.cart.id,
+        cartId: cart.id,
         dishId: dish2.id,
+        dishPrice: dish2.price,
+        quantity: 10,
       }),
     ])
 
     const response = await request(app.getHttpServer())
-      .delete(`/cart/${result.cart.id}`)
+      .delete(`/cart/${cart.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send()
+      .send({
+        dishId: dish.id.toString(),
+      })
 
     expect(response.statusCode).toBe(200)
 
-    const cartOnDatabase = await prisma.cart.findMany()
+    const cartItemsOnDatabase = await prisma.cartItem.findMany({
+      where: {
+        cartId: cart.id.toString(),
+      },
+    })
 
-    expect(cartOnDatabase).toHaveLength(0)
+    const cartsOnDb = await prisma.cart.findMany()
+
+    expect(cartItemsOnDatabase.length).toBe(1)
+    expect(cartsOnDb.length).toBe(1)
+
+    await request(app.getHttpServer())
+      .delete(`/cart/${cart.id.toString()}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        dishId: dish2.id.toString(),
+      })
+
+    const cartsOnDbAfterDelete = await prisma.cart.findMany()
+    const cartItemsOnDatabaseAfterDelete = await prisma.cartItem.findMany()
+
+    expect(cartsOnDbAfterDelete.length).toBe(0)
+    expect(cartItemsOnDatabaseAfterDelete.length).toBe(0)
   })
 })

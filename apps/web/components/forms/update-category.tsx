@@ -7,8 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
 import {
-  updateCategoryFormSchema,
-  UpdateCategoryFormValues,
+  categoryFormSchema,
+  CategoryFormValues,
 } from '@/lib/schemas'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
@@ -24,18 +24,18 @@ export function UpdateCategoryForm({
     id: string
   }
 }) {
-  const defaultValues: Partial<UpdateCategoryFormValues> = {
+  const defaultValues: Partial<CategoryFormValues> = {
     category: category.name,
   }
 
   const router = useRouter()
 
-  const form = useForm<UpdateCategoryFormValues>({
-    resolver: zodResolver(updateCategoryFormSchema),
+  const form = useForm<CategoryFormValues>({
+    resolver: zodResolver(categoryFormSchema),
     defaultValues,
   })
 
-  async function handleUpdateCategory(data: UpdateCategoryFormValues) {
+  async function handleUpdateCategory(data: CategoryFormValues) {
     try {
       await updateCategory(category.id, {
         name: data.category,

@@ -96,7 +96,7 @@ describe('Get cart by id (E2E)', () => {
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
       cart: expect.objectContaining({
-        id: cart.id.toString(),
+        cartId: cart.id.toString(),
         totalAmount: cart.totalAmount,
 
         dishes: expect.arrayContaining([

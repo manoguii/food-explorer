@@ -1,9 +1,9 @@
+import { Cart } from '../cart'
 import { Logo } from '../logo'
 import { ModeToggle } from '../mode-toggle'
-import { OrdersModal } from '../orders-modal'
+import { UserNav } from '../user-nav'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
-import { UserNav } from '../user-nav'
 
 export async function SiteHeader() {
   return (
@@ -11,14 +11,14 @@ export async function SiteHeader() {
       <div className="flex justify-between px-6 py-3 md:hidden">
         <MobileNav />
         <Logo href="/food" />
-        <OrdersModal />
+        <Cart />
       </div>
 
       <div className="hidden items-center justify-between px-6 py-3 md:flex">
         <MainNav />
         <div className="flex items-center gap-2">
           <ModeToggle />
-          <OrdersModal />
+          <Cart />
           <UserNav />
         </div>
       </div>

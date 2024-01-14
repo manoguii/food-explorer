@@ -6,7 +6,7 @@ import { createDish, uploadFile } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { createDishFormSchema, CreateDishFormValues } from '@/lib/schemas'
+import { DishFormValues, dishFormSchema } from '@/lib/schemas'
 import { Category } from '@/lib/types/definitions'
 import * as Form from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
@@ -14,7 +14,7 @@ import { toast } from '@/components/ui/use-toast'
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
 
-const defaultValues: Partial<CreateDishFormValues> = {
+const defaultValues: Partial<DishFormValues> = {
   description: '',
   name: '',
   price: '',
@@ -31,13 +31,13 @@ export function CreateDishForm({ categories }: { categories: Category[] }) {
 
   const router = useRouter()
 
-  const form = useForm<CreateDishFormValues>({
-    resolver: zodResolver(createDishFormSchema),
+  const form = useForm<DishFormValues>({
+    resolver: zodResolver(dishFormSchema),
     defaultValues,
     mode: 'onChange',
   })
 
-  async function handleCreateDish(data: CreateDishFormValues) {
+  async function handleCreateDish(data: DishFormValues) {
     const formData = new FormData()
     formData.append('file', data.file)
 

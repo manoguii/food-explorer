@@ -12,13 +12,21 @@ export function makeCartItem(
   override: Partial<CartItemProps> = {},
   id?: UniqueEntityID,
 ) {
+  const dishPrice = override.dishPrice
+    ? override.dishPrice
+    : Number(faker.string.numeric())
+  const quantity = override.quantity
+    ? override.quantity
+    : Number(faker.string.numeric())
+  const cost = override.cost ? override.cost : dishPrice * quantity
+
   const cartItem = CartItem.create(
     {
       cartId: new UniqueEntityID(),
       dishId: new UniqueEntityID(),
-      cost: Number(faker.string.numeric()),
-      dishPrice: Number(faker.string.numeric()),
-      quantity: Number(faker.string.numeric()),
+      cost,
+      dishPrice,
+      quantity,
       ...override,
     },
     id,

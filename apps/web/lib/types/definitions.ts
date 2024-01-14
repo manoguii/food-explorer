@@ -15,32 +15,13 @@ export type Category = {
   createdAt: string
 }
 
-export type Order = {
-  id: string
-  status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
-  code: string
+export type Cart = {
+  cartId: string
+  clientId: string
+  checkoutUrl?: string
+  totalAmount: number
   createdAt: string
   updatedAt: string
-  dishes: {
-    id: string
-    name: string
-    description: string
-    price: number
-    slug: string
-    attachments: {
-      id: string
-      title: string
-      url: string
-    }[]
-    quantity: number
-    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
-  }[]
-
-  client: {
-    id: string
-    name: string
-    email: string
-  }
 }
 
 export type Dish = {
@@ -54,6 +35,22 @@ export type Dish = {
     url: string
     id: string
   }[]
+}
+
+export type CartItem = Dish & { quantity: number }
+
+export type CartWithDetails = Cart & {
+  ingredients: string[]
+  category: string
+  isFavorite: boolean
+  createdAt: string
+  updatedAt: string
+
+  dishes: CartItem[]
+  client: Omit<User, 'access_token'>
+}
+
+export type DishWithDetails = Dish & {
   ingredients: string[]
   category: string
   isFavorite: boolean
@@ -81,22 +78,8 @@ export interface UpdateDishParams {
   attachmentsIds: string[]
 }
 
-export type FetchOrdersResponse = {
-  orders: {
-    id: string
-    details: string
-    code: string
-    status: 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
-    label: 'TABLE' | 'DELIVERY' | 'TAKEOUT'
-    priority: 'LOW' | 'MEDIUM' | 'HIGH'
-    createdAt: string
-    updatedAt: string | null
-  }[]
-  totalPages: number
-}
-
 export type FetchFavoriteDishesResponse = {
-  favoriteDishes: Dish[]
+  favoriteDishes: DishWithDetails[]
   totalPages: number
 }
 
@@ -106,12 +89,8 @@ export type FetchCategoriesResponse = {
 }
 
 export type FetchDishesResponse = {
-  dishes: Dish[]
+  dishes: DishWithDetails[]
   totalPages: number
-}
-
-export type GetOrderByIdResponse = {
-  order: Order
 }
 
 export type GetUserSessionResponse = {
@@ -119,13 +98,9 @@ export type GetUserSessionResponse = {
 }
 
 export type GetDishBySlugResponse = {
-  dish: Dish
+  dish: DishWithDetails
 }
 
 export type UploadFileResponse = {
   attachmentId: string
-}
-
-export interface CartItem extends Dish {
-  quantity?: number
 }

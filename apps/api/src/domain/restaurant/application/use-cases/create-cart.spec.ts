@@ -8,6 +8,7 @@ import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeClient } from 'test/factories/make-client'
 import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishRepository: InMemoryDishRepository
@@ -40,11 +41,16 @@ describe('Create Cart', () => {
       inMemoryDishRepository,
       inMemoryClientsRepository,
     )
-    sut = new CreateCartUseCase(inMemoryCartRepository)
+    sut = new CreateCartUseCase(
+      inMemoryCartRepository,
+      inMemoryClientsRepository,
+    )
   })
 
   it('should be able to create a cart', async () => {
     const client = makeClient()
+
+    inMemoryClientsRepository.items.push(client)
 
     const result = await sut.execute({
       clientId: client.id.toString(),
@@ -53,5 +59,40 @@ describe('Create Cart', () => {
     expect(result.isRight()).toBe(true)
 
     expect(inMemoryCartRepository.items).toHaveLength(1)
+  })
+
+  it('should not be able to create a cart if client already has a empty cart', async () => {
+    const client = makeClient()
+
+    inMemoryClientsRepository.items.push(client)
+
+    const result = await sut.execute({
+      clientId: client.id.toString(),
+    })
+
+    expect(result.isRight()).toBe(true)
+
+    const result2 = await sut.execute({
+      clientId: client.id.toString(),
+    })
+
+    expect(result2.isRight()).toBe(true)
+
+    expect(inMemoryCartRepository.items).toHaveLength(1)
+
+    const cartIdOnDb = inMemoryCartRepository.items[0].id
+
+    const firstCart = result.isRight() ? result.value.cart : null
+
+    expect(cartIdOnDb).toBe(firstCart && firstCart.id)
+  })
+
+  it('should not be able to create a cart if client does not exists', async () => {
+    const result = await sut.execute({
+      clientId: 'non-existing-client-id',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })

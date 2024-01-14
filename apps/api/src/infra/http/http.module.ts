@@ -41,8 +41,10 @@ import { DeleteDishFromFavoritesController } from './controllers/delete-dish-fro
 import { GetCartByIdController } from './controllers/get-cart-by-id.controller'
 import { GetCartByIdUseCase } from '@/domain/restaurant/application/use-cases/get-cart-by-id'
 import { EditCartUseCase } from '@/domain/restaurant/application/use-cases/edit-cart'
-import { DeleteCartController } from './controllers/delete-cart.controller'
-import { DeleteCartUseCase } from '@/domain/restaurant/application/use-cases/delete-cart'
+import { AddDishToCartController } from './controllers/add-dish-to-cart.controller'
+import { AddDishToCartUseCase } from '@/domain/restaurant/application/use-cases/add-dish-to-cart'
+import { DeleteDishToCartUseCase } from '@/domain/restaurant/application/use-cases/delete-dish-to-cart'
+import { DeleteDishToCartController } from './controllers/delete-dish-to-cart.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -61,12 +63,13 @@ import { DeleteCartUseCase } from '@/domain/restaurant/application/use-cases/del
     FetchFavoriteDishesController,
     CreateCartController,
     EditCartController,
-    DeleteCartController,
     FetchDishesByCategoryController,
     FetchCategoriesController,
     FetchFilteredDishesController,
     DeleteDishFromFavoritesController,
     GetCartByIdController,
+    AddDishToCartController,
+    DeleteDishToCartController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -83,12 +86,13 @@ import { DeleteCartUseCase } from '@/domain/restaurant/application/use-cases/del
     FetchFavoriteDishesUseCase,
     CreateCartUseCase,
     EditCartUseCase,
-    DeleteCartUseCase,
     FetchDishesByCategoryUseCase,
     FetchCategoriesUseCase,
     FetchFilteredDishesUseCase,
     DeleteDishFromFavoritesUseCase,
     GetCartByIdUseCase,
+    AddDishToCartUseCase,
+    DeleteDishToCartUseCase,
   ],
 })
 export class HttpModule {}

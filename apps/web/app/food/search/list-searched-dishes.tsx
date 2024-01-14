@@ -1,6 +1,6 @@
 import { fetchDishes, fetchDishesByCategory } from '@/db/fetch'
 
-import { Dish } from '@/lib/types/definitions'
+import { DishWithDetails } from '@/lib/types/definitions'
 import { DishCard } from '@/components/cards'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { Grid } from '@/components/grid'
@@ -20,7 +20,7 @@ export async function ListSearchedDishes({
 }) {
   let decodedCategoryParam: string
   let items: {
-    dishes: Dish[]
+    dishes: DishWithDetails[]
     totalPages: number
   }
 

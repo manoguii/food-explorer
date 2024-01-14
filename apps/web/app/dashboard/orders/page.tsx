@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
-import { fetchOrders } from '@/db/fetch'
+
+// import { fetchOrders } from '@/db/fetch'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DataTableSkeleton } from '@/components/skeletons'
@@ -24,7 +25,7 @@ export default function OrdersPage() {
 }
 
 async function DataTableWrapper() {
-  const { orders, totalPages } = await fetchOrders()
+  // const { orders, totalPages } = await fetchOrders()
 
-  return <DataTable totalPages={totalPages} data={orders} columns={columns} />
+  return <DataTable totalPages={1} data={[]} columns={columns} />
 }

@@ -6,8 +6,8 @@ import { updateDish, uploadFile } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { updateDishFormSchema, UpdateDishFormValues } from '@/lib/schemas'
-import { Category, Dish } from '@/lib/types/definitions'
+import { dishFormSchema, DishFormValues } from '@/lib/schemas'
+import { Category, DishWithDetails } from '@/lib/types/definitions'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 
@@ -18,7 +18,7 @@ export function UpdateDishForm({
   currentDish,
   categories,
 }: {
-  currentDish: Dish
+  currentDish: DishWithDetails
   categories: Category[]
 }) {
   const [uploadingFile, setUploadingFile] = React.useState<{
@@ -27,7 +27,7 @@ export function UpdateDishForm({
     state: 'idle',
   })
 
-  const defaultValues: Partial<UpdateDishFormValues> = {
+  const defaultValues: Partial<DishFormValues> = {
     description: currentDish.description,
     name: currentDish.name,
     price: currentDish.price.toString(),
@@ -39,13 +39,13 @@ export function UpdateDishForm({
 
   const router = useRouter()
 
-  const form = useForm<UpdateDishFormValues>({
-    resolver: zodResolver(updateDishFormSchema),
+  const form = useForm<DishFormValues>({
+    resolver: zodResolver(dishFormSchema),
     defaultValues,
     mode: 'onChange',
   })
 
-  async function handleUpdateDish(data: UpdateDishFormValues) {
+  async function handleUpdateDish(data: DishFormValues) {
     let attachmentsIds = currentDish.attachments.map(
       (attachment) => attachment.id,
     )

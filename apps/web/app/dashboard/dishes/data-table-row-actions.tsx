@@ -4,8 +4,8 @@ import React from 'react'
 import { deleteDish } from '@/db/mutations'
 import { Row } from '@tanstack/react-table'
 import { Trash } from 'lucide-react'
+import { z } from 'zod'
 
-import { dishSchema } from '@/lib/schemas'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,6 +20,23 @@ import {
 import { buttonVariants } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
+
+const dishSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  slug: z.string(),
+  attachments: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      url: z.string(),
+    }),
+  ),
+  category: z.string(),
+  ingredients: z.array(z.string()),
+})
 
 export function DeleteRowAction<TData>({ row }: { row: Row<TData> }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)

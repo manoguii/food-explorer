@@ -4,40 +4,39 @@ import {
   Controller,
   NotFoundException,
   Param,
-  Put,
+  Post,
 } from '@nestjs/common'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 import { z } from 'zod'
-import { EditCartUseCase } from '@/domain/restaurant/application/use-cases/edit-cart'
+import { AddDishToCartUseCase } from '@/domain/restaurant/application/use-cases/add-dish-to-cart'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
 
-const EditCartBodySchema = z.object({
-  item: z.object({
-    dishId: z.string(),
-    quantity: z.number(),
-  }),
+const addDishToCartBodySchema = z.object({
+  dishId: z.string(),
+  quantity: z.number(),
 })
 
-const bodyValidationPipe = new ZodValidationPipe(EditCartBodySchema)
+const bodyValidationPipe = new ZodValidationPipe(addDishToCartBodySchema)
 
-type EditCartBodySchema = z.infer<typeof EditCartBodySchema>
+type AddDishToCartBodySchema = z.infer<typeof addDishToCartBodySchema>
 
 @ApiTags('Carts')
 @Controller('/cart/:cartId')
-export class EditCartController {
-  constructor(private EditCart: EditCartUseCase) {}
+export class AddDishToCartController {
+  constructor(private addDishToCart: AddDishToCartUseCase) {}
 
-  @Put()
+  @Post()
   async handle(
-    @Body(bodyValidationPipe) body: EditCartBodySchema,
+    @Body(bodyValidationPipe) body: AddDishToCartBodySchema,
     @Param('cartId') cartId: string,
   ) {
-    const { item } = body
+    const { dishId, quantity } = body
 
-    const result = await this.EditCart.execute({
+    const result = await this.addDishToCart.execute({
       cartId,
-      dish: item,
+      dishId,
+      quantity,
     })
 
     if (result.isLeft()) {

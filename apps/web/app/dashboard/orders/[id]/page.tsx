@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getOrderById } from '@/db/fetch'
+// import { getOrderById } from '@/db/fetch'
 import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 
 import { formatDate } from '@/lib/utils'
@@ -17,9 +17,10 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import Price from '@/components/price'
-import { DataTable } from '@/components/table/data-table'
 
-import { columns } from './columns'
+// import { DataTable } from '@/components/table/data-table'
+
+// import { columns } from './columns'
 
 export default async function OrderDetails({
   params,
@@ -28,7 +29,25 @@ export default async function OrderDetails({
     id: string
   }
 }) {
-  const order = await getOrderById(params.id)
+  // const order = await getOrderById(params.id)
+  console.log('params.id', params.id)
+  const order = {
+    id: '1',
+    code: '123',
+    client: {
+      name: 'John Doe',
+      email: '',
+    },
+    createdAt: new Date().toISOString(),
+    dishes: [
+      {
+        id: '1',
+        name: 'Pizza',
+        price: 10,
+        quantity: 2,
+      },
+    ],
+  }
 
   if (!order) {
     notFound()
@@ -82,7 +101,7 @@ export default async function OrderDetails({
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
           <CardTitle>Detalhes do pedido</CardTitle>
-          <DataTable data={dishes} columns={columns} />
+          {/* <DataTable data={dishes} columns={columns} /> */}
         </div>
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           <Card>

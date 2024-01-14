@@ -3,7 +3,7 @@ import { CartWithDetails } from '@/domain/restaurant/enterprise/entities/value-o
 export class CartWithDetailsPresenter {
   static toHTTP(cart: CartWithDetails) {
     return {
-      id: cart.cartId.toString(),
+      cartId: cart.cartId.toString(),
       totalAmount: cart.totalAmount,
       checkoutUrl: cart.checkoutUrl,
 

@@ -6,7 +6,7 @@ import { authenticate } from '@/db/actions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { userAuthFormSchema, UserAuthFormValues } from '@/lib/schemas'
+import { AuthFormValues, userAuthFormSchema } from '@/lib/schemas'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
@@ -15,7 +15,7 @@ import { toast } from '@/components/ui/use-toast'
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import * as Field from './fields'
 
-const defaultValues: Partial<UserAuthFormValues> = {
+const defaultValues: Partial<AuthFormValues> = {
   email: '',
   password: '',
 }
@@ -24,12 +24,12 @@ export function UserAuthForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const form = useForm<UserAuthFormValues>({
+  const form = useForm<AuthFormValues>({
     resolver: zodResolver(userAuthFormSchema),
     defaultValues,
   })
 
-  async function onSubmit(data: UserAuthFormValues) {
+  async function onSubmit(data: AuthFormValues) {
     try {
       const result = await authenticate(data)
 

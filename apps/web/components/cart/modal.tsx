@@ -3,11 +3,9 @@
 import * as React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { createOrder } from '@/db/mutations'
-import { ShoppingCart } from 'lucide-react'
+import { ShoppingCartIcon } from 'lucide-react'
 
-import { useCartStore } from '@/lib/use-cart-store'
+import { CartWithDetails } from '@/lib/types/definitions'
 
 import { ButtonWithLoading } from '../buttons/button-with-loading'
 import { EmptyPlaceholder } from '../empty-placeholder'
@@ -21,55 +19,25 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../ui/sheet'
-import { toast } from '../ui/use-toast'
 import { DeleteItemButton } from './delete-item'
-import { DishQuantityCounter } from './dish-quantity-counter'
+import { EditDishQuantityButton } from './edit-dish-quantity-button'
 
-export function OrdersModal() {
-  const { cart, getTotal, clearCart } = useCartStore()
-  const { push } = useRouter()
-  const [loading, setLoading] = React.useState(false)
+export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
   const [open, setOpen] = React.useState(false)
   const [side, setSide] = React.useState<'right' | 'bottom'>('right')
-  const [size, setSize] = React.useState<'default' | 'icon'>('default')
 
   const closeCart = () => setOpen(false)
 
   async function handleCreateOrder() {
-    setLoading(true)
-
-    const items = cart.map((item) => ({
-      dishId: item.id,
-      quantity: item.quantity || 1,
-    }))
-
-    try {
-      await createOrder(items)
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          title: 'Erro ao criar pedido',
-          description: error.message,
-          variant: 'destructive',
-        })
-      }
-    } finally {
-      setLoading(false)
-    }
-
-    clearCart()
-    closeCart()
-    push('/food/orders')
+    console.log('handleCreateOrder')
   }
 
   React.useEffect(() => {
     const verifySide = () => {
       if (window.innerWidth <= 640) {
         setSide('bottom')
-        setSize('icon')
       } else {
         setSide('right')
-        setSize('default')
       }
     }
 
@@ -85,9 +53,14 @@ export function OrdersModal() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size={size} className="gap-2">
-          <ShoppingCart className="h-5 w-5" />
-          <span className="hidden lg:inline-block">({cart.length})</span>
+        <Button className="group relative" size="icon" variant="outline">
+          <ShoppingCartIcon className="h-4 transition-all ease-in-out group-hover:scale-110" />
+
+          {cart?.dishes.length ? (
+            <span className="absolute right-0 top-0 -mr-2 -mt-2 flex h-4 w-4 items-center justify-center rounded bg-blue-600 text-[11px] font-medium text-white">
+              {cart.dishes.length}
+            </span>
+          ) : null}
         </Button>
       </SheetTrigger>
 
@@ -99,7 +72,7 @@ export function OrdersModal() {
           <SheetTitle className="mb-6 text-2xl">Meus pedidos</SheetTitle>
         </SheetHeader>
 
-        {cart.length === 0 ? (
+        {!cart ? (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="logo" />
             <EmptyPlaceholder.Title>
@@ -113,7 +86,7 @@ export function OrdersModal() {
           <div className="flex h-[90%] flex-col justify-between overflow-hidden p-1">
             <ScrollArea>
               <ul className="grow overflow-auto py-4 pr-3">
-                {cart.map((item, i) => {
+                {cart.dishes.map((item, i) => {
                   return (
                     <li
                       key={i}
@@ -141,7 +114,7 @@ export function OrdersModal() {
                         <div className="flex flex-1 flex-col text-base">
                           <span className="leading-tight">{item.name}</span>
                           <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {item.description}
+                            {item.description.slice(0, 50).concat('...')}
                           </p>
                         </div>
                       </Link>
@@ -153,7 +126,17 @@ export function OrdersModal() {
                           currencyCode={'BRL'}
                         />
 
-                        <DishQuantityCounter dishId={item.id} />
+                        <div className="flex h-max items-center rounded-lg border border-gray-200 p-1 dark:border-gray-800">
+                          <EditDishQuantityButton type="minus" dish={item} />
+
+                          <p className="w-6 text-center">
+                            <span className="w-full text-sm">
+                              {item.quantity}
+                            </span>
+                          </p>
+
+                          <EditDishQuantityButton type="plus" dish={item} />
+                        </div>
                       </div>
                     </li>
                   )
@@ -161,36 +144,31 @@ export function OrdersModal() {
               </ul>
             </ScrollArea>
 
-            <div className="space-y-1 py-4 text-sm text-gray-500 dark:text-gray-400">
-              <div className="flex items-center justify-between border-gray-200">
-                <p>Entrega</p>
-                <p className="text-right">Entrega gratis</p>
-              </div>
-              <div className="flex items-center justify-between border-gray-200">
-                <p>Taxas</p>
-                <Price
-                  className="text-right text-base text-black dark:text-white"
-                  amount={'0'}
-                  currencyCode={'BRL'}
-                />
-              </div>
-              <div className="flex items-center justify-between border-gray-200">
-                <p>Total</p>
-                <Price
-                  className="text-right text-base text-black dark:text-white"
-                  amount={getTotal().toString()}
-                  currencyCode={'BRL'}
-                />
-              </div>
-            </div>
+            <div className="space-y-6 py-4">
+              <div className="space-y-1 text-muted-foreground">
+                <div className="flex items-center justify-between border-gray-200">
+                  <p>Entrega</p>
+                  <p className="text-right">Entrega gratis</p>
+                </div>
 
-            <ButtonWithLoading
-              className="ml-auto w-max"
-              isLoading={loading}
-              onClick={handleCreateOrder}
-            >
-              Finalizar pedido
-            </ButtonWithLoading>
+                <div className="flex items-center justify-between border-gray-200">
+                  <p>Total</p>
+                  <Price
+                    className="text-right text-base text-black dark:text-white"
+                    amount={cart.totalAmount.toString()}
+                    currencyCode={'BRL'}
+                  />
+                </div>
+              </div>
+
+              <ButtonWithLoading
+                className="ml-auto block w-max"
+                isLoading={false}
+                onClick={handleCreateOrder}
+              >
+                Finalizar pedido
+              </ButtonWithLoading>
+            </div>
           </div>
         )}
       </SheetContent>
