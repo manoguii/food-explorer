@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { buttonVariants } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
-import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
+import { ButtonWithLoading } from '@/components/button-with-loading'
 
 const dishSchema = z.object({
   id: z.string(),

@@ -6,14 +6,11 @@ import { updateCategory } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import {
-  categoryFormSchema,
-  CategoryFormValues,
-} from '@/lib/schemas'
+import { categoryFormSchema, CategoryFormValues } from '@/lib/schemas'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 
-import { ButtonWithLoading } from '../buttons/button-with-loading'
+import { ButtonWithLoading } from '../button-with-loading'
 import * as Field from './fields'
 
 export function UpdateCategoryForm({

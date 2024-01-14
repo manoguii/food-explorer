@@ -7,9 +7,9 @@ import { ShoppingCartIcon } from 'lucide-react'
 
 import { CartWithDetails } from '@/lib/types/definitions'
 
-import { ButtonWithLoading } from '../buttons/button-with-loading'
+import { ButtonWithLoading } from '../button-with-loading'
 import { EmptyPlaceholder } from '../empty-placeholder'
-import Price from '../price'
+import Price from '../food/price'
 import { Button } from '../ui/button'
 import { ScrollArea } from '../ui/scroll-area'
 import {
@@ -72,7 +72,7 @@ export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
           <SheetTitle className="mb-6 text-2xl">Meus pedidos</SheetTitle>
         </SheetHeader>
 
-        {!cart ? (
+        {!cart?.dishes.length ? (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="logo" />
             <EmptyPlaceholder.Title>

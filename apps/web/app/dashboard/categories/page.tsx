@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import { fetchCategories } from '@/db/fetch'
 
-import { CategoryCard } from '@/components/cards'
+import { CategoryCard } from '@/components/dashboard/category-card'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { CreateCategory } from '@/components/forms/dialog/create-category'

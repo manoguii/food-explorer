@@ -1,8 +1,8 @@
 import { fetchFavoriteDishes } from '@/db/fetch'
 
-import { DishCard } from '@/components/cards'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
-import { Grid } from '@/components/grid'
+import { DishCard } from '@/components/food/dish-card'
+import { Grid } from '@/components/food/grid'
 import { Pagination } from '@/components/pagination'
 
 export async function FavoritesDishesList({

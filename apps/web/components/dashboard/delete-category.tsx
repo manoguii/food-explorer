@@ -17,9 +17,9 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
-import { ButtonWithLoading } from './buttons/button-with-loading'
-import { buttonVariants } from './ui/button'
-import { toast } from './ui/use-toast'
+import { ButtonWithLoading } from '../button-with-loading'
+import { buttonVariants } from '../ui/button'
+import { toast } from '../ui/use-toast'
 
 export function DeleteCategory({ category }: { category: Category }) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)

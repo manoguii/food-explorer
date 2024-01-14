@@ -11,7 +11,7 @@ import { Category, DishWithDetails } from '@/lib/types/definitions'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 
-import { ButtonWithLoading } from '../buttons/button-with-loading'
+import { ButtonWithLoading } from '../button-with-loading'
 import * as Field from './fields'
 
 export function UpdateDishForm({

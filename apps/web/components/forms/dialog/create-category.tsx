@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ButtonWithLoading } from '@/components/buttons/button-with-loading'
+import { ButtonWithLoading } from '@/components/button-with-loading'
 
 import { toast } from '../../ui/use-toast'
 

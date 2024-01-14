@@ -1,7 +1,7 @@
 import { RotateCw } from 'lucide-react'
 
-import { Icons } from '../icons'
-import { Button, ButtonProps } from '../ui/button'
+import { Icons } from './icons'
+import { Button, ButtonProps } from './ui/button'
 
 interface ButtonWithLoadingProps extends ButtonProps {
   isLoading: boolean

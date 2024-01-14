@@ -4,7 +4,7 @@ import React from 'react'
 import { logout } from '@/db/actions'
 import { RotateCw } from 'lucide-react'
 
-import { DropdownMenuItem } from '../ui/dropdown-menu'
+import { DropdownMenuItem } from './ui/dropdown-menu'
 
 export function LogoutButton() {
   const [loading, setLoading] = React.useState(false)

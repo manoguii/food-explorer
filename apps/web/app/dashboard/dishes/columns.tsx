@@ -9,7 +9,7 @@ import { DishWithDetails } from '@/lib/types/definitions'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import Price from '@/components/price'
+import Price from '@/components/food/price'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 
 import { DeleteRowAction } from './data-table-row-actions'

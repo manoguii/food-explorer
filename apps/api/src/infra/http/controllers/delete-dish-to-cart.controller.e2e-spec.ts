@@ -110,10 +110,8 @@ describe('Delete dish to cart (E2E)', () => {
         dishId: dish2.id.toString(),
       })
 
-    const cartsOnDbAfterDelete = await prisma.cart.findMany()
     const cartItemsOnDatabaseAfterDelete = await prisma.cartItem.findMany()
 
-    expect(cartsOnDbAfterDelete.length).toBe(0)
     expect(cartItemsOnDatabaseAfterDelete.length).toBe(0)
   })
 })

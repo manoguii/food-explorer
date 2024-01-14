@@ -1,18 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Category, DishWithDetails } from '@/lib/types/definitions'
-import { cn, formatDate } from '@/lib/utils'
+import { DishWithDetails } from '@/lib/types/definitions'
+import { cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 
-import { FavoriteButton } from './buttons/favorite-button'
-import { AddToCart } from './cart/add-to-cart'
-import { DeleteCategory } from './delete-category'
+import { AddToCart } from '../cart/add-to-cart'
+import { shimmer } from '../skeletons'
+import { Badge } from '../ui/badge'
+import { FavoriteButton } from './favorite-button'
 import Price from './price'
-import { shimmer } from './skeletons'
-import { Badge } from './ui/badge'
-
-//  Components
 
 export function DishCard({
   dish,
@@ -85,29 +82,6 @@ export function DishCard({
   )
 }
 
-export function CategoryCard({ category }: { category: Category }) {
-  return (
-    <div className="flex items-center justify-between p-4">
-      <div className="grid gap-1">
-        <Link
-          href={`/dashboard/categories/${category.id}/edit?name=${category.name}`}
-          className="font-semibold hover:underline"
-        >
-          {category.name}
-        </Link>
-        <div>
-          <p className="text-sm text-muted-foreground">
-            {formatDate(category.createdAt)}
-          </p>
-        </div>
-      </div>
-      <DeleteCategory category={category} />
-    </div>
-  )
-}
-
-// Skeletons
-
 DishCard.Skeleton = function CardSkeleton({
   favoriteCard,
 }: {
@@ -144,19 +118,6 @@ DishCard.Skeleton = function CardSkeleton({
           </div>
         )}
       </div>
-    </div>
-  )
-}
-
-CategoryCard.Skeleton = function CategoryCardSkeleton() {
-  return (
-    <div className="flex items-center justify-between p-4">
-      <div className="space-y-3">
-        <Skeleton className="h-5 w-20" />
-        <Skeleton className="h-4 w-40" />
-      </div>
-
-      <div className="h-8 w-8 rounded-md border" />
     </div>
   )
 }

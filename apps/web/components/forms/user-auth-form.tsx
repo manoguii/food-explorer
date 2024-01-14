@@ -12,7 +12,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 
-import { ButtonWithLoading } from '../buttons/button-with-loading'
+import { ButtonWithLoading } from '../button-with-loading'
 import * as Field from './fields'
 
 const defaultValues: Partial<AuthFormValues> = {

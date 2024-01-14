@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import { routesConfig } from '@/config/navigation'
 
-import { Logo } from '../logo'
+import { Logo } from '../../logo'
 import { NavigationItem } from './navigation-item'
 
 export function MainNav() {

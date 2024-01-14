@@ -1,4 +1,4 @@
-import { Layout } from '@/components/layout'
+import { Layout } from '@/components/food/layout'
 import { FoodDataTableSkeleton } from '@/components/skeletons'
 
 export default function OrdersLoading() {

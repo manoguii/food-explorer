@@ -1,4 +1,4 @@
-import { Layout } from '@/components/layout'
+import { Layout } from '@/components/food/layout'
 import { DataTable } from '@/components/table/data-table'
 
 import { columns } from './columns'

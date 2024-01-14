@@ -7,7 +7,7 @@ import Carousel, { ResponsiveType } from 'react-multi-carousel'
 
 import { DishWithDetails } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
-import { DishCard } from '@/components/cards'
+import { DishCard } from '@/components/food/dish-card'
 
 export function CarouselList({
   dishes,

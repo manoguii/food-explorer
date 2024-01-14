@@ -95,7 +95,6 @@ export function FacetedFilter({ title, options }: FacetedFilterProps) {
                   <CommandItem
                     key={option.id}
                     onSelect={() => {
-                      console.log('isSelected', isSelected)
                       if (isSelected) {
                         params.delete('category')
                         params.delete('page')

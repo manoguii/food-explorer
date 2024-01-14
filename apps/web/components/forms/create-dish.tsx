@@ -6,12 +6,12 @@ import { createDish, uploadFile } from '@/db/mutations'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
-import { DishFormValues, dishFormSchema } from '@/lib/schemas'
+import { dishFormSchema, DishFormValues } from '@/lib/schemas'
 import { Category } from '@/lib/types/definitions'
 import * as Form from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 
-import { ButtonWithLoading } from '../buttons/button-with-loading'
+import { ButtonWithLoading } from '../button-with-loading'
 import * as Field from './fields'
 
 const defaultValues: Partial<DishFormValues> = {

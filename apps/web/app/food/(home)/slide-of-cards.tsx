@@ -2,7 +2,7 @@ import { fetchDishesByCategory } from '@/db/fetch'
 
 import { CarouselList } from '@/app/food/(home)/carousel'
 
-import { DishCard } from '../../../components/cards'
+import { DishCard } from '../../../components/food/dish-card'
 import { Skeleton } from '../../../components/ui/skeleton'
 
 export async function SlideOfCards() {

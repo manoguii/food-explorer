@@ -2,8 +2,8 @@ import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { getDishBySlug } from '@/db/fetch'
 
-import { Gallery } from '@/components/gallery'
-import { DishDescription } from '@/components/product-description'
+import { Gallery } from '@/components/food/gallery'
+import { DishDescription } from '@/components/food/product-description'
 import { GallerySkeleton } from '@/components/skeletons'
 
 export const runtime = 'edge'

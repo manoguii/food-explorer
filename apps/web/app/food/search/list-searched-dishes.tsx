@@ -1,9 +1,9 @@
 import { fetchDishes, fetchDishesByCategory } from '@/db/fetch'
 
 import { DishWithDetails } from '@/lib/types/definitions'
-import { DishCard } from '@/components/cards'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
-import { Grid } from '@/components/grid'
+import { DishCard } from '@/components/food/dish-card'
+import { Grid } from '@/components/food/grid'
 import { Pagination } from '@/components/pagination'
 import { PaginationSkeleton } from '@/components/skeletons'
 

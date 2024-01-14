@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
-import Price from '@/components/price'
+import Price from '@/components/food/price'
 
 // import { DataTable } from '@/components/table/data-table'
 

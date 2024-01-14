@@ -60,12 +60,6 @@ export class DeleteDishToCartUseCase {
 
     await this.cartRepository.save(cart)
 
-    const cartEmpty = cartItemList.currentItems.length <= 0
-
-    if (cartEmpty) {
-      await this.cartRepository.delete(cart)
-    }
-
     return right({
       cart,
     })

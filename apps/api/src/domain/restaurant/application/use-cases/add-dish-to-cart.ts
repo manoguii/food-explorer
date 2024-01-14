@@ -70,6 +70,8 @@ export class AddDishToCartUseCase {
     } else {
       cartItem.quantity += quantity
       cartItem.cost = cartItem.quantity * cartItem.dishPrice
+
+      await this.cartItemsRepository.save(cartItem)
     }
 
     const totalAmount = cartItemList.currentItems.reduce((acc, item) => {

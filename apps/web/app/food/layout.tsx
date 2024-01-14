@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Footer } from '@/components/footer'
-import { SiteHeader } from '@/components/navigation/site-header'
+import { SiteHeader } from '@/components/food/navigation/site-header'
 
 export default async function FoodLayout({
   children,

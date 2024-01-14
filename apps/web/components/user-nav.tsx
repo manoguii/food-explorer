@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { LogoutButton } from './buttons/logout'
+import { LogoutButton } from './logout-button'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import {

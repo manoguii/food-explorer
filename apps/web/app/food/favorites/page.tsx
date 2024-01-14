@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import { Layout } from '@/components/layout'
+import { Layout } from '@/components/food/layout'
 
 import { DishCardListSkeleton } from '../search/list-searched-dishes'
 import { FavoritesDishesList } from './favorites-dishes-list'

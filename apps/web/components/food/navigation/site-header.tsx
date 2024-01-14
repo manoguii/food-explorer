@@ -1,7 +1,7 @@
-import { Cart } from '../cart'
-import { Logo } from '../logo'
-import { ModeToggle } from '../mode-toggle'
-import { UserNav } from '../user-nav'
+import { Cart } from '../../cart'
+import { Logo } from '../../logo'
+import { ModeToggle } from '../../mode-toggle'
+import { UserNav } from '../../user-nav'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
 

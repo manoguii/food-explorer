@@ -1,9 +1,9 @@
 import { DishWithDetails } from '@/lib/types/definitions'
 import { cn } from '@/lib/utils'
 import { Badge, badgeVariants } from '@/components/ui/badge'
-import Price from '@/components/price'
+import Price from '@/components/food/price'
 
-import { AddToCart } from './cart/add-to-cart'
+import { AddToCart } from '../cart/add-to-cart'
 
 export function DishDescription({ dish }: { dish: DishWithDetails }) {
   return (

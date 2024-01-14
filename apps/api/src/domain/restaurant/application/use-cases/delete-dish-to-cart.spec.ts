@@ -145,7 +145,6 @@ describe('Delete dish to cart', () => {
     })
 
     expect(inMemoryCartItemsRepository.items).toHaveLength(0)
-    expect(inMemoryCartRepository.items).toHaveLength(0)
   })
 
   it('should not be able delete dish to cart when the cart does not exist', async () => {
