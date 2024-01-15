@@ -7,7 +7,7 @@ import { Dish } from '@/lib/types/definitions'
 
 import { LoadingDots } from '../loading-dots'
 import { Button } from '../ui/button'
-import { updateCart } from './actions'
+import { addItemToCart } from './actions'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -26,7 +26,7 @@ function SubmitButton() {
 }
 
 export function AddToCart({ dish }: { dish: Dish }) {
-  const [message, formAction] = useFormState(updateCart, null)
+  const [message, formAction] = useFormState(addItemToCart, null)
 
   const payload = {
     dishId: dish.id,

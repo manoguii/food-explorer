@@ -1,6 +1,8 @@
 'use server'
 
+import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
+import { TAGS } from '@/db/constants'
 import { fetcher } from '@/db/utils'
 
 import { Cart, CartWithDetails } from '@/lib/types/definitions'
@@ -30,7 +32,11 @@ export async function getCartById(cartId: string) {
     const endpoint = `/cart/${cartId}`
     const { cart } = await fetcher<{
       cart: CartWithDetails
-    }>(endpoint)
+    }>(endpoint, {
+      next: {
+        tags: [TAGS.cart],
+      },
+    })
 
     return cart
   } catch (error) {
@@ -41,7 +47,7 @@ export async function getCartById(cartId: string) {
   }
 }
 
-export async function updateCart(
+export async function addItemToCart(
   prevState: unknown,
   item: {
     dishId: string
@@ -67,6 +73,7 @@ export async function updateCart(
       method: 'POST',
       body: JSON.stringify(item),
     })
+    revalidateTag(TAGS.cart)
   } catch (error) {
     console.error(error)
     return 'Error adding item to cart'
@@ -86,6 +93,7 @@ export async function removeItem(prevState: unknown, dishId: string) {
       method: 'DELETE',
       body: JSON.stringify({ dishId }),
     })
+    revalidateTag(TAGS.cart)
   } catch (e) {
     return 'Error removing item from cart'
   }
@@ -114,6 +122,7 @@ export async function updateItemQuantity(
         method: 'DELETE',
         body: JSON.stringify({ dishId }),
       })
+      revalidateTag(TAGS.cart)
       return
     }
 
@@ -121,6 +130,7 @@ export async function updateItemQuantity(
       method: 'PUT',
       body: JSON.stringify({ item }),
     })
+    revalidateTag(TAGS.cart)
   } catch (e) {
     return 'Error updating item quantity'
   }

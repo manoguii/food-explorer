@@ -1,6 +1,6 @@
 'use client'
 
-import { updateDishStatus } from '@/db/mutations'
+// import { updateDishStatus } from '@/db/mutations'
 import { Trigger } from '@radix-ui/react-select'
 import { Row } from '@tanstack/react-table'
 import { TrendingUp } from 'lucide-react'
@@ -29,12 +29,13 @@ export function SelectStatusAction<TData>({
 
   async function handleUpdateStatus(status: string) {
     const data = status as OrderStatus
+    console.log(data)
 
     try {
-      await updateDishStatus(task.orderId, {
-        status: data,
-        dishId: task.id,
-      })
+      // await updateDishStatus(task.orderId, {
+      //   status: data,
+      //   dishId: task.id,
+      // })
     } catch (error) {
       if (error instanceof Error) {
         toast({

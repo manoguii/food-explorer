@@ -1,5 +1,6 @@
 'use server'
 
+import { revalidateTag } from 'next/cache'
 import { fetcher } from '@/db/utils'
 
 import {
@@ -7,6 +8,8 @@ import {
   UpdateDishParams,
   UploadFileResponse,
 } from '@/lib/types/definitions'
+
+import { TAGS } from './constants'
 
 export async function createCategory(category: string) {
   try {
@@ -80,7 +83,7 @@ export async function toggleFavoriteDish(
     await fetcher(`/dishes/${dishId}/favorite`, {
       method,
     })
-
+    revalidateTag(TAGS.favorites)
     return 'Prato favoritado com sucesso.'
   } catch (error) {
     return errorMessage

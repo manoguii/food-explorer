@@ -8,13 +8,21 @@ import {
   GetUserSessionResponse,
 } from '@/lib/types/definitions'
 
+import { TAGS } from './constants'
 import { fetcher } from './utils'
 
 export async function fetchFavoriteDishes(page: number) {
   try {
     const endpoint = `/dish/favorites?page=${page}`
 
-    const favoriteDishes = await fetcher<FetchFavoriteDishesResponse>(endpoint)
+    const favoriteDishes = await fetcher<FetchFavoriteDishesResponse>(
+      endpoint,
+      {
+        next: {
+          tags: [TAGS.favorites],
+        },
+      },
+    )
 
     return favoriteDishes
   } catch (error) {

@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { updateOrder } from '@/db/mutations'
+// import { updateOrder } from '@/db/mutations'
 import { Trigger } from '@radix-ui/react-select'
 import { Row } from '@tanstack/react-table'
 import { ArrowLeftRight, Tag } from 'lucide-react'
@@ -34,11 +34,11 @@ export function SelectPriorityAction<TData>({
 
   async function handleUpdatePriority(priority: string) {
     const data = priority.toLocaleUpperCase() as Priority
-
+    console.log(data)
     try {
-      await updateOrder(task.id, {
-        priority: data,
-      })
+      // await updateOrder(task.id, {
+      //   priority: data,
+      // })
     } catch (error) {
       if (error instanceof Error) {
         toast({
@@ -82,10 +82,11 @@ export function SelectLabelAction<TData>({
   async function handleUpdateLabel(label: string) {
     const data = label.toLocaleUpperCase() as Label
 
+    console.log(data)
     try {
-      await updateOrder(task.id, {
-        label: data,
-      })
+      // await updateOrder(task.id, {
+      //   label: data,
+      // })
     } catch (error) {
       if (error instanceof Error) {
         toast({
