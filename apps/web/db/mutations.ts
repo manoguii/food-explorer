@@ -4,9 +4,6 @@ import { fetcher } from '@/db/utils'
 
 import {
   CreateDishParams,
-  Label,
-  OrderStatus,
-  Priority,
   UpdateDishParams,
   UploadFileResponse,
 } from '@/lib/types/definitions'
@@ -59,7 +56,15 @@ export async function uploadFile(formData: FormData) {
   }
 }
 
-export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
+export async function toggleFavoriteDish(
+  prevState: unknown,
+  item: {
+    dishId: string
+    isFavorite: boolean
+  },
+) {
+  const { dishId, isFavorite } = item
+
   let errorMessage: string
   let method: 'PATCH' | 'DELETE'
 
@@ -75,58 +80,10 @@ export async function toggleFavoriteDish(dishId: string, isFavorite: boolean) {
     await fetcher(`/dishes/${dishId}/favorite`, {
       method,
     })
-  } catch (error) {
-    throw new Error(errorMessage)
-  }
-}
 
-export async function createOrder(
-  items: {
-    dishId: string
-    quantity: number
-  }[],
-) {
-  try {
-    await fetcher(`/orders`, {
-      method: 'POST',
-      body: JSON.stringify({ items }),
-    })
+    return 'Prato favoritado com sucesso.'
   } catch (error) {
-    throw new Error('Error ao criar pedido.')
-  }
-}
-
-export async function updateDishStatus(
-  orderId: string,
-  data: {
-    dishId: string
-    status: OrderStatus
-  },
-) {
-  try {
-    await fetcher(`/orders/${orderId}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    })
-  } catch (error) {
-    throw new Error('Error ao atualizar status do pedido.')
-  }
-}
-
-export async function updateOrder(
-  orderId: string,
-  data: {
-    label?: Label
-    priority?: Priority
-  },
-) {
-  try {
-    await fetcher(`/orders/${orderId}`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    })
-  } catch (error) {
-    throw new Error('Error ao atualizar pedido.')
+    return errorMessage
   }
 }
 

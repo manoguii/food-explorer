@@ -11,6 +11,8 @@ import { Badge } from '../ui/badge'
 import { FavoriteButton } from './favorite-button'
 import Price from './price'
 
+const TOTAL_INGREDIENTS = 5
+
 export function DishCard({
   dish,
   withoutFooter = false,
@@ -22,13 +24,14 @@ export function DishCard({
     <div className="group flex h-full flex-col gap-3 rounded-lg border">
       <Link
         href={`/food/dish/${dish.slug}`}
-        className="relative flex aspect-video items-center justify-center overflow-hidden rounded-t-lg border-b bg-white dark:bg-gray-950"
+        className="flex items-center justify-center overflow-hidden rounded-t-lg border-b bg-white p-4 dark:bg-gray-950"
       >
         <Image
-          className="aspect-video h-full w-full object-cover transition duration-300 ease-in-out group-hover:scale-105 group-hover:opacity-80"
+          className="aspect-square h-48 w-48 rounded-full object-cover transition duration-300 ease-in-out group-hover:scale-105 group-hover:opacity-80"
           alt={dish.description}
           src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`}
-          fill
+          width={400}
+          height={400}
           quality={100}
           sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
         />
@@ -56,13 +59,20 @@ export function DishCard({
             'pb-3': withoutFooter,
           })}
         >
-          {dish.ingredients.map((item) => {
+          {dish.ingredients.slice(0, TOTAL_INGREDIENTS).map((item) => {
             return (
               <Badge key={item} variant="secondary">
                 {item}
               </Badge>
             )
           })}
+          {dish.ingredients.length > TOTAL_INGREDIENTS && (
+            <Badge variant="secondary">
+              <span className="max-w-[120px] truncate">
+                +{dish.ingredients.length - TOTAL_INGREDIENTS}
+              </span>
+            </Badge>
+          )}
         </div>
       </div>
 

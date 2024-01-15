@@ -3,55 +3,59 @@
 import React from 'react'
 import { toggleFavoriteDish } from '@/db/mutations'
 import { Heart } from 'lucide-react'
+import { useFormState, useFormStatus } from 'react-dom'
 
 import { cn } from '@/lib/utils'
 
-import { toast } from '../ui/use-toast'
+import { LoadingDots } from '../loading-dots'
 
 interface FavoriteButtonProps {
   dishId: string
   favorite: boolean
 }
 
-export function FavoriteButton({
-  dishId,
-  favorite,
-  ...rest
-}: FavoriteButtonProps) {
-  const [isLoading, setIsLoading] = React.useState<'idle' | 'loading'>('idle')
-
-  async function handleAddFavorite(e: React.MouseEvent<HTMLButtonElement>) {
-    e.preventDefault()
-
-    setIsLoading('loading')
-
-    try {
-      await toggleFavoriteDish(dishId, favorite)
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          title: 'Erro ao favoritar prato',
-          description: error.message,
-          variant: 'destructive',
-        })
-      }
-    } finally {
-      setIsLoading('idle')
-    }
-  }
+function SubmitButton({ isFavorite }: { isFavorite: boolean }) {
+  const { pending } = useFormStatus()
 
   return (
     <button
-      className="w-max rounded-full p-2"
-      disabled={isLoading === 'loading'}
-      onClick={handleAddFavorite}
-      {...rest}
+      type="submit"
+      onClick={(e: React.FormEvent<HTMLButtonElement>) => {
+        if (pending) e.preventDefault()
+      }}
+      aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+      aria-disabled={pending}
+      className="flex w-max items-center justify-center rounded-full p-2"
     >
-      <Heart
-        className={cn('h-5 w-5 transition-colors hover:text-red-500', {
-          'fill-red-500 text-red-500': favorite,
-        })}
-      />
+      {pending ? (
+        <LoadingDots className="bg-white" />
+      ) : (
+        <Heart
+          className={cn('h-5 w-5 transition-colors hover:text-red-500', {
+            'fill-red-500 text-red-500': isFavorite,
+          })}
+        />
+      )}
     </button>
+  )
+}
+
+export function FavoriteButton({ dishId, favorite }: FavoriteButtonProps) {
+  const [message, formAction] = useFormState(toggleFavoriteDish, null)
+
+  const payload = {
+    dishId,
+    isFavorite: favorite,
+  }
+
+  const actionWithVariant = formAction.bind(null, payload)
+
+  return (
+    <form action={actionWithVariant}>
+      <SubmitButton isFavorite={favorite} />
+      <p aria-live="polite" className="sr-only" role="status">
+        {message}
+      </p>
+    </form>
   )
 }

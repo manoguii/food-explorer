@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
-import { RotateCw } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
 
 import { Dish } from '@/lib/types/definitions'
 
+import { LoadingDots } from '../loading-dots'
 import { Button } from '../ui/button'
 import { updateCart } from './actions'
 
@@ -20,8 +20,7 @@ function SubmitButton() {
         if (pending) e.preventDefault()
       }}
     >
-      {pending && <RotateCw className="h-4 w-4 animate-spin" />}
-      Adicionar
+      {pending ? <LoadingDots className="bg-white" /> : 'Adicionar'}
     </Button>
   )
 }

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -70,12 +73,41 @@ module.exports = {
             transform: 'translateX(100%)',
           },
         },
+        fadeIn: {
+          from: { opacity: 0 },
+          to: { opacity: 1 },
+        },
+        blink: {
+          '0%': { opacity: 0.2 },
+          '20%': { opacity: 1 },
+          '100% ': { opacity: 0.2 },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        fadeIn: 'fadeIn .3s ease-in-out',
+        carousel: 'marquee 60s linear infinite',
+        blink: 'blink 1.4s both infinite',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    plugin(({ matchUtilities, theme }) => {
+      // Animation dots config
+      matchUtilities(
+        {
+          'animation-delay': (value) => {
+            return {
+              'animation-delay': value,
+            }
+          },
+        },
+        {
+          values: theme('transitionDelay'),
+        },
+      )
+    }),
+  ],
 }

@@ -8,8 +8,8 @@ import { Separator } from '@/components/ui/separator'
 import { Layout } from '@/components/food/layout'
 import { Icons } from '@/components/icons'
 
+import { CardCarousel, CardCarouselSkeleton } from './card-carrousel'
 import { HeroHeader, HeroHeaderDescription, HeroHeaderHeading } from './hero'
-import { SlideOfCards, SlideOfCardsSkeleton } from './slide-of-cards'
 
 export default async function Home() {
   return (
@@ -51,17 +51,8 @@ export default async function Home() {
         </HeroHeader>
       </div>
 
-      <Suspense
-        key={'hero'}
-        fallback={
-          <div className="space-y-12">
-            <SlideOfCardsSkeleton />
-            <SlideOfCardsSkeleton />
-            <SlideOfCardsSkeleton />
-          </div>
-        }
-      >
-        <SlideOfCards />
+      <Suspense key={'hero'} fallback={<CardCarouselSkeleton />}>
+        <CardCarousel />
       </Suspense>
     </Layout>
   )
