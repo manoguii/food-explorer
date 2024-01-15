@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
 
-interface CartWithDetailsProps {
+export interface CartWithDetailsProps {
   cartId: UniqueEntityID
   totalAmount: number
   checkoutUrl?: string | null

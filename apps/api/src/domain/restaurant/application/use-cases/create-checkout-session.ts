@@ -1,64 +1,50 @@
 import { Either, left, right } from '@/core/either'
-import { DishRepository } from '../repositories/dish-repository'
 import { Injectable } from '@nestjs/common'
 import { CartRepository } from '../repositories/cart-repository'
-import { CartItemsRepository } from '../repositories/cart-item-repository'
-import { PaymentService } from '../payment/payment-service'
+import { StripeRepository } from '../payment/stripe-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { FailedToCreateACheckoutSessionError } from './errors/failed-to-create-a-checkout-session-error'
 
 interface CreateCheckoutSessionUseCaseRequest {
   cartId: string
 }
 
 type CreateCheckoutSessionUseCaseResponse = Either<
-  ResourceNotFoundError,
+  ResourceNotFoundError | FailedToCreateACheckoutSessionError,
   {
-    checkoutSessionId: string
+    checkoutSessionUrl: string
   }
 >
 
 @Injectable()
 export class CreateCheckoutSessionUseCase {
   constructor(
-    private dishRepository: DishRepository,
     private cartRepository: CartRepository,
-    private cartItemsRepository: CartItemsRepository,
-    private stripeApi: PaymentService,
+    private paymentStripeRepository: StripeRepository,
   ) {}
 
   async execute({
     cartId,
   }: CreateCheckoutSessionUseCaseRequest): Promise<CreateCheckoutSessionUseCaseResponse> {
-    const cart = await this.cartRepository.findById(cartId)
+    const cart = await this.cartRepository.findByIdWithDetails(cartId)
 
     if (!cart) {
       return left(new ResourceNotFoundError())
     }
 
-    const cartItems = await this.cartItemsRepository.findManyByCartId(cartId)
+    const checkoutSessionUrl =
+      await this.paymentStripeRepository.createCheckoutSession({
+        dishes: cart.dishes,
+      })
 
-    const lineItems = await Promise.all(
-      cartItems.map(async (cartItem) => {
-        const dish = await this.dishRepository.findById(
-          cartItem.dishId.toString(),
-        )
-
-        if (!dish) {
-          throw new ResourceNotFoundError()
-        }
-
-        return {
-          dish,
-          quantity: cartItem.quantity,
-        }
-      }),
-    )
-
-    const checkoutSessionId =
-      await this.stripeApi.createCheckoutSession(lineItems)
+    if (!checkoutSessionUrl) {
+      return left(
+        new FailedToCreateACheckoutSessionError(cart.cartId.toString()),
+      )
+    }
 
     return right({
-      checkoutSessionId,
+      checkoutSessionUrl,
     })
   }
 }

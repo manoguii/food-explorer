@@ -6,22 +6,22 @@ import {
 } from './stripe/stripe.module-definition'
 import { StripeService } from './stripe/stripe.service'
 import { EnvModule } from '../env/env.module'
-import { StripeApi } from './stripe/stripe-api'
-import { PaymentService } from '@/domain/restaurant/application/payment/payment-service'
+import { StripeRepository } from '@/domain/restaurant/application/payment/stripe-repository'
+import { PaymentStripeRepository } from './stripe/payment-stripe-repository'
 
 @Module({
   imports: [ConfigModule, EnvModule],
   providers: [
     StripeService,
     {
-      provide: PaymentService,
-      useClass: StripeApi,
+      provide: StripeRepository,
+      useClass: PaymentStripeRepository,
     },
     {
       provide: MODULE_OPTIONS_TOKEN,
       useValue: ConfigurableModuleClass,
     },
   ],
-  exports: [StripeService, PaymentService],
+  exports: [StripeService, StripeRepository],
 })
 export class PaymentModule extends ConfigurableModuleClass {}

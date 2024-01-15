@@ -31,8 +31,8 @@ export class CreateCheckoutSessionController {
       }
     }
 
-    const checkoutSessionId = result.value.checkoutSessionId
+    const checkoutSessionUrl = result.value.checkoutSessionUrl
 
-    return { checkoutSessionId }
+    return { checkoutSessionUrl }
   }
 }

@@ -12,7 +12,8 @@ import { makeDish } from 'test/factories/make-dish'
 import { makeCartItem } from 'test/factories/make-cart-item'
 import { CreateCheckoutSessionUseCase } from './create-checkout-session'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { InMemoryStripeApi } from 'test/payment/in-memory-stripe-api'
+import { makeClient } from 'test/factories/make-client'
+import { InMemoryPaymentStripeRepository } from 'test/payment/in-memory-payment-stripe-repository'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -23,7 +24,7 @@ let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 
 let inMemoryCartRepository: InMemoryCartRepository
 let inMemoryCartItemsRepository: InMemoryCartItemsRepository
-let inMemoryStripeApi: InMemoryStripeApi
+let inMemoryPaymentStripeRepository: InMemoryPaymentStripeRepository
 
 let sut: CreateCheckoutSessionUseCase
 
@@ -48,18 +49,22 @@ describe('Create checkout session', () => {
       inMemoryDishRepository,
       inMemoryClientsRepository,
     )
-    inMemoryStripeApi = new InMemoryStripeApi()
+    inMemoryPaymentStripeRepository = new InMemoryPaymentStripeRepository()
 
     sut = new CreateCheckoutSessionUseCase(
-      inMemoryDishRepository,
       inMemoryCartRepository,
-      inMemoryCartItemsRepository,
-      inMemoryStripeApi,
+      inMemoryPaymentStripeRepository,
     )
   })
 
   it('should be able create a checkout session', async () => {
-    const newCart = makeCart()
+    const client = makeClient()
+
+    await inMemoryClientsRepository.create(client)
+
+    const newCart = makeCart({
+      clientId: client.id,
+    })
 
     await inMemoryCartRepository.create(newCart)
 
@@ -88,7 +93,7 @@ describe('Create checkout session', () => {
     expect(cartItemsOnDb).toHaveLength(1)
 
     result.isRight() &&
-      expect(result.value.checkoutSessionId).toEqual(expect.any(String))
+      expect(result.value.checkoutSessionUrl).toEqual(expect.any(String))
   })
 
   it('should not be able create a checkout session with a invalid cart id', async () => {

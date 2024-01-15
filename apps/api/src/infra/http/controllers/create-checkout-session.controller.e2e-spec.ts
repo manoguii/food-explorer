@@ -11,6 +11,8 @@ import { DishFactory } from 'test/factories/make-dish'
 import { CartFactory } from 'test/factories/make-cart'
 import { CartItemFactory } from 'test/factories/make-cart-item'
 import { PaymentModule } from '@/infra/payment/payment.module'
+import { AttachmentFactory } from 'test/factories/make-attachment'
+import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 
 describe('Create checkout session (E2E)', () => {
   let app: INestApplication
@@ -21,6 +23,8 @@ describe('Create checkout session (E2E)', () => {
   let categoryFactory: CategoryFactory
   let cartFactory: CartFactory
   let cartItemFactory: CartItemFactory
+  let attachmentFactory: AttachmentFactory
+  let dishAttachmentFactory: DishAttachmentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -31,6 +35,8 @@ describe('Create checkout session (E2E)', () => {
         CategoryFactory,
         CartFactory,
         CartItemFactory,
+        AttachmentFactory,
+        DishAttachmentFactory,
       ],
     }).compile()
 
@@ -43,6 +49,8 @@ describe('Create checkout session (E2E)', () => {
     categoryFactory = moduleRef.get(CategoryFactory)
     cartFactory = moduleRef.get(CartFactory)
     cartItemFactory = moduleRef.get(CartItemFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+    dishAttachmentFactory = moduleRef.get(DishAttachmentFactory)
 
     await app.init()
   })
@@ -69,6 +77,15 @@ describe('Create checkout session (E2E)', () => {
       quantity: 1,
     })
 
+    const attachment = await attachmentFactory.makePrismaAttachment({
+      url: 'e300191d-d458-4a4d-9888-ae23ceed19a1-dish-1.png',
+    })
+
+    await dishAttachmentFactory.makePrismaDishAttachment({
+      dishId: dish.id,
+      attachmentId: attachment.id,
+    })
+
     const response = await request(app.getHttpServer())
       .post(`/checkout-session/${cart.id.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
@@ -84,8 +101,10 @@ describe('Create checkout session (E2E)', () => {
 
     expect(cartItemsOnDatabase.length).toBe(1)
 
-    const checkoutSessionId = response.body.checkoutSessionId
+    const checkoutSessionUrl = response.body.checkoutSessionUrl
 
-    expect(checkoutSessionId).toEqual(expect.any(String))
+    console.log(checkoutSessionUrl)
+
+    expect(checkoutSessionUrl).toEqual(expect.any(String))
   })
 })
