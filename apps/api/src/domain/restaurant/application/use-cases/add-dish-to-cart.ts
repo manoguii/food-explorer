@@ -62,14 +62,13 @@ export class AddDishToCartUseCase {
         dishId: new UniqueEntityID(dishId),
         cartId: new UniqueEntityID(cartId),
         cost: dish.price * quantity,
-        dishPrice: dish.price,
         quantity,
       })
 
       cartItemList.add(newCartItem)
     } else {
       cartItem.quantity += quantity
-      cartItem.cost = cartItem.quantity * cartItem.dishPrice
+      cartItem.cost = cartItem.quantity * dish.price
 
       await this.cartItemsRepository.save(cartItem)
     }

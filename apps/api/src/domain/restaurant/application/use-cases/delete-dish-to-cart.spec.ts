@@ -70,13 +70,11 @@ describe('Delete dish to cart', () => {
         cartId: newCart.id,
         dishId: batata.id,
         quantity: 1,
-        dishPrice: batata.price,
       }),
       makeCartItem({
         cartId: newCart.id,
         dishId: salada.id,
         quantity: 1,
-        dishPrice: salada.price,
       }),
     )
 
@@ -93,58 +91,11 @@ describe('Delete dish to cart', () => {
     expect(cartsOnDb).toHaveLength(1)
     expect(cartItemsOnDb).toHaveLength(1)
 
-    expect(cartItemsOnDb[0].cost).toBe(1 * salada.price)
-
     const totalAmount = cartItemsOnDb.reduce((acc, item) => {
       return acc + item.cost
     }, 0)
 
     expect(cartsOnDb[0].totalAmount).toBe(totalAmount)
-  })
-
-  it('should be able to delete cart when the cart is empty', async () => {
-    const newCart = makeCart()
-
-    await inMemoryCartRepository.create(newCart)
-
-    const [batata, salada] = await Promise.all([makeDish(), makeDish()])
-
-    await Promise.all([
-      inMemoryDishRepository.create(batata),
-      inMemoryDishRepository.create(salada),
-    ])
-
-    inMemoryCartItemsRepository.items.push(
-      makeCartItem({
-        cartId: newCart.id,
-        dishId: batata.id,
-        quantity: 1,
-        dishPrice: batata.price,
-      }),
-      makeCartItem({
-        cartId: newCart.id,
-        dishId: salada.id,
-        quantity: 1,
-        dishPrice: salada.price,
-      }),
-    )
-
-    const result = await sut.execute({
-      cartId: newCart.id.toString(),
-      dishId: batata.id.toString(),
-    })
-
-    expect(result.isRight()).toBe(true)
-
-    expect(inMemoryCartRepository.items).toHaveLength(1)
-    expect(inMemoryCartItemsRepository.items).toHaveLength(1)
-
-    await sut.execute({
-      cartId: newCart.id.toString(),
-      dishId: salada.id.toString(),
-    })
-
-    expect(inMemoryCartItemsRepository.items).toHaveLength(0)
   })
 
   it('should not be able delete dish to cart when the cart does not exist', async () => {

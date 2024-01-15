@@ -72,13 +72,11 @@ describe('Delete dish to cart (E2E)', () => {
       cartItemFactory.makePrismaCartItem({
         cartId: cart.id,
         dishId: dish.id,
-        dishPrice: dish.price,
         quantity: 10,
       }),
       cartItemFactory.makePrismaCartItem({
         cartId: cart.id,
         dishId: dish2.id,
-        dishPrice: dish2.price,
         quantity: 10,
       }),
     ])

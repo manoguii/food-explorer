@@ -49,6 +49,7 @@ describe('Edit dish status', () => {
     sut = new EditCartUseCase(
       inMemoryCartRepository,
       inMemoryCartItemsRepository,
+      inMemoryDishRepository,
     )
   })
 
@@ -66,7 +67,6 @@ describe('Edit dish status', () => {
         cartId: cart.id,
         dishId: dish.id,
         quantity: 1,
-        dishPrice: dish.price,
       }),
     )
 

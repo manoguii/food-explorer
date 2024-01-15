@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common'
 import { Cart } from '../../enterprise/entities/cart'
 import { CartRepository } from '../repositories/cart-repository'
 import { CartItemsRepository } from '../repositories/cart-item-repository'
+import { DishRepository } from '../repositories/dish-repository'
 
 interface EditCartUseCaseRequest {
   cartId: string
@@ -26,6 +27,7 @@ export class EditCartUseCase {
   constructor(
     private cartRepository: CartRepository,
     private cartItemsRepository: CartItemsRepository,
+    private dishRepository: DishRepository,
   ) {}
 
   async execute({
@@ -35,6 +37,12 @@ export class EditCartUseCase {
     const cart = await this.cartRepository.findById(cartId)
 
     if (!cart) {
+      return left(new ResourceNotFoundError())
+    }
+
+    const dishOnDb = await this.dishRepository.findById(dish.dishId)
+
+    if (!dishOnDb) {
       return left(new ResourceNotFoundError())
     }
 
@@ -51,7 +59,7 @@ export class EditCartUseCase {
     }
 
     cartItem.quantity = dish.quantity
-    cartItem.cost = dish.quantity * cartItem.dishPrice
+    cartItem.cost = dish.quantity * dishOnDb.price
 
     await this.cartItemsRepository.save(cartItem)
 

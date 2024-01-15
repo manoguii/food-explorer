@@ -4,7 +4,6 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 export interface CartItemProps {
   cartId: UniqueEntityID
   dishId: UniqueEntityID
-  dishPrice: number
   quantity: number
   cost: number
 
@@ -18,10 +17,6 @@ export class CartItem extends Entity<CartItemProps> {
 
   get dishId() {
     return this.props.dishId
-  }
-
-  get dishPrice() {
-    return this.props.dishPrice
   }
 
   get quantity() {

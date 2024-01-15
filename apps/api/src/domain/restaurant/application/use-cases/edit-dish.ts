@@ -53,17 +53,14 @@ export class EditDishUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    // Busca todos arquivos e ingredientes do prato
     const currentDishAttachments =
       await this.dishAttachmentsRepository.findManyByDishId(dishId)
     const currentDishIngredients =
       await this.dishIngredientsRepository.findManyByDishId(dishId)
 
-    // Cria uma Watched List com os arquivos e ingredientes do prato
     const dishAttachmentsList = new DishAttachmentList(currentDishAttachments)
     const dishIngredientsList = new DishIngredientList(currentDishIngredients)
 
-    // Cria o relacionamento entre o prato e os arquivos e ingredientes
     const dishAttachments = attachmentsIds.map((attachmentId) => {
       return DishAttachment.create({
         attachmentId: new UniqueEntityID(attachmentId),
@@ -83,7 +80,6 @@ export class EditDishUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    // Compara os arquivos e ingredientes atuais com os novos com base na Watched List
     dishAttachmentsList.update(dishAttachments)
     dishIngredientsList.update(dishIngredient)
 
@@ -92,7 +88,6 @@ export class EditDishUseCase {
     dish.description = description
     dish.categoryId = category.id
 
-    // Atualiza os arquivos e ingredientes do prato
     dish.attachments = dishAttachmentsList
     dish.ingredients = dishIngredientsList
 

@@ -67,7 +67,6 @@ describe('Edit cart (E2E)', () => {
     await cartItemFactory.makePrismaCartItem({
       cartId: cart.id,
       dishId: batata.id,
-      dishPrice: batata.price,
       quantity: 10,
     })
 

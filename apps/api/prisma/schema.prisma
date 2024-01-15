@@ -71,13 +71,12 @@ model Category {
 }
 
 model Cart {
-  id          String  @id @default(uuid())
+  id          String    @id @default(uuid())
   totalAmount Int
-  checkoutUrl String? @map("checkout_url")
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  userId    String    @map("user_id")
+  checkoutUrl String?   @map("checkout_url")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+  userId      String    @map("user_id")
 
   user User @relation(fields: [userId], references: [id])
 
@@ -90,11 +89,9 @@ model CartItem {
   id        String    @id @default(uuid())
   quantity  Int
   cost      Int
-  dishPrice Int       @map("dish_cost")
   updatedAt DateTime? @updatedAt @map("updated_at")
-
-  cartId String @map("cart_id")
-  dishId String @map("dish_id")
+  cartId    String    @map("cart_id")
+  dishId    String    @map("dish_id")
 
   cart Cart @relation(fields: [cartId], references: [id], onDelete: Cascade)
   dish Dish @relation(fields: [dishId], references: [id])

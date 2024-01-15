@@ -9,7 +9,6 @@ export class PrismaCartItemMapper {
         dishId: new UniqueEntityID(raw.dishId),
         cartId: new UniqueEntityID(raw.cartId),
         cost: raw.cost,
-        dishPrice: raw.dishPrice,
         quantity: raw.quantity,
         updatedAt: raw.updatedAt,
       },
@@ -23,7 +22,6 @@ export class PrismaCartItemMapper {
       dishId: cartItem.dishId.toString(),
       cartId: cartItem.cartId.toString(),
       cost: cartItem.cost,
-      dishPrice: cartItem.dishPrice,
       quantity: cartItem.quantity,
       updatedAt: cartItem.updatedAt,
     }
