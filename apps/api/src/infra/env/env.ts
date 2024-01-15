@@ -8,6 +8,7 @@ export const envSchema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_BUCKET_NAME: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
+  STRIPE_API_SECRET_KEY: z.string(),
   PORT: z.coerce.number().optional().default(3333),
 })
 

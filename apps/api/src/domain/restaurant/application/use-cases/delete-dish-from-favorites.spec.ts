@@ -9,7 +9,7 @@ import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-d
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 describe('Delete Dish From Favorites UseCase', () => {
   let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository

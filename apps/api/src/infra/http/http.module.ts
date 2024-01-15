@@ -45,9 +45,30 @@ import { AddDishToCartController } from './controllers/add-dish-to-cart.controll
 import { AddDishToCartUseCase } from '@/domain/restaurant/application/use-cases/add-dish-to-cart'
 import { DeleteDishToCartUseCase } from '@/domain/restaurant/application/use-cases/delete-dish-to-cart'
 import { DeleteDishToCartController } from './controllers/delete-dish-to-cart.controller'
+import { PaymentModule } from '../payment/payment.module'
+import { CreateCheckoutSessionController } from './controllers/create-checkout-session.controller'
+import { CreateCheckoutSessionUseCase } from '@/domain/restaurant/application/use-cases/create-checkout-session'
+import { EnvService } from '../env/env.service'
 
 @Module({
-  imports: [DatabaseModule, CryptographyModule],
+  imports: [
+    DatabaseModule,
+    CryptographyModule,
+    PaymentModule.forRootAsync({
+      inject: [EnvService],
+
+      useFactory: (envService: EnvService) => {
+        const apiKey = envService.get('STRIPE_API_SECRET_KEY')
+
+        return {
+          apiKey,
+          options: {
+            apiVersion: '2023-10-16',
+          },
+        }
+      },
+    }),
+  ],
   controllers: [
     CreateAccountController,
     CreateDishController,
@@ -70,6 +91,7 @@ import { DeleteDishToCartController } from './controllers/delete-dish-to-cart.co
     GetCartByIdController,
     AddDishToCartController,
     DeleteDishToCartController,
+    CreateCheckoutSessionController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -93,6 +115,7 @@ import { DeleteDishToCartController } from './controllers/delete-dish-to-cart.co
     GetCartByIdUseCase,
     AddDishToCartUseCase,
     DeleteDishToCartUseCase,
+    CreateCheckoutSessionUseCase,
   ],
 })
 export class HttpModule {}

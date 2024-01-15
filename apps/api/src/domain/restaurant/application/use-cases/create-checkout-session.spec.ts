@@ -1,27 +1,35 @@
-import { CreateCartUseCase } from './create-cart'
 import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
+import { makeCart } from 'test/factories/make-cart'
+
 import { InMemoryCartItemsRepository } from 'test/repositories/in-memory-cart-item-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
-import { makeClient } from 'test/factories/make-client'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+import { makeDish } from 'test/factories/make-dish'
+import { makeCartItem } from 'test/factories/make-cart-item'
+import { CreateCheckoutSessionUseCase } from './create-checkout-session'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { InMemoryStripeApi } from 'test/payment/in-memory-stripe-api'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
-let inMemoryDishRepository: InMemoryDishRepository
-let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+
 let inMemoryCartRepository: InMemoryCartRepository
 let inMemoryCartItemsRepository: InMemoryCartItemsRepository
-let sut: CreateCartUseCase
+let inMemoryStripeApi: InMemoryStripeApi
 
-describe('Create Cart', () => {
+let sut: CreateCheckoutSessionUseCase
+
+describe('Create checkout session', () => {
   beforeEach(() => {
+    inMemoryCartItemsRepository = new InMemoryCartItemsRepository()
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
     inMemoryCategoryRepository = new InMemoryCategoryRepository()
@@ -33,7 +41,6 @@ describe('Create Cart', () => {
       inMemoryAttachmentsRepository,
     )
     inMemoryClientsRepository = new InMemoryClientsRepository()
-    inMemoryCartItemsRepository = new InMemoryCartItemsRepository()
     inMemoryCartRepository = new InMemoryCartRepository(
       inMemoryCartItemsRepository,
       inMemoryDishAttachmentsRepository,
@@ -41,58 +48,62 @@ describe('Create Cart', () => {
       inMemoryDishRepository,
       inMemoryClientsRepository,
     )
-    sut = new CreateCartUseCase(
+    inMemoryStripeApi = new InMemoryStripeApi()
+
+    sut = new CreateCheckoutSessionUseCase(
+      inMemoryDishRepository,
       inMemoryCartRepository,
-      inMemoryClientsRepository,
+      inMemoryCartItemsRepository,
+      inMemoryStripeApi,
     )
   })
 
-  it('should be able to create a cart', async () => {
-    const client = makeClient()
+  it('should be able create a checkout session', async () => {
+    const newCart = makeCart()
 
-    inMemoryClientsRepository.items.push(client)
+    await inMemoryCartRepository.create(newCart)
+
+    const batata = makeDish()
+
+    await inMemoryDishRepository.create(batata)
+
+    inMemoryCartItemsRepository.items.push(
+      makeCartItem({
+        cartId: newCart.id,
+        dishId: batata.id,
+        quantity: 1,
+      }),
+    )
 
     const result = await sut.execute({
-      clientId: client.id.toString(),
+      cartId: newCart.id.toString(),
     })
+
+    const cartItemsOnDb = inMemoryCartItemsRepository.items
+    const cartsOnDb = inMemoryCartRepository.items
 
     expect(result.isRight()).toBe(true)
 
-    expect(inMemoryCartRepository.items).toHaveLength(1)
+    expect(cartsOnDb).toHaveLength(1)
+    expect(cartItemsOnDb).toHaveLength(1)
+
+    result.isRight() &&
+      expect(result.value.checkoutSessionId).toEqual(expect.any(String))
   })
 
-  it('should not be able to create a cart if client already has a empty cart', async () => {
-    const client = makeClient()
-
-    inMemoryClientsRepository.items.push(client)
-
+  it('should not be able create a checkout session with a invalid cart id', async () => {
     const result = await sut.execute({
-      clientId: client.id.toString(),
+      cartId: 'invalid-cart-id',
     })
 
-    expect(result.isRight()).toBe(true)
-
-    const result2 = await sut.execute({
-      clientId: client.id.toString(),
-    })
-
-    expect(result2.isRight()).toBe(true)
-
-    expect(inMemoryCartRepository.items).toHaveLength(1)
-
-    const cartIdOnDb = inMemoryCartRepository.items[0].id
-
-    const firstCart = result.isRight() ? result.value.cart : null
-
-    expect(cartIdOnDb).toBe(firstCart && firstCart.id)
-  })
-
-  it('should not be able to create a cart if client does not exists', async () => {
-    const result = await sut.execute({
-      clientId: 'non-existing-client-id',
-    })
+    const cartItemsOnDb = inMemoryCartItemsRepository.items
+    const cartsOnDb = inMemoryCartRepository.items
 
     expect(result.isLeft()).toBe(true)
+
+    expect(cartsOnDb).toHaveLength(0)
+    expect(cartItemsOnDb).toHaveLength(0)
+
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
 })
