@@ -12,6 +12,7 @@ import { FavoriteButton } from './favorite-button'
 import Price from './price'
 
 const TOTAL_INGREDIENTS = 5
+const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
 
 export function DishCard({
   dish,
@@ -29,7 +30,7 @@ export function DishCard({
         <Image
           className="aspect-square h-48 w-48 rounded-full object-cover transition duration-300 ease-in-out group-hover:scale-105 group-hover:opacity-80"
           alt={dish.description}
-          src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${dish.attachments[0].url}`}
+          src={`${IMAGE_URL}/${dish.attachments[0].url}`}
           width={400}
           height={400}
           quality={100}

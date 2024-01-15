@@ -63,11 +63,11 @@ export function DashboardHeader() {
   const y = useScrollPosition(60)
   const navX = useRange(y, 0, 50, 0, 42)
   const logoScale = useRange(y, 0, 50, 1, 0.8)
-  const top = useRange(y, 0, 50, 24, 16)
+  const top = useRange(y, 0, 30, 20, 8)
 
   return (
     <>
-      <header className="z-50 flex h-14 items-end justify-between gap-4 pl-14 pr-5">
+      <header className="z-50 mt-4 flex h-10 items-end justify-between gap-4 pl-14 pr-5">
         <Link href="/dashboard">
           <svg
             style={{
@@ -88,14 +88,14 @@ export function DashboardHeader() {
             ></path>
           </svg>
 
-          <div className="flex h-10 items-center">
-            <strong className="text-xl">Food Explorer</strong>
+          <div className="flex h-12 items-center">
+            <strong className="text-lg">Food Explorer</strong>
           </div>
         </Link>
 
         <div className="flex items-center gap-2">
-          <ModeToggle variant="outline" className="rounded-full" />
-          <Button size="icon" variant="outline" className="rounded-full">
+          <ModeToggle variant="outline" size="icon-xs" />
+          <Button size="icon-xs" variant="outline">
             <Bell className="h-5 w-5" />
           </Button>
           <UserNav />
@@ -110,7 +110,7 @@ export function DashboardHeader() {
           style={{
             transform: `translateX(${navX}px)`,
           }}
-          className="relative flex h-14 items-center gap-1 pl-4"
+          className="relative flex h-10 items-center gap-1 pl-4"
         >
           {routesConfig.dashboardNav.map((item, i) => {
             return (

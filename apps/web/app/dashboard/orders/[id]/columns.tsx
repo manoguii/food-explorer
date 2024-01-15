@@ -9,6 +9,8 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 
 import { SelectStatusAction } from './data-table-row-actions'
 
+const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
+
 export const columns: ColumnDef<Details>[] = [
   {
     accessorKey: 'attachments',
@@ -26,7 +28,7 @@ export const columns: ColumnDef<Details>[] = [
         <div>
           <Image
             alt={attachments[0].title}
-            src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachments[0].url}`}
+            src={`${IMAGE_URL}/${attachments[0].url}`}
             width={50}
             height={50}
             className="aspect-square rounded-md"

@@ -22,6 +22,8 @@ import {
 import { DeleteItemButton } from './delete-item'
 import { EditDishQuantityButton } from './edit-dish-quantity-button'
 
+const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
+
 export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
   const [open, setOpen] = React.useState(false)
   const [side, setSide] = React.useState<'right' | 'bottom'>('right')
@@ -107,7 +109,7 @@ export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
                             width={64}
                             height={64}
                             alt={item.name}
-                            src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${item.attachments[0].url}`}
+                            src={`${IMAGE_URL}/${item.attachments[0].url}`}
                           />
                         </div>
 

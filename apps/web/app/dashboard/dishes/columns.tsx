@@ -14,6 +14,8 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 
 import { DeleteRowAction } from './data-table-row-actions'
 
+const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
+
 export const columns: ColumnDef<DishWithDetails>[] = [
   {
     id: 'select',
@@ -49,7 +51,7 @@ export const columns: ColumnDef<DishWithDetails>[] = [
           {attachments.map((attachment) => (
             <Image
               key={attachment.id}
-              src={`https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${attachment.url}`}
+              src={`${IMAGE_URL}/${attachment.url}`}
               alt={attachment.title}
               className="rounded-full border-2 border-white dark:border-gray-800"
               width={40}

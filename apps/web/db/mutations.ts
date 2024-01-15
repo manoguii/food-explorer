@@ -3,6 +3,7 @@
 import { revalidateTag } from 'next/cache'
 import { fetcher } from '@/db/utils'
 
+import { updateCategorySchema } from '@/lib/schemas'
 import {
   CreateDishParams,
   UpdateDishParams,
@@ -90,17 +91,33 @@ export async function toggleFavoriteDish(
   }
 }
 
-export async function updateCategory(
-  categoryId: string,
-  data: {
-    name: string
-  },
-) {
+export async function updateCategory(prevState: unknown, formData: FormData) {
+  const input = {
+    id: formData.get('categoryId'),
+    name: formData.get('categoryName'),
+  }
+
+  const validation = updateCategorySchema.safeParse(input)
+
+  if (!validation.success) {
+    return {
+      message: validation.error.errors[0].message,
+      success: false,
+    }
+  }
+
+  const { id, name } = validation.data
+
   try {
-    await fetcher(`/categories/${categoryId}`, {
+    await fetcher(`/categories/${id}`, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      body: JSON.stringify({ name }),
     })
+
+    return {
+      message: 'Categoria atualizada com sucesso.',
+      success: true,
+    }
   } catch (error) {
     throw new Error('Error ao atualizar categoria.')
   }

@@ -30,17 +30,6 @@ export const dishFormSchema = z.object({
     .min(3, { message: 'Adicione pelo menos 3 ingredientes.' }),
 })
 
-export const categoryFormSchema = z.object({
-  category: z
-    .string()
-    .min(3, {
-      message: 'A categoria deve ter pelo menos 3 caractere.',
-    })
-    .max(20, {
-      message: 'A categoria deve ter no máximo 20 caracteres.',
-    }),
-})
-
 export const userAuthFormSchema = z.object({
   email: z.string().email({
     message: 'O email deve ser válido.',
@@ -94,12 +83,22 @@ export const detailsSchema = z.object({
   orderId: z.string(),
 })
 
+export const updateCategorySchema = z.object({
+  id: z.string().uuid(),
+  name: z
+    .string()
+    .min(3, {
+      message: 'A categoria deve ter pelo menos 3 caractere.',
+    })
+    .max(20, {
+      message: 'A categoria deve ter no máximo 20 caracteres.',
+    }),
+})
+
 export type Task = z.infer<typeof taskSchema>
 export type Details = z.infer<typeof detailsSchema>
 
-export type CategoryFormSchema = z.infer<typeof categoryFormSchema>
 export type SearchDishFormValues = z.infer<typeof searchDishFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type AuthFormValues = z.infer<typeof userAuthFormSchema>
-export type CategoryFormValues = z.infer<typeof categoryFormSchema>
 export type DishFormValues = z.infer<typeof dishFormSchema>

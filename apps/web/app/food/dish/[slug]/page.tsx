@@ -8,6 +8,8 @@ import { GallerySkeleton } from '@/components/skeletons'
 
 export const runtime = 'edge'
 
+const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
+
 export default async function DishPage({
   params,
 }: {
@@ -24,7 +26,7 @@ export default async function DishPage({
           <Gallery
             images={dish.attachments.map(
               (image: { title: string; url: string; id: string }) => ({
-                src: `https://pub-3016eb8912d0455aba6b4cdfc60046ed.r2.dev/${image.url}`,
+                src: `${IMAGE_URL}/${image.url}`,
                 altText: image.title,
               }),
             )}
