@@ -20,7 +20,7 @@ export async function CardCarousel() {
     <Carousel>
       <CarouselContent>
         {dishes.map((dish) => (
-          <CarouselItem className="basis-1/4" key={dish.id}>
+          <CarouselItem className="sm:basis-1/2 lg:basis-1/4" key={dish.id}>
             <DishCard dish={dish} />
           </CarouselItem>
         ))}

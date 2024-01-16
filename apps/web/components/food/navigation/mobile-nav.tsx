@@ -1,13 +1,12 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { useState } from 'react'
 import { Menu } from 'lucide-react'
 
 import { routesConfig } from '@/config/navigation'
 
 import { Logo } from '../../logo'
 import { SearchInput } from '../../search-input'
-import { SearchInputSkeleton } from '../../skeletons'
 import { Button } from '../../ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet'
 import { NavigationItem } from './navigation-item'
@@ -24,7 +23,7 @@ export function MobileNav() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent side="left" className="w-full space-y-8">
+      <SheetContent side="left" className="w-full">
         <Logo
           href="/food"
           onClick={() => {
@@ -32,25 +31,22 @@ export function MobileNav() {
           }}
         />
 
-        <Suspense
-          key={'mobile-nav-search-input'}
-          fallback={<SearchInputSkeleton />}
-        >
+        <div className="mt-8 space-y-8">
           <SearchInput onClose={setOpen} />
-        </Suspense>
 
-        <nav className="flex flex-col space-y-3">
-          {routesConfig.foodNav?.map((item) => (
-            <NavigationItem
-              key={item.href}
-              href={item.href}
-              title={item.title}
-              onClick={() => {
-                setOpen(false)
-              }}
-            />
-          ))}
-        </nav>
+          <nav className="flex flex-col space-y-3">
+            {routesConfig.foodNav?.map((item) => (
+              <NavigationItem
+                key={item.href}
+                href={item.href}
+                title={item.title}
+                onClick={() => {
+                  setOpen(false)
+                }}
+              />
+            ))}
+          </nav>
+        </div>
       </SheetContent>
     </Sheet>
   )

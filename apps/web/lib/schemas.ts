@@ -83,8 +83,7 @@ export const detailsSchema = z.object({
   orderId: z.string(),
 })
 
-export const updateCategorySchema = z.object({
-  id: z.string().uuid(),
+export const categorySchema = z.object({
   name: z
     .string()
     .min(3, {
@@ -93,6 +92,10 @@ export const updateCategorySchema = z.object({
     .max(20, {
       message: 'A categoria deve ter no máximo 20 caracteres.',
     }),
+})
+
+export const updateCategorySchema = categorySchema.extend({
+  id: z.string().uuid(),
 })
 
 export type Task = z.infer<typeof taskSchema>

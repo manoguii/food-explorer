@@ -3,7 +3,7 @@
 import { revalidateTag } from 'next/cache'
 import { fetcher } from '@/db/utils'
 
-import { updateCategorySchema } from '@/lib/schemas'
+import { categorySchema, updateCategorySchema } from '@/lib/schemas'
 import {
   CreateDishParams,
   UpdateDishParams,
@@ -12,14 +12,36 @@ import {
 
 import { TAGS } from './constants'
 
-export async function createCategory(category: string) {
+export async function createCategory(prevState: unknown, formData: FormData) {
+  const input = {
+    name: formData.get('categoryName'),
+  }
+  const validation = categorySchema.safeParse(input)
+
+  if (!validation.success) {
+    return {
+      message: validation.error.errors[0].message,
+      success: false,
+    }
+  }
+
   try {
     await fetcher('/categories', {
       method: 'POST',
-      body: JSON.stringify({ name: category }),
+      body: JSON.stringify({ name: validation.data.name }),
     })
+
+    revalidateTag(TAGS.categories)
+
+    return {
+      message: 'Categoria criada com sucesso.',
+      success: true,
+    }
   } catch (error) {
-    throw new Error('Error ao criar categoria.')
+    return {
+      message: 'Error ao criar categoria.',
+      success: false,
+    }
   }
 }
 
@@ -113,6 +135,8 @@ export async function updateCategory(prevState: unknown, formData: FormData) {
       method: 'PATCH',
       body: JSON.stringify({ name }),
     })
+
+    revalidateTag(TAGS.categories)
 
     return {
       message: 'Categoria atualizada com sucesso.',

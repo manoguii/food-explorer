@@ -1,13 +1,14 @@
 'use client'
 
 import * as React from 'react'
-import { updateCategory } from '@/db/mutations'
-import { Pencil, Save } from 'lucide-react'
+import { createCategory } from '@/db/mutations'
+import { Plus } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
 
 import { cn } from '@/lib/utils'
 
 import { LoadingDots } from '../loading-dots'
+import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import {
   Dialog,
@@ -26,49 +27,70 @@ const initialState = {
   success: true,
 }
 
-export function UpdateCategoryForm({
-  category,
-}: {
-  category: {
-    name: string
-    id: string
-  }
-}) {
+export function CreateCategoryForm() {
   const formRef = React.useRef<HTMLFormElement>(null)
-  const [state, formAction] = useFormState(updateCategory, initialState)
+  const [state, formAction] = useFormState(createCategory, initialState)
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="icon-xs" variant="ghost">
-          <Pencil className="h-4 w-4" />
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          Criar categoria
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[475px]">
         <form
           action={async (formData: FormData) => {
-            await formAction(formData)
+            formAction(formData)
             if (formRef.current) formRef.current.reset()
           }}
           ref={formRef}
           className="grid gap-4 py-4"
         >
           <DialogHeader>
-            <DialogTitle>Atualizar categoria</DialogTitle>
-            <DialogDescription>
-              Atualize o nome da categoria, lembre-se que o nome deve ser único
-              e todos os pratos associados a essa categoria serão atualizados.
-            </DialogDescription>
+            <DialogTitle>Criar categoria</DialogTitle>
+
+            <div className="space-y-3">
+              <DialogDescription>
+                Lembre que um prato obrigatoriamente precisa estar associado a
+                uma{' '}
+                <span className="font-semibold text-accent-foreground">
+                  categoria
+                </span>
+                .
+              </DialogDescription>
+              <DialogDescription className="flex items-center text-start">
+                <span>
+                  Exemplos de{' '}
+                  <span className="font-semibold text-accent-foreground">
+                    categorias:
+                  </span>{' '}
+                </span>
+              </DialogDescription>
+              <ol className="space-y-2">
+                <li className="text-start text-sm text-muted-foreground">
+                  <Badge variant="outline">Bebidas</Badge> - refrigerantes,
+                  cafés, vinhos, etc.
+                </li>
+                <li className="text-start text-sm text-muted-foreground">
+                  <Badge variant="outline">Sobremesas</Badge> - petit gateau,
+                  pudim, etc.
+                </li>
+                <li className="text-start text-sm text-muted-foreground">
+                  <Badge variant="outline">Massas</Badge> - lasanha,
+                  macarronada, etc.
+                </li>
+              </ol>
+            </div>
           </DialogHeader>
           <div className="space-y-2">
-            <Label htmlFor="update-category">Nome da categoria</Label>
+            <Label htmlFor="create-category">Nome da categoria</Label>
             <Input
-              id="update-category"
+              id="create-category"
               name="categoryName"
-              defaultValue={category.name}
               placeholder="Digite o nome da categoria"
             />
-            <input type="hidden" name="categoryId" value={category.id} />
 
             <p
               aria-live="polite"
@@ -101,7 +123,7 @@ function SubmitButton() {
   return (
     <Button
       type="submit"
-      aria-label="Salvar categoria"
+      aria-label="Cria categoria"
       aria-disabled={pending}
       disabled={pending}
       onClick={(e: React.FormEvent<HTMLButtonElement>) => {
@@ -109,13 +131,11 @@ function SubmitButton() {
       }}
     >
       {pending ? (
-        <LoadingDots className="bg-primary-foreground" />
+        <LoadingDots className="mr-2" />
       ) : (
-        <>
-          <Save className="mr-2 h-4 w-4" />
-          Salvar
-        </>
+        <Plus className="mr-2 h-4 w-4" />
       )}
+      Criar categoria
     </Button>
   )
 }

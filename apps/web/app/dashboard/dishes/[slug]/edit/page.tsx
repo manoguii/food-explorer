@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { fetchCategories, getDishBySlug } from '@/db/fetch'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
-import { CreateCategory } from '@/components/forms/dialog/create-category'
+import { CreateCategoryForm } from '@/components/forms/create-category'
 import { UpdateDishForm } from '@/components/forms/update-dish'
 
 export default async function UpdateDishPage({
@@ -25,7 +25,7 @@ export default async function UpdateDishPage({
         heading="Editar prato"
         text={`Editar informações do prato ${dish.name}`}
       >
-        <CreateCategory />
+        <CreateCategoryForm />
       </Dashboard.Header>
 
       <Dashboard.Content>

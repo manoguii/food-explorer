@@ -1,8 +1,8 @@
 import { fetchCategories } from '@/db/fetch'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
+import { CreateCategoryForm } from '@/components/forms/create-category'
 import { CreateDishForm } from '@/components/forms/create-dish'
-import { CreateCategory } from '@/components/forms/dialog/create-category'
 
 export default async function SettingsProfilePage() {
   const { categories } = await fetchCategories()
@@ -13,7 +13,7 @@ export default async function SettingsProfilePage() {
         heading="Criar um novo prato"
         text="Adicione um novo prato ao cardápio."
       >
-        <CreateCategory />
+        <CreateCategoryForm />
       </Dashboard.Header>
       <Dashboard.Content>
         <CreateDishForm categories={categories} />

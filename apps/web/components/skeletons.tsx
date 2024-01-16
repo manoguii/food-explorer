@@ -1,5 +1,3 @@
-import { Search } from 'lucide-react'
-
 import { Skeleton } from './ui/skeleton'
 import {
   Table,
@@ -147,20 +145,6 @@ export function FoodDataTableSkeleton() {
             </TableRow>
           </TableBody>
         </Table>
-      </div>
-    </div>
-  )
-}
-
-export function SearchInputSkeleton() {
-  return (
-    <div className="flex flex-1 items-center">
-      <div className="relative w-full">
-        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-          <Search className="h-4 w-4" />
-        </div>
-
-        <div className="h-10 animate-pulse rounded-md border bg-background" />
       </div>
     </div>
   )

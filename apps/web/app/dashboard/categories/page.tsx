@@ -4,7 +4,7 @@ import { fetchCategories } from '@/db/fetch'
 import { CategoryCard } from '@/components/dashboard/category-card'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
-import { CreateCategory } from '@/components/forms/dialog/create-category'
+import { CreateCategoryForm } from '@/components/forms/create-category'
 import { Pagination } from '@/components/pagination'
 import { PaginationSkeleton } from '@/components/skeletons'
 
@@ -15,7 +15,7 @@ export default function CategoriesPage() {
         heading="Categorias"
         text="Crie e gerencie as categorias associadas aos pratos."
       >
-        <CreateCategory />
+        <CreateCategoryForm />
       </Dashboard.Header>
 
       <Suspense
