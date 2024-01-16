@@ -7,7 +7,6 @@ import { ShoppingCartIcon } from 'lucide-react'
 
 import { CartWithDetails } from '@/lib/types/definitions'
 
-import { ButtonWithLoading } from '../button-with-loading'
 import { EmptyPlaceholder } from '../empty-placeholder'
 import Price from '../food/price'
 import { Button } from '../ui/button'
@@ -21,6 +20,7 @@ import {
 } from '../ui/sheet'
 import { DeleteItemButton } from './delete-item'
 import { EditDishQuantityButton } from './edit-dish-quantity-button'
+import { FinishOrder } from './finish-order'
 
 const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
 
@@ -29,10 +29,6 @@ export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
   const [side, setSide] = React.useState<'right' | 'bottom'>('right')
 
   const closeCart = () => setOpen(false)
-
-  async function handleCreateOrder() {
-    console.log('handleCreateOrder')
-  }
 
   React.useEffect(() => {
     const verifySide = () => {
@@ -103,7 +99,7 @@ export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
                         onClick={closeCart}
                         className="z-30 flex flex-row space-x-4"
                       >
-                        <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border bg-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800">
+                        <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border transition-colors hover:bg-muted/80">
                           <Image
                             className="h-full w-full object-cover"
                             width={64}
@@ -163,13 +159,7 @@ export function CartModal({ cart }: { cart: CartWithDetails | undefined }) {
                 </div>
               </div>
 
-              <ButtonWithLoading
-                className="ml-auto block w-max"
-                isLoading={false}
-                onClick={handleCreateOrder}
-              >
-                Finalizar pedido
-              </ButtonWithLoading>
+              <FinishOrder />
             </div>
           </div>
         )}

@@ -3,47 +3,37 @@
 import React from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 
-import { Dish } from '@/lib/types/definitions'
-
 import { LoadingDots } from '../loading-dots'
 import { Button } from '../ui/button'
-import { addItemToCart } from './actions'
+import { finishOrder } from './actions'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
 
   return (
     <Button
-      variant="destructive"
-      className="gap-1"
       aria-disabled={pending}
-      aria-label="Adicionar ao carrinho"
+      aria-label="Finalizar pedido"
       disabled={pending}
+      className="w-full"
       onClick={(e: React.FormEvent<HTMLButtonElement>) => {
         if (pending) e.preventDefault()
       }}
     >
       {pending ? (
-        <LoadingDots className="bg-destructive-foreground" />
+        <LoadingDots className="bg-primary-foreground" />
       ) : (
-        'Adicionar'
+        'Finalizar pedido'
       )}
     </Button>
   )
 }
 
-export function AddToCart({ dish }: { dish: Dish }) {
-  const [message, formAction] = useFormState(addItemToCart, null)
-
-  const payload = {
-    dishId: dish.id,
-    quantity: 1,
-  }
-
-  const actionWithVariant = formAction.bind(null, payload)
+export function FinishOrder() {
+  const [message, formAction] = useFormState(finishOrder, null)
 
   return (
-    <form action={actionWithVariant}>
+    <form action={formAction}>
       <SubmitButton />
       <p aria-live="polite" className="sr-only" role="status">
         {message}

@@ -20,15 +20,15 @@ function SubmitButton({ isFavorite }: { isFavorite: boolean }) {
   return (
     <button
       type="submit"
-      onClick={(e: React.FormEvent<HTMLButtonElement>) => {
-        if (pending) e.preventDefault()
-      }}
       aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
       aria-disabled={pending}
       className="flex w-max items-center justify-center rounded-full p-2"
+      onClick={(e: React.FormEvent<HTMLButtonElement>) => {
+        if (pending) e.preventDefault()
+      }}
     >
       {pending ? (
-        <LoadingDots className="bg-white" />
+        <LoadingDots className="bg-destructive-foreground" />
       ) : (
         <Heart
           className={cn('h-5 w-5 transition-colors hover:text-red-500', {

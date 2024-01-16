@@ -103,7 +103,7 @@ function SubmitButton() {
       }}
     >
       {pending ? (
-        <LoadingDots className="bg-secondary" />
+        <LoadingDots className="bg-primary-foreground" />
       ) : (
         <>
           <Save className="mr-2 h-4 w-4" />

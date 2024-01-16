@@ -2,6 +2,7 @@
 
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { TAGS } from '@/db/constants'
 import { fetcher } from '@/db/utils'
 
@@ -45,6 +46,32 @@ export async function getCartById(cartId: string) {
       error,
     }
   }
+}
+
+export async function finishOrder() {
+  const cartId = cookies().get('cartId')?.value
+
+  if (!cartId) {
+    return 'Cart id is missing'
+  }
+
+  let checkoutSessionUrl = ''
+
+  try {
+    const endpoint = `/checkout-session/${cartId}`
+
+    const result = await fetcher<{ checkoutSessionUrl: string }>(endpoint, {
+      method: 'POST',
+    })
+
+    checkoutSessionUrl = result.checkoutSessionUrl
+
+    cookies().delete('cartId')
+  } catch (error) {
+    return 'Error adding item to cart'
+  }
+
+  redirect(checkoutSessionUrl)
 }
 
 export async function addItemToCart(
