@@ -116,7 +116,6 @@ export class InMemoryCartRepository implements CartRepository {
     return CartWithDetails.create({
       cartId: cart.id,
       totalAmount: cart.totalAmount,
-      checkoutUrl: cart.checkoutUrl,
       dishes: dishesWithDetails,
       client: {
         id: client.id.toString(),

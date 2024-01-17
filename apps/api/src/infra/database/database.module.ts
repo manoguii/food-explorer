@@ -21,6 +21,10 @@ import { CartRepository } from '@/domain/restaurant/application/repositories/car
 import { PrismaCartRepository } from './prisma/repositories/prisma-cart-repository'
 import { CartItemsRepository } from '@/domain/restaurant/application/repositories/cart-item-repository'
 import { PrismaCartItemsRepository } from './prisma/repositories/prisma-cart-item-repository'
+import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository'
+import { OrderRepository } from '@/domain/restaurant/application/repositories/orders-repository'
+import { PrismaWebhookEventRepository } from './prisma/repositories/prisma-webhook-event-repository'
+import { WebhookEventRepository } from '@/domain/restaurant/application/payment/webhook-event'
 
 @Module({
   imports: [EnvModule],
@@ -66,6 +70,14 @@ import { PrismaCartItemsRepository } from './prisma/repositories/prisma-cart-ite
       provide: Uploader,
       useClass: R2Storage,
     },
+    {
+      provide: OrderRepository,
+      useClass: PrismaOrderRepository,
+    },
+    {
+      provide: WebhookEventRepository,
+      useClass: PrismaWebhookEventRepository,
+    },
   ],
   exports: [
     PrismaService,
@@ -79,6 +91,8 @@ import { PrismaCartItemsRepository } from './prisma/repositories/prisma-cart-ite
     FavoriteDishRepository,
     CartRepository,
     CartItemsRepository,
+    OrderRepository,
+    WebhookEventRepository,
   ],
 })
 export class DatabaseModule {}

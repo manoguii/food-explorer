@@ -22,7 +22,6 @@ export class PrismaCartWithDetailsMapper {
     return CartWithDetails.create({
       cartId: new UniqueEntityID(raw.id),
       totalAmount: raw.totalAmount,
-      checkoutUrl: raw.checkoutUrl,
       dishes: raw.cartItems.map((cartItem) => {
         return {
           id: cartItem.dish.id,

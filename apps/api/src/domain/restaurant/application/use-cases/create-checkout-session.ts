@@ -33,9 +33,7 @@ export class CreateCheckoutSessionUseCase {
     }
 
     const checkoutSessionUrl =
-      await this.paymentStripeRepository.createCheckoutSession({
-        dishes: cart.dishes,
-      })
+      await this.paymentStripeRepository.createCheckoutSession(cart)
 
     if (!checkoutSessionUrl) {
       return left(

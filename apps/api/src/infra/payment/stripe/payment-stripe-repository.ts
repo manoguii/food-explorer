@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { StripeService } from './stripe.service'
-import {
-  LineItems,
-  StripeRepository,
-} from '@/domain/restaurant/application/payment/stripe-repository'
+import { StripeRepository } from '@/domain/restaurant/application/payment/stripe-repository'
 import { EnvService } from '@/infra/env/env.service'
+import { CartWithDetailsProps } from '@/domain/restaurant/enterprise/entities/value-objects/cart-with-details'
 
 @Injectable()
 export class PaymentStripeRepository implements StripeRepository {
@@ -13,14 +11,19 @@ export class PaymentStripeRepository implements StripeRepository {
     private envService: EnvService,
   ) {}
 
-  async createCheckoutSession({ dishes }: LineItems): Promise<string | null> {
+  async createCheckoutSession(
+    cart: CartWithDetailsProps,
+  ): Promise<string | null> {
     const session = await this.stripeService.stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'boleto'],
       mode: 'payment',
+      payment_method_types: ['card'],
       success_url: this.envService.get('STRIPE_SUCCESS_URL'),
       cancel_url: this.envService.get('STRIPE_CANCEL_URL'),
-      line_items: dishes.map((dish) => ({
+      client_reference_id: cart.cartId.toString(),
+      line_items: cart.dishes.map((dish) => ({
+        quantity: dish.quantity,
         price_data: {
+          unit_amount: dish.price * 100,
           currency: 'brl',
           product_data: {
             name: dish.name,
@@ -31,9 +34,7 @@ export class PaymentStripeRepository implements StripeRepository {
               return imageUrl
             }),
           },
-          unit_amount: dish.price * 100,
         },
-        quantity: dish.quantity,
       })),
     })
 

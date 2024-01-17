@@ -18,7 +18,6 @@ export type Category = {
 export type Cart = {
   cartId: string
   clientId: string
-  checkoutUrl?: string
   totalAmount: number
   createdAt: string
   updatedAt: string

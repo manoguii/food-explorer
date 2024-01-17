@@ -5,8 +5,6 @@ export class CartWithDetailsPresenter {
     return {
       cartId: cart.cartId.toString(),
       totalAmount: cart.totalAmount,
-      checkoutUrl: cart.checkoutUrl,
-
       createdAt: cart.createdAt,
       updatedAt: cart.updatedAt,
       dishes: cart.dishes.map((dish) => ({

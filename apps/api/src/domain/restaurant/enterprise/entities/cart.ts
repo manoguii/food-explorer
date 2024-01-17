@@ -5,12 +5,8 @@ import { AggregateRoot } from '@/core/entities/aggregate-root'
 
 export interface CartProps {
   clientId: UniqueEntityID
-
   totalAmount: number
-  checkoutUrl?: string | null
-
   items: CartItemList
-
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -26,15 +22,6 @@ export class Cart extends AggregateRoot<CartProps> {
 
   set totalAmount(totalAmount: number) {
     this.props.totalAmount = totalAmount
-    this.touch()
-  }
-
-  get checkoutUrl() {
-    return this.props.checkoutUrl
-  }
-
-  set checkoutUrl(checkoutUrl: string | null | undefined) {
-    this.props.checkoutUrl = checkoutUrl
     this.touch()
   }
 

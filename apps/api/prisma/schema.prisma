@@ -22,6 +22,7 @@ model User {
 
   favoriteDishes FavoriteDishes[]
   carts          Cart[]
+  Order          Order[]
 
   @@map("users")
 }
@@ -70,16 +71,38 @@ model Category {
   @@map("categories")
 }
 
+model Order {
+  id            String        @id @default(uuid())
+  sessionId     String        @map("session_id")
+  userId        String        @map("user_id")
+  cartId        String        @unique @map("cart_id")
+  code          String        @unique
+  currency      String
+  amountTotal   Int
+  paymentMethod String
+  paymentStatus PaymentStatus
+  status        OrderStatus
+  priority      Priority
+  label         Label
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime?     @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+  cart Cart @relation(fields: [cartId], references: [id])
+
+  @@map("orders")
+}
+
 model Cart {
   id          String    @id @default(uuid())
   totalAmount Int
-  checkoutUrl String?   @map("checkout_url")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime? @updatedAt @map("updated_at")
   userId      String    @map("user_id")
 
   user User @relation(fields: [userId], references: [id])
 
+  order     Order?
   cartItems CartItem[]
 
   @@map("carts")
@@ -118,4 +141,37 @@ model Attachment {
   dish Dish? @relation(fields: [dishId], references: [id])
 
   @@map("attachments")
+}
+
+model WebhookEvent {
+  id        String   @id @default(uuid())
+  type      String
+  data      Json
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("webhook_events")
+}
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  DELIVERED
+  CANCELED
+}
+
+enum Label {
+  TABLE
+  DELIVERY
+  TAKEOUT
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum PaymentStatus {
+  PAID
+  UNPAID
 }

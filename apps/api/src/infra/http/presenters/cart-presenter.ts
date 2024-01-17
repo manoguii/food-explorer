@@ -5,7 +5,6 @@ export class CartPresenter {
     return {
       cartId: cart.id.toString(),
       clientId: cart.clientId.toString(),
-      checkoutUrl: cart.checkoutUrl,
       totalAmount: cart.totalAmount,
       createdAt: cart.createdAt,
       updatedAt: cart.updatedAt,

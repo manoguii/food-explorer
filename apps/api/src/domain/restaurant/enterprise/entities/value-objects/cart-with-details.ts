@@ -4,7 +4,6 @@ import { ValueObject } from '@/core/entities/value-object'
 export interface CartWithDetailsProps {
   cartId: UniqueEntityID
   totalAmount: number
-  checkoutUrl?: string | null
 
   createdAt: Date
   updatedAt?: Date | null
@@ -38,10 +37,6 @@ export class CartWithDetails extends ValueObject<CartWithDetailsProps> {
 
   get totalAmount() {
     return this.props.totalAmount
-  }
-
-  get checkoutUrl() {
-    return this.props.checkoutUrl
   }
 
   get dishes() {

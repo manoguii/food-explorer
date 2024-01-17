@@ -7,7 +7,6 @@ export class PrismaCartMapper {
     return Cart.create(
       {
         clientId: new UniqueEntityID(raw.userId),
-        checkoutUrl: raw.checkoutUrl,
         totalAmount: raw.totalAmount,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
@@ -20,7 +19,6 @@ export class PrismaCartMapper {
     return {
       id: cart.id.toString(),
       userId: cart.clientId.toString(),
-      checkoutUrl: cart.checkoutUrl,
       totalAmount: cart.totalAmount,
       createdAt: cart.createdAt,
       updatedAt: cart.updatedAt,
