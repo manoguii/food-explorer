@@ -12,6 +12,7 @@ export const envSchema = z.object({
   STRIPE_API_SECRET_KEY: z.string(),
   STRIPE_SUCCESS_URL: z.string().url(),
   STRIPE_CANCEL_URL: z.string().url(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
   PORT: z.coerce.number().optional().default(3333),
 })
 

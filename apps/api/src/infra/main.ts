@@ -2,11 +2,20 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { EnvService } from './env/env.service'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import * as bodyParser from 'body-parser'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     // logger: false,
   })
+
+  app.use(
+    bodyParser.json({
+      verify: function (req, res, buf) {
+        req.rawBody = buf.toString()
+      },
+    }),
+  )
 
   const configService = app.get(EnvService)
   const port = configService.get('PORT')

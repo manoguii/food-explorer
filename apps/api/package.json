@@ -32,6 +32,7 @@
     "@nestjs/swagger": "^7.1.14",
     "@prisma/client": "^5.4.2",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "dayjs": "^1.11.10",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",

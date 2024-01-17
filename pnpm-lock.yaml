@@ -44,6 +44,9 @@ importers:
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
+      body-parser:
+        specifier: ^1.20.2
+        version: 1.20.2
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10

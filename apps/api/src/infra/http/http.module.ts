@@ -49,9 +49,13 @@ import { PaymentModule } from '../payment/payment.module'
 import { CreateCheckoutSessionController } from './controllers/create-checkout-session.controller'
 import { CreateCheckoutSessionUseCase } from '@/domain/restaurant/application/use-cases/create-checkout-session'
 import { EnvService } from '../env/env.service'
+import { StripeWebhookController } from './webhooks/stripe-webhook.controller'
+import { StripeWebhookUseCase } from '@/domain/restaurant/application/webhooks/stripe-webhook'
+import { EnvModule } from '../env/env.module'
 
 @Module({
   imports: [
+    EnvModule,
     DatabaseModule,
     CryptographyModule,
     PaymentModule.forRootAsync({
@@ -92,6 +96,7 @@ import { EnvService } from '../env/env.service'
     AddDishToCartController,
     DeleteDishToCartController,
     CreateCheckoutSessionController,
+    StripeWebhookController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -116,6 +121,7 @@ import { EnvService } from '../env/env.service'
     AddDishToCartUseCase,
     DeleteDishToCartUseCase,
     CreateCheckoutSessionUseCase,
+    StripeWebhookUseCase,
   ],
 })
 export class HttpModule {}
