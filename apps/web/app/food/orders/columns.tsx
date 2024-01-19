@@ -3,17 +3,22 @@
 import { ColumnDef } from '@tanstack/react-table'
 
 import { labels, statuses } from '@/config/table'
-import { Task } from '@/lib/schemas'
+import { OrderWithDetails } from '@/lib/types/definitions'
+import { getDetails } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<OrderWithDetails>[] = [
   {
     accessorKey: 'code',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Código" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">#{row.getValue('code')}</div>,
+    cell: ({ row }) => {
+      const code = row.original.code.slice(0, 8)
+
+      return <div className="w-[80px]">#{code}</div>
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -25,12 +30,12 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label)
 
+      const details = getDetails(row.original.cart.cartItems)
+
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('details')}
-          </span>
+          <span className="max-w-[500px] truncate font-medium">{details}</span>
         </div>
       )
     },

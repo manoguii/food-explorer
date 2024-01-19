@@ -3,7 +3,7 @@
 import { auth } from '@/auth'
 
 const BASE_URL = process.env.API_BASE_URL || ''
-// Definindo um tipo para o erro
+
 interface FetchError {
   status: number
   message: string

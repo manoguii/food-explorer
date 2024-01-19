@@ -1,6 +1,7 @@
 export type OrderStatus = 'PENDING' | 'PREPARING' | 'DELIVERED' | 'CANCELED'
 export type Label = 'TABLE' | 'DELIVERY' | 'TAKEOUT'
 export type Priority = 'LOW' | 'MEDIUM' | 'HIGH'
+export type PaymentStatus = 'PAID' | 'UNPAID'
 
 export type User = {
   id: string
@@ -29,6 +30,7 @@ export type Dish = {
   slug: string
   description: string
   price: number
+  ingredients: string[]
   attachments: {
     title: string
     url: string
@@ -37,6 +39,28 @@ export type Dish = {
 }
 
 export type CartItem = Dish & { quantity: number }
+
+export interface OrderWithDetails {
+  orderId: string
+  clientId: string
+  code: string
+  currency: string
+  amountTotal: number
+  paymentMethod: string
+  paymentStatus: PaymentStatus
+  status: OrderStatus
+  priority: Priority
+  label: Label
+  createdAt: Date
+  updatedAt?: Date | null
+
+  cart: {
+    totalAmount: number
+    createdAt: Date
+    updatedAt?: Date | null
+    cartItems: CartItem[]
+  }
+}
 
 export type CartWithDetails = Cart & {
   ingredients: string[]
@@ -84,6 +108,11 @@ export type FetchFavoriteDishesResponse = {
 
 export type FetchCategoriesResponse = {
   categories: Category[]
+  totalPages: number
+}
+
+export type FetchOrdersResponse = {
+  orders: OrderWithDetails[]
   totalPages: number
 }
 

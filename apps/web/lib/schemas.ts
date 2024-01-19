@@ -54,33 +54,43 @@ export const searchDishFormSchema = z.object({
   search: z.string(),
 })
 
-export const taskSchema = z.object({
-  id: z.string(),
-  details: z.string(),
+export const orderSchema = z.object({
+  orderId: z.string(),
+  clientId: z.string(),
   code: z.string(),
+  currency: z.string(),
+  amountTotal: z.number(),
+  paymentMethod: z.string(),
+  paymentStatus: z.enum(['UNPAID', 'PAID']),
   status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
-  label: z.enum(['TABLE', 'DELIVERY', 'TAKEOUT']),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']),
+  label: z.enum(['TABLE', 'DELIVERY', 'TAKEOUT']),
   createdAt: z.string(),
   updatedAt: z.string().nullable(),
-})
 
-export const detailsSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  price: z.number(),
-  slug: z.string(),
-  attachments: z.array(
-    z.object({
-      id: z.string(),
-      title: z.string(),
-      url: z.string(),
-    }),
-  ),
-  quantity: z.number(),
-  status: z.enum(['PENDING', 'PREPARING', 'DELIVERED', 'CANCELED']),
-  orderId: z.string(),
+  cart: z.object({
+    totalAmount: z.number(),
+    createdAt: z.string(),
+    updatedAt: z.string().nullable(),
+    cartItems: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        description: z.string(),
+        price: z.number(),
+        slug: z.string(),
+        quantity: z.number(),
+        ingredients: z.array(z.string()),
+        attachments: z.array(
+          z.object({
+            id: z.string(),
+            title: z.string(),
+            url: z.string(),
+          }),
+        ),
+      }),
+    ),
+  }),
 })
 
 export const categorySchema = z.object({
@@ -97,9 +107,6 @@ export const categorySchema = z.object({
 export const updateCategorySchema = categorySchema.extend({
   id: z.string().uuid(),
 })
-
-export type Task = z.infer<typeof taskSchema>
-export type Details = z.infer<typeof detailsSchema>
 
 export type SearchDishFormValues = z.infer<typeof searchDishFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>

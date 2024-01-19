@@ -5,7 +5,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Eye } from 'lucide-react'
 
 import { labels, priorities, statuses } from '@/config/table'
-import { Task } from '@/lib/schemas'
+import { OrderWithDetails } from '@/lib/types/definitions'
+import { getDetails } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -16,7 +17,7 @@ import {
   SelectPriorityAction,
 } from './data-table-row-actions'
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<OrderWithDetails>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -43,7 +44,11 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Código" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">#{row.getValue('code')}</div>,
+    cell: ({ row }) => {
+      const code = row.original.code.slice(0, 8)
+
+      return <div className="w-[80px]">#{code}</div>
+    },
     enableSorting: false,
     enableHiding: false,
   },
@@ -55,14 +60,16 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label)
 
+      const details = getDetails(row.original.cart.cartItems)
+
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
           <Link
-            href={`/dashboard/orders/${row.original.id}`}
+            href={`/dashboard/orders/${row.original.orderId}`}
             className="max-w-[500px] truncate font-medium underline-offset-4 hover:underline"
           >
-            {row.getValue('details')}
+            {details}
           </Link>
         </div>
       )
@@ -139,7 +146,7 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <div className="flex items-center gap-3">
           <Link
-            href={`/dashboard/orders/${row.original.id}`}
+            href={`/dashboard/orders/${row.original.orderId}`}
             className={buttonVariants({
               variant: 'ghost',
               size: 'icon-xs',

@@ -4,6 +4,7 @@ import {
   FetchCategoriesResponse,
   FetchDishesResponse,
   FetchFavoriteDishesResponse,
+  FetchOrdersResponse,
   GetDishBySlugResponse,
   GetUserSessionResponse,
 } from '@/lib/types/definitions'
@@ -29,6 +30,20 @@ export async function fetchFavoriteDishes(page: number) {
     console.error(error)
     return {
       favoriteDishes: [],
+      totalPages: 0,
+    }
+  }
+}
+
+export async function fetchOrders() {
+  try {
+    const endpoint = '/orders'
+    const orders = await fetcher<FetchOrdersResponse>(endpoint)
+
+    return orders
+  } catch (error) {
+    return {
+      orders: [],
       totalPages: 0,
     }
   }

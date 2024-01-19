@@ -2,6 +2,12 @@ import { ReadonlyURLSearchParams } from 'next/navigation'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
+import { CartItem } from './types/definitions'
+
+export function getDetails(cartItems: CartItem[]): string {
+  return cartItems.map((item) => `${item.quantity}x ${item.name}`).join(', ')
+}
+
 export function formatDate(input: string | number): string {
   const date = new Date(input)
   return date.toLocaleDateString('en-US', {

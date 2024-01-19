@@ -7,7 +7,7 @@ import { Row } from '@tanstack/react-table'
 import { ArrowLeftRight, Tag } from 'lucide-react'
 
 import { labels, priorities } from '@/config/table'
-import { taskSchema } from '@/lib/schemas'
+import { orderSchema } from '@/lib/schemas'
 import { Label, Priority } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
 import {
@@ -30,7 +30,7 @@ interface SelectLabelActionProps<TData> {
 export function SelectPriorityAction<TData>({
   row,
 }: SelectPriorityActionProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  const task = orderSchema.parse(row.original)
 
   async function handleUpdatePriority(priority: string) {
     const data = priority.toLocaleUpperCase() as Priority
@@ -77,7 +77,7 @@ export function SelectPriorityAction<TData>({
 export function SelectLabelAction<TData>({
   row,
 }: SelectLabelActionProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  const task = orderSchema.parse(row.original)
 
   async function handleUpdateLabel(label: string) {
     const data = label.toLocaleUpperCase() as Label

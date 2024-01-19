@@ -54,6 +54,8 @@ import { StripeWebhookUseCase } from '@/domain/restaurant/application/webhooks/s
 import { EnvModule } from '../env/env.module'
 import { FetchOrdersController } from './controllers/fetch-orders.controller'
 import { FetchOrdersUseCase } from '@/domain/restaurant/application/use-cases/fetch-orders'
+import { GetOrderByIdController } from './controllers/get-order-by-id.controller'
+import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/get-order-by-id'
 
 @Module({
   imports: [
@@ -100,6 +102,7 @@ import { FetchOrdersUseCase } from '@/domain/restaurant/application/use-cases/fe
     CreateCheckoutSessionController,
     StripeWebhookController,
     FetchOrdersController,
+    GetOrderByIdController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -126,6 +129,7 @@ import { FetchOrdersUseCase } from '@/domain/restaurant/application/use-cases/fe
     CreateCheckoutSessionUseCase,
     StripeWebhookUseCase,
     FetchOrdersUseCase,
+    GetOrderByIdUseCase,
   ],
 })
 export class HttpModule {}
