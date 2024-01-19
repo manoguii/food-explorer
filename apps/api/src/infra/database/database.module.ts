@@ -21,8 +21,8 @@ import { CartRepository } from '@/domain/restaurant/application/repositories/car
 import { PrismaCartRepository } from './prisma/repositories/prisma-cart-repository'
 import { CartItemsRepository } from '@/domain/restaurant/application/repositories/cart-item-repository'
 import { PrismaCartItemsRepository } from './prisma/repositories/prisma-cart-item-repository'
-import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository'
-import { OrderRepository } from '@/domain/restaurant/application/repositories/orders-repository'
+import { PrismaOrdersRepository } from './prisma/repositories/prisma-order-repository'
+import { OrdersRepository } from '@/domain/restaurant/application/repositories/orders-repository'
 import { PrismaWebhookEventRepository } from './prisma/repositories/prisma-webhook-event-repository'
 import { WebhookEventRepository } from '@/domain/restaurant/application/payment/webhook-event'
 
@@ -71,8 +71,8 @@ import { WebhookEventRepository } from '@/domain/restaurant/application/payment/
       useClass: R2Storage,
     },
     {
-      provide: OrderRepository,
-      useClass: PrismaOrderRepository,
+      provide: OrdersRepository,
+      useClass: PrismaOrdersRepository,
     },
     {
       provide: WebhookEventRepository,
@@ -91,7 +91,7 @@ import { WebhookEventRepository } from '@/domain/restaurant/application/payment/
     FavoriteDishRepository,
     CartRepository,
     CartItemsRepository,
-    OrderRepository,
+    OrdersRepository,
     WebhookEventRepository,
   ],
 })

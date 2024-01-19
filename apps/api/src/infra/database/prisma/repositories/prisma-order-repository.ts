@@ -1,11 +1,14 @@
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
-import { OrderRepository } from '@/domain/restaurant/application/repositories/orders-repository'
+import { OrdersRepository } from '@/domain/restaurant/application/repositories/orders-repository'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
+import { PaginationParams } from '@/core/repositories/pagination-params'
+import { OrderWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/order-with-details'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 @Injectable()
-export class PrismaOrderRepository implements OrderRepository {
+export class PrismaOrdersRepository implements OrdersRepository {
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string): Promise<Order | null> {
@@ -22,20 +25,224 @@ export class PrismaOrderRepository implements OrderRepository {
     return PrismaOrderMapper.toDomain(order)
   }
 
-  async findManyByClientId(clientId: string): Promise<{
-    orders: Order[]
-  }> {
+  async findManyByClientIdWithDetails(
+    clientId: string,
+    params: PaginationParams,
+  ): Promise<{ orders: OrderWithDetails[]; totalPages: number }> {
+    const perPage = 10
+    const { page } = params
+
     const orders = await this.prisma.order.findMany({
       where: {
         userId: clientId,
       },
-      orderBy: {
-        createdAt: 'desc',
+      include: {
+        cart: {
+          include: {
+            cartItems: {
+              include: {
+                dish: {
+                  include: {
+                    attachments: true,
+                    ingredients: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        user: true,
+      },
+      skip: (page - 1) * perPage,
+      take: perPage,
+    })
+
+    const totalOrders = await this.prisma.order.count({
+      where: {
+        userId: clientId,
       },
     })
 
+    const totalPages = Math.ceil(totalOrders / perPage)
+
     return {
-      orders: orders.map(PrismaOrderMapper.toDomain),
+      orders: orders.map((order) =>
+        OrderWithDetails.create({
+          orderId: new UniqueEntityID(order.id),
+          clientId: new UniqueEntityID(order.user.id),
+          code: order.code,
+          status: order.status,
+          amountTotal: order.amountTotal,
+          currency: order.currency,
+          paymentMethod: order.paymentMethod,
+          paymentStatus: order.paymentStatus,
+          priority: order.priority,
+          label: order.label,
+          createdAt: order.createdAt,
+          updatedAt: order.updatedAt,
+          cart: {
+            createdAt: order.cart.createdAt,
+            updatedAt: order.cart.updatedAt,
+            totalAmount: order.cart.totalAmount,
+            cartItems: order.cart.cartItems.map((cartItem) => ({
+              id: cartItem.dish.id,
+              name: cartItem.dish.name,
+              description: cartItem.dish.description,
+              price: cartItem.dish.price,
+              slug: cartItem.dish.slug,
+              quantity: cartItem.quantity,
+              ingredients: cartItem.dish.ingredients.map(
+                (ingredient) => ingredient.name,
+              ),
+              attachments: cartItem.dish.attachments.map((attachment) => ({
+                id: attachment.id,
+                title: attachment.title,
+                url: attachment.url,
+              })),
+            })),
+          },
+        }),
+      ),
+      totalPages,
+    }
+  }
+
+  async findByIdWithDetails(id: string): Promise<OrderWithDetails | null> {
+    const order = await this.prisma.order.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        cart: {
+          include: {
+            cartItems: {
+              include: {
+                dish: {
+                  include: {
+                    attachments: true,
+                    ingredients: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        user: true,
+      },
+    })
+
+    if (!order) {
+      return null
+    }
+
+    return OrderWithDetails.create({
+      orderId: new UniqueEntityID(order.id),
+      clientId: new UniqueEntityID(order.user.id),
+      code: order.code,
+      status: order.status,
+      amountTotal: order.amountTotal,
+      currency: order.currency,
+      paymentMethod: order.paymentMethod,
+      paymentStatus: order.paymentStatus,
+      priority: order.priority,
+      label: order.label,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+      cart: {
+        createdAt: order.cart.createdAt,
+        updatedAt: order.cart.updatedAt,
+        totalAmount: order.cart.totalAmount,
+        cartItems: order.cart.cartItems.map((cartItem) => ({
+          id: cartItem.dish.id,
+          name: cartItem.dish.name,
+          description: cartItem.dish.description,
+          price: cartItem.dish.price,
+          slug: cartItem.dish.slug,
+          quantity: cartItem.quantity,
+          ingredients: cartItem.dish.ingredients.map(
+            (ingredient) => ingredient.name,
+          ),
+          attachments: cartItem.dish.attachments.map((attachment) => ({
+            id: attachment.id,
+            title: attachment.title,
+            url: attachment.url,
+          })),
+        })),
+      },
+    })
+  }
+
+  async findAllWithDetails(
+    params: PaginationParams,
+  ): Promise<{ orders: OrderWithDetails[]; totalPages: number }> {
+    const perPage = 10
+    const { page } = params
+
+    const orders = await this.prisma.order.findMany({
+      include: {
+        cart: {
+          include: {
+            cartItems: {
+              include: {
+                dish: {
+                  include: {
+                    attachments: true,
+                    ingredients: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        user: true,
+      },
+      skip: (page - 1) * perPage,
+      take: perPage,
+    })
+
+    const totalOrders = await this.prisma.order.count()
+
+    const totalPages = Math.ceil(totalOrders / perPage)
+
+    return {
+      orders: orders.map((order) =>
+        OrderWithDetails.create({
+          orderId: new UniqueEntityID(order.id),
+          clientId: new UniqueEntityID(order.user.id),
+          code: order.code,
+          status: order.status,
+          amountTotal: order.amountTotal,
+          currency: order.currency,
+          paymentMethod: order.paymentMethod,
+          paymentStatus: order.paymentStatus,
+          priority: order.priority,
+          label: order.label,
+          createdAt: order.createdAt,
+          updatedAt: order.updatedAt,
+          cart: {
+            createdAt: order.cart.createdAt,
+            updatedAt: order.cart.updatedAt,
+            totalAmount: order.cart.totalAmount,
+            cartItems: order.cart.cartItems.map((cartItem) => ({
+              id: cartItem.dish.id,
+              name: cartItem.dish.name,
+              description: cartItem.dish.description,
+              price: cartItem.dish.price,
+              slug: cartItem.dish.slug,
+              quantity: cartItem.quantity,
+              ingredients: cartItem.dish.ingredients.map(
+                (ingredient) => ingredient.name,
+              ),
+              attachments: cartItem.dish.attachments.map((attachment) => ({
+                id: attachment.id,
+                title: attachment.title,
+                url: attachment.url,
+              })),
+            })),
+          },
+        }),
+      ),
+      totalPages,
     }
   }
 

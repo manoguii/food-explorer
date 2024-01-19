@@ -5,7 +5,7 @@ import { Order, PaymentStatus } from '../../enterprise/entities/order'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { CartIdNotProvidedError } from './errors/cart-id-not-provided-error'
 import { CartNotFoundError } from './errors/cart-not-found-error'
-import { OrderRepository } from '../repositories/orders-repository'
+import { OrdersRepository } from '../repositories/orders-repository'
 import { WebhookEvent } from '../../enterprise/entities/webhook-event'
 import { WebhookEventRepository } from '../payment/webhook-event'
 import Stripe from 'stripe'
@@ -24,7 +24,7 @@ export class StripeWebhookUseCase {
   constructor(
     private cartRepository: CartRepository,
     private webhookEventRepository: WebhookEventRepository,
-    private orderRepository: OrderRepository,
+    private ordersRepository: OrdersRepository,
   ) {}
 
   async execute({
@@ -56,7 +56,7 @@ export class StripeWebhookUseCase {
           event.data.object.payment_status.toLocaleUpperCase() as PaymentStatus,
       })
 
-      await this.orderRepository.create(order)
+      await this.ordersRepository.create(order)
     }
 
     const webhookEvent = WebhookEvent.create({

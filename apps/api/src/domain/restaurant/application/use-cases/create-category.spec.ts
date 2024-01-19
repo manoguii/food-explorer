@@ -26,6 +26,7 @@ describe('Create Category', () => {
 
   it('should not be able to create a category with the same name', async () => {
     const categoryName = 'Category Name'
+
     await sut.execute({
       name: categoryName,
     })

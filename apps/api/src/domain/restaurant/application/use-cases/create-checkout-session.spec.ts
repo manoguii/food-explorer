@@ -1,5 +1,4 @@
 import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
-import { makeCart } from 'test/factories/make-cart'
 
 import { InMemoryCartItemsRepository } from 'test/repositories/in-memory-cart-item-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
@@ -8,12 +7,10 @@ import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attac
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
-import { makeDish } from 'test/factories/make-dish'
-import { makeCartItem } from 'test/factories/make-cart-item'
 import { CreateCheckoutSessionUseCase } from './create-checkout-session'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { makeClient } from 'test/factories/make-client'
 import { InMemoryPaymentStripeRepository } from 'test/payment/in-memory-payment-stripe-repository'
+import { CartAbstractFactory } from 'test/factories/cart-abstract-factory'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
@@ -21,11 +18,11 @@ let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
-
 let inMemoryCartRepository: InMemoryCartRepository
 let inMemoryCartItemsRepository: InMemoryCartItemsRepository
 let inMemoryPaymentStripeRepository: InMemoryPaymentStripeRepository
 
+let factory: CartAbstractFactory
 let sut: CreateCheckoutSessionUseCase
 
 describe('Create checkout session', () => {
@@ -51,6 +48,13 @@ describe('Create checkout session', () => {
     )
     inMemoryPaymentStripeRepository = new InMemoryPaymentStripeRepository()
 
+    factory = new CartAbstractFactory(
+      inMemoryCartRepository,
+      inMemoryCartItemsRepository,
+      inMemoryDishRepository,
+      inMemoryClientsRepository,
+    )
+
     sut = new CreateCheckoutSessionUseCase(
       inMemoryCartRepository,
       inMemoryPaymentStripeRepository,
@@ -58,42 +62,22 @@ describe('Create checkout session', () => {
   })
 
   it('should be able create a checkout session', async () => {
-    const client = makeClient()
-
-    await inMemoryClientsRepository.create(client)
-
-    const newCart = makeCart({
-      clientId: client.id,
-    })
-
-    await inMemoryCartRepository.create(newCart)
-
-    const batata = makeDish()
-
-    await inMemoryDishRepository.create(batata)
-
-    inMemoryCartItemsRepository.items.push(
-      makeCartItem({
-        cartId: newCart.id,
-        dishId: batata.id,
-        quantity: 1,
-      }),
-    )
+    const { cart } = factory.createCartWithItems()
 
     const result = await sut.execute({
-      cartId: newCart.id.toString(),
+      cartId: cart.id.toString(),
     })
 
     const cartItemsOnDb = inMemoryCartItemsRepository.items
     const cartsOnDb = inMemoryCartRepository.items
 
     expect(result.isRight()).toBe(true)
-
     expect(cartsOnDb).toHaveLength(1)
-    expect(cartItemsOnDb).toHaveLength(1)
+    expect(cartItemsOnDb).toHaveLength(2)
 
-    result.isRight() &&
+    if (result.isRight()) {
       expect(result.value.checkoutSessionUrl).toEqual(expect.any(String))
+    }
   })
 
   it('should not be able create a checkout session with a invalid cart id', async () => {
@@ -101,13 +85,10 @@ describe('Create checkout session', () => {
       cartId: 'invalid-cart-id',
     })
 
-    const cartItemsOnDb = inMemoryCartItemsRepository.items
-    const cartsOnDb = inMemoryCartRepository.items
-
     expect(result.isLeft()).toBe(true)
 
-    expect(cartsOnDb).toHaveLength(0)
-    expect(cartItemsOnDb).toHaveLength(0)
+    expect(inMemoryCartRepository.items).toHaveLength(0)
+    expect(inMemoryCartItemsRepository.items).toHaveLength(0)
 
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })

@@ -55,15 +55,11 @@ describe('Delete dish to cart', () => {
 
   it('should be able to delete dish to cart', async () => {
     const newCart = makeCart()
-
     await inMemoryCartRepository.create(newCart)
 
-    const [batata, salada] = await Promise.all([makeDish(), makeDish()])
-
-    await Promise.all([
-      inMemoryDishRepository.create(batata),
-      inMemoryDishRepository.create(salada),
-    ])
+    const batata = makeDish()
+    const salada = makeDish()
+    inMemoryDishRepository.items.push(batata, salada)
 
     inMemoryCartItemsRepository.items.push(
       makeCartItem({

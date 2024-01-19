@@ -1,26 +1,28 @@
 import { ChooseDishAsFavoriteUseCase } from './choose-dish-as-favorite'
-import { makeDish } from 'test/factories/make-dish'
 import { makeClient } from 'test/factories/make-client'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ConflictExceptionError } from './errors/conflict-exception-error'
 import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
-import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { makeCategory } from 'test/factories/make-category'
+import { DishAbstractFactory } from 'test/factories/dish-abstract-factory'
+import { InMemoryIngredientsRepository } from 'test/repositories/in-memory-ingredients-repository'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+
+let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
+let inMemoryCategoryRepository: InMemoryCategoryRepository
+let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryFavoriteDishRepository: InMemoryFavoriteDishRepository
+let inMemoryIngredientsRepository: InMemoryIngredientsRepository
+
+let factory: DishAbstractFactory
+let sut: ChooseDishAsFavoriteUseCase
 
 describe('ChooseDishAsFavoriteUseCase', () => {
-  let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
-  let inMemoryCategoryRepository: InMemoryCategoryRepository
-  let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
-  let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
-  let inMemoryDishRepository: InMemoryDishRepository
-  let favoriteDishRepository: InMemoryFavoriteDishRepository
-  let sut: ChooseDishAsFavoriteUseCase
-
   beforeEach(() => {
     inMemoryDishAttachmentsRepository = new InMemoryDishAttachmentsRepository()
     inMemoryDishIngredientsRepository = new InMemoryDishIngredientsRepository()
@@ -32,33 +34,30 @@ describe('ChooseDishAsFavoriteUseCase', () => {
       inMemoryCategoryRepository,
       inMemoryAttachmentsRepository,
     )
-    favoriteDishRepository = new InMemoryFavoriteDishRepository(
+    inMemoryFavoriteDishRepository = new InMemoryFavoriteDishRepository(
       inMemoryDishIngredientsRepository,
       inMemoryCategoryRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryAttachmentsRepository,
       inMemoryDishRepository,
     )
-    sut = new ChooseDishAsFavoriteUseCase(favoriteDishRepository)
+
+    factory = new DishAbstractFactory(
+      inMemoryDishRepository,
+      inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishAttachmentsRepository,
+      inMemoryIngredientsRepository,
+      inMemoryDishIngredientsRepository,
+    )
+
+    sut = new ChooseDishAsFavoriteUseCase(inMemoryFavoriteDishRepository)
   })
 
   it('should be able to choose dish as favorite', async () => {
-    const client = makeClient({}, new UniqueEntityID('client-id'))
+    const client = makeClient()
 
-    const category = makeCategory({
-      name: 'Bebidas',
-    })
-
-    await inMemoryCategoryRepository.create(category)
-
-    const dish = makeDish(
-      {
-        categoryId: category.id,
-      },
-      new UniqueEntityID('dish-id'),
-    )
-
-    await inMemoryDishRepository.create(dish)
+    const { dish } = factory.createDishWithCategory()
 
     const result = await sut.execute({
       clientId: client.id.toString(),
@@ -67,31 +66,18 @@ describe('ChooseDishAsFavoriteUseCase', () => {
     })
 
     expect(result.isRight()).toBe(true)
-    expect(favoriteDishRepository.items).toHaveLength(1)
+    expect(inMemoryFavoriteDishRepository.items).toHaveLength(1)
   })
 
   it('should not be able to choose dish as favorite if it is already a favorite', async () => {
-    const client = makeClient({}, new UniqueEntityID('client-id'))
+    const client = makeClient()
 
-    const category = makeCategory({
-      name: 'Bebidas',
-    })
+    const { dish } = factory.createDishWithCategory()
 
-    await inMemoryCategoryRepository.create(category)
-
-    const dish = makeDish(
-      {
-        categoryId: category.id,
-      },
-      new UniqueEntityID('dish-id'),
-    )
-
-    await inMemoryDishRepository.create(dish)
-
-    await favoriteDishRepository.addFavoriteDish(
-      FavoriteDish.create({
-        dishId: new UniqueEntityID(dish.id.toString()),
-        clientId: new UniqueEntityID(client.id.toString()),
+    inMemoryFavoriteDishRepository.items.push(
+      makeFavoriteDish({
+        clientId: client.id,
+        dishId: dish.id,
       }),
     )
 
@@ -103,6 +89,6 @@ describe('ChooseDishAsFavoriteUseCase', () => {
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ConflictExceptionError)
-    expect(favoriteDishRepository.items).toHaveLength(1)
+    expect(inMemoryFavoriteDishRepository.items).toHaveLength(1)
   })
 })

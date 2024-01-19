@@ -52,6 +52,8 @@ import { EnvService } from '../env/env.service'
 import { StripeWebhookController } from './webhooks/stripe-webhook.controller'
 import { StripeWebhookUseCase } from '@/domain/restaurant/application/webhooks/stripe-webhook'
 import { EnvModule } from '../env/env.module'
+import { FetchOrdersController } from './controllers/fetch-orders.controller'
+import { FetchOrdersUseCase } from '@/domain/restaurant/application/use-cases/fetch-orders'
 
 @Module({
   imports: [
@@ -97,6 +99,7 @@ import { EnvModule } from '../env/env.module'
     DeleteDishToCartController,
     CreateCheckoutSessionController,
     StripeWebhookController,
+    FetchOrdersController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -122,6 +125,7 @@ import { EnvModule } from '../env/env.module'
     DeleteDishToCartUseCase,
     CreateCheckoutSessionUseCase,
     StripeWebhookUseCase,
+    FetchOrdersUseCase,
   ],
 })
 export class HttpModule {}

@@ -40,19 +40,18 @@ describe('Create Dish', () => {
       attachmentsIds: ['10', '20'],
     })
 
+    const dishOnDatabase = inMemoryDishRepository.items[0]
+
     expect(result.isRight()).toBe(true)
-    expect(
-      inMemoryDishRepository.items[0].ingredients.currentItems,
-    ).toHaveLength(2)
-    expect(
-      inMemoryDishRepository.items[0].attachments.currentItems,
-    ).toHaveLength(2)
-    expect(inMemoryDishRepository.items[0].attachments.currentItems).toEqual([
+
+    expect(dishOnDatabase.ingredients.currentItems).toHaveLength(2)
+    expect(dishOnDatabase.attachments.currentItems).toHaveLength(2)
+    expect(dishOnDatabase.attachments.currentItems).toEqual([
       expect.objectContaining({ attachmentId: new UniqueEntityID('10') }),
       expect.objectContaining({ attachmentId: new UniqueEntityID('20') }),
     ])
     if ('dish' in result.value) {
-      expect(inMemoryDishRepository.items[0]).toEqual(result.value?.dish)
+      expect(dishOnDatabase).toEqual(result.value?.dish)
     }
   })
 
@@ -95,6 +94,7 @@ describe('Create Dish', () => {
     })
 
     expect(result.isRight()).toBe(true)
+
     expect(inMemoryDishAttachmentsRepository.items).toHaveLength(2)
     expect(inMemoryDishAttachmentsRepository.items).toEqual(
       expect.arrayContaining([

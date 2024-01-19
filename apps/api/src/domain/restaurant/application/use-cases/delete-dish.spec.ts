@@ -38,7 +38,6 @@ describe('Delete Dish', () => {
 
     await inMemoryDishRepository.create(newDish)
 
-    // Cria inicialmente um prato com 2 arquivos e com 2 ingredientes e espera que quando o prato for deletado, os arquivos e ingredientes também sejam deletados
     inMemoryDishAttachmentsRepository.items.push(
       makeDishAttachment({
         attachmentId: new UniqueEntityID('attachment-1'),

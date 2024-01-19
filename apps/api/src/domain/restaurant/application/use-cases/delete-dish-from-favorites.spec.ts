@@ -42,10 +42,10 @@ describe('Delete Dish From Favorites UseCase', () => {
   })
 
   it('should be able to delete dish as favorite', async () => {
-    const dish = makeDish({}, new UniqueEntityID('dish-id'))
-    const client = makeClient({}, new UniqueEntityID('client-id'))
+    const dish = makeDish()
+    const client = makeClient()
 
-    await inMemoryDishRepository.create(dish)
+    inMemoryDishRepository.items.push(dish)
 
     await favoriteDishRepository.addFavoriteDish(
       makeFavoriteDish({

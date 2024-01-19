@@ -49,7 +49,6 @@ describe('Create Cart', () => {
 
   it('should be able to create a cart', async () => {
     const client = makeClient()
-
     inMemoryClientsRepository.items.push(client)
 
     const result = await sut.execute({
@@ -63,8 +62,11 @@ describe('Create Cart', () => {
 
   it('should not be able to create a cart if client already has a empty cart', async () => {
     const client = makeClient()
-
     inMemoryClientsRepository.items.push(client)
+
+    const FIRST_CART = await sut.execute({
+      clientId: client.id.toString(),
+    })
 
     const result = await sut.execute({
       clientId: client.id.toString(),
@@ -72,19 +74,13 @@ describe('Create Cart', () => {
 
     expect(result.isRight()).toBe(true)
 
-    const result2 = await sut.execute({
-      clientId: client.id.toString(),
-    })
-
-    expect(result2.isRight()).toBe(true)
-
     expect(inMemoryCartRepository.items).toHaveLength(1)
 
     const cartIdOnDb = inMemoryCartRepository.items[0].id
 
-    const firstCart = result.isRight() ? result.value.cart : null
-
-    expect(cartIdOnDb).toBe(firstCart && firstCart.id)
+    if (FIRST_CART.isRight()) {
+      expect(cartIdOnDb).toBe(FIRST_CART.value.cart.id)
+    }
   })
 
   it('should not be able to create a cart if client does not exists', async () => {

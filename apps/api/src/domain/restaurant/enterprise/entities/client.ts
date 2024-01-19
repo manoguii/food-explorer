@@ -33,6 +33,10 @@ export class Client extends Entity<ClientProps> {
     return this.props.favoriteDishes
   }
 
+  isAdmin() {
+    return this.props.role === 'ADMIN'
+  }
+
   static create(props: Optional<ClientProps, 'role'>, id?: UniqueEntityID) {
     const client = new Client(
       {

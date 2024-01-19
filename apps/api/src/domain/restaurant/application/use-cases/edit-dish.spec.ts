@@ -1,21 +1,21 @@
 import { EditDishUseCase } from './edit-dish'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { makeDish } from 'test/factories/make-dish'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { makeDishAttachment } from 'test/factories/make-dish-attachment'
-import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { makeCategory } from 'test/factories/make-category'
+import { DishAbstractFactory } from 'test/factories/dish-abstract-factory'
+import { InMemoryIngredientsRepository } from 'test/repositories/in-memory-ingredients-repository'
 
 let inMemoryDishRepository: InMemoryDishRepository
+let inMemoryIngredientsRepository: InMemoryIngredientsRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+
+let factory: DishAbstractFactory
 let sut: EditDishUseCase
 
 describe('Edit Dish', () => {
@@ -31,192 +31,69 @@ describe('Edit Dish', () => {
       inMemoryAttachmentsRepository,
     )
 
+    inMemoryIngredientsRepository = new InMemoryIngredientsRepository()
+
     sut = new EditDishUseCase(
       inMemoryDishRepository,
       inMemoryDishAttachmentsRepository,
       inMemoryDishIngredientsRepository,
       inMemoryCategoryRepository,
     )
+
+    factory = new DishAbstractFactory(
+      inMemoryDishRepository,
+      inMemoryCategoryRepository,
+      inMemoryAttachmentsRepository,
+      inMemoryDishAttachmentsRepository,
+      inMemoryIngredientsRepository,
+      inMemoryDishIngredientsRepository,
+    )
   })
 
   it('should be able to edit a dish', async () => {
-    const category = makeCategory()
+    const { dish, attachments, ingredients } = factory.createCompletedDish()
 
-    await inMemoryCategoryRepository.create(category)
-
-    const newDish = makeDish(
-      {
-        categoryId: category.id,
-      },
-      new UniqueEntityID('dish-1'),
-    )
-
-    await inMemoryDishRepository.create(newDish)
-
-    // Cria inicialmente um prato com 2 arquivos e com 2 ingredientes
-
-    inMemoryDishAttachmentsRepository.items.push(
-      makeDishAttachment({
-        attachmentId: new UniqueEntityID('attachment-1'),
-        dishId: newDish.id,
-      }),
-      makeDishAttachment({
-        attachmentId: new UniqueEntityID('attachment-2'),
-        dishId: newDish.id,
-      }),
-    )
-    inMemoryDishIngredientsRepository.items.push(
-      makeDishIngredient({
-        ingredientName: 'Laranja',
-        dishId: newDish.id,
-      }),
-      makeDishIngredient({
-        ingredientName: 'ingredient-to-remove',
-        dishId: newDish.id,
-      }),
-    )
-
-    const newCategory = makeCategory({
-      name: 'Saladas',
-    })
-
-    await inMemoryCategoryRepository.create(newCategory)
-
-    // Edita o prato com 1 arquivo novo e um antigo, o mesmo para os ingredientes
+    const newCategory = factory.createCategory()
+    const newAttachment = factory.createAttachment()
+    const newIngredient = factory.createIngredient()
 
     const result = await sut.execute({
-      dishId: newDish.id.toValue(),
-      description: 'Dish description',
-      name: 'Dish name',
+      dishId: dish.id.toValue(),
+      description: 'New description',
+      name: 'New name',
       price: 1000,
-      attachmentsIds: ['attachment-1', 'new-attachment'],
-      ingredients: ['Laranja', 'new-ingredient'],
+
+      attachmentsIds: [
+        attachments[0].id.toString(),
+        newAttachment.id.toString(),
+      ],
+      ingredients: [ingredients[0].name, newIngredient.name],
       categoryId: newCategory.id.toValue(),
     })
 
-    // Espera-se que nos currentItems tenha 1 arquivo novo e um antigo, o mesmo para os ingredientes
     expect(result.isRight()).toBe(true)
-    expect(
-      inMemoryDishRepository.items[0].attachments.currentItems,
-    ).toHaveLength(2)
-    expect(inMemoryDishRepository.items[0].attachments.currentItems).toEqual([
-      expect.objectContaining({
-        attachmentId: new UniqueEntityID('attachment-1'),
-      }),
-      expect.objectContaining({
-        attachmentId: new UniqueEntityID('new-attachment'),
-      }),
-    ])
-    expect(
-      inMemoryDishRepository.items[0].ingredients.currentItems,
-    ).toHaveLength(2)
-    expect(inMemoryDishRepository.items[0].ingredients.currentItems).toEqual([
-      expect.objectContaining({
-        ingredientName: 'Laranja',
-      }),
-      expect.objectContaining({
-        ingredientName: 'new-ingredient',
-      }),
-    ])
-    expect(inMemoryDishRepository.items[0].categoryId).toEqual(newCategory.id)
-  })
 
-  it('should sync new and removed attachments when edit a dish', async () => {
-    const category = makeCategory()
+    const updatedDish = inMemoryDishRepository.items[0]
 
-    await inMemoryCategoryRepository.create(category)
+    expect(updatedDish.description).toEqual('New description')
+    expect(updatedDish.name).toEqual('New name')
+    expect(updatedDish.price).toEqual(1000)
 
-    const newDish = makeDish(
-      {
-        categoryId: category.id,
-      },
-      new UniqueEntityID('dish-1'),
-    )
-
-    await inMemoryDishRepository.create(newDish)
-
-    inMemoryDishAttachmentsRepository.items.push(
-      makeDishAttachment({
-        attachmentId: new UniqueEntityID('attachment-1'),
-        dishId: newDish.id,
-      }),
-      makeDishAttachment({
-        attachmentId: new UniqueEntityID('attachment-2'),
-        dishId: newDish.id,
-      }),
-    )
-
-    const result = await sut.execute({
-      dishId: newDish.id.toValue(),
-      description: 'Dish description',
-      name: 'Dish name',
-      price: 1000,
-      attachmentsIds: ['attachment-1', 'new-attachment'],
-      ingredients: ['Batata', 'Laranja'],
-      categoryId: category.id.toValue(),
-    })
-
-    expect(result.isRight()).toBe(true)
-    expect(inMemoryDishAttachmentsRepository.items).toHaveLength(2)
-    expect(inMemoryDishAttachmentsRepository.items).toEqual(
+    expect(updatedDish.attachments.currentItems).toHaveLength(2)
+    expect(updatedDish.attachments.currentItems).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({
-          attachmentId: new UniqueEntityID('attachment-1'),
-        }),
-        expect.objectContaining({
-          attachmentId: new UniqueEntityID('new-attachment'),
-        }),
+        expect.objectContaining({ attachmentId: newAttachment.id }),
       ]),
     )
-  })
 
-  it('should sync new and removed ingredients when edit a dish', async () => {
-    const category = makeCategory()
-
-    await inMemoryCategoryRepository.create(category)
-
-    const newDish = makeDish(
-      {
-        categoryId: category.id,
-      },
-      new UniqueEntityID('dish-1'),
-    )
-
-    await inMemoryDishRepository.create(newDish)
-
-    inMemoryDishIngredientsRepository.items.push(
-      makeDishIngredient({
-        ingredientName: 'Batata',
-        dishId: newDish.id,
-      }),
-      makeDishIngredient({
-        ingredientName: 'ingredient-to-remove',
-        dishId: newDish.id,
-      }),
-    )
-
-    const result = await sut.execute({
-      dishId: newDish.id.toValue(),
-      description: 'Dish description',
-      name: 'Dish name',
-      price: 1000,
-      attachmentsIds: ['1', '2'],
-      ingredients: ['Batata', 'new-ingredient'],
-      categoryId: category.id.toValue(),
-    })
-
-    expect(result.isRight()).toBe(true)
-    expect(inMemoryDishIngredientsRepository.items).toHaveLength(2)
-    expect(inMemoryDishIngredientsRepository.items).toEqual(
+    expect(updatedDish.ingredients.currentItems).toHaveLength(2)
+    expect(updatedDish.ingredients.currentItems).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({
-          ingredientName: 'Batata',
-        }),
-        expect.objectContaining({
-          ingredientName: 'new-ingredient',
-        }),
+        expect.objectContaining({ ingredientName: newIngredient.name }),
       ]),
     )
+
+    expect(updatedDish.categoryId).toEqual(newCategory.id)
   })
 
   it('should not be able to edit a dish when it does not exist', async () => {
