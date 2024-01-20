@@ -1,3 +1,6 @@
+import { getDashboardMetrics } from '@/db/fetch'
+
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -6,6 +9,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
+import { CalendarDateRangePicker } from '@/components/dashboard/date-range-picker'
+import Price from '@/components/food/price'
 
 import { Overview } from '../../components/dashboard/overview'
 import { RecentSales } from '../../components/dashboard/recent-sales'
@@ -14,15 +19,39 @@ export const metadata = {
   title: 'Dashboard',
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams?: {
+    from?: string
+    to?: string
+  }
+}) {
+  const metrics = await getDashboardMetrics(
+    searchParams?.from ? searchParams.from : undefined,
+    searchParams?.to ? searchParams.to : undefined,
+  )
+
+  if (!metrics) {
+    return null
+  }
+
   return (
     <Dashboard.Content>
       <div className="space-y-4">
+        <div className="flex items-center justify-between space-y-2">
+          <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+          <div className="flex items-center space-x-2">
+            <CalendarDateRangePicker />
+            <Button>Download</Button>
+          </div>
+        </div>
+
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Total Revenue
+                Total de vendas
               </CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -38,9 +67,14 @@ export default async function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$45,231.89</div>
+              <div className="text-2xl font-bold">
+                <Price
+                  amount={metrics.totalRevenue.value.toString()}
+                  currencyCode="BRL"
+                />
+              </div>
               <p className="text-xs text-muted-foreground">
-                +20.1% from last month
+                +20.1% no ultimo mês
               </p>
             </CardContent>
           </Card>
@@ -73,7 +107,7 @@ export default async function DashboardPage() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Sales</CardTitle>
+              <CardTitle className="text-sm font-medium">Vendas</CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -89,15 +123,17 @@ export default async function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
+              <div className="text-2xl font-bold">+{metrics.sales.value}</div>
               <p className="text-xs text-muted-foreground">
-                +19% from last month
+                +19% no ultimo mês
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Clientes ativos
+              </CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -112,9 +148,11 @@ export default async function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+573</div>
+              <div className="text-2xl font-bold">
+                +{metrics.activeClients.value}
+              </div>
               <p className="text-xs text-muted-foreground">
-                +201 since last hour
+                +201 na ultima semana
               </p>
             </CardContent>
           </Card>
@@ -125,16 +163,17 @@ export default async function DashboardPage() {
               <CardTitle>Overview</CardTitle>
             </CardHeader>
             <CardContent className="pl-2">
-              <Overview />
+              <Overview data={metrics.overview} />
             </CardContent>
           </Card>
+
           <Card className="col-span-3">
             <CardHeader>
-              <CardTitle>Recent Sales</CardTitle>
+              <CardTitle>Vendas recentes</CardTitle>
               <CardDescription>You made 265 sales this month.</CardDescription>
             </CardHeader>
             <CardContent>
-              <RecentSales />
+              <RecentSales recentSales={metrics.recentSales} />
             </CardContent>
           </Card>
         </div>

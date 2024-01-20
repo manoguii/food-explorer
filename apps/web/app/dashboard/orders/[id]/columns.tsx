@@ -3,15 +3,12 @@
 import Image from 'next/image'
 import { ColumnDef } from '@tanstack/react-table'
 
-import { statuses } from '@/config/table'
-import { Details } from '@/lib/schemas'
+import { CartItem } from '@/lib/types/definitions'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-
-import { SelectStatusAction } from './data-table-row-actions'
 
 const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
 
-export const columns: ColumnDef<Details>[] = [
+export const columns: ColumnDef<CartItem>[] = [
   {
     accessorKey: 'attachments',
     header: ({ column }) => (
@@ -73,46 +70,5 @@ export const columns: ColumnDef<Details>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
     },
-  },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
-    ),
-    cell: ({ row }) => {
-      const status = statuses.find((status) => {
-        const value = row.getValue('status') as string
-        return status.value.toLowerCase() === value.toLowerCase()
-      })
-
-      if (!status) {
-        return null
-      }
-
-      const iconColor = {
-        PENDING: 'text-blue-500',
-        PREPARING: 'text-yellow-500',
-        DELIVERED: 'text-green-500',
-        CANCELED: 'text-red-500',
-      }
-
-      return (
-        <div className="flex w-[100px] items-center">
-          {status.icon && (
-            <status.icon
-              className={`mr-2 h-4 w-4 ${iconColor[status.value]}`}
-            />
-          )}
-          <span>{status.label}</span>
-        </div>
-      )
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
-    },
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <SelectStatusAction row={row} />,
   },
 ]

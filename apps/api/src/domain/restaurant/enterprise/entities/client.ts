@@ -7,6 +7,7 @@ export interface ClientProps {
   name: string
   email: string
   password: string
+  image?: string | null
   role: 'ADMIN' | 'CLIENT' | 'MANAGER'
 
   favoriteDishes?: FavoriteDish[]
@@ -23,6 +24,10 @@ export class Client extends Entity<ClientProps> {
 
   get password() {
     return this.props.password
+  }
+
+  get image() {
+    return this.props.image
   }
 
   get role() {

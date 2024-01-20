@@ -56,6 +56,8 @@ import { FetchOrdersController } from './controllers/fetch-orders.controller'
 import { FetchOrdersUseCase } from '@/domain/restaurant/application/use-cases/fetch-orders'
 import { GetOrderByIdController } from './controllers/get-order-by-id.controller'
 import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/get-order-by-id'
+import { GetDashboardMetricsController } from './controllers/get-dashboard-metrics.controller'
+import { GetDashboardMetricsUseCase } from '@/domain/restaurant/application/use-cases/get-dashboard-metrics'
 
 @Module({
   imports: [
@@ -103,6 +105,7 @@ import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/g
     StripeWebhookController,
     FetchOrdersController,
     GetOrderByIdController,
+    GetDashboardMetricsController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -130,6 +133,7 @@ import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/g
     StripeWebhookUseCase,
     FetchOrdersUseCase,
     GetOrderByIdUseCase,
+    GetDashboardMetricsUseCase,
   ],
 })
 export class HttpModule {}

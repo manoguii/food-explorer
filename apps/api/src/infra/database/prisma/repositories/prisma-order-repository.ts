@@ -1,7 +1,11 @@
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
-import { OrdersRepository } from '@/domain/restaurant/application/repositories/orders-repository'
+import {
+  MetricsResponse,
+  OrdersRepository,
+  RecentSalesResponse,
+} from '@/domain/restaurant/application/repositories/orders-repository'
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { OrderWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/order-with-details'
@@ -10,6 +14,108 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {
   constructor(private prisma: PrismaService) {}
+
+  async getOverview(): Promise<{ name: string; total: number }[]> {
+    const orders = await this.prisma.order.findMany({
+      select: {
+        createdAt: true,
+        amountTotal: true,
+      },
+    })
+
+    const data = months.map((month) => ({ name: month, total: 0 }))
+
+    orders.forEach((order) => {
+      const monthIndex = new Date(order.createdAt).getMonth()
+      data[monthIndex].total += order.amountTotal
+    })
+
+    return data
+  }
+
+  async getTotalRevenue(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<MetricsResponse> {
+    const totalRevenue = await this.prisma.order.aggregate({
+      _sum: {
+        amountTotal: true,
+      },
+      where: {
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+    })
+
+    const totalRevenueAmount = totalRevenue._sum.amountTotal || 0
+
+    return {
+      value: totalRevenueAmount,
+    }
+  }
+
+  async getSales(startDate: Date, endDate: Date): Promise<MetricsResponse> {
+    const sales = await this.prisma.order.count({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+    })
+
+    return {
+      value: sales,
+    }
+  }
+
+  async getActiveClients(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<MetricsResponse> {
+    const activeClients = await this.prisma.order.groupBy({
+      by: ['userId'],
+      where: {
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+    })
+
+    return {
+      value: activeClients.length,
+    }
+  }
+
+  async getRecentSales(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<RecentSalesResponse[]> {
+    const orders = await this.prisma.order.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lt: endDate,
+        },
+      },
+      include: {
+        user: true,
+      },
+    })
+
+    return orders.map((order) => ({
+      total: order.amountTotal,
+      client: {
+        id: order.user.id,
+        name: order.user.name,
+        email: order.user.email,
+        image: order.user.image,
+      },
+    }))
+  }
 
   async findById(id: string): Promise<Order | null> {
     const order = await this.prisma.order.findUnique({
@@ -267,3 +373,18 @@ export class PrismaOrdersRepository implements OrdersRepository {
     ])
   }
 }
+
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+]

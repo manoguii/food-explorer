@@ -65,6 +65,7 @@ describe('Get Order By Id', () => {
       inMemoryCartRepository,
       inMemoryCartItemsRepository,
       inMemoryDishIngredientsRepository,
+      inMemoryClientsRepository,
     )
 
     cartFactory = new CartAbstractFactory(

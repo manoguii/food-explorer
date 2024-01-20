@@ -18,6 +18,7 @@ export function makeClient(
       name: faker.person.fullName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
+      image: faker.image.avatarGitHub(),
       role: 'CLIENT',
       ...override,
     },

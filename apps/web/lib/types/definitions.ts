@@ -129,6 +129,39 @@ export type GetDishBySlugResponse = {
   dish: DishWithDetails
 }
 
+export type GetOrderByIdResponse = {
+  order: OrderWithDetails
+}
+
+export type MetricsResponse = {
+  value: number
+}
+
+export type OverviewResponse = {
+  name: string
+  total: number
+}
+
+export type RecentSalesResponse = {
+  client: {
+    id: string
+    name: string
+    email: string
+    image?: string | null
+  }
+  total: number
+}
+
+export type GetDashboardMetricsResponse = {
+  metrics: {
+    sales: MetricsResponse
+    totalRevenue: MetricsResponse
+    activeClients: MetricsResponse
+    recentSales: RecentSalesResponse[]
+    overview: OverviewResponse[]
+  }
+}
+
 export type UploadFileResponse = {
   attachmentId: string
 }

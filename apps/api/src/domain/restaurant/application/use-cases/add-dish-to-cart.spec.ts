@@ -73,7 +73,6 @@ describe('Add dish to cart', () => {
       quantity: DISH_QUANTITY,
     })
 
-    console.log(result)
     const totalAmount = inMemoryCartItemsRepository.items.reduce(
       (acc, item) => {
         return acc + item.cost

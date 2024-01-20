@@ -64,6 +64,7 @@ describe('Fetch orders', () => {
       inMemoryCartRepository,
       inMemoryCartItemsRepository,
       inMemoryDishIngredientsRepository,
+      inMemoryClientsRepository,
     )
 
     cartFactory = new CartAbstractFactory(

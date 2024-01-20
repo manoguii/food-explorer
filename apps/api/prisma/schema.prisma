@@ -18,6 +18,7 @@ model User {
   name     String
   email    String   @unique
   password String
+  image    String?
   role     UserRole @default(CLIENT)
 
   favoriteDishes FavoriteDishes[]

@@ -5,7 +5,9 @@ import {
   FetchDishesResponse,
   FetchFavoriteDishesResponse,
   FetchOrdersResponse,
+  GetDashboardMetricsResponse,
   GetDishBySlugResponse,
+  GetOrderByIdResponse,
   GetUserSessionResponse,
 } from '@/lib/types/definitions'
 
@@ -70,6 +72,34 @@ export async function getDishBySlug(slug: string) {
     const { dish } = await fetcher<GetDishBySlugResponse>(endpoint)
 
     return dish
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export async function getOrderById(id: string) {
+  try {
+    const endpoint = `/order/${id}`
+    const { order } = await fetcher<GetOrderByIdResponse>(endpoint)
+
+    return order
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export async function getDashboardMetrics(
+  startDate?: string,
+  endDate?: string,
+) {
+  try {
+    const params = `?startDate=${startDate}&endDate=${endDate}`
+    const endpoint = `/dashboard-metrics${startDate && endDate ? params : ''}`
+    const { metrics } = await fetcher<GetDashboardMetricsResponse>(endpoint)
+
+    return metrics
   } catch (error) {
     console.error(error)
     return null

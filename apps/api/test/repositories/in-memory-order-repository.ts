@@ -2,12 +2,17 @@ import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
 import { InMemoryDishRepository } from './in-memory-dish-repository'
-import { OrdersRepository } from '@/domain/restaurant/application/repositories/orders-repository'
+import {
+  MetricsResponse,
+  OrdersRepository,
+  RecentSalesResponse,
+} from '@/domain/restaurant/application/repositories/orders-repository'
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { OrderWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/order-with-details'
 import { InMemoryCartRepository } from './in-memory-cart-repository'
 import { InMemoryCartItemsRepository } from './in-memory-cart-item-repository'
 import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
+import { InMemoryClientsRepository } from './in-memory-clients-repository'
 
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = []
@@ -19,7 +24,105 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     private cartsRepository: InMemoryCartRepository,
     private cartItemsRepository: InMemoryCartItemsRepository,
     private dishIngredientsRepository: InMemoryDishIngredientsRepository,
+    private clientsRepository: InMemoryClientsRepository,
   ) {}
+
+  getOverview(): Promise<{ name: string; total: number }[]> {
+    throw new Error('Method not implemented.')
+  }
+
+  async getTotalRevenue(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<MetricsResponse> {
+    const totalRevenue = this.items.reduce((acc, order) => {
+      if (
+        order.createdAt.getTime() >= startDate.getTime() &&
+        order.createdAt.getTime() <= endDate.getTime()
+      ) {
+        return acc + order.amountTotal
+      }
+
+      return acc
+    }, 0)
+
+    return {
+      value: totalRevenue,
+    }
+  }
+
+  async getSales(startDate: Date, endDate: Date): Promise<MetricsResponse> {
+    const sales = this.items.reduce((acc, order) => {
+      if (
+        order.createdAt.getTime() >= startDate.getTime() &&
+        order.createdAt.getTime() <= endDate.getTime()
+      ) {
+        return acc + 1
+      }
+
+      return acc
+    }, 0)
+
+    return {
+      value: sales,
+    }
+  }
+
+  async getActiveClients(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<MetricsResponse> {
+    const activeClients = this.items.reduce((acc, order) => {
+      if (
+        order.createdAt.getTime() >= startDate.getTime() &&
+        order.createdAt.getTime() <= endDate.getTime()
+      ) {
+        return acc + 1
+      }
+
+      return acc
+    }, 0)
+
+    return {
+      value: activeClients,
+    }
+  }
+
+  async getRecentSales(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<RecentSalesResponse[]> {
+    const recentSales = this.items.reduce((acc, order) => {
+      if (
+        order.createdAt.getTime() >= startDate.getTime() &&
+        order.createdAt.getTime() <= endDate.getTime()
+      ) {
+        const client = this.clientsRepository.items.find((client) =>
+          client.id.equals(order.clientId),
+        )
+
+        if (!client) {
+          throw new Error('Client not found !')
+        }
+
+        const recentSale = {
+          client: {
+            id: client.id.toString(),
+            name: client.name,
+            email: client.email,
+            image: client.image,
+          },
+          total: order.amountTotal,
+        }
+
+        return [...acc, recentSale]
+      }
+
+      return acc
+    }, [] as RecentSalesResponse[])
+
+    return recentSales
+  }
 
   async findById(id: string) {
     const order = this.items.find((item) => item.id.toString() === id)

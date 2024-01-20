@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-// import { getOrderById } from '@/db/fetch'
+import { getOrderById } from '@/db/fetch'
 import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 
 import { formatDate } from '@/lib/utils'
@@ -17,10 +17,9 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import Price from '@/components/food/price'
+import { DataTable } from '@/components/table/data-table'
 
-// import { DataTable } from '@/components/table/data-table'
-
-// import { columns } from './columns'
+import { columns } from './columns'
 
 export default async function OrderDetails({
   params,
@@ -29,40 +28,11 @@ export default async function OrderDetails({
     id: string
   }
 }) {
-  // const order = await getOrderById(params.id)
-  console.log('params.id', params.id)
-  const order = {
-    id: '1',
-    code: '123',
-    client: {
-      name: 'John Doe',
-      email: '',
-    },
-    createdAt: new Date().toISOString(),
-    dishes: [
-      {
-        id: '1',
-        name: 'Pizza',
-        price: 10,
-        quantity: 2,
-      },
-    ],
-  }
+  const order = await getOrderById(params.id)
 
   if (!order) {
     notFound()
   }
-
-  const dishes = order.dishes.map((dish) => ({
-    ...dish,
-    orderId: order.id,
-  }))
-
-  const subTotal = dishes.reduce((acc, dish) => {
-    return acc + dish.price * dish.quantity
-  }, 0)
-
-  const total = subTotal + 2.8
 
   return (
     <Dashboard.Content className="flex flex-1 flex-col gap-4 md:gap-8">
@@ -78,13 +48,13 @@ export default async function OrderDetails({
           <span className="sr-only">Back</span>
         </Link>
         <h1 className="flex items-center gap-1 text-lg font-semibold md:text-xl">
-          #{order.code} <Dot />{' '}
+          #{order.orderId.slice(0, 8)} <Dot />{' '}
           <span className="font-normal text-gray-500 dark:text-gray-400">
-            {order.client.name}{' '}
+            {/* {order.client.name}{' '} */}
           </span>
           <Dot />
           <span className="font-normal text-gray-500 dark:text-gray-400">
-            {formatDate(order.createdAt)}
+            {formatDate(order.createdAt.toString())}
           </span>
         </h1>
         <div className="ml-auto hidden items-center gap-2 lg:flex">
@@ -101,7 +71,7 @@ export default async function OrderDetails({
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
           <CardTitle>Detalhes do pedido</CardTitle>
-          {/* <DataTable data={dishes} columns={columns} /> */}
+          <DataTable data={order.cart.cartItems} columns={columns} />
         </div>
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           <Card>
@@ -114,7 +84,7 @@ export default async function OrderDetails({
               </CardHeader>
               <CardContent className="text-sm">
                 <div className="grid gap-1">
-                  <strong>{order.client.name}</strong>
+                  {/* <strong>{order.client.name}</strong> */}
                   <span>Total de pedidos (23)</span>
                 </div>
               </CardContent>
@@ -126,7 +96,7 @@ export default async function OrderDetails({
               </CardHeader>
               <CardContent className="text-sm">
                 <div className="grid gap-1">
-                  <p>{order.client.email}</p>
+                  {/* <p>{order.client.email}</p> */}
                   <div className="text-gray-500 dark:text-gray-400">
                     +1 888 8888 8888
                   </div>
@@ -157,7 +127,7 @@ export default async function OrderDetails({
               <div className="flex items-center">
                 <div>Subtotal</div>
                 <Price
-                  amount={subTotal.toString()}
+                  amount={order.amountTotal.toString()}
                   currencyCode="BRL"
                   className="ml-auto"
                   currencyCodeClassName="hidden @[275px]/label:inline"
@@ -176,7 +146,7 @@ export default async function OrderDetails({
               <div className="flex items-center font-medium">
                 <div>Total</div>
                 <Price
-                  amount={total.toString()}
+                  amount={order.amountTotal.toString()}
                   currencyCode="BRL"
                   className="ml-auto"
                   currencyCodeClassName="hidden @[275px]/label:inline"

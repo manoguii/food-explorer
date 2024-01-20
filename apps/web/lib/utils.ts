@@ -63,3 +63,10 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ]
 }
+
+export function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map((word) => word.substring(0, 1).toUpperCase())
+    .join('')
+}
