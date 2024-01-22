@@ -1,4 +1,4 @@
-import { getDashboardMetrics } from '@/db/fetch'
+import { getDashboardMetrics } from '@/db/queries/get-dashboard-metrics'
 
 import { Button } from '@/components/ui/button'
 import {

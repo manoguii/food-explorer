@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { updateCategory } from '@/db/mutations'
+import { updateCategory } from '@/db/mutations/update-category'
 import { Pencil, Save } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
 

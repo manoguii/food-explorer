@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { fetchCategories } from '@/db/fetch'
+import { fetchCategories } from '@/db/queries/fetch-categories'
 
 import { CategoryCard } from '@/components/dashboard/category-card'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'

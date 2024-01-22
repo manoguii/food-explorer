@@ -2,7 +2,8 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
-import { updateDish, uploadFile } from '@/db/mutations'
+import { updateDish } from '@/db/mutations/update-dish'
+import { uploadFile } from '@/db/mutations/upload-file'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 

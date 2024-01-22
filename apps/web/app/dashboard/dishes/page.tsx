@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { fetchDishes } from '@/db/fetch'
+import { fetchDishes } from '@/db/queries/fetch-dishes'
 
 import { CreateButton } from '@/components/dashboard/button-create-new'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'

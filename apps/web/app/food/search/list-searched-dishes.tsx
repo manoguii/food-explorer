@@ -1,4 +1,5 @@
-import { fetchDishes, fetchDishesByCategory } from '@/db/fetch'
+import { fetchDishes } from '@/db/queries/fetch-dishes'
+import { fetchDishesByCategory } from '@/db/queries/fetch-dishes-by-category'
 
 import { DishWithDetails } from '@/lib/types/definitions'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'

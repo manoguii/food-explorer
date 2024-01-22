@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { deleteDish } from '@/db/mutations'
+import { deleteDish } from '@/db/mutations/delete-dish'
 import { Row } from '@tanstack/react-table'
 import { Trash } from 'lucide-react'
 import { z } from 'zod'

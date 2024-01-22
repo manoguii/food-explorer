@@ -2,7 +2,8 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
-import { createDish, uploadFile } from '@/db/mutations'
+import { createDish } from '@/db/mutations/create-dish'
+import { uploadFile } from '@/db/mutations/upload-file'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 

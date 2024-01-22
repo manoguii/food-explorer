@@ -2,9 +2,14 @@
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
-import { OverviewResponse } from '@/lib/types/definitions'
-
-export function Overview({ data }: { data: OverviewResponse[] }) {
+export function Overview({
+  data,
+}: {
+  data: {
+    name: string
+    total: number
+  }[]
+}) {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <BarChart data={data}>

@@ -93,21 +93,6 @@ export const orderSchema = z.object({
   }),
 })
 
-export const categorySchema = z.object({
-  name: z
-    .string()
-    .min(3, {
-      message: 'A categoria deve ter pelo menos 3 caractere.',
-    })
-    .max(20, {
-      message: 'A categoria deve ter no máximo 20 caracteres.',
-    }),
-})
-
-export const updateCategorySchema = categorySchema.extend({
-  id: z.string().uuid(),
-})
-
 export type SearchDishFormValues = z.infer<typeof searchDishFormSchema>
 export type CreateAccountFormValues = z.infer<typeof createAccountFormSchema>
 export type AuthFormValues = z.infer<typeof userAuthFormSchema>

@@ -1,4 +1,4 @@
-import { fetchDishes } from '@/db/fetch'
+import { fetchDishes } from '@/db/queries/fetch-dishes'
 
 import {
   Carousel,

@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { fetchCategories } from '@/db/fetch'
+import { fetchCategories } from '@/db/queries/fetch-categories'
 
 import { FacetedFilter } from '@/components/faceted-filter'
 import { Layout } from '@/components/food/layout'

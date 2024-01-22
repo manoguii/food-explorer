@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { createCategory } from '@/db/mutations'
+import { createCategory } from '@/db/mutations/create-category'
 import { Plus } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
 

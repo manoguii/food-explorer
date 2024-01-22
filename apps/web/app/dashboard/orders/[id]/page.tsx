@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getOrderById } from '@/db/fetch'
+import { getOrderById } from '@/db/queries/get-order-by-id'
 import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 
 import { formatDate } from '@/lib/utils'

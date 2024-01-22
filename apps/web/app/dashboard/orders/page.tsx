@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import { fetchOrders } from '@/db/fetch'
+import { fetchOrders } from '@/db/queries/fetch-orders'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DataTableSkeleton } from '@/components/skeletons'

@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { toggleFavoriteDish } from '@/db/mutations'
+import { toggleFavoriteDish } from '@/db/mutations/toggle-favorite-dish'
 import { Heart } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
 

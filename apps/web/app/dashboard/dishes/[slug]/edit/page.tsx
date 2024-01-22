@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
-import { fetchCategories, getDishBySlug } from '@/db/fetch'
+import { fetchCategories } from '@/db/queries/fetch-categories'
+import { getDishBySlug } from '@/db/queries/get-dish-by-slug'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateCategoryForm } from '@/components/forms/create-category'

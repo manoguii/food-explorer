@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { deleteCategory } from '@/db/mutations'
+import { deleteCategory } from '@/db/mutations/delete-category'
 import { Trash } from 'lucide-react'
 
 import { Category } from '@/lib/types/definitions'

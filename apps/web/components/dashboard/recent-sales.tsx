@@ -1,14 +1,19 @@
-import { RecentSalesResponse } from '@/lib/types/definitions'
 import { getInitials } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import Price from '../food/price'
 
-export function RecentSales({
-  recentSales,
-}: {
-  recentSales: RecentSalesResponse[]
-}) {
+type RecentSales = {
+  client: {
+    id: string
+    name: string
+    email: string
+    image?: string | null
+  }
+  total: number
+}
+
+export function RecentSales({ recentSales }: { recentSales: RecentSales[] }) {
   return (
     <div className="space-y-8">
       {recentSales.map((sale) => (

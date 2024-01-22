@@ -1,4 +1,4 @@
-import { fetchFavoriteDishes } from '@/db/fetch'
+import { fetchFavoriteDishes } from '@/db/queries/fetch-favorite-dishes'
 
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { DishCard } from '@/components/food/dish-card'
