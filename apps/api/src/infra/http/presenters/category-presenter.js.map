@@ -1,1 +1,0 @@
-{"version":3,"file":"category-presenter.js","sourceRoot":"","sources":["category-presenter.ts"],"names":[],"mappings":";;;AAEA,MAAa,iBAAiB;IAC5B,MAAM,CAAC,MAAM,CAAC,QAAkB;QAC9B,OAAO;YACL,EAAE,EAAE,QAAQ,CAAC,EAAE,CAAC,QAAQ,EAAE;YAC1B,IAAI,EAAE,QAAQ,CAAC,IAAI;YACnB,SAAS,EAAE,QAAQ,CAAC,SAAS;SAC9B,CAAA;IACH,CAAC;CACF;AARD,8CAQC"}
