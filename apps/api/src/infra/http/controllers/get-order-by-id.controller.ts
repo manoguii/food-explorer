@@ -5,10 +5,12 @@ import {
   NotFoundException,
   Param,
 } from '@nestjs/common'
-import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/get-order-by-id'
-import { OrderWithDetailsPresenter } from '../presenters/order-with-details-presenter'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { GetOrderByIdUseCase } from '@/domain/restaurant/application/use-cases/get-order-by-id'
+
+import { OrderWithDetailsPresenter } from '../presenters/order-with-details-presenter'
 
 @ApiTags('Order')
 @Controller('/order/:id')

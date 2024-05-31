@@ -1,5 +1,3 @@
-import { AppModule } from '@/infra/app.module'
-import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -10,6 +8,9 @@ import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
 import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 import { FavoriteDishFactory } from 'test/factories/make-favorite-dish'
+
+import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 
 describe('Fetch filtered dishes (E2E)', () => {
   let app: INestApplication

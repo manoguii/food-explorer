@@ -2,8 +2,8 @@ import clsx from 'clsx'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import { useFormState, useFormStatus } from 'react-dom'
 
-import { CartItem } from '@/lib/types/definitions'
 import { LoadingDots } from '@/components/loading-dots'
+import { CartItem } from '@/lib/types/definitions'
 
 import { updateItemQuantity } from './actions'
 

@@ -1,15 +1,15 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import useScrollPosition from '@react-hook/window-scroll'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Bell } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
-import { routesConfig } from '@/config/navigation'
 import { ModeToggle } from '@/components/mode-toggle'
 import { UserNav } from '@/components/user-nav'
+import { routesConfig } from '@/config/navigation'
 
 import { Button, buttonVariants } from '../ui/button'
 

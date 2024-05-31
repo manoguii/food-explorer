@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
-import { fetchCategories } from '@/db/queries/fetch-categories'
 
 import { FacetedFilter } from '@/components/faceted-filter'
 import { Layout } from '@/components/food/layout'
 import { DashboardSearchInput } from '@/components/search-input'
 import { FacetedFilterSkeleton } from '@/components/skeletons'
+import { fetchCategories } from '@/db/queries/fetch-categories'
 
 import {
   DishCardListSkeleton,

@@ -1,7 +1,9 @@
-import { Either, left, right } from '@/core/either'
-import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
 import { Injectable } from '@nestjs/common'
+
+import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
 
 interface DeleteDishFromFavoritesUseCaseRequest {
   dishId: string

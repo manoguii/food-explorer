@@ -1,15 +1,17 @@
-import { makeDish } from 'test/factories/make-dish'
-import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
-import { FetchFavoriteDishesUseCase } from './fetch-favorite-dishes'
-import { makeClient } from 'test/factories/make-client'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
-import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { makeCategory } from 'test/factories/make-category'
+import { makeClient } from 'test/factories/make-client'
+import { makeDish } from 'test/factories/make-dish'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+
+import { FetchFavoriteDishesUseCase } from './fetch-favorite-dishes'
 
 let inMemoryFavoriteDishRepository: InMemoryFavoriteDishRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository

@@ -1,10 +1,11 @@
-import { Slug } from './value-objects/slug'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
-import { Price } from './value-objects/price'
-import { AggregateRoot } from '@/core/entities/aggregate-root'
+
 import { DishAttachmentList } from './dish-attachment-list'
 import { DishIngredientList } from './dish-ingredient-list'
+import { Price } from './value-objects/price'
+import { Slug } from './value-objects/slug'
 
 export interface DishProps {
   categoryId: UniqueEntityID

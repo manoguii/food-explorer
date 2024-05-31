@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
+
 import { Label, OrderStatus, PaymentStatus, Priority } from '../order'
 
 interface OrderWithDetailsProps {

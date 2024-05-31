@@ -1,12 +1,12 @@
-import { Suspense } from 'react'
-import Link from 'next/link'
 import { ChefHatIcon, ListOrdered } from 'lucide-react'
+import Link from 'next/link'
+import { Suspense } from 'react'
 
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { Layout } from '@/components/food/layout'
 import { Icons } from '@/components/icons'
+import { buttonVariants } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 
 import { CardCarousel, CardCarouselSkeleton } from './card-carrousel'
 import { HeroHeader, HeroHeaderDescription, HeroHeaderHeading } from './hero'

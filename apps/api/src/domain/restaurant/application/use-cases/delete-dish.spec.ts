@@ -1,14 +1,16 @@
-import { DeleteDishUseCase } from './delete-dish'
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { makeDish } from 'test/factories/make-dish'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { makeDishAttachment } from 'test/factories/make-dish-attachment'
 import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { DeleteDishUseCase } from './delete-dish'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository

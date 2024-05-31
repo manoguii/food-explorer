@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import Stripe from 'stripe'
+
 import { MODULE_OPTIONS_TOKEN } from './stripe.module-definition'
 import { PaymentModuleOptions } from './stripe-options.interface'
 

@@ -1,14 +1,16 @@
-import { PaginationParams } from '@/core/repositories/pagination-params'
-import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
-import { PrismaDishMapper } from '../mappers/prisma-dish-mapper'
-import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
+
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
-import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
-import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
+import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
+import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
+import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
+
+import { PrismaDishMapper } from '../mappers/prisma-dish-mapper'
+import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaDishRepository implements DishRepository {

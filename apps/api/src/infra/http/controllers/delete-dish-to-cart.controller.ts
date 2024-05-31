@@ -6,11 +6,12 @@ import {
   NotFoundException,
   Param,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { z } from 'zod'
-import { DeleteDishToCartUseCase } from '@/domain/restaurant/application/use-cases/delete-dish-to-cart'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
+import { z } from 'zod'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { DeleteDishToCartUseCase } from '@/domain/restaurant/application/use-cases/delete-dish-to-cart'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
 const deleteDishToCartBodySchema = z.object({
   dishId: z.string(),

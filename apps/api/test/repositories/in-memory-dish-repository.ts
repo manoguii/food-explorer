@@ -1,12 +1,13 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { DishRepository } from '@/domain/restaurant/application/repositories/dish-repository'
+import { Category } from '@/domain/restaurant/enterprise/entities/category'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
 import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
-import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
-import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
-import { InMemoryCategoryRepository } from './in-memory-category-repository'
+
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
-import { Category } from '@/domain/restaurant/enterprise/entities/category'
+import { InMemoryCategoryRepository } from './in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
 
 export class InMemoryDishRepository implements DishRepository {
   public items: Dish[] = []

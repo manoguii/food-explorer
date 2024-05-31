@@ -5,8 +5,9 @@ import {
   Param,
   Post,
 } from '@nestjs/common'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { CreateCheckoutSessionUseCase } from '@/domain/restaurant/application/use-cases/create-checkout-session'
 
 @ApiTags('Checkout')

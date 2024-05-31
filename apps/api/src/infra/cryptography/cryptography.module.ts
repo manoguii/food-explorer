@@ -4,8 +4,8 @@ import { Encrypter } from '@/domain/restaurant/application/cryptography/encrypte
 import { HashComparer } from '@/domain/restaurant/application/cryptography/hash-comparer'
 import { HashGenerator } from '@/domain/restaurant/application/cryptography/hash-generator'
 
-import { JwtEncrypter } from './jwt-encrypter'
 import { BcryptHasher } from './bcrypt-hasher'
+import { JwtEncrypter } from './jwt-encrypter'
 
 @Module({
   providers: [

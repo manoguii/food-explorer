@@ -1,0 +1,1 @@
+{"version":3,"file":"price.js","sourceRoot":"","sources":["price.ts"],"names":[],"mappings":";;;AAAA,MAAa,KAAK;IACT,KAAK,CAAQ;IAEpB,YAAoB,KAAa;QAC/B,IAAI,CAAC,KAAK,GAAG,KAAK,CAAA;IACpB,CAAC;IAED,MAAM,CAAC,MAAM,CAAC,KAAa;QACzB,OAAO,IAAI,KAAK,CAAC,KAAK,CAAC,CAAA;IACzB,CAAC;CACF;AAVD,sBAUC"}

@@ -1,16 +1,16 @@
 'use client'
 
-import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { Eye } from 'lucide-react'
+import Link from 'next/link'
 
-import { labels, priorities, statuses } from '@/config/table'
-import { OrderWithDetails } from '@/lib/types/definitions'
-import { getDetails } from '@/lib/utils'
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
+import { labels, priorities, statuses } from '@/config/table'
+import { OrderWithDetails } from '@/lib/types/definitions'
+import { getDetails } from '@/lib/utils'
 
 import {
   SelectLabelAction,

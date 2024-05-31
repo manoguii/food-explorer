@@ -1,14 +1,15 @@
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { FetchFilteredDishesUseCase } from './fetch-filtered-dishes'
-import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { makeDish } from 'test/factories/make-dish'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeCategory } from 'test/factories/make-category'
-import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
 import { makeClient } from 'test/factories/make-client'
+import { makeDish } from 'test/factories/make-dish'
 import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+
+import { FetchFilteredDishesUseCase } from './fetch-filtered-dishes'
 
 let inMemoryDishAttachmentRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository

@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   FavoriteDish,
@@ -5,7 +7,6 @@ import {
 } from '@/domain/restaurant/enterprise/entities/favorite-dish'
 import { PrismaFavoriteDishMapper } from '@/infra/database/prisma/mappers/prisma-favorite-dish-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { Injectable } from '@nestjs/common'
 
 export function makeFavoriteDish(
   override: Partial<FavoriteDishProps> = {},

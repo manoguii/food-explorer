@@ -1,10 +1,11 @@
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { z } from 'zod'
-import { CreateDishUseCase } from '@/domain/restaurant/application/use-cases/create-dish'
 import { ApiTags } from '@nestjs/swagger'
-import { Role } from '@/infra/auth/roles-enum'
+import { z } from 'zod'
+
+import { CreateDishUseCase } from '@/domain/restaurant/application/use-cases/create-dish'
 import { Roles } from '@/infra/auth/roles-decorator'
+import { Role } from '@/infra/auth/roles-enum'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
 const createDishBodySchema = z.object({
   name: z.string(),

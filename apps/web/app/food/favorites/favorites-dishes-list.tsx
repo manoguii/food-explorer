@@ -1,9 +1,8 @@
-import { fetchFavoriteDishes } from '@/db/queries/fetch-favorite-dishes'
-
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { DishCard } from '@/components/food/dish-card'
 import { Grid } from '@/components/food/grid'
 import { Pagination } from '@/components/pagination'
+import { fetchFavoriteDishes } from '@/db/queries/fetch-favorite-dishes'
 
 export async function FavoritesDishesList({
   currentPage,

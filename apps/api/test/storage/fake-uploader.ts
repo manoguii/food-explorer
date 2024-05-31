@@ -1,6 +1,6 @@
 import {
-  UploadParams,
   Uploader,
+  UploadParams,
 } from '@/domain/restaurant/application/storage/uploader'
 
 interface Upload {

@@ -1,3 +1,6 @@
+import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   Order,
@@ -5,8 +8,6 @@ import {
 } from '@/domain/restaurant/enterprise/entities/order'
 import { PrismaOrderMapper } from '@/infra/database/prisma/mappers/prisma-order-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { faker } from '@faker-js/faker'
-import { Injectable } from '@nestjs/common'
 
 export function makeOrder(
   override: Partial<OrderProps> = {},

@@ -1,7 +1,8 @@
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
+
 import { CartItemList } from './cart-item-list'
-import { AggregateRoot } from '@/core/entities/aggregate-root'
 
 export interface CartProps {
   clientId: UniqueEntityID

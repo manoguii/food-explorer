@@ -1,4 +1,5 @@
 import { DomainEvents } from '@/core/events/domain-events'
+
 import { DomainEvent } from '../events/domain-event'
 import { Entity } from './entity'
 

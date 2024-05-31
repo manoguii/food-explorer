@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   DishIngredient,
   DishIngredientProps,
 } from '@/domain/restaurant/enterprise/entities/dish-ingredient'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { faker } from '@faker-js/faker'
-import { Injectable } from '@nestjs/common'
 
 export function makeDishIngredient(
   override: Partial<DishIngredientProps> = {},

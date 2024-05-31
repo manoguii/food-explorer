@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { Skeleton } from '@/components/ui/skeleton'
 import { DishWithDetails } from '@/lib/types/definitions'
 import { cn } from '@/lib/utils'
-import { Skeleton } from '@/components/ui/skeleton'
 
 import { AddToCart } from '../cart/add-to-cart'
 import { shimmer } from '../skeletons'

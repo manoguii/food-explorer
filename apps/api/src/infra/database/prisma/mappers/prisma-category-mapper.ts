@@ -1,4 +1,5 @@
 import { Category as PrismaCategory, Prisma } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
 

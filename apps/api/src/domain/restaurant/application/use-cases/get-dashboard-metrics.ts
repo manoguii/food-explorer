@@ -1,13 +1,15 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { Injectable } from '@nestjs/common'
+
+import { ClientsRepository } from '../repositories/clients-repository'
 import {
   MetricsResponse,
   OrdersRepository,
   OverviewResponse,
   RecentSalesResponse,
 } from '../repositories/orders-repository'
-import { ClientsRepository } from '../repositories/clients-repository'
 import { UnauthorizedError } from './errors/unauthorized-error'
 
 interface GetDashboardMetricsUseCaseRequest {

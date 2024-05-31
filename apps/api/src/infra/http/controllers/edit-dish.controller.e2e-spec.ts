@@ -1,6 +1,3 @@
-import { AppModule } from '@/infra/app.module'
-import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -12,6 +9,10 @@ import { DishFactory } from 'test/factories/make-dish'
 import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 import { DishIngredientFactory } from 'test/factories/make-dish-ingredient'
 import { IngredientFactory } from 'test/factories/make-ingredient'
+
+import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 describe('Edit dish (E2E)', () => {
   let app: INestApplication

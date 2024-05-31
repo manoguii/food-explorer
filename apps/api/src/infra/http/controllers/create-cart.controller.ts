@@ -1,8 +1,10 @@
 import { BadRequestException, Controller, Post } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+
 import { CreateCartUseCase } from '@/domain/restaurant/application/use-cases/create-cart'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { ApiTags } from '@nestjs/swagger'
+
 import { CartPresenter } from '../presenters/cart-presenter'
 
 @ApiTags('Carts')

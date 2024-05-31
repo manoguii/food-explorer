@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
+
 import { AttachmentsRepository } from '@/domain/restaurant/application/repositories/attachments-repository'
 import { Attachment } from '@/domain/restaurant/enterprise/entities/attachment'
+
 import { PrismaAttachmentMapper } from '../mappers/prisma-attachment-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaAttachmentsRepository implements AttachmentsRepository {

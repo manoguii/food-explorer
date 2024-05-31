@@ -1,10 +1,10 @@
-import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
-import { getDishBySlug } from '@/db/queries/get-dish-by-slug'
+import { Suspense } from 'react'
 
 import { Gallery } from '@/components/food/gallery'
 import { DishDescription } from '@/components/food/product-description'
 import { GallerySkeleton } from '@/components/skeletons'
+import { getDishBySlug } from '@/db/queries/get-dish-by-slug'
 
 export const runtime = 'edge'
 

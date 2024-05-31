@@ -1,10 +1,12 @@
-import { Either, left, right } from '@/core/either'
-import { OrdersRepository } from '../repositories/orders-repository'
 import { Injectable } from '@nestjs/common'
+
+import { Either, left, right } from '@/core/either'
+
+import { OrderWithDetails } from '../../enterprise/entities/value-objects/order-with-details'
 import { ClientsRepository } from '../repositories/clients-repository'
+import { OrdersRepository } from '../repositories/orders-repository'
 import { ClientNotFoundError } from './errors/client-not-found-error'
 import { UnauthorizedError } from './errors/unauthorized-error'
-import { OrderWithDetails } from '../../enterprise/entities/value-objects/order-with-details'
 
 interface FetchAllOrdersUseCaseRequest {
   clientId: string

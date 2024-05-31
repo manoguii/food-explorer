@@ -1,7 +1,9 @@
-import { Either, right } from '@/core/either'
-import { OrdersRepository } from '../repositories/orders-repository'
 import { Injectable } from '@nestjs/common'
+
+import { Either, right } from '@/core/either'
+
 import { OrderWithDetails } from '../../enterprise/entities/value-objects/order-with-details'
+import { OrdersRepository } from '../repositories/orders-repository'
 
 interface FetchOrdersUseCaseRequest {
   clientId: string

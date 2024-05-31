@@ -1,12 +1,13 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { FavoriteDishRepository } from '@/domain/restaurant/application/repositories/favorite-dish-repository'
 import { FavoriteDish } from '@/domain/restaurant/enterprise/entities/favorite-dish'
-import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
-import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
-import { InMemoryDishRepository } from './in-memory-dish-repository'
 import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
-import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
+
+import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
 import { InMemoryCategoryRepository } from './in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from './in-memory-dish-ingredients-repository'
+import { InMemoryDishRepository } from './in-memory-dish-repository'
 
 export class InMemoryFavoriteDishRepository implements FavoriteDishRepository {
   public items: FavoriteDish[] = []

@@ -1,9 +1,11 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+
+import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
 import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
 import { ConflictExceptionError } from './errors/conflict-exception-error'
-import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Injectable } from '@nestjs/common'
 
 interface ChooseDishAsFavoriteUseCaseRequest {
   clientId: string

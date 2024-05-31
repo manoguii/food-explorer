@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
-import { fetchOrders } from '@/db/queries/fetch-orders'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DataTableSkeleton } from '@/components/skeletons'
 import { DataTable } from '@/components/table/data-table'
+import { fetchOrders } from '@/db/queries/fetch-orders'
 
 import { columns } from './columns'
 

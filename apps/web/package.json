@@ -1,12 +1,12 @@
 {
-  "name": "web",
+  "name": "@food-explorer/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint . --ext .tsx,.ts --fix"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -33,7 +33,7 @@
     "framer-motion": "^10.18.0",
     "lucide-react": "^0.292.0",
     "next": "14.0.3",
-    "next-auth": "5.0.0-beta.3",
+    "next-auth": "5.0.0-beta.18",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-day-picker": "^8.10.0",
@@ -47,20 +47,22 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.1.1",
-    "@rocketseat/eslint-config": "^2.1.0",
+    "@food-explorer/eslint-config": "workspace:*",
+    "@food-explorer/prettier": "workspace:*",
     "@types/node": "^20.9.1",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "autoprefixer": "^10.4.16",
     "cypress": "^13.6.1",
     "embla-carousel": "8.0.0-rc19",
-    "eslint": "^8.54.0",
-    "eslint-config-next": "^14.0.3",
     "postcss": "^8.4.31",
-    "prettier": "^3.1.0",
-    "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2"
+  },
+  "prettier": "@food-explorer/prettier",
+  "eslintConfig": {
+    "extends": [
+      "@manogui/eslint-config/next"
+    ]
   }
 }

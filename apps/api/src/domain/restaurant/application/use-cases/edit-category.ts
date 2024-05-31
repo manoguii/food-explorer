@@ -1,8 +1,10 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Category } from '@/domain/restaurant/enterprise/entities/category'
+
 import { CategoryRepository } from '../repositories/category-repository'
-import { Injectable } from '@nestjs/common'
 
 interface EditCategoryUseCaseRequest {
   categoryId: string

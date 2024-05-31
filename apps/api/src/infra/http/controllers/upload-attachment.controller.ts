@@ -1,5 +1,3 @@
-import { InvalidAttachmentTypeError } from '@/domain/restaurant/application/use-cases/errors/invalid-attachment-type-error'
-import { UploadAndCreateAttachmentsUseCase } from '@/domain/restaurant/application/use-cases/upload-and-create-attachment'
 import {
   BadRequestException,
   Controller,
@@ -12,6 +10,9 @@ import {
 } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiTags } from '@nestjs/swagger'
+
+import { InvalidAttachmentTypeError } from '@/domain/restaurant/application/use-cases/errors/invalid-attachment-type-error'
+import { UploadAndCreateAttachmentsUseCase } from '@/domain/restaurant/application/use-cases/upload-and-create-attachment'
 
 @ApiTags('Attachments')
 @Controller('/attachments')

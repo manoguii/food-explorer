@@ -1,10 +1,11 @@
+import { BadRequestException, Controller, Post, Req } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+import Stripe from 'stripe'
+
 import { StripeWebhookUseCase } from '@/domain/restaurant/application/webhooks/stripe-webhook'
 import { Public } from '@/infra/auth/public'
 import { EnvService } from '@/infra/env/env.service'
 import { StripeService } from '@/infra/payment/stripe/stripe.service'
-import { BadRequestException, Controller, Post, Req } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
-import Stripe from 'stripe'
 
 @ApiTags('Webhooks')
 @Controller('/webhook')

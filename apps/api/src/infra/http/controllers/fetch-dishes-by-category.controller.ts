@@ -2,18 +2,20 @@ import {
   BadRequestException,
   Controller,
   Get,
-  Query,
   NotFoundException,
   Param,
+  Query,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { z } from 'zod'
-import { InvalidCategoryError } from '@/domain/restaurant/application/use-cases/errors/invalid-category-error'
 import { ApiTags } from '@nestjs/swagger'
+import { z } from 'zod'
+
+import { InvalidCategoryError } from '@/domain/restaurant/application/use-cases/errors/invalid-category-error'
 import { FetchDishesByCategoryUseCase } from '@/domain/restaurant/application/use-cases/fetch-dishes-by-category'
-import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+
+import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
 
 const queryParamSchema = z.object({
   page: z

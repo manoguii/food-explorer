@@ -1,18 +1,19 @@
-import { AppModule } from '@/infra/app.module'
-import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { AttachmentFactory } from 'test/factories/make-attachment'
+import { CartFactory } from 'test/factories/make-cart'
+import { CartItemFactory } from 'test/factories/make-cart-item'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
-import { CartFactory } from 'test/factories/make-cart'
+import { DishFactory } from 'test/factories/make-dish'
 import { DishAttachmentFactory } from 'test/factories/make-dish-attachment'
 import { IngredientFactory } from 'test/factories/make-ingredient'
-import { DishFactory } from 'test/factories/make-dish'
+
 import { Slug } from '@/domain/restaurant/enterprise/entities/value-objects/slug'
-import { CartItemFactory } from 'test/factories/make-cart-item'
+import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 
 describe('Get cart by id (E2E)', () => {
   let app: INestApplication

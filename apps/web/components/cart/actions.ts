@@ -3,9 +3,9 @@
 import { revalidateTag } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+
 import { TAGS } from '@/db/constants'
 import { fetcher } from '@/db/utils'
-
 import { Cart, CartWithDetails } from '@/lib/types/definitions'
 
 export async function createCart() {

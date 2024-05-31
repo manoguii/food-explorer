@@ -1,11 +1,12 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 import {
   Attachment as PrismaAttachment,
   Category,
   Dish,
   Ingredient,
 } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 
 interface DishWithDetailsProps extends Dish {
   category: Category

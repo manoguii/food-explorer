@@ -1,10 +1,12 @@
-import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
-import { ClientsRepository } from '../repositories/clients-repository'
-import { HashComparer } from '../cryptography/hash-comparer'
-import { Encrypter } from '../cryptography/encrypter'
-import { WrongCredentialsError } from './errors/wrong-credentials-error'
+
+import { Either, left, right } from '@/core/either'
+
 import { Client } from '../../enterprise/entities/client'
+import { Encrypter } from '../cryptography/encrypter'
+import { HashComparer } from '../cryptography/hash-comparer'
+import { ClientsRepository } from '../repositories/clients-repository'
+import { WrongCredentialsError } from './errors/wrong-credentials-error'
 
 interface AuthenticateClientUseCaseRequest {
   email: string

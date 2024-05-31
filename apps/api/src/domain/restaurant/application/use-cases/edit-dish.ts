@@ -1,16 +1,18 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
-import { DishRepository } from '../repositories/dish-repository'
+
+import { DishAttachment } from '../../enterprise/entities/dish-attachment'
+import { DishAttachmentList } from '../../enterprise/entities/dish-attachment-list'
+import { DishIngredient } from '../../enterprise/entities/dish-ingredient'
+import { DishIngredientList } from '../../enterprise/entities/dish-ingredient-list'
+import { CategoryRepository } from '../repositories/category-repository'
 import { DishAttachmentsRepository } from '../repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '../repositories/dish-ingredients-repository'
-import { DishAttachmentList } from '../../enterprise/entities/dish-attachment-list'
-import { DishIngredientList } from '../../enterprise/entities/dish-ingredient-list'
-import { DishAttachment } from '../../enterprise/entities/dish-attachment'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { DishIngredient } from '../../enterprise/entities/dish-ingredient'
-import { Injectable } from '@nestjs/common'
-import { CategoryRepository } from '../repositories/category-repository'
+import { DishRepository } from '../repositories/dish-repository'
 
 interface EditDishUseCaseRequest {
   dishId: string

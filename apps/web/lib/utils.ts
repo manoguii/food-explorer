@@ -1,5 +1,5 @@
+import { type ClassValue, clsx } from 'clsx'
 import { ReadonlyURLSearchParams } from 'next/navigation'
-import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 import { CartItem } from './types/definitions'

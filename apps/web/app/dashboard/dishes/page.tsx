@@ -1,11 +1,11 @@
 import { Suspense } from 'react'
-import { fetchDishes } from '@/db/queries/fetch-dishes'
 
 import { CreateButton } from '@/components/dashboard/button-create-new'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { DashboardSearchInput } from '@/components/search-input'
 import { TableSkeleton } from '@/components/skeletons'
 import { DataTable } from '@/components/table/data-table'
+import { fetchDishes } from '@/db/queries/fetch-dishes'
 
 import { columns } from './columns'
 

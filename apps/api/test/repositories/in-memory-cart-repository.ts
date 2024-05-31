@@ -1,11 +1,12 @@
 import { CartRepository } from '@/domain/restaurant/application/repositories/cart-repository'
 import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
-import { InMemoryCartItemsRepository } from './in-memory-cart-item-repository'
 import { CartWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/cart-with-details'
-import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
+
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'
-import { InMemoryDishRepository } from './in-memory-dish-repository'
+import { InMemoryCartItemsRepository } from './in-memory-cart-item-repository'
 import { InMemoryClientsRepository } from './in-memory-clients-repository'
+import { InMemoryDishAttachmentsRepository } from './in-memory-dish-attachments-repository'
+import { InMemoryDishRepository } from './in-memory-dish-repository'
 
 export class InMemoryCartRepository implements CartRepository {
   public items: Cart[] = []

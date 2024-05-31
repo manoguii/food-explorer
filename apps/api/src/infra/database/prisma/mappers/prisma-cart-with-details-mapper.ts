@@ -1,12 +1,13 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { CartWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/cart-with-details'
 import {
+  Attachment as PrismaAttachment,
   Cart as PrismaCart,
   CartItem,
   Dish,
-  Attachment as PrismaAttachment,
   User,
 } from '@prisma/client'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { CartWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/cart-with-details'
 
 type CartWithDetailsProps = PrismaCart & {
   cartItems: (CartItem & {

@@ -1,16 +1,17 @@
-import { AppModule } from '@/infra/app.module'
-import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { CartFactory } from 'test/factories/make-cart'
+import { CartItemFactory } from 'test/factories/make-cart-item'
 import { CategoryFactory } from 'test/factories/make-category'
 import { ClientFactory } from 'test/factories/make-client'
 import { DishFactory } from 'test/factories/make-dish'
-import { CartFactory } from 'test/factories/make-cart'
+
 import { Price } from '@/domain/restaurant/enterprise/entities/value-objects/price'
-import { CartItemFactory } from 'test/factories/make-cart-item'
+import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 describe('Edit cart (E2E)', () => {
   let app: INestApplication

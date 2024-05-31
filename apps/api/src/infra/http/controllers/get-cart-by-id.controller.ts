@@ -5,10 +5,12 @@ import {
   NotFoundException,
   Param,
 } from '@nestjs/common'
-import { GetCartByIdUseCase } from '@/domain/restaurant/application/use-cases/get-cart-by-id'
-import { CartWithDetailsPresenter } from '../presenters/cart-with-details-presenter'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { GetCartByIdUseCase } from '@/domain/restaurant/application/use-cases/get-cart-by-id'
+
+import { CartWithDetailsPresenter } from '../presenters/cart-with-details-presenter'
 
 @ApiTags('Cart')
 @Controller('/cart/:id')

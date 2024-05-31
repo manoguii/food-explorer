@@ -1,15 +1,17 @@
-import { DeleteDishFromFavoritesUseCase } from './delete-dish-from-favorites'
-import { makeDish } from 'test/factories/make-dish'
 import { makeClient } from 'test/factories/make-client'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { makeDish } from 'test/factories/make-dish'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { DeleteDishFromFavoritesUseCase } from './delete-dish-from-favorites'
 
 describe('Delete Dish From Favorites UseCase', () => {
   let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository

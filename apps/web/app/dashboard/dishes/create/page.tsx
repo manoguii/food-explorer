@@ -1,8 +1,7 @@
-import { fetchCategories } from '@/db/queries/fetch-categories'
-
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateCategoryForm } from '@/components/forms/create-category'
 import { CreateDishForm } from '@/components/forms/create-dish'
+import { fetchCategories } from '@/db/queries/fetch-categories'
 
 export default async function SettingsProfilePage() {
   const { categories } = await fetchCategories()

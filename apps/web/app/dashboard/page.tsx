@@ -1,5 +1,6 @@
-import { getDashboardMetrics } from '@/db/queries/get-dashboard-metrics'
-
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
+import { CalendarDateRangePicker } from '@/components/dashboard/date-range-picker'
+import Price from '@/components/food/price'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -8,9 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Dashboard } from '@/components/dashboard/dashboard-layout'
-import { CalendarDateRangePicker } from '@/components/dashboard/date-range-picker'
-import Price from '@/components/food/price'
+import { getDashboardMetrics } from '@/db/queries/get-dashboard-metrics'
 
 import { Overview } from '../../components/dashboard/overview'
 import { RecentSales } from '../../components/dashboard/recent-sales'

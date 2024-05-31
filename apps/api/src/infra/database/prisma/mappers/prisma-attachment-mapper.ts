@@ -1,6 +1,7 @@
+import { Attachment as PrismaAttachment, Prisma } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Attachment } from '@/domain/restaurant/enterprise/entities/attachment'
-import { Prisma, Attachment as PrismaAttachment } from '@prisma/client'
 
 export class PrismaAttachmentMapper {
   static toPrisma(

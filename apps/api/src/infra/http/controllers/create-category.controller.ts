@@ -1,12 +1,14 @@
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+import { ApiTags } from '@nestjs/swagger'
 import { z } from 'zod'
+
 import { CreateCategoryUseCase } from '@/domain/restaurant/application/use-cases/create-category'
 import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
-import { ApiTags } from '@nestjs/swagger'
-import { CategoryPresenter } from '../presenters/category-presenter'
-import { Role } from '@/infra/auth/roles-enum'
 import { Roles } from '@/infra/auth/roles-decorator'
+import { Role } from '@/infra/auth/roles-enum'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+
+import { CategoryPresenter } from '../presenters/category-presenter'
 
 const createCategoryBodySchema = z.object({
   name: z.string(),

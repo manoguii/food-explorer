@@ -1,12 +1,11 @@
 'use client'
 
-import * as React from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { CalendarIcon } from '@radix-ui/react-icons'
 import { format } from 'date-fns'
+import { useRouter, useSearchParams } from 'next/navigation'
+import * as React from 'react'
 import { DateRange } from 'react-day-picker'
 
-import { cn, createUrl } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -14,6 +13,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { cn, createUrl } from '@/lib/utils'
 
 export function CalendarDateRangePicker({
   className,

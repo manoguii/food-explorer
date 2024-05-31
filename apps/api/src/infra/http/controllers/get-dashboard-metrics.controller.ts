@@ -5,14 +5,16 @@ import {
   NotFoundException,
   Query,
 } from '@nestjs/common'
-import { GetDashboardMetricsUseCase } from '@/domain/restaurant/application/use-cases/get-dashboard-metrics'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { formatISO, parseISO, subMonths } from 'date-fns'
 import { z } from 'zod'
-import { subMonths, formatISO, parseISO } from 'date-fns'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { GetDashboardMetricsUseCase } from '@/domain/restaurant/application/use-cases/get-dashboard-metrics'
+import { CurrentUser } from '@/infra/auth/current-user-decorator'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
+
+import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const today = new Date()
 const oneMonthAgo = subMonths(today, 1)

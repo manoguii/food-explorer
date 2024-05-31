@@ -1,5 +1,4 @@
 import { Suspense } from 'react'
-import { fetchCategories } from '@/db/queries/fetch-categories'
 
 import { CategoryCard } from '@/components/dashboard/category-card'
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
@@ -7,6 +6,7 @@ import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { CreateCategoryForm } from '@/components/forms/create-category'
 import { Pagination } from '@/components/pagination'
 import { PaginationSkeleton } from '@/components/skeletons'
+import { fetchCategories } from '@/db/queries/fetch-categories'
 
 export default function CategoriesPage() {
   return (

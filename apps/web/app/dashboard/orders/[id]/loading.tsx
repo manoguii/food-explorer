@@ -1,10 +1,10 @@
 import { Dot } from 'lucide-react'
 
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
+import { DataTableSkeleton } from '@/components/skeletons'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Dashboard } from '@/components/dashboard/dashboard-layout'
-import { DataTableSkeleton } from '@/components/skeletons'
 
 export default function OrderDetailsLoading() {
   return (

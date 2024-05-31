@@ -1,14 +1,16 @@
-import { Either, left, right } from '@/core/either'
-import { CartRepository } from '../repositories/cart-repository'
 import { Injectable } from '@nestjs/common'
-import { Order, PaymentStatus } from '../../enterprise/entities/order'
+import Stripe from 'stripe'
+
+import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { CartIdNotProvidedError } from './errors/cart-id-not-provided-error'
-import { CartNotFoundError } from './errors/cart-not-found-error'
-import { OrdersRepository } from '../repositories/orders-repository'
+
+import { Order, PaymentStatus } from '../../enterprise/entities/order'
 import { WebhookEvent } from '../../enterprise/entities/webhook-event'
 import { WebhookEventRepository } from '../payment/webhook-event'
-import Stripe from 'stripe'
+import { CartRepository } from '../repositories/cart-repository'
+import { OrdersRepository } from '../repositories/orders-repository'
+import { CartIdNotProvidedError } from './errors/cart-id-not-provided-error'
+import { CartNotFoundError } from './errors/cart-not-found-error'
 
 interface StripeWebhookUseCaseRequest {
   event: Stripe.Event

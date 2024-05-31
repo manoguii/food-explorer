@@ -7,12 +7,13 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common'
-import { z } from 'zod'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { CreateAccountUseCase } from '@/domain/restaurant/application/use-cases/register-client'
-import { ClientAlreadyExistsError } from '@/domain/restaurant/application/use-cases/errors/client-already-exists-error'
-import { Public } from '@/infra/auth/public'
 import { ApiTags } from '@nestjs/swagger'
+import { z } from 'zod'
+
+import { ClientAlreadyExistsError } from '@/domain/restaurant/application/use-cases/errors/client-already-exists-error'
+import { CreateAccountUseCase } from '@/domain/restaurant/application/use-cases/register-client'
+import { Public } from '@/infra/auth/public'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
 const createAccountBodySchema = z.object({
   name: z.string(),

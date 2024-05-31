@@ -1,10 +1,12 @@
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+import { ApiTags } from '@nestjs/swagger'
 import { z } from 'zod'
+
 import { FetchFavoriteDishesUseCase } from '@/domain/restaurant/application/use-cases/fetch-favorite-dishes'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { ApiTags } from '@nestjs/swagger'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+
 import { DishWithDetailsPresenter } from '../presenters/dish-with-details-presenter'
 
 const pageQueryParamSchema = z

@@ -1,14 +1,14 @@
-import React from 'react'
 import { AlertCircle, Stars, X } from 'lucide-react'
+import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { DishFormValues } from '@/lib/schemas'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import * as D from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/use-toast'
+import { DishFormValues } from '@/lib/schemas'
 
 interface CreateIngredientsProps {
   type: 'create' | 'update'

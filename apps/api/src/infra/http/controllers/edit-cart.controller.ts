@@ -6,11 +6,12 @@ import {
   Param,
   Put,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { z } from 'zod'
-import { EditCartUseCase } from '@/domain/restaurant/application/use-cases/edit-cart'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
+import { z } from 'zod'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { EditCartUseCase } from '@/domain/restaurant/application/use-cases/edit-cart'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
 const EditCartBodySchema = z.object({
   item: z.object({

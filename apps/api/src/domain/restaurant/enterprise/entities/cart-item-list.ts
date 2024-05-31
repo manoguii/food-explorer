@@ -1,4 +1,5 @@
 import { WatchedList } from '@/core/entities/watched-list'
+
 import { CartItem } from './cart-item'
 
 export class CartItemList extends WatchedList<CartItem> {

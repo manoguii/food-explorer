@@ -1,4 +1,5 @@
-import { Prisma, Ingredient as PrismaDishIngredient } from '@prisma/client'
+import { Ingredient as PrismaDishIngredient, Prisma } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DishIngredient } from '@/domain/restaurant/enterprise/entities/dish-ingredient'
 

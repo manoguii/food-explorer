@@ -5,11 +5,12 @@ import {
   NotFoundException,
   Param,
 } from '@nestjs/common'
-import { DeleteCategoryUseCase } from '@/domain/restaurant/application/use-cases/delete-category'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
-import { Role } from '@/infra/auth/roles-enum'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { DeleteCategoryUseCase } from '@/domain/restaurant/application/use-cases/delete-category'
 import { Roles } from '@/infra/auth/roles-decorator'
+import { Role } from '@/infra/auth/roles-enum'
 
 @ApiTags('Categories')
 @Controller('/categories/:categoryId')

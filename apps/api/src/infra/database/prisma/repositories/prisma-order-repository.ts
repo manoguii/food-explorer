@@ -1,15 +1,17 @@
-import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
+
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import {
   MetricsResponse,
   OrdersRepository,
   RecentSalesResponse,
 } from '@/domain/restaurant/application/repositories/orders-repository'
-import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
-import { PaginationParams } from '@/core/repositories/pagination-params'
+import { Order } from '@/domain/restaurant/enterprise/entities/order'
 import { OrderWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/order-with-details'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+
+import { PrismaOrderMapper } from '../mappers/prisma-order-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaOrdersRepository implements OrdersRepository {

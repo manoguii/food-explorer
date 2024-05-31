@@ -1,9 +1,9 @@
 'use client'
 
-import * as React from 'react'
+import { ShoppingCartIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ShoppingCartIcon } from 'lucide-react'
+import * as React from 'react'
 
 import { CartWithDetails } from '@/lib/types/definitions'
 

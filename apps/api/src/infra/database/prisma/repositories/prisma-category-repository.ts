@@ -1,9 +1,11 @@
-import { PaginationParams } from '@/core/repositories/pagination-params'
-import { Category } from '@/domain/restaurant/enterprise/entities/category'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
-import { PrismaCategoryMapper } from '../mappers/prisma-category-mapper'
+
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { CategoryRepository } from '@/domain/restaurant/application/repositories/category-repository'
+import { Category } from '@/domain/restaurant/enterprise/entities/category'
+
+import { PrismaCategoryMapper } from '../mappers/prisma-category-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaCategoryRepository implements CategoryRepository {

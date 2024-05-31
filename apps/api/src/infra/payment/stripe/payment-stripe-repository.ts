@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { StripeService } from './stripe.service'
+
 import { StripeRepository } from '@/domain/restaurant/application/payment/stripe-repository'
-import { EnvService } from '@/infra/env/env.service'
 import { CartWithDetailsProps } from '@/domain/restaurant/enterprise/entities/value-objects/cart-with-details'
+import { EnvService } from '@/infra/env/env.service'
+
+import { StripeService } from './stripe.service'
 
 @Injectable()
 export class PaymentStripeRepository implements StripeRepository {

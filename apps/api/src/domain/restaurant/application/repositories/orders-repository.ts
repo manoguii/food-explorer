@@ -1,5 +1,6 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
 import { Order } from '@/domain/restaurant/enterprise/entities/order'
+
 import { OrderWithDetails } from '../../enterprise/entities/value-objects/order-with-details'
 
 export type MetricsResponse = {

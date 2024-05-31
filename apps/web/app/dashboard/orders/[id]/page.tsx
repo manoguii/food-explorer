@@ -1,10 +1,11 @@
-import React from 'react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { getOrderById } from '@/db/queries/get-order-by-id'
-import { ArrowLeft, ChevronLeft, ChevronRight, Dot } from 'lucide-react'
+import React from 'react'
 
-import { formatDate } from '@/lib/utils'
+import { Dashboard } from '@/components/dashboard/dashboard-layout'
+import Price from '@/components/food/price'
+import { DataTable } from '@/components/table/data-table'
 import { Badge } from '@/components/ui/badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
@@ -15,9 +16,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { Dashboard } from '@/components/dashboard/dashboard-layout'
-import Price from '@/components/food/price'
-import { DataTable } from '@/components/table/data-table'
+import { getOrderById } from '@/db/queries/get-order-by-id'
+import { formatDate } from '@/lib/utils'
 
 import { columns } from './columns'
 

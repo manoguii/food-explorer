@@ -1,4 +1,3 @@
-import { ForwardRefExoticComponent, RefAttributes } from 'react'
 import {
   ArrowDownIcon,
   ArrowRightIcon,
@@ -9,6 +8,7 @@ import {
   StopwatchIcon,
 } from '@radix-ui/react-icons'
 import { IconProps } from '@radix-ui/react-icons/dist/types'
+import { ForwardRefExoticComponent, RefAttributes } from 'react'
 
 import { OrderStatus } from '@/lib/types/definitions'
 

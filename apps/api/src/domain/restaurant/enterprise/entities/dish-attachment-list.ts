@@ -1,4 +1,5 @@
 import { WatchedList } from '@/core/entities/watched-list'
+
 import { DishAttachment } from './dish-attachment'
 
 export class DishAttachmentList extends WatchedList<DishAttachment> {

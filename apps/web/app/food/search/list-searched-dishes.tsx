@@ -1,12 +1,11 @@
-import { fetchDishes } from '@/db/queries/fetch-dishes'
-import { fetchDishesByCategory } from '@/db/queries/fetch-dishes-by-category'
-
-import { DishWithDetails } from '@/lib/types/definitions'
 import { EmptyPlaceholder } from '@/components/empty-placeholder'
 import { DishCard } from '@/components/food/dish-card'
 import { Grid } from '@/components/food/grid'
 import { Pagination } from '@/components/pagination'
 import { PaginationSkeleton } from '@/components/skeletons'
+import { fetchDishes } from '@/db/queries/fetch-dishes'
+import { fetchDishesByCategory } from '@/db/queries/fetch-dishes-by-category'
+import { DishWithDetails } from '@/lib/types/definitions'
 
 export async function ListSearchedDishes({
   mode,

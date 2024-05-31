@@ -1,9 +1,11 @@
-import { Either, left, right } from '@/core/either'
-import { ClientsRepository } from '../repositories/clients-repository'
-import { HashGenerator } from '../cryptography/hash-generator'
-import { Client } from '../../enterprise/entities/client'
-import { ClientAlreadyExistsError } from './errors/client-already-exists-error'
 import { Injectable } from '@nestjs/common'
+
+import { Either, left, right } from '@/core/either'
+
+import { Client } from '../../enterprise/entities/client'
+import { HashGenerator } from '../cryptography/hash-generator'
+import { ClientsRepository } from '../repositories/clients-repository'
+import { ClientAlreadyExistsError } from './errors/client-already-exists-error'
 
 interface CreateAccountUseCaseRequest {
   name: string

@@ -1,8 +1,9 @@
 import { Dish as PrismaDish, Prisma } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Dish } from '@/domain/restaurant/enterprise/entities/dish'
-import { Slug } from '@/domain/restaurant/enterprise/entities/value-objects/slug'
 import { Price } from '@/domain/restaurant/enterprise/entities/value-objects/price'
+import { Slug } from '@/domain/restaurant/enterprise/entities/value-objects/slug'
 
 export class PrismaDishMapper {
   static toDomain(raw: PrismaDish): Dish {

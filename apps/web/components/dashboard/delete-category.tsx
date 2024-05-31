@@ -1,10 +1,8 @@
 'use client'
 
-import * as React from 'react'
-import { deleteCategory } from '@/db/mutations/delete-category'
 import { Trash } from 'lucide-react'
+import * as React from 'react'
 
-import { Category } from '@/lib/types/definitions'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,6 +14,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import { deleteCategory } from '@/db/mutations/delete-category'
+import { Category } from '@/lib/types/definitions'
 
 import { ButtonWithLoading } from '../button-with-loading'
 import { buttonVariants } from '../ui/button'

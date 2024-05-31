@@ -6,12 +6,14 @@ import {
   UnauthorizedException,
   UsePipes,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+import { ApiTags } from '@nestjs/swagger'
 import { z } from 'zod'
+
+import { AuthenticateClientUseCase } from '@/domain/restaurant/application/use-cases/authenticate-client'
 import { WrongCredentialsError } from '@/domain/restaurant/application/use-cases/errors/wrong-credentials-error'
 import { Public } from '@/infra/auth/public'
-import { AuthenticateClientUseCase } from '@/domain/restaurant/application/use-cases/authenticate-client'
-import { ApiTags } from '@nestjs/swagger'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+
 import { ClientPresenter } from '../presenters/authenticate-client-presenter'
 
 const authenticateBodySchema = z.object({

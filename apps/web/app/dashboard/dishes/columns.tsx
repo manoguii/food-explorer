@@ -1,16 +1,16 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
 import { ColumnDef } from '@tanstack/react-table'
 import { Pencil } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
-import { DishWithDetails } from '@/lib/types/definitions'
+import Price from '@/components/food/price'
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import Price from '@/components/food/price'
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
+import { DishWithDetails } from '@/lib/types/definitions'
 
 import { DeleteRowAction } from './data-table-row-actions'
 

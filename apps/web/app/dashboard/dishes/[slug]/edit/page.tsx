@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
-import { fetchCategories } from '@/db/queries/fetch-categories'
-import { getDishBySlug } from '@/db/queries/get-dish-by-slug'
 
 import { Dashboard } from '@/components/dashboard/dashboard-layout'
 import { CreateCategoryForm } from '@/components/forms/create-category'
 import { UpdateDishForm } from '@/components/forms/update-dish'
+import { fetchCategories } from '@/db/queries/fetch-categories'
+import { getDishBySlug } from '@/db/queries/get-dish-by-slug'
 
 export default async function UpdateDishPage({
   params,

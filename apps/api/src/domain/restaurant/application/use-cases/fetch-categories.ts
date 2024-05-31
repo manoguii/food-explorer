@@ -1,7 +1,9 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, right } from '@/core/either'
+
 import { Category } from '../../enterprise/entities/category'
 import { CategoryRepository } from '../repositories/category-repository'
-import { Injectable } from '@nestjs/common'
 
 interface FetchCategoriesUseCaseRequest {
   page: number

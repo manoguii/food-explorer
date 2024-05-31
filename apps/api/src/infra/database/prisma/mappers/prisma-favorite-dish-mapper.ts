@@ -1,4 +1,5 @@
-import { Prisma, FavoriteDishes as PrismaFavoriteDish } from '@prisma/client'
+import { FavoriteDishes as PrismaFavoriteDish, Prisma } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { FavoriteDish } from '@/domain/restaurant/enterprise/entities/favorite-dish'
 

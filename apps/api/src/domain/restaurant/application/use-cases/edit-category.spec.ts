@@ -1,7 +1,9 @@
-import { EditCategoryUseCase } from './edit-category'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { makeCategory } from 'test/factories/make-category'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { EditCategoryUseCase } from './edit-category'
 
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let sut: EditCategoryUseCase

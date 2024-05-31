@@ -1,7 +1,9 @@
-import { Either, right } from '@/core/either'
-import { DishRepository } from '../repositories/dish-repository'
 import { Injectable } from '@nestjs/common'
+
+import { Either, right } from '@/core/either'
+
 import { DishWithDetails } from '../../enterprise/entities/value-objects/dish-with-details'
+import { DishRepository } from '../repositories/dish-repository'
 import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
 
 interface FetchFilteredDishesUseCaseRequest {

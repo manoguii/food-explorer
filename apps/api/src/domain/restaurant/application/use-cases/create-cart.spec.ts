@@ -1,14 +1,16 @@
-import { CreateCartUseCase } from './create-cart'
-import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
+import { makeClient } from 'test/factories/make-client'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryCartItemsRepository } from 'test/repositories/in-memory-cart-item-repository'
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
-import { makeClient } from 'test/factories/make-client'
-import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { CreateCartUseCase } from './create-cart'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let inMemoryDishRepository: InMemoryDishRepository

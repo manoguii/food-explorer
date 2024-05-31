@@ -1,5 +1,3 @@
-import { fetchDishes } from '@/db/queries/fetch-dishes'
-
 import {
   Carousel,
   CarouselContent,
@@ -7,6 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import { fetchDishes } from '@/db/queries/fetch-dishes'
 
 import { DishCard } from '../../../components/food/dish-card'
 

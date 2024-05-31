@@ -1,10 +1,10 @@
 'use client'
 
-import Image from 'next/image'
 import { ColumnDef } from '@tanstack/react-table'
+import Image from 'next/image'
 
-import { CartItem } from '@/lib/types/definitions'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
+import { CartItem } from '@/lib/types/definitions'
 
 const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
 

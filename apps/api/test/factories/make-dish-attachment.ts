@@ -1,11 +1,11 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Injectable } from '@nestjs/common'
 
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   DishAttachment,
   DishAttachmentProps,
 } from '@/domain/restaurant/enterprise/entities/dish-attachment'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { Injectable } from '@nestjs/common'
 
 export function makeDishAttachment(
   override: Partial<DishAttachmentProps> = {},

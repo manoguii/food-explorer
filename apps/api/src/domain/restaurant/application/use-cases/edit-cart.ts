@@ -1,10 +1,11 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
-import { Injectable } from '@nestjs/common'
 import { Cart } from '../../enterprise/entities/cart'
-import { CartRepository } from '../repositories/cart-repository'
 import { CartItemsRepository } from '../repositories/cart-item-repository'
+import { CartRepository } from '../repositories/cart-repository'
 import { DishRepository } from '../repositories/dish-repository'
 
 interface EditCartUseCaseRequest {

@@ -1,14 +1,16 @@
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
-import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
 import { InMemoryCartItemsRepository } from 'test/repositories/in-memory-cart-item-repository'
-import { makeCart } from './make-cart'
-import { makeCartItem } from './make-cart-item'
-import { makeDish } from './make-dish'
+import { InMemoryCartRepository } from 'test/repositories/in-memory-cart-repository'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+
+import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
 import { CartItem } from '@/domain/restaurant/enterprise/entities/cart-item'
 import { Client } from '@/domain/restaurant/enterprise/entities/client'
-import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+
+import { makeCart } from './make-cart'
+import { makeCartItem } from './make-cart-item'
 import { makeClient } from './make-client'
+import { makeDish } from './make-dish'
 
 interface AbstractFactory {
   createClient(): Client

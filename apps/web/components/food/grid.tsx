@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import clsx from 'clsx'
+import Image from 'next/image'
 
 export function Grid(props: React.ComponentProps<'ul'>) {
   return (

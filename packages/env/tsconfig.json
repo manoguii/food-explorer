@@ -1,0 +1,6 @@
+{
+  "extends": "@food-explorer/ts-config/library.json",
+  "include": [
+    "index.ts"
+  ]
+}

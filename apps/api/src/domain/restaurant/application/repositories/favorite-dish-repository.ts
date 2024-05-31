@@ -1,4 +1,5 @@
 import { PaginationParams } from '@/core/repositories/pagination-params'
+
 import { FavoriteDish } from '../../enterprise/entities/favorite-dish'
 import { DishWithDetails } from '../../enterprise/entities/value-objects/dish-with-details'
 

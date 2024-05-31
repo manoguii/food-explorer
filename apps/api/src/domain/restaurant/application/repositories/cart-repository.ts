@@ -1,4 +1,5 @@
 import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
+
 import { CartWithDetails } from '../../enterprise/entities/value-objects/cart-with-details'
 
 export abstract class CartRepository {

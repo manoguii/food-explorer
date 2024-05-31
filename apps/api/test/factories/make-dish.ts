@@ -1,11 +1,11 @@
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Dish, DishProps } from '@/domain/restaurant/enterprise/entities/dish'
 import { Price } from '@/domain/restaurant/enterprise/entities/value-objects/price'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { PrismaDishMapper } from '@/infra/database/prisma/mappers/prisma-dish-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 export function makeDish(
   override: Partial<DishProps> = {},

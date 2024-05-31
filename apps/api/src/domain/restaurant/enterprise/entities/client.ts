@@ -1,7 +1,8 @@
 import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { FavoriteDish } from './favorite-dish'
 import { Optional } from '@/core/types/optional'
+
+import { FavoriteDish } from './favorite-dish'
 
 export interface ClientProps {
   name: string

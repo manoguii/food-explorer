@@ -1,11 +1,11 @@
 'use client'
 
-import React from 'react'
-import { deleteDish } from '@/db/mutations/delete-dish'
 import { Row } from '@tanstack/react-table'
 import { Trash } from 'lucide-react'
+import React from 'react'
 import { z } from 'zod'
 
+import { ButtonWithLoading } from '@/components/button-with-loading'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { buttonVariants } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
-import { ButtonWithLoading } from '@/components/button-with-loading'
+import { deleteDish } from '@/db/mutations/delete-dish'
 
 const dishSchema = z.object({
   id: z.string(),

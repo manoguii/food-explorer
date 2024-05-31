@@ -1,8 +1,9 @@
-import { config } from 'dotenv'
+import { execSync } from 'node:child_process'
+import { randomUUID } from 'node:crypto'
 
 import { PrismaClient } from '@prisma/client'
-import { randomUUID } from 'node:crypto'
-import { execSync } from 'node:child_process'
+import { config } from 'dotenv'
+
 import { envSchema } from '@/infra/env/env'
 
 config({

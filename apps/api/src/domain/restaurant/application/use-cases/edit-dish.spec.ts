@@ -1,12 +1,14 @@
-import { EditDishUseCase } from './edit-dish'
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { DishAbstractFactory } from 'test/factories/dish-abstract-factory'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
 import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { DishAbstractFactory } from 'test/factories/dish-abstract-factory'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
 import { InMemoryIngredientsRepository } from 'test/repositories/in-memory-ingredients-repository'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { EditDishUseCase } from './edit-dish'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryIngredientsRepository: InMemoryIngredientsRepository

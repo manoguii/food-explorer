@@ -1,4 +1,5 @@
-import { Prisma, Attachment as PrismaDishAttachment } from '@prisma/client'
+import { Attachment as PrismaDishAttachment, Prisma } from '@prisma/client'
+
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DishAttachment } from '@/domain/restaurant/enterprise/entities/dish-attachment'
 

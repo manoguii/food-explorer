@@ -1,9 +1,11 @@
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { z } from 'zod'
-import { FetchCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-categories'
-import { CategoryPresenter } from '../presenters/category-presenter'
 import { ApiTags } from '@nestjs/swagger'
+import { z } from 'zod'
+
+import { FetchCategoriesUseCase } from '@/domain/restaurant/application/use-cases/fetch-categories'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+
+import { CategoryPresenter } from '../presenters/category-presenter'
 
 const pageQueryParamSchema = z
   .string()

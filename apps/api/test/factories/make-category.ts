@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   Category,
   CategoryProps,
 } from '@/domain/restaurant/enterprise/entities/category'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { PrismaCategoryMapper } from '@/infra/database/prisma/mappers/prisma-category-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 export function makeCategory(
   override: Partial<CategoryProps> = {},

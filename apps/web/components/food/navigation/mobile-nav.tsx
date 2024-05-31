@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { Menu } from 'lucide-react'
+import { useState } from 'react'
 
 import { routesConfig } from '@/config/navigation'
 

@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
-import { PrismaCartItemMapper } from '../mappers/prisma-cart-item-mapper'
+
 import { CartItemsRepository } from '@/domain/restaurant/application/repositories/cart-item-repository'
 import { CartItem } from '@/domain/restaurant/enterprise/entities/cart-item'
+
+import { PrismaCartItemMapper } from '../mappers/prisma-cart-item-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaCartItemsRepository implements CartItemsRepository {

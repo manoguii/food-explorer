@@ -2,11 +2,11 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
+import { Badge } from '@/components/ui/badge'
 import { labels, statuses } from '@/config/table'
 import { OrderWithDetails } from '@/lib/types/definitions'
 import { getDetails } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 
 export const columns: ColumnDef<OrderWithDetails>[] = [
   {

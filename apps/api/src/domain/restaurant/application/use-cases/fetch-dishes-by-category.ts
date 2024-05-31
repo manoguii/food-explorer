@@ -1,10 +1,12 @@
-import { Either, left, right } from '@/core/either'
-import { DishRepository } from '../repositories/dish-repository'
 import { Injectable } from '@nestjs/common'
-import { CategoryRepository } from '../repositories/category-repository'
-import { InvalidCategoryError } from './errors/invalid-category-error'
+
+import { Either, left, right } from '@/core/either'
+
 import { DishWithDetails } from '../../enterprise/entities/value-objects/dish-with-details'
+import { CategoryRepository } from '../repositories/category-repository'
+import { DishRepository } from '../repositories/dish-repository'
 import { FavoriteDishRepository } from '../repositories/favorite-dish-repository'
+import { InvalidCategoryError } from './errors/invalid-category-error'
 
 interface FetchDishesByCategoryUseCaseRequest {
   category: string

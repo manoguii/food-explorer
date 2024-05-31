@@ -1,13 +1,15 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
-import { CartRepository } from '../repositories/cart-repository'
-import { CartItemsRepository } from '../repositories/cart-item-repository'
-import { Injectable } from '@nestjs/common'
-import { DishRepository } from '../repositories/dish-repository'
+
 import { CartItem } from '../../enterprise/entities/cart-item'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { CartItemList } from '../../enterprise/entities/cart-item-list'
+import { CartItemsRepository } from '../repositories/cart-item-repository'
+import { CartRepository } from '../repositories/cart-repository'
+import { DishRepository } from '../repositories/dish-repository'
 
 interface AddDishToCartUseCaseRequest {
   cartId: string

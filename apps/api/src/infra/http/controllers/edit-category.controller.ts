@@ -6,13 +6,14 @@ import {
   Param,
   Patch,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { z } from 'zod'
-import { EditCategoryUseCase } from '@/domain/restaurant/application/use-cases/edit-category'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
-import { Role } from '@/infra/auth/roles-enum'
+import { z } from 'zod'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { EditCategoryUseCase } from '@/domain/restaurant/application/use-cases/edit-category'
 import { Roles } from '@/infra/auth/roles-decorator'
+import { Role } from '@/infra/auth/roles-enum'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
 const editCategoryBodySchema = z.object({
   name: z.string(),

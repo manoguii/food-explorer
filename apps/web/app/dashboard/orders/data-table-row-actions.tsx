@@ -1,14 +1,11 @@
 'use client'
 
-import * as React from 'react'
 // import { updateOrder } from '@/db/mutations'
 import { Trigger } from '@radix-ui/react-select'
 import { Row } from '@tanstack/react-table'
 import { ArrowLeftRight, Tag } from 'lucide-react'
+import * as React from 'react'
 
-import { labels, priorities } from '@/config/table'
-import { orderSchema } from '@/lib/schemas'
-import { Label, Priority } from '@/lib/types/definitions'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -18,6 +15,9 @@ import {
   SelectLabel,
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
+import { labels, priorities } from '@/config/table'
+import { orderSchema } from '@/lib/schemas'
+import { Label, Priority } from '@/lib/types/definitions'
 
 interface SelectPriorityActionProps<TData> {
   row: Row<TData>

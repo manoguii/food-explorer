@@ -5,13 +5,14 @@ import {
   Patch,
   Query,
 } from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
+import { ApiTags } from '@nestjs/swagger'
 import { z } from 'zod'
+
 import { ChooseDishAsFavoriteUseCase } from '@/domain/restaurant/application/use-cases/choose-dish-as-favorite'
+import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { ConflictExceptionError } from '@/domain/restaurant/application/use-cases/errors/conflict-exception-error'
-import { ApiTags } from '@nestjs/swagger'
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
 const pageQueryParamSchema = z
   .string()

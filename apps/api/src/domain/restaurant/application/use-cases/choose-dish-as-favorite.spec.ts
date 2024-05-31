@@ -1,15 +1,16 @@
-import { ChooseDishAsFavoriteUseCase } from './choose-dish-as-favorite'
+import { DishAbstractFactory } from 'test/factories/dish-abstract-factory'
 import { makeClient } from 'test/factories/make-client'
-import { ConflictExceptionError } from './errors/conflict-exception-error'
-import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
 import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
 import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { DishAbstractFactory } from 'test/factories/dish-abstract-factory'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
 import { InMemoryIngredientsRepository } from 'test/repositories/in-memory-ingredients-repository'
-import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+
+import { ChooseDishAsFavoriteUseCase } from './choose-dish-as-favorite'
+import { ConflictExceptionError } from './errors/conflict-exception-error'
 
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository

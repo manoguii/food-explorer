@@ -1,15 +1,16 @@
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { makeDish } from 'test/factories/make-dish'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeCategory } from 'test/factories/make-category'
+import { makeClient } from 'test/factories/make-client'
+import { makeDish } from 'test/factories/make-dish'
+import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
+
 import { InvalidCategoryError } from './errors/invalid-category-error'
 import { FetchDishesByCategoryUseCase } from './fetch-dishes-by-category'
-import { InMemoryFavoriteDishRepository } from 'test/repositories/in-memory-favorite-dish-repository'
-import { makeClient } from 'test/factories/make-client'
-import { makeFavoriteDish } from 'test/factories/make-favorite-dish'
 
 let inMemoryDishAttachmentRepository: InMemoryDishAttachmentsRepository
 let inMemoryDishIngredientsRepository: InMemoryDishIngredientsRepository

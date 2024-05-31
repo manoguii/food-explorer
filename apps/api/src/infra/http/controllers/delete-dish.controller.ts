@@ -5,11 +5,12 @@ import {
   NotFoundException,
   Param,
 } from '@nestjs/common'
-import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/delete-dish'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { ApiTags } from '@nestjs/swagger'
-import { Role } from '@/infra/auth/roles-enum'
+
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { DeleteDishUseCase } from '@/domain/restaurant/application/use-cases/delete-dish'
 import { Roles } from '@/infra/auth/roles-decorator'
+import { Role } from '@/infra/auth/roles-enum'
 
 @ApiTags('Dish')
 @Controller('/dishes/:dishId')

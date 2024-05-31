@@ -1,10 +1,12 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Cart } from '@/domain/restaurant/enterprise/entities/cart'
-import { CartRepository } from '../repositories/cart-repository'
-import { CartItemsRepository } from '../repositories/cart-item-repository'
-import { Injectable } from '@nestjs/common'
+
 import { CartItemList } from '../../enterprise/entities/cart-item-list'
+import { CartItemsRepository } from '../repositories/cart-item-repository'
+import { CartRepository } from '../repositories/cart-repository'
 
 interface DeleteDishToCartUseCaseRequest {
   cartId: string

@@ -1,17 +1,19 @@
-import { GetDishBySlugUseCase } from './get-dish-by-slug'
-import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
-import { Slug } from '@/domain/restaurant/enterprise/entities/value-objects/slug'
-import { makeDish } from 'test/factories/make-dish'
-import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
-import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
-import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
-import { makeCategory } from 'test/factories/make-category'
-import { makeIngredient } from 'test/factories/make-ingredient'
-import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
-import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 import { makeAttachment } from 'test/factories/make-attachment'
+import { makeCategory } from 'test/factories/make-category'
+import { makeDish } from 'test/factories/make-dish'
 import { makeDishAttachment } from 'test/factories/make-dish-attachment'
+import { makeDishIngredient } from 'test/factories/make-dish-ingredient'
+import { makeIngredient } from 'test/factories/make-ingredient'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
+import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+import { InMemoryDishAttachmentsRepository } from 'test/repositories/in-memory-dish-attachments-repository'
+import { InMemoryDishIngredientsRepository } from 'test/repositories/in-memory-dish-ingredients-repository'
+import { InMemoryDishRepository } from 'test/repositories/in-memory-dish-repository'
+
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { Slug } from '@/domain/restaurant/enterprise/entities/value-objects/slug'
+
+import { GetDishBySlugUseCase } from './get-dish-by-slug'
 
 let inMemoryDishRepository: InMemoryDishRepository
 let inMemoryDishAttachmentsRepository: InMemoryDishAttachmentsRepository

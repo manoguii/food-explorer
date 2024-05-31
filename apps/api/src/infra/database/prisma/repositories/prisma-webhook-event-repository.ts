@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
+
 import { WebhookEventRepository } from '@/domain/restaurant/application/payment/webhook-event'
 import { WebhookEvent } from '@/domain/restaurant/enterprise/entities/webhook-event'
+
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaWebhookEventRepository implements WebhookEventRepository {

@@ -1,13 +1,13 @@
 'use client'
 
+import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 
-import { createUrl } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
 import { GridTileImage } from '@/components/food/grid'
+import { buttonVariants } from '@/components/ui/button'
+import { createUrl } from '@/lib/utils'
 
 export function Gallery({
   images,

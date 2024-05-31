@@ -1,10 +1,10 @@
 'use client'
 
-import React from 'react'
-import { toggleFavoriteDish } from '@/db/mutations/toggle-favorite-dish'
 import { Heart } from 'lucide-react'
+import React from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 
+import { toggleFavoriteDish } from '@/db/mutations/toggle-favorite-dish'
 import { cn } from '@/lib/utils'
 
 import { LoadingDots } from '../loading-dots'

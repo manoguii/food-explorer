@@ -1,7 +1,9 @@
-import { Category } from '@/domain/restaurant/enterprise/entities/category'
-import { Either, left, right } from '@/core/either'
-import { CategoryRepository } from '../repositories/category-repository'
 import { Injectable } from '@nestjs/common'
+
+import { Either, left, right } from '@/core/either'
+import { Category } from '@/domain/restaurant/enterprise/entities/category'
+
+import { CategoryRepository } from '../repositories/category-repository'
 import { ConflictExceptionError } from './errors/conflict-exception-error'
 
 interface CreateCategoryUseCaseRequest {

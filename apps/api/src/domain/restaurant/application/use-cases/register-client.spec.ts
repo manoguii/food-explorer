@@ -1,7 +1,8 @@
-import { CreateAccountUseCase } from './register-client'
-import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
 import { FakeHasher } from 'test/cryptography/fake-hasher'
+import { InMemoryClientsRepository } from 'test/repositories/in-memory-clients-repository'
+
 import { ClientAlreadyExistsError } from './errors/client-already-exists-error'
+import { CreateAccountUseCase } from './register-client'
 
 let inMemoryClientsRepository: InMemoryClientsRepository
 let fakeHasher: FakeHasher

@@ -1,4 +1,5 @@
 import { InMemoryCategoryRepository } from 'test/repositories/in-memory-category-repository'
+
 import { CreateCategoryUseCase } from './create-category'
 import { ConflictExceptionError } from './errors/conflict-exception-error'
 

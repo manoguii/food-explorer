@@ -1,8 +1,10 @@
-import { Either, left, right } from '@/core/either'
 import { Injectable } from '@nestjs/common'
-import { CartRepository } from '../repositories/cart-repository'
-import { StripeRepository } from '../payment/stripe-repository'
+
+import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+
+import { StripeRepository } from '../payment/stripe-repository'
+import { CartRepository } from '../repositories/cart-repository'
 import { FailedToCreateACheckoutSessionError } from './errors/failed-to-create-a-checkout-session-error'
 
 interface CreateCheckoutSessionUseCaseRequest {

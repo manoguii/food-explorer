@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
-import { FavoriteDishRepository } from '@/domain/restaurant/application/repositories/favorite-dish-repository'
+
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { FavoriteDish } from '@/domain/restaurant/enterprise/entities/favorite-dish'
-import { PrismaFavoriteDishMapper } from '../mappers/prisma-favorite-dish-mapper'
-import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
 import { DishAttachmentsRepository } from '@/domain/restaurant/application/repositories/dish-attachments-repository'
 import { DishIngredientsRepository } from '@/domain/restaurant/application/repositories/dish-ingredients-repository'
+import { FavoriteDishRepository } from '@/domain/restaurant/application/repositories/favorite-dish-repository'
+import { FavoriteDish } from '@/domain/restaurant/enterprise/entities/favorite-dish'
+import { DishWithDetails } from '@/domain/restaurant/enterprise/entities/value-objects/dish-with-details'
+
 import { PrismaDishWithDetailsMapper } from '../mappers/prisma-dish-with-details-mapper'
+import { PrismaFavoriteDishMapper } from '../mappers/prisma-favorite-dish-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaFavoriteDishRepository implements FavoriteDishRepository {

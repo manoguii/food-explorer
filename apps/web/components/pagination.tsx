@@ -2,15 +2,15 @@
 
 import { usePathname, useSearchParams } from 'next/navigation'
 
-import { generatePagination } from '@/lib/utils'
 import {
+  Pagination as PaginationRoot,
   PaginationContent,
   PaginationEllipsis,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-  Pagination as PaginationRoot,
 } from '@/components/ui/pagination'
+import { generatePagination } from '@/lib/utils'
 
 interface PaginationProps {
   totalPages: number

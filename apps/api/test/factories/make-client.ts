@@ -1,13 +1,13 @@
 import { faker } from '@faker-js/faker'
+import { Injectable } from '@nestjs/common'
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   Client,
   ClientProps,
 } from '@/domain/restaurant/enterprise/entities/client'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { PrismaClientMapper } from '@/infra/database/prisma/mappers/prisma-client-mapper'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
 export function makeClient(
   override: Partial<ClientProps> = {},
