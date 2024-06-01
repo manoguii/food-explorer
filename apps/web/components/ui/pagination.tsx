@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
+import { ChevronsLeft, ChevronsRight, MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import * as React from 'react'
 
@@ -82,12 +82,12 @@ const PaginationPrevious = ({
 }) => (
   <PaginationLink
     aria-label="Go to previous page"
-    size="default"
-    className={cn('gap-1 pl-2.5', className)}
+    size="icon"
+    className={cn('', className)}
     {...props}
   >
-    <ChevronLeft className="h-4 w-4" />
-    <span>Anterior</span>
+    <ChevronsLeft className="h-4 w-4" />
+    <span className="sr-only">Anterior</span>
   </PaginationLink>
 )
 PaginationPrevious.displayName = 'PaginationPrevious'
@@ -100,12 +100,12 @@ const PaginationNext = ({
 }) => (
   <PaginationLink
     aria-label="Go to next page"
-    size="default"
-    className={cn('gap-1 pr-2.5', className)}
+    size="icon"
+    className={cn('', className)}
     {...props}
   >
-    <span>Proximo</span>
-    <ChevronRight className="h-4 w-4" />
+    <span className="sr-only">Proximo</span>
+    <ChevronsRight className="h-4 w-4" />
   </PaginationLink>
 )
 

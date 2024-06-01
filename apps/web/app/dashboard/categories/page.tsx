@@ -21,10 +21,13 @@ export default function CategoriesPage() {
       <Suspense
         fallback={
           <Dashboard.Content>
-            <div className="divide-border-200 divide-y rounded-md border">
-              <CategoryCard.Skeleton />
-              <CategoryCard.Skeleton />
-              <CategoryCard.Skeleton />
+            <div className="grid gap-4">
+              <div className="divide-border-200 divide-y rounded-md border">
+                <CategoryCard.Skeleton />
+                <CategoryCard.Skeleton />
+                <CategoryCard.Skeleton />
+              </div>
+              <PaginationSkeleton />
             </div>
           </Dashboard.Content>
         }
@@ -37,7 +40,7 @@ export default function CategoriesPage() {
 
 async function CategoriesWrapper() {
   const { categories, totalPages } = await fetchCategories()
-
+  await new Promise((resolve) => setTimeout(resolve, 4000))
   return (
     <Dashboard.Content>
       {categories?.length ? (

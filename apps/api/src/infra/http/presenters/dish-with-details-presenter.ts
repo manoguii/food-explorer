@@ -12,7 +12,7 @@ export class DishWithDetailsPresenter {
       ingredients: dish.ingredients,
       attachments: dish.attachments.map((attachment) => ({
         title: attachment.title,
-        url: attachment.url,
+        url: `${attachment.url.startsWith('http') ? attachment.url : `${process.env.CLOUDFLARE_BASE_URL}/${attachment.url}`}`,
         id: attachment.id.toString(),
       })),
       isFavorite: dish.isFavorite,

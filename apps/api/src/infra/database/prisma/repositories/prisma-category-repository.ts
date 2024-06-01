@@ -60,7 +60,7 @@ export class PrismaCategoryRepository implements CategoryRepository {
 
     const categories = rawCategories.map(PrismaCategoryMapper.toDomain)
     const totalPages = Math.ceil(totalCategories / perPage)
-    console.log('Chamou 🌊', rawCategories)
+
     return {
       categories,
       totalPages,
