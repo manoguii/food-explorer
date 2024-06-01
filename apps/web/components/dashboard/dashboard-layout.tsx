@@ -16,7 +16,7 @@ Dashboard.Header = function DashboardHeader({
   children?: React.ReactNode
 }) {
   return (
-    <div className="border-b py-10">
+    <div className="border-b bg-background py-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col justify-between gap-4 px-4 sm:flex-row sm:items-center">
         <div className="grid">
           <h1 className="text-2xl font-bold leading-tight sm:text-3xl">

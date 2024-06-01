@@ -13,7 +13,7 @@ export const shimmer =
 
 export function TableSkeleton() {
   return (
-    <div className="divide-border-200 divide-y rounded-md border">
+    <div className="divide-border-200 divide-y rounded-md border bg-background">
       <Table>
         <TableHeader>
           <TableRow>
@@ -85,11 +85,11 @@ function DataTableToolbarSkeleton({
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-3">
-        <div className="h-8 w-[150px] rounded-md border lg:w-[250px]" />
+        <div className="h-8 w-[150px] rounded-md border bg-background  lg:w-[250px]" />
         <FacetedFilterSkeleton />
         {!isUserTable && <FacetedFilterSkeleton />}
       </div>
-      <Skeleton className="h-8 w-20" />
+      <Skeleton className="h-8 w-20 border bg-background" />
     </div>
   )
 }
@@ -151,7 +151,9 @@ export function FoodDataTableSkeleton() {
 }
 
 export function FacetedFilterSkeleton() {
-  return <div className="h-8 w-[98px] rounded-md border border-dashed" />
+  return (
+    <div className="h-8 w-[98px] rounded-md border border-dashed  bg-background" />
+  )
 }
 
 export function GallerySkeleton() {

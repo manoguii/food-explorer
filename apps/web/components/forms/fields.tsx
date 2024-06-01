@@ -1,20 +1,24 @@
-import { PlusCircledIcon } from '@radix-ui/react-icons'
-import { AlertCircle, Check, Loader2, X } from 'lucide-react'
+import { AlertCircle, Check, Loader2, Upload, X } from 'lucide-react'
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
-import { Dialog } from '@/components/ui/dialog'
 import * as Form from '@/components/ui/form'
 import * as Select from '@/components/ui/select'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
 import { DishFormValues } from '@/lib/schemas'
 import { Category as CategoryType } from '@/lib/types/definitions'
 import { cn } from '@/lib/utils'
 
-import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
-import { CreateIngredients } from './dialog/create-ingredients'
 
 interface NameProps extends React.HTMLAttributes<HTMLDivElement> {
   placeholder?: string
@@ -107,7 +111,7 @@ export function Description() {
       control={form.control}
       name="description"
       render={({ field }) => (
-        <Form.FormItem className="rounded-md border p-6">
+        <Form.FormItem>
           <Form.FormLabel>Descrição</Form.FormLabel>
           <Form.FormControl>
             <Textarea
@@ -134,7 +138,7 @@ export function Price() {
       control={form.control}
       name="price"
       render={({ field }) => (
-        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
+        <Form.FormItem>
           <Form.FormLabel>Preço</Form.FormLabel>
           <Form.FormControl>
             <Input placeholder="R$ 12,00" {...field} />
@@ -161,7 +165,7 @@ export function Category({
       control={form.control}
       name="category"
       render={({ field }) => (
-        <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
+        <Form.FormItem>
           <Form.FormLabel>Categoria</Form.FormLabel>
           <Select.Select
             defaultValue={currentCategory}
@@ -209,9 +213,10 @@ export function File({
       name="file"
       render={({ field: { onChange } }) => {
         return (
-          <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
-            <Form.FormLabel className="flex items-center">
+          <Form.FormItem className="rounded-md border border-dashed p-4">
+            <Form.FormLabel className="flex items-center gap-2">
               Arquivo
+              {state === 'idle' && <Upload className="ml-2 h-3 w-3" />}
               {state === 'uploading' && (
                 <Loader2 className="ml-2 h-3 w-3 animate-spin" />
               )}
@@ -258,10 +263,7 @@ export function File({
   )
 }
 
-export function Ingredients({ type }: { type: 'create' | 'update' }) {
-  const [ingredientsDialogOpen, setIngredientsDialogOpen] =
-    React.useState(false)
-
+export function Ingredients() {
   const form = useFormContext<DishFormValues>()
 
   const { remove } = useFieldArray({
@@ -275,64 +277,45 @@ export function Ingredients({ type }: { type: 'create' | 'update' }) {
       name={`ingredients`}
       render={({ field }) => {
         return (
-          <Dialog
-            open={ingredientsDialogOpen}
-            onOpenChange={setIngredientsDialogOpen}
-          >
-            <Form.FormItem className="flex flex-col gap-1 rounded-md border p-6">
-              <Form.FormLabel>Ingredientes</Form.FormLabel>
-              <Form.FormControl>
-                <div className="flex flex-col items-start gap-4 md:flex-row">
-                  <Button
-                    variant="outline"
-                    type="button"
-                    className="w-max"
-                    onClick={() => {
-                      setIngredientsDialogOpen(true)
-                    }}
-                  >
-                    <PlusCircledIcon className="h-4 w-4" />
-                    <span className="ml-2">Adicionar ingrediente</span>
-                  </Button>
-
-                  <div className="flex min-h-[40px] w-full flex-wrap items-center justify-start gap-2 rounded-md border border-dashed px-4 py-2">
-                    {field.value.map((item, index) => {
-                      return (
-                        <Badge
-                          key={item.value}
-                          variant="outline"
-                          className="gap-1"
-                        >
+          <Form.FormItem>
+            <Form.FormControl>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Ingrediente</TableHead>
+                    <TableHead className="w-[100px]">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {field.value.map((item, index) => {
+                    return (
+                      <TableRow key={item.value}>
+                        <TableCell className="font-semibold">
                           {item.value}
+                        </TableCell>
+                        <TableCell>
                           <Button
                             type="button"
-                            className="h-3 w-3 p-0"
+                            variant="ghost"
+                            size="icon-xs"
                             onClick={() => {
                               remove(index)
                             }}
                           >
-                            <X className="h-2 w-2" />
+                            <X className="h-4 w-4" />
                           </Button>
-                        </Badge>
-                      )
-                    })}
-                  </div>
-                </div>
-              </Form.FormControl>
-              <Form.FormDescription>
-                Selecione os ingredientes do prato.
-              </Form.FormDescription>
-              <Form.FormMessage />
-            </Form.FormItem>
-
-            <CreateIngredients
-              type={type}
-              fields={field.value}
-              onRequestClose={() => {
-                setIngredientsDialogOpen(false)
-              }}
-            />
-          </Dialog>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </Form.FormControl>
+            <Form.FormDescription>
+              Selecione os ingredientes do prato.
+            </Form.FormDescription>
+            <Form.FormMessage />
+          </Form.FormItem>
         )
       }}
     />

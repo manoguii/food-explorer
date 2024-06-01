@@ -11,7 +11,7 @@ export default async function DashboardLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <DashboardHeader />
-      <main className="w-full flex-1">{children}</main>
+      <main className="w-full flex-1 bg-muted/20">{children}</main>
       <Footer />
     </div>
   )

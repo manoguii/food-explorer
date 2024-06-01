@@ -127,23 +127,22 @@ export function CreateIngredients({
         </div>
       </D.DialogHeader>
 
-      <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-4 items-baseline gap-4">
-          <Label
-            htmlFor="ingredient"
-            className="col-span-3 sm:col-span-1 sm:text-right"
-          >
-            Novo ingrediente
-          </Label>
-          <div className="col-span-4 space-y-4 sm:col-span-3">
-            <Input
-              id="ingredient"
-              placeholder="Digite um ingrediente"
-              onChange={(e) => setIngredient(e.target.value)}
-            />
-          </div>
+      <div className="space-y-2">
+        <Label
+          htmlFor="ingredient"
+          className="col-span-3 sm:col-span-1 sm:text-right"
+        >
+          Novo ingrediente
+        </Label>
+        <div className="col-span-4 space-y-4 sm:col-span-3">
+          <Input
+            id="ingredient"
+            placeholder="Digite um ingrediente"
+            onChange={(e) => setIngredient(e.target.value)}
+          />
         </div>
       </div>
+
       <D.DialogFooter className="gap-2">
         <D.DialogTrigger asChild>
           <Button type="button" variant="ghost">
