@@ -5,18 +5,21 @@
   "author": "",
   "private": true,
   "scripts": {
-    "build": "nest build",
-    "start": "nest start",
-    "dev": "nest start --watch",
-    "start:prod": "node dist/main",
+    "build": "pnpm env:load nest build",
+    "start": "pnpm env:load nest start",
+    "dev": "pnpm env:load nest start --watch",
+    "start:prod": "pnpm env:load node dist/main",
+    "db:migrate": "pnpm env:load prisma migrate dev",
+    "db:studio": "pnpm env:load prisma studio",
+    "env:load": "dotenv -e ../../.env --",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:cov": "vitest run --coverage",
-    "test:debug": "vitest --inspect-brk --inspect --logHeapUsage --threads=false",
-    "test:e2e": "vitest run --config ./vitest.config.e2e.ts",
-    "test:e2e:watch": "vitest --config ./vitest.config.e2e.ts",
-    "test:e2e:cov": "vitest run --coverage --config ./vitest.config.e2e.ts"
+    "test": "AWS_BUCKET_NAME=restaurant-test pnpm env:load vitest run",
+    "test:watch": "AWS_BUCKET_NAME=restaurant-test pnpm env:load vitest",
+    "test:e2e": "AWS_BUCKET_NAME=restaurant-test pnpm env:load vitest run --config ./vitest.config.e2e.ts",
+    "test:e2e:watch": "AWS_BUCKET_NAME=restaurant-test pnpm env:load vitest --config ./vitest.config.e2e.ts"
+  },
+  "prisma": {
+    "seed": "pnpm env:load tsx prisma/seed.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.433.0",
@@ -40,9 +43,9 @@
     "zod-validation-error": "^1.5.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "@food-explorer/eslint-config": "workspace:*",
     "@food-explorer/prettier": "workspace:*",
-    "@faker-js/faker": "^8.2.0",
     "@nestjs/cli": "^10.1.18",
     "@nestjs/schematics": "^10.0.2",
     "@nestjs/testing": "^10.2.7",
@@ -54,12 +57,13 @@
     "@types/passport-jwt": "^3.0.11",
     "@types/supertest": "^2.0.15",
     "@vitest/coverage-v8": "^0.34.6",
-    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.4.2",
     "prisma": "^5.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.11.0",
     "typescript": "^5.2.2",
     "unplugin-swc": "^1.4.3",
     "vite-tsconfig-paths": "^4.2.1",

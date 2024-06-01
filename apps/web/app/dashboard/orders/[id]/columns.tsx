@@ -6,8 +6,6 @@ import Image from 'next/image'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { CartItem } from '@/lib/types/definitions'
 
-const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
-
 export const columns: ColumnDef<CartItem>[] = [
   {
     accessorKey: 'attachments',
@@ -25,7 +23,7 @@ export const columns: ColumnDef<CartItem>[] = [
         <div>
           <Image
             alt={attachments[0].title}
-            src={`${IMAGE_URL}/${attachments[0].url}`}
+            src={attachments[0].url}
             width={50}
             height={50}
             className="aspect-square rounded-md"

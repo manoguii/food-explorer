@@ -14,8 +14,6 @@ import { DishWithDetails } from '@/lib/types/definitions'
 
 import { DeleteRowAction } from './data-table-row-actions'
 
-const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
-
 export const columns: ColumnDef<DishWithDetails>[] = [
   {
     id: 'select',
@@ -51,7 +49,7 @@ export const columns: ColumnDef<DishWithDetails>[] = [
           {attachments.map((attachment) => (
             <Image
               key={attachment.id}
-              src={`${IMAGE_URL}/${attachment.url}`}
+              src={attachment.url}
               alt={attachment.title}
               className="rounded-full border-2 border-white dark:border-gray-800"
               width={40}

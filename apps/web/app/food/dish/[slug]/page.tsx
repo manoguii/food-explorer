@@ -8,8 +8,6 @@ import { getDishBySlug } from '@/db/queries/get-dish-by-slug'
 
 export const runtime = 'edge'
 
-const IMAGE_URL = process.env.NEXT_PUBLIC_CLOUDFLARE_BASE_URL
-
 export default async function DishPage({
   params,
 }: {
@@ -26,7 +24,7 @@ export default async function DishPage({
           <Gallery
             images={dish.attachments.map(
               (image: { title: string; url: string; id: string }) => ({
-                src: `${IMAGE_URL}/${image.url}`,
+                src: image.url,
                 altText: image.title,
               }),
             )}
