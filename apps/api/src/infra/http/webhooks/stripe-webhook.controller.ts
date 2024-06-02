@@ -22,11 +22,13 @@ export class StripeWebhookController {
     let event: Stripe.Event
     const signature = req.headers['stripe-signature']
 
+    const webhookSecret = this.envService.get('STRIPE_WEBHOOK_SECRET')
+
     try {
       event = this.stripeService.stripe.webhooks.constructEvent(
         req.rawBody,
         signature,
-        this.envService.get('STRIPE_WEBHOOK_SECRET'),
+        webhookSecret,
       )
     } catch (err) {
       throw new BadRequestException('Invalid Stripe webhook signature')

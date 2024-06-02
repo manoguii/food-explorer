@@ -1,13 +1,10 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { Eye } from 'lucide-react'
 import Link from 'next/link'
 
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { Badge } from '@/components/ui/badge'
-import { buttonVariants } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { labels, priorities, statuses } from '@/config/table'
 import { OrderWithDetails } from '@/lib/types/definitions'
 import { getDetails } from '@/lib/utils'
@@ -18,27 +15,6 @@ import {
 } from './data-table-row-actions'
 
 export const columns: ColumnDef<OrderWithDetails>[] = [
-  {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: 'code',
     header: ({ column }) => (
@@ -145,15 +121,6 @@ export const columns: ColumnDef<OrderWithDetails>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-3">
-          <Link
-            href={`/dashboard/orders/${row.original.orderId}`}
-            className={buttonVariants({
-              variant: 'ghost',
-              size: 'icon-xs',
-            })}
-          >
-            <Eye className="h-4 w-4" />
-          </Link>
           <SelectPriorityAction row={row} />
           <SelectLabelAction row={row} />
         </div>

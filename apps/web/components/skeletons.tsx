@@ -13,52 +13,47 @@ export const shimmer =
 
 export function TableSkeleton() {
   return (
-    <div className="divide-border-200 divide-y rounded-md border bg-background">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-12">
-              <Skeleton className="h-4 w-4" />
-            </TableHead>
-            <TableHead className="px-0">
-              <Skeleton className="h-5 w-24" />
-            </TableHead>
-            <TableHead>
-              <Skeleton className="h-5 w-44" />
-            </TableHead>
-            <TableHead>
-              <Skeleton className="h-5 w-24" />
-            </TableHead>
-            <TableHead>
-              <Skeleton className="h-5 w-24" />
-            </TableHead>
-            <TableHead>
-              <Skeleton className="h-5 w-24" />
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell colSpan={6} className="h-16"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={6} className="h-16"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={6} className="h-16"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={6} className="h-16"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={6} className="h-16"></TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell colSpan={6} className="h-16"></TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="px-0">
+            <Skeleton className="h-5 w-24" />
+          </TableHead>
+          <TableHead>
+            <Skeleton className="h-5 w-44" />
+          </TableHead>
+          <TableHead>
+            <Skeleton className="h-5 w-24" />
+          </TableHead>
+          <TableHead>
+            <Skeleton className="h-5 w-24" />
+          </TableHead>
+          <TableHead>
+            <Skeleton className="h-5 w-24" />
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={6} className="h-16"></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={6} className="h-16"></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={6} className="h-16"></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={6} className="h-16"></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={6} className="h-16"></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell colSpan={6} className="h-16"></TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   )
 }
 
