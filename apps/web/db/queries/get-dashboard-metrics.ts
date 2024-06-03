@@ -35,7 +35,7 @@ export async function getDashboardMetrics(
 ) {
   try {
     const params = `?startDate=${startDate}&endDate=${endDate}`
-    const endpoint = `/dashboard-metrics${startDate && endDate ? params : ''}`
+    const endpoint = `/metrics${startDate && endDate ? params : ''}`
     const { metrics } = await fetcher<GetDashboardMetricsResponse>(endpoint)
 
     return metrics

@@ -9,7 +9,7 @@ export type FetchFavoriteDishesResponse = {
 }
 
 export async function fetchFavoriteDishes(page: number) {
-  const endpoint = `/dish/favorites?page=${page}`
+  const endpoint = `/favorites?page=${page}`
 
   const favoriteDishes = await fetcher<FetchFavoriteDishesResponse>(endpoint, {
     next: {
