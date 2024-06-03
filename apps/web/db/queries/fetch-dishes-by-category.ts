@@ -8,7 +8,7 @@ export type FetchDishesResponse = {
 }
 
 export async function fetchDishesByCategory(category: string, page: number) {
-  const endpoint = `/dish/${category}?page=${page}`
+  const endpoint = `/dishes/category/${category}?page=${page}`
   const dishes = await fetcher<FetchDishesResponse>(endpoint, {})
 
   return dishes

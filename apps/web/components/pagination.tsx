@@ -10,7 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination'
-import { generatePagination } from '@/lib/utils'
+import { cn, generatePagination } from '@/lib/utils'
 
 interface PaginationProps {
   totalPages: number
@@ -30,33 +30,45 @@ export function Pagination({ totalPages }: PaginationProps) {
 
   return (
     <PaginationRoot>
-      <PaginationContent>
+      <PaginationContent className="gap-4">
         <PaginationPrevious
           href={createPageURL(currentPage - 1)}
           isDisabled={currentPage <= 1}
         />
 
-        {allPages.map((page, index) => {
-          let position: 'first' | 'last' | 'single' | 'middle' | undefined
+        <div className="flex">
+          {allPages.map((page, index) => {
+            let position: 'first' | 'last' | 'single' | 'middle' | undefined
 
-          if (index === 0) position = 'first'
-          if (index === allPages.length - 1) position = 'last'
-          if (allPages.length === 1) position = 'single'
-          if (page === '...') position = 'middle'
+            if (index === 0) position = 'first'
+            if (index === allPages.length - 1) position = 'last'
+            if (allPages.length === 1) position = 'single'
+            if (page === '...') position = 'middle'
 
-          return position === 'middle' ? (
-            <PaginationEllipsis key={page} />
-          ) : (
-            <PaginationLink
-              key={page}
-              href={createPageURL(page)}
-              isActive={currentPage === page}
-              isDisabled={page === '...'}
-            >
-              {page}
-            </PaginationLink>
-          )
-        })}
+            return position === 'middle' ? (
+              <PaginationEllipsis key={page} />
+            ) : (
+              <PaginationLink
+                key={page}
+                href={createPageURL(page)}
+                isActive={currentPage === page}
+                className={cn(
+                  'rounded-none',
+                  position === 'first'
+                    ? 'rounded-l-md'
+                    : position === 'last'
+                      ? 'rounded-r-md'
+                      : position === 'single'
+                        ? 'rounded-md'
+                        : '',
+                )}
+                isDisabled={page === '...'}
+              >
+                {page}
+              </PaginationLink>
+            )
+          })}
+        </div>
 
         <PaginationNext
           href={createPageURL(currentPage + 1)}

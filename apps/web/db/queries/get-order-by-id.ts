@@ -6,7 +6,7 @@ export type GetOrderByIdResponse = {
   order: OrderWithDetails
 }
 export async function getOrderById(id: string) {
-  const endpoint = `/order/${id}`
+  const endpoint = `/orders/${id}`
   const { order } = await fetcher<GetOrderByIdResponse>(endpoint)
 
   return order

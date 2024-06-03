@@ -18,10 +18,7 @@ export default async function FavoriteDishes({
     <Layout>
       <Layout.Title>Meus favoritos</Layout.Title>
 
-      <Suspense
-        key={currentPage}
-        fallback={<DishCardListSkeleton favoriteCard />}
-      >
+      <Suspense key={currentPage} fallback={<DishCardListSkeleton />}>
         <FavoritesDishesList currentPage={currentPage} />
       </Suspense>
     </Layout>

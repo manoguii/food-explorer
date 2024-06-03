@@ -76,11 +76,7 @@ export async function ListSearchedDishes({
   )
 }
 
-export function DishCardListSkeleton({
-  favoriteCard = false,
-}: {
-  favoriteCard?: boolean
-}) {
+export function DishCardListSkeleton() {
   const skeletonQuantity = Array.from({ length: 6 })
 
   return (
@@ -88,7 +84,7 @@ export function DishCardListSkeleton({
       <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {skeletonQuantity.map((_, i) => (
           <Grid.Item key={i}>
-            <DishCard.Skeleton favoriteCard={favoriteCard} />
+            <DishCard.Skeleton />
           </Grid.Item>
         ))}
       </Grid>

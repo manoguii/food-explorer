@@ -32,32 +32,17 @@ import { DatabaseModule } from '../database/database.module'
 import { EnvModule } from '../env/env.module'
 import { EnvService } from '../env/env.service'
 import { PaymentModule } from '../payment/payment.module'
-import { AddDishToCartController } from './controllers/add-dish-to-cart.controller'
-import { AuthenticateController } from './controllers/authenticate.controller'
-import { ChooseDishAsFavoriteController } from './controllers/choose-dish-as-favorite.controller'
-import { CreateAccountController } from './controllers/create-account.controller'
-import { CreateCartController } from './controllers/create-cart.controller'
-import { CreateCategoryController } from './controllers/create-category.controller'
-import { CreateCheckoutSessionController } from './controllers/create-checkout-session.controller'
-import { CreateDishController } from './controllers/create-dish.controller'
-import { DeleteCategoryController } from './controllers/delete-category.controller'
-import { DeleteDishController } from './controllers/delete-dish.controller'
-import { DeleteDishFromFavoritesController } from './controllers/delete-dish-from-favorites.controller'
-import { DeleteDishToCartController } from './controllers/delete-dish-to-cart.controller'
-import { EditCartController } from './controllers/edit-cart.controller'
-import { EditCategoryController } from './controllers/edit-category.controller'
-import { EditDishController } from './controllers/edit-dish.controller'
-import { FetchCategoriesController } from './controllers/fetch-categories.controller'
-import { FetchDishesByCategoryController } from './controllers/fetch-dishes-by-category.controller'
-import { FetchFavoriteDishesController } from './controllers/fetch-favorite-dishes.controller'
-import { FetchFilteredDishesController } from './controllers/fetch-filtered-dishes.controller'
-import { FetchOrdersController } from './controllers/fetch-orders.controller'
-import { GetCartByIdController } from './controllers/get-cart-by-id.controller'
-import { GetDashboardMetricsController } from './controllers/get-dashboard-metrics.controller'
-import { GetDishBySlugController } from './controllers/get-dish-by-slug.controller'
-import { GetOrderByIdController } from './controllers/get-order-by-id.controller'
-import { UploadAttachmentController } from './controllers/upload-attachment.controller'
-import { StripeWebhookController } from './webhooks/stripe-webhook.controller'
+import { AccountController } from './controllers/account/account.controller'
+import { AttachmentController } from './controllers/attachment/attachment.controller'
+import { CartController } from './controllers/cart/cart.controller'
+import { CategoryController } from './controllers/category/category.controller'
+import { CheckoutController } from './controllers/checkout/checkout.controller'
+import { DishController } from './controllers/dish/dish.controller'
+import { FavoriteController } from './controllers/favorite/favorite.controller'
+import { MetricsController } from './controllers/metric/metrics.controller'
+import { OrderController } from './controllers/order/order.controller'
+import { SessionController } from './controllers/session/session.controller'
+import { WebhookController } from './controllers/webhook/webhook.controller'
 
 @Module({
   imports: [
@@ -80,32 +65,18 @@ import { StripeWebhookController } from './webhooks/stripe-webhook.controller'
     }),
   ],
   controllers: [
-    CreateAccountController,
-    CreateDishController,
-    AuthenticateController,
-    CreateCategoryController,
-    GetDishBySlugController,
-    UploadAttachmentController,
-    EditDishController,
-    ChooseDishAsFavoriteController,
-    DeleteCategoryController,
-    DeleteDishController,
-    EditCategoryController,
-    FetchFavoriteDishesController,
-    CreateCartController,
-    EditCartController,
-    FetchDishesByCategoryController,
-    FetchCategoriesController,
-    FetchFilteredDishesController,
-    DeleteDishFromFavoritesController,
-    GetCartByIdController,
-    AddDishToCartController,
-    DeleteDishToCartController,
-    CreateCheckoutSessionController,
-    StripeWebhookController,
-    FetchOrdersController,
-    GetOrderByIdController,
-    GetDashboardMetricsController,
+    DishController,
+    FavoriteController,
+    CategoryController,
+    CartController,
+    OrderController,
+    MetricsController,
+    AttachmentController,
+    CheckoutController,
+    AccountController,
+    SessionController,
+
+    WebhookController,
   ],
   providers: [
     CreateAccountUseCase,
@@ -130,10 +101,11 @@ import { StripeWebhookController } from './webhooks/stripe-webhook.controller'
     AddDishToCartUseCase,
     DeleteDishToCartUseCase,
     CreateCheckoutSessionUseCase,
-    StripeWebhookUseCase,
     FetchOrdersUseCase,
     GetOrderByIdUseCase,
     GetDashboardMetricsUseCase,
+
+    StripeWebhookUseCase,
   ],
 })
 export class HttpModule {}

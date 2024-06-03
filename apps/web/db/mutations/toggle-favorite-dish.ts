@@ -26,7 +26,7 @@ export async function toggleFavoriteDish(
   }
 
   try {
-    await fetcher(`/dishes/${dishId}/favorite`, {
+    await fetcher(`/favorites/${dishId}`, {
       method,
     })
 

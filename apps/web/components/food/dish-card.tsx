@@ -3,31 +3,22 @@ import Link from 'next/link'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { DishWithDetails } from '@/lib/types/definitions'
-import { cn } from '@/lib/utils'
 
-import { AddToCart } from '../cart/add-to-cart'
 import { shimmer } from '../skeletons'
 import { Badge } from '../ui/badge'
-import { FavoriteButton } from './favorite-button'
 import Price from './price'
 
 const TOTAL_INGREDIENTS = 5
 
-export function DishCard({
-  dish,
-  withoutFooter = false,
-}: {
-  dish: DishWithDetails
-  withoutFooter?: boolean
-}) {
+export function DishCard({ dish }: { dish: DishWithDetails }) {
   return (
-    <div className="group flex h-full flex-col gap-3 rounded-lg border">
+    <div className="group flex h-full flex-col gap-3">
       <Link
         href={`/food/dish/${dish.slug}`}
-        className="flex items-center justify-center overflow-hidden rounded-t-lg border-b bg-white p-4 dark:bg-gray-950"
+        className="flex items-center justify-center overflow-hidden bg-white dark:bg-gray-950"
       >
         <Image
-          className="aspect-square h-48 w-48 rounded-full object-cover transition duration-300 ease-in-out group-hover:scale-105 group-hover:opacity-80"
+          className="aspect-square object-cover transition duration-300 ease-in-out group-hover:scale-105 group-hover:opacity-80"
           alt={dish.description}
           src={dish.attachments[0].url}
           width={400}
@@ -37,28 +28,19 @@ export function DishCard({
         />
       </Link>
 
-      <div className="px-3">
-        <div className="flex justify-between gap-2">
-          <div className="w-5/6">
-            <Link href={`/food/dish/${dish.slug}`}>
-              <h4 className="text-lg font-semibold leading-tight">
-                {dish.name}
-              </h4>
-            </Link>
+      <div className="grid place-items-center gap-2 px-3">
+        <Link href={`/food/dish/${dish.slug}`}>
+          <h4 className="text-lg font-semibold leading-tight">{dish.name}</h4>
+        </Link>
 
-            <p className="w-full truncate text-sm text-muted-foreground">
-              {dish.description}
-            </p>
-          </div>
+        <Price
+          className="text-xl font-semibold text-secondary-foreground"
+          amount={dish.price.toString()}
+          currencyCode="BRL"
+          currencyCodeClassName="hidden @[275px]/label:inline"
+        />
 
-          <FavoriteButton dishId={dish.id} favorite={dish.isFavorite} />
-        </div>
-
-        <div
-          className={cn('my-2 flex flex-wrap items-center gap-1', {
-            'pb-3': withoutFooter,
-          })}
-        >
+        <div className="my-2 flex flex-wrap items-center justify-center gap-1">
           {dish.ingredients.slice(0, TOTAL_INGREDIENTS).map((item) => {
             return (
               <Badge key={item} variant="secondary">
@@ -75,58 +57,33 @@ export function DishCard({
           )}
         </div>
       </div>
-
-      {!withoutFooter && (
-        <div className="flex flex-1 items-end justify-between gap-2 px-3 pb-3">
-          <Price
-            className="text-xl font-semibold text-secondary-foreground"
-            amount={dish.price.toString()}
-            currencyCode="BRL"
-            currencyCodeClassName="hidden @[275px]/label:inline"
-          />
-
-          <AddToCart dish={dish} />
-        </div>
-      )}
     </div>
   )
 }
 
-DishCard.Skeleton = function CardSkeleton({
-  favoriteCard,
-}: {
-  favoriteCard?: boolean
-}) {
+DishCard.Skeleton = function CardSkeleton() {
   return (
-    <div className="overflow-hidden rounded-lg border">
+    <div className="overflow-hidden">
       {/* Image */}
       <div
-        className={`${shimmer} relative mb-4 flex aspect-video min-h-full flex-col justify-between overflow-hidden rounded-t border-b bg-card shadow-sm`}
+        className={`${shimmer} relative mb-4 flex aspect-square min-h-full flex-col justify-between overflow-hidden rounded-t bg-muted/10 shadow-sm`}
       ></div>
 
-      <div className="mt-auto px-2 pb-2">
+      <div className="grid place-items-center gap-2 px-3">
         {/* Title */}
-        <Skeleton className="h-5 w-56" />
+        <Skeleton className="h-4 w-36" />
 
-        {/* Description */}
-        <Skeleton className="mt-3 h-2.5 w-64" />
+        {/* Price */}
+        <Skeleton className="h-5 w-16" />
 
         {/* Ingredients */}
-        <div className="my-4 flex flex-wrap items-center gap-1">
+        <div className="my-2 flex flex-wrap items-center justify-center gap-1">
           <Skeleton className="h-[19px] w-16 rounded-full" />
           <Skeleton className="h-[19px] w-20 rounded-full" />
           <Skeleton className="h-[19px] w-14 rounded-full" />
           <Skeleton className="h-[19px] w-14 rounded-full" />
           <Skeleton className="h-[19px] w-20 rounded-full" />
         </div>
-
-        {/* Add to cart */}
-        {!favoriteCard && (
-          <div className="mt-auto flex items-center justify-between">
-            <Skeleton className="h-6 w-16" />
-            <Skeleton className="h-10 w-24" />
-          </div>
-        )}
       </div>
     </div>
   )

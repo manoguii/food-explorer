@@ -4,6 +4,7 @@ import { DishWithDetails } from '@/lib/types/definitions'
 import { cn } from '@/lib/utils'
 
 import { AddToCart } from '../cart/add-to-cart'
+import { FavoriteButton } from './favorite-button'
 
 export function DishDescription({ dish }: { dish: DishWithDetails }) {
   return (
@@ -28,6 +29,8 @@ export function DishDescription({ dish }: { dish: DishWithDetails }) {
           />
         </div>
       </div>
+
+      <FavoriteButton dishId={dish.id} favorite={dish.isFavorite} />
 
       <div className="flex flex-wrap items-center gap-2">
         {dish.ingredients.map((item) => {

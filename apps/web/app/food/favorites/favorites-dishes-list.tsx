@@ -19,10 +19,7 @@ export async function FavoritesDishesList({
             {favoriteDishes.map((dish) => {
               return (
                 <Grid.Item key={dish.id} className="animate-fadeIn">
-                  <DishCard
-                    dish={{ ...dish, isFavorite: true }}
-                    withoutFooter
-                  />
+                  <DishCard dish={{ ...dish, isFavorite: true }} />
                 </Grid.Item>
               )
             })}
